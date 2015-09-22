@@ -1,0 +1,64 @@
+<workflow-app name="MEStemp-Ingest" xmlns="uri:oozie:workflow:0.1">
+
+	<start to="_SP_Crate_Ingest"/>
+
+
+    <action name="_SP_Crate_Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>localhost:8021</job-tracker>
+			<name-node>localhost:8020</name-node>
+			<configuration>
+				<property>
+					<name>oozie.hive.defaults</name>
+					<value>/etc/hive/conf/hive-default.xml.template</value>
+				</property>
+			</configuration>
+            <arg>--connect</arg>
+            <arg>--jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER</arg>
+            <arg>--username</arg>
+            <arg>app_MES_ReadOnlyUserMX</arg>
+            <arg>--password</arg>
+            <arg>X2{01_p7gyltm</arg>
+            <arg>--query</arg>
+            <arg>select CrateID, CrateNo, PartID, Quantity, CurrentQuantity, Locked, Complete, CreatedDT, CompletedDT, MachineStageID, CrateIndex, MirrorPartID, PadLock,  1 as 'modcoID' from MES._SP_Crate</arg>
+            <arg>--num-mappers</arg>
+            <arg>18</arg>
+            <arg>--target-dir</arg>
+            <arg>/MEStemp/_SP_Crate</arg>
+        </sqoop>
+        <ok to="_SP_CrateLabel_Ingest"/>
+        <error to="end"/>
+    </action>
+
+
+    <action name="_SP_CrateLabel_Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>localhost:8021</job-tracker>
+			<name-node>localhost:8020</name-node>
+			<configuration>
+				<property>
+					<name>oozie.hive.defaults</name>
+					<value>/etc/hive/conf/hive-default.xml.template</value>
+				</property>
+			</configuration>
+            <arg>--connect</arg>
+            <arg>--jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER</arg>
+            <arg>--username</arg>
+            <arg>app_MES_ReadOnlyUserMX</arg>
+            <arg>--password</arg>
+            <arg>X2{01_p7gyltm</arg>
+            <arg>--query</arg>
+            <arg>select _SP_CrateLabelID, CrateID, MachineStage, PartNumber, InvState, CrateNo, CreatedDT, CompleteDT, Quantity, LabelTemplate, PrinterURL, PrintedDT, ScannedDT, IsCancelled, IsReprint, PartDescription, LabelSaveDirectory, IsPrintLandscape, NoCopies, LabelsPerInventoryPack,  1 as 'modcoID' from MES._SP_CrateLabel</arg>
+            <arg>--num-mappers</arg>
+            <arg>18</arg>
+            <arg>--target-dir</arg>
+            <arg>/MEStemp/_SP_CrateLabel</arg>
+        </sqoop>
+        <ok to="end"/>
+        <error to="end"/>
+    </action>
+
+
+	<end name="end"/>
+
+</workflow-app>
