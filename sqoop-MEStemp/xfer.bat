@@ -1,5 +1,5 @@
 pscp  -pw d4e30f24   yieldIngestWorkflow.xml  appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow.xml
-pscp  -pw d4e30f24   yieldIngestProperties.xml  appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestProperties.xml
+pscp  -pw d4e30f24   yieldIngestProperties.txt  appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestProperties.txt
 pscp  -pw d4e30f24   runSqoop.sh        appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/runScoop.sh
 
 pscp  -pw d4e30f24   CreateTable.txt    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateTable.txt
