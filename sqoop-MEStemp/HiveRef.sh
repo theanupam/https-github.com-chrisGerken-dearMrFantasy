@@ -7,15 +7,7 @@ date
 hadoop fs -test -d /MES
     if [ $? = 0 ]
             then
-                hdfs dfs -rm -r -skipTrash /MES/Address
-                else
-                 echo "/MES not present in HDFS"
-    fi
-
-hadoop fs -test -d /MES
-    if [ $? = 0 ]
-            then
-                hdfs dfs -rm -r -skipTrash /MES/BuildRecord
+                hdfs dfs -rm -r -skipTrash /MES
                 else
                  echo "/MES not present in HDFS"
     fi
@@ -23,7 +15,7 @@ hadoop fs -test -d /MES
 
 sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER' --username app_MES_ReadOnlyUserMX --password X2{01_p7gyltm --table Address -m 1 --target-dir /MES/Address/ --direct  -- --schema dbo --validate
 
-sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER' --username app_MES_ReadOnlyUserMX --password X2{01_p7gyltm --table BuildRecord -m 12 --target-dir /MES/BuildRecord/ --direct  -- --schema dbo --validate
+sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER' --username app_MES_ReadOnlyUserMX --password X2{01_p7gyltm --table BuildRecord -m 16 --target-dir /MES/BuildRecord/ --direct  -- --schema dbo --validate
 
 
 
