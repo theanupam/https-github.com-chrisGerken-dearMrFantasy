@@ -4,7 +4,7 @@ echo "#################################################3"
 echo " "
 date 
 
-hadoop fs -test -d /MES/PartType
+hadoop fs -test -d /MEStemp
     if [ $? = 0 ]
             then
                 hdfs dfs -rm -r -skipTrash /MEStemp
@@ -12,9 +12,9 @@ hadoop fs -test -d /MES/PartType
                  echo "/MEStemp not present in HDFS"
     fi
 
-sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER' --username app_MES_ReadOnlyUserMX --password X2{01_p7gyltm --query 'SELECT AssetID,AssetName,RfAssetTypeID,LineID,MachineStageID,ToolID,GaugeID,PartID,InventoryPackID,LocationID,IsRetired,CostCentreID,ManufacturerID,SupplierID,AcquiredDT,PONumber,OrderedDT,ExpectedDeliveryDT,ExpectedFirstUseDT,EndUseDT,EndUseReason,PurchaseCost,DefaultLocationID,Comments, 1 as "org_id"  FROM MEStemp.Asset WHERE $CONDITIONS' -m 1 --target-dir /MEStemp/Asset/1 --direct  -- --schema dbo --validate
+sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER' --username app_MES_ReadOnlyUserMX --password X2{01_p7gyltm --query 'SELECT AssetID,AssetName,RfAssetTypeID,LineID,MachineStageID,ToolID,GaugeID,PartID,InventoryPackID,LocationID,IsRetired,CostCentreID,ManufacturerID,SupplierID,AcquiredDT,PONumber,OrderedDT,ExpectedDeliveryDT,ExpectedFirstUseDT,EndUseDT,EndUseReason,PurchaseCost,DefaultLocationID,Comments, 1 as "org_id"  FROM dbo.Asset WHERE $CONDITIONS' -m 1 --target-dir /MEStemp/Asset/1 --direct  -- --schema dbo --validate
 
-sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER' --username app_MES_ReadOnlyUserMX --password X2{01_p7gyltm --query 'SELECT BuildRecordID,InvPackCreatedID,InvPackConsumedID,QuantityUsed,UnitID,BuildDT,IsEdited,RevisionNo,BuildMachineStageID, 1 as "org_id"  FROM MEStemp.BuildRecord WHERE $CONDITIONS' -m 1 --target-dir /MEStemp/BuildRecord/1 --direct  -- --schema dbo --validate
+sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER' --username app_MES_ReadOnlyUserMX --password X2{01_p7gyltm --query 'SELECT BuildRecordID,InvPackCreatedID,InvPackConsumedID,QuantityUsed,UnitID,BuildDT,IsEdited,RevisionNo,BuildMachineStageID, 1 as "org_id"  FROM dbo.BuildRecord WHERE $CONDITIONS' -m 16 --target-dir /MEStemp/BuildRecord/1 --direct  -- --schema dbo --validate
 
 
 set hive.execution.engine=tez;

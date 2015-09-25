@@ -6,4 +6,5 @@ pscp  -pw d4e30f24   CreateTable.txt    appladm@prod-hubnamedaws01.sunpowercorp.
 pscp  -pw d4e30f24   runHive.sh         appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/runHive.sh
 
 pscp  -pw d4e30f24   stage2.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/stage2.sh
+pscp  -pw d4e30f24   HiveSimple.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/HiveSimple.sh
 pscp  -pw d4e30f24   wipeDB.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/wipeDB.sh
