@@ -458,6 +458,8 @@ hive -e "Create External table IF NOT EXISTS MEStemp.Unit (UnitID smallint, Unit
 
 
 
+echo " SELECT a.val, b.val, c.val FROM a JOIN b ON (a.key = b.key1) JOIN c ON (c.key = b.key2)";
+
 SCRIPTENDTIME=$SECONDS
 echo "Script execution time: $(($SCRIPTBEGINTIME - $SCRIPTENDTIME)) seconds." >> timings.txt
 
