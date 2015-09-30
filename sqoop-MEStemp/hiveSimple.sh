@@ -14,11 +14,11 @@ hadoop fs -test -d /MEStemp
                  echo "/MEStemp not present in HDFS"
     fi
 
-echo "     connect: 'jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER' "
-echo "     connect: 'jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER' "
-echo "     connect: 'jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER' "
-echo "     connect: 'jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER' "
-echo "     connect: 'jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER' "
+echo "     connect: jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER "
+echo "     connect: jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER "
+echo "     connect: jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER "
+echo "     connect: jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER "
+echo "     connect: jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER "
 
 echo " "
 echo "##################################################"
@@ -29,7 +29,7 @@ echo " "
 echo "      "
 echo "     ##################################################"
 echo "     Address "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -41,7 +41,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest MEXICALI_OWNER Addre
 echo "      "
 echo "     ##################################################"
 echo "     Address "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -53,7 +53,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest SPMM_C1_OWNER Addres
 echo "      "
 echo "     ##################################################"
 echo "     Address "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -65,7 +65,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest DEVERN_OWNER Address
 echo "      "
 echo "     ##################################################"
 echo "     Address "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -77,7 +77,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest TOULOUSE_OWNER Addre
 echo "      "
 echo "     ##################################################"
 echo "     Address "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -95,7 +95,7 @@ echo " "
 echo "      "
 echo "     ##################################################"
 echo "     Customer "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -107,7 +107,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest MEXICALI_OWNER Custo
 echo "      "
 echo "     ##################################################"
 echo "     Customer "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -119,7 +119,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest SPMM_C1_OWNER Custom
 echo "      "
 echo "     ##################################################"
 echo "     Customer "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -131,7 +131,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest DEVERN_OWNER Custome
 echo "      "
 echo "     ##################################################"
 echo "     Customer "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -143,7 +143,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest TOULOUSE_OWNER Custo
 echo "      "
 echo "     ##################################################"
 echo "     Customer "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -161,7 +161,7 @@ echo " "
 echo "      "
 echo "     ##################################################"
 echo "     Department "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -173,7 +173,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest MEXICALI_OWNER Depar
 echo "      "
 echo "     ##################################################"
 echo "     Department "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -185,7 +185,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest SPMM_C1_OWNER Depart
 echo "      "
 echo "     ##################################################"
 echo "     Department "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -197,7 +197,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest DEVERN_OWNER Departm
 echo "      "
 echo "     ##################################################"
 echo "     Department "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -209,7 +209,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest TOULOUSE_OWNER Depar
 echo "      "
 echo "     ##################################################"
 echo "     Department "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -227,7 +227,7 @@ echo " "
 echo "      "
 echo "     ##################################################"
 echo "     InvIsolatedReason "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -239,7 +239,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest MEXICALI_OWNER InvIs
 echo "      "
 echo "     ##################################################"
 echo "     InvIsolatedReason "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -251,7 +251,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest SPMM_C1_OWNER InvIso
 echo "      "
 echo "     ##################################################"
 echo "     InvIsolatedReason "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -263,7 +263,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest DEVERN_OWNER InvIsol
 echo "      "
 echo "     ##################################################"
 echo "     InvIsolatedReason "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -275,7 +275,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest TOULOUSE_OWNER InvIs
 echo "      "
 echo "     ##################################################"
 echo "     InvIsolatedReason "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -293,7 +293,7 @@ echo " "
 echo "      "
 echo "     ##################################################"
 echo "     InvState "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -305,7 +305,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest MEXICALI_OWNER InvSt
 echo "      "
 echo "     ##################################################"
 echo "     InvState "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -317,7 +317,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest SPMM_C1_OWNER InvSta
 echo "      "
 echo "     ##################################################"
 echo "     InvState "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -329,7 +329,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest DEVERN_OWNER InvStat
 echo "      "
 echo "     ##################################################"
 echo "     InvState "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -341,7 +341,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest TOULOUSE_OWNER InvSt
 echo "      "
 echo "     ##################################################"
 echo "     InvState "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -359,7 +359,7 @@ echo " "
 echo "      "
 echo "     ##################################################"
 echo "     LineGroup "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -371,7 +371,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest MEXICALI_OWNER LineG
 echo "      "
 echo "     ##################################################"
 echo "     LineGroup "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -383,7 +383,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest SPMM_C1_OWNER LineGr
 echo "      "
 echo "     ##################################################"
 echo "     LineGroup "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -395,7 +395,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest DEVERN_OWNER LineGro
 echo "      "
 echo "     ##################################################"
 echo "     LineGroup "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -407,7 +407,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest TOULOUSE_OWNER LineG
 echo "      "
 echo "     ##################################################"
 echo "     LineGroup "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -425,7 +425,7 @@ echo " "
 echo "      "
 echo "     ##################################################"
 echo "     LineInfo "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -437,7 +437,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest MEXICALI_OWNER LineI
 echo "      "
 echo "     ##################################################"
 echo "     LineInfo "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -449,7 +449,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest SPMM_C1_OWNER LineIn
 echo "      "
 echo "     ##################################################"
 echo "     LineInfo "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -461,7 +461,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest DEVERN_OWNER LineInf
 echo "      "
 echo "     ##################################################"
 echo "     LineInfo "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -473,7 +473,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest TOULOUSE_OWNER LineI
 echo "      "
 echo "     ##################################################"
 echo "     LineInfo "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -491,7 +491,7 @@ echo " "
 echo "      "
 echo "     ##################################################"
 echo "     LineSection "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -503,7 +503,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest MEXICALI_OWNER LineS
 echo "      "
 echo "     ##################################################"
 echo "     LineSection "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -515,7 +515,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest SPMM_C1_OWNER LineSe
 echo "      "
 echo "     ##################################################"
 echo "     LineSection "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -527,7 +527,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest DEVERN_OWNER LineSec
 echo "      "
 echo "     ##################################################"
 echo "     LineSection "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -539,7 +539,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest TOULOUSE_OWNER LineS
 echo "      "
 echo "     ##################################################"
 echo "     LineSection "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -557,7 +557,7 @@ echo " "
 echo "      "
 echo "     ##################################################"
 echo "     LineType "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -569,7 +569,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest MEXICALI_OWNER LineT
 echo "      "
 echo "     ##################################################"
 echo "     LineType "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -581,7 +581,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest SPMM_C1_OWNER LineTy
 echo "      "
 echo "     ##################################################"
 echo "     LineType "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -593,7 +593,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest DEVERN_OWNER LineTyp
 echo "      "
 echo "     ##################################################"
 echo "     LineType "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -605,7 +605,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest TOULOUSE_OWNER LineT
 echo "      "
 echo "     ##################################################"
 echo "     LineType "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -623,7 +623,7 @@ echo " "
 echo "      "
 echo "     ##################################################"
 echo "     MachineStageType "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -635,7 +635,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest MEXICALI_OWNER Machi
 echo "      "
 echo "     ##################################################"
 echo "     MachineStageType "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -647,7 +647,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest SPMM_C1_OWNER Machin
 echo "      "
 echo "     ##################################################"
 echo "     MachineStageType "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -659,7 +659,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest DEVERN_OWNER Machine
 echo "      "
 echo "     ##################################################"
 echo "     MachineStageType "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -671,7 +671,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest TOULOUSE_OWNER Machi
 echo "      "
 echo "     ##################################################"
 echo "     MachineStageType "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -689,7 +689,7 @@ echo " "
 echo "      "
 echo "     ##################################################"
 echo "     MachineStop "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -701,7 +701,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest MEXICALI_OWNER Machi
 echo "      "
 echo "     ##################################################"
 echo "     MachineStop "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -713,7 +713,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest SPMM_C1_OWNER Machin
 echo "      "
 echo "     ##################################################"
 echo "     MachineStop "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -725,7 +725,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest DEVERN_OWNER Machine
 echo "      "
 echo "     ##################################################"
 echo "     MachineStop "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -737,7 +737,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest TOULOUSE_OWNER Machi
 echo "      "
 echo "     ##################################################"
 echo "     MachineStop "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -755,7 +755,7 @@ echo " "
 echo "      "
 echo "     ##################################################"
 echo "     MachineStopCategory "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -767,7 +767,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest MEXICALI_OWNER Machi
 echo "      "
 echo "     ##################################################"
 echo "     MachineStopCategory "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -779,7 +779,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest SPMM_C1_OWNER Machin
 echo "      "
 echo "     ##################################################"
 echo "     MachineStopCategory "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -791,7 +791,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest DEVERN_OWNER Machine
 echo "      "
 echo "     ##################################################"
 echo "     MachineStopCategory "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -803,7 +803,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest TOULOUSE_OWNER Machi
 echo "      "
 echo "     ##################################################"
 echo "     MachineStopCategory "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -821,7 +821,7 @@ echo " "
 echo "      "
 echo "     ##################################################"
 echo "     MachineStopReason "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -833,7 +833,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest MEXICALI_OWNER Machi
 echo "      "
 echo "     ##################################################"
 echo "     MachineStopReason "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -845,7 +845,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest SPMM_C1_OWNER Machin
 echo "      "
 echo "     ##################################################"
 echo "     MachineStopReason "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -857,7 +857,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest DEVERN_OWNER Machine
 echo "      "
 echo "     ##################################################"
 echo "     MachineStopReason "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -869,7 +869,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest TOULOUSE_OWNER Machi
 echo "      "
 echo "     ##################################################"
 echo "     MachineStopReason "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -887,7 +887,7 @@ echo " "
 echo "      "
 echo "     ##################################################"
 echo "     Operation "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -899,7 +899,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest MEXICALI_OWNER Opera
 echo "      "
 echo "     ##################################################"
 echo "     Operation "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -911,7 +911,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest SPMM_C1_OWNER Operat
 echo "      "
 echo "     ##################################################"
 echo "     Operation "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -923,7 +923,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest DEVERN_OWNER Operati
 echo "      "
 echo "     ##################################################"
 echo "     Operation "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -935,7 +935,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest TOULOUSE_OWNER Opera
 echo "      "
 echo "     ##################################################"
 echo "     Operation "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -953,7 +953,7 @@ echo " "
 echo "      "
 echo "     ##################################################"
 echo "     OperationType "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -965,7 +965,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest MEXICALI_OWNER Opera
 echo "      "
 echo "     ##################################################"
 echo "     OperationType "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -977,7 +977,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest SPMM_C1_OWNER Operat
 echo "      "
 echo "     ##################################################"
 echo "     OperationType "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -989,7 +989,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest DEVERN_OWNER Operati
 echo "      "
 echo "     ##################################################"
 echo "     OperationType "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -1001,7 +1001,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest TOULOUSE_OWNER Opera
 echo "      "
 echo "     ##################################################"
 echo "     OperationType "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -1019,7 +1019,7 @@ echo " "
 echo "      "
 echo "     ##################################################"
 echo "     PartClassification "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -1031,7 +1031,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest MEXICALI_OWNER PartC
 echo "      "
 echo "     ##################################################"
 echo "     PartClassification "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -1043,7 +1043,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest SPMM_C1_OWNER PartCl
 echo "      "
 echo "     ##################################################"
 echo "     PartClassification "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -1055,7 +1055,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest DEVERN_OWNER PartCla
 echo "      "
 echo "     ##################################################"
 echo "     PartClassification "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -1067,7 +1067,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest TOULOUSE_OWNER PartC
 echo "      "
 echo "     ##################################################"
 echo "     PartClassification "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -1085,7 +1085,7 @@ echo " "
 echo "      "
 echo "     ##################################################"
 echo "     PartSubClassification "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -1097,7 +1097,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest MEXICALI_OWNER PartS
 echo "      "
 echo "     ##################################################"
 echo "     PartSubClassification "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -1109,7 +1109,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest SPMM_C1_OWNER PartSu
 echo "      "
 echo "     ##################################################"
 echo "     PartSubClassification "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -1121,7 +1121,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest DEVERN_OWNER PartSub
 echo "      "
 echo "     ##################################################"
 echo "     PartSubClassification "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -1133,7 +1133,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest TOULOUSE_OWNER PartS
 echo "      "
 echo "     ##################################################"
 echo "     PartSubClassification "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -1151,7 +1151,7 @@ echo " "
 echo "      "
 echo "     ##################################################"
 echo "     PartType "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -1163,7 +1163,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest MEXICALI_OWNER PartT
 echo "      "
 echo "     ##################################################"
 echo "     PartType "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -1175,7 +1175,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest SPMM_C1_OWNER PartTy
 echo "      "
 echo "     ##################################################"
 echo "     PartType "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -1187,7 +1187,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest DEVERN_OWNER PartTyp
 echo "      "
 echo "     ##################################################"
 echo "     PartType "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -1199,7 +1199,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest TOULOUSE_OWNER PartT
 echo "      "
 echo "     ##################################################"
 echo "     PartType "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -1217,7 +1217,7 @@ echo " "
 echo "      "
 echo "     ##################################################"
 echo "     Shift "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -1229,7 +1229,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest MEXICALI_OWNER Shift
 echo "      "
 echo "     ##################################################"
 echo "     Shift "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -1241,7 +1241,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest SPMM_C1_OWNER Shift"
 echo "      "
 echo "     ##################################################"
 echo "     Shift "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -1253,7 +1253,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest DEVERN_OWNER Shift" 
 echo "      "
 echo "     ##################################################"
 echo "     Shift "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -1265,7 +1265,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest TOULOUSE_OWNER Shift
 echo "      "
 echo "     ##################################################"
 echo "     Shift "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -1283,7 +1283,7 @@ echo " "
 echo "      "
 echo "     ##################################################"
 echo "     ShiftPattern "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -1295,7 +1295,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest MEXICALI_OWNER Shift
 echo "      "
 echo "     ##################################################"
 echo "     ShiftPattern "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -1307,7 +1307,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest SPMM_C1_OWNER ShiftP
 echo "      "
 echo "     ##################################################"
 echo "     ShiftPattern "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -1319,7 +1319,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest DEVERN_OWNER ShiftPa
 echo "      "
 echo "     ##################################################"
 echo "     ShiftPattern "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -1331,7 +1331,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest TOULOUSE_OWNER Shift
 echo "      "
 echo "     ##################################################"
 echo "     ShiftPattern "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -1349,7 +1349,7 @@ echo " "
 echo "      "
 echo "     ##################################################"
 echo "     ShiftType "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -1361,7 +1361,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest MEXICALI_OWNER Shift
 echo "      "
 echo "     ##################################################"
 echo "     ShiftType "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -1373,7 +1373,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest SPMM_C1_OWNER ShiftT
 echo "      "
 echo "     ##################################################"
 echo "     ShiftType "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -1385,7 +1385,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest DEVERN_OWNER ShiftTy
 echo "      "
 echo "     ##################################################"
 echo "     ShiftType "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -1397,7 +1397,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest TOULOUSE_OWNER Shift
 echo "      "
 echo "     ##################################################"
 echo "     ShiftType "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -1415,7 +1415,7 @@ echo " "
 echo "      "
 echo "     ##################################################"
 echo "     Supplier "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -1427,7 +1427,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest MEXICALI_OWNER Suppl
 echo "      "
 echo "     ##################################################"
 echo "     Supplier "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -1439,7 +1439,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest SPMM_C1_OWNER Suppli
 echo "      "
 echo "     ##################################################"
 echo "     Supplier "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -1451,7 +1451,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest DEVERN_OWNER Supplie
 echo "      "
 echo "     ##################################################"
 echo "     Supplier "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -1463,7 +1463,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest TOULOUSE_OWNER Suppl
 echo "      "
 echo "     ##################################################"
 echo "     Supplier "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -1481,7 +1481,7 @@ echo " "
 echo "      "
 echo "     ##################################################"
 echo "     TagList "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -1493,7 +1493,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest MEXICALI_OWNER TagLi
 echo "      "
 echo "     ##################################################"
 echo "     TagList "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -1505,7 +1505,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest SPMM_C1_OWNER TagLis
 echo "      "
 echo "     ##################################################"
 echo "     TagList "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -1517,7 +1517,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest DEVERN_OWNER TagList
 echo "      "
 echo "     ##################################################"
 echo "     TagList "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -1529,7 +1529,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest TOULOUSE_OWNER TagLi
 echo "      "
 echo "     ##################################################"
 echo "     TagList "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -1547,7 +1547,7 @@ echo " "
 echo "      "
 echo "     ##################################################"
 echo "     Unit "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -1559,7 +1559,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest MEXICALI_OWNER Unit"
 echo "      "
 echo "     ##################################################"
 echo "     Unit "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -1571,7 +1571,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest SPMM_C1_OWNER Unit" 
 echo "      "
 echo "     ##################################################"
 echo "     Unit "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -1583,7 +1583,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest DEVERN_OWNER Unit" >
 echo "      "
 echo "     ##################################################"
 echo "     Unit "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -1595,7 +1595,7 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest TOULOUSE_OWNER Unit"
 echo "      "
 echo "     ##################################################"
 echo "     Unit "
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER "
 echo "     ##################################################"
 echo "      "
 
@@ -1821,60 +1821,60 @@ echo " "
 echo "      "
 echo "     ##################################################"
 echo "     LineALL " from Line, Line_"
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER "
 echo "     ##################################################"
 echo "      "
 
 STARTTIME=$SECONDS
-sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT Line.LineID, Line.Line, Line.Description, Line.LineTypeID, Line.IsRetired, Line.RfIntervalModeID, Line.IsOEEInventoryIsolation, Line.IsOEEInventoryReintroduction, Line.IsCountOutputInventory, Line.IsCountInputInventory, Line.IsLineInfoSweepEnabled, Line.IsWOOnSingleJob, Line.LineShortName, Line.CurrentLineInfoID, Line.LastLineInfoID, Line.RfInvCreatedDateModeID, Line.RfEndJobInvModeID, Line.CurrentJobID, Line.IsScrapAsQualityLoss, Line.IsScrapInProductionCounts, Line.LineDownCostPerHour, Line.IsContributeLineGroupOutput, Line.IsContributeLineGroupWaste, Line.IsContributeLineGroupDowntime, Line_.OEETarget, Line_.WasteTarget, Line_.Reference1, Line_.Reference2, Line_.Reference3, Line_.Reference4, Line_.Reference5,  1 as \"org_id\" FROM Line JOIN Line_ ON (Line.LineID = Line_.LineID)   WHERE \$CONDITIONS" --split-by Line.LineID --num-mappers 2  --target-dir /MEStemp/LineALL/1 --direct  -- --schema dbo --validate
+sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT Line.LineID, Line.Line, Line.Description, Line.LineTypeID, Line.IsRetired, Line.RfIntervalModeID, Line.IsOEEInventoryIsolation, Line.IsOEEInventoryReintroduction, Line.IsCountOutputInventory, Line.IsCountInputInventory, Line.IsLineInfoSweepEnabled, Line.IsWOOnSingleJob, Line.LineShortName, Line.CurrentLineInfoID, Line.LastLineInfoID, Line.RfInvCreatedDateModeID, Line.RfEndJobInvModeID, Line.CurrentJobID, Line.IsScrapAsQualityLoss, Line.IsScrapInProductionCounts, Line.LineDownCostPerHour, Line.IsContributeLineGroupOutput, Line.IsContributeLineGroupWaste, Line.IsContributeLineGroupDowntime, Line_.OEETarget, Line_.WasteTarget, Line_.Reference1, Line_.Reference2, Line_.Reference3, Line_.Reference4, Line_.Reference5,  1 as \"org_id\" FROM Line FULL JOIN Line_ ON (Line.LineID = Line_.LineID)   WHERE \$CONDITIONS" --split-by Line.LineID --num-mappers 2  --target-dir /MEStemp/LineALL/1 --direct  -- --schema dbo --validate
 ENDTIME=$SECONDS
 echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest Mexicali LineALL" >> timings.txt
 
 echo "      "
 echo "     ##################################################"
 echo "     LineALL " from Line, Line_"
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER "
 echo "     ##################################################"
 echo "      "
 
 STARTTIME=$SECONDS
-sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT Line.LineID, Line.Line, Line.Description, Line.LineTypeID, Line.IsRetired, Line.RfIntervalModeID, Line.IsOEEInventoryIsolation, Line.IsOEEInventoryReintroduction, Line.IsCountOutputInventory, Line.IsCountInputInventory, Line.IsLineInfoSweepEnabled, Line.IsWOOnSingleJob, Line.LineShortName, Line.CurrentLineInfoID, Line.LastLineInfoID, Line.RfInvCreatedDateModeID, Line.RfEndJobInvModeID, Line.CurrentJobID, Line.IsScrapAsQualityLoss, Line.IsScrapInProductionCounts, Line.LineDownCostPerHour, Line.IsContributeLineGroupOutput, Line.IsContributeLineGroupWaste, Line.IsContributeLineGroupDowntime, Line_.OEETarget, Line_.WasteTarget, Line_.Reference1, Line_.Reference2, Line_.Reference3, Line_.Reference4, Line_.Reference5,  2 as \"org_id\" FROM Line JOIN Line_ ON (Line.LineID = Line_.LineID)   WHERE \$CONDITIONS" --split-by Line.LineID --num-mappers 2  --target-dir /MEStemp/LineALL/2 --direct  -- --schema dbo --validate
+sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT Line.LineID, Line.Line, Line.Description, Line.LineTypeID, Line.IsRetired, Line.RfIntervalModeID, Line.IsOEEInventoryIsolation, Line.IsOEEInventoryReintroduction, Line.IsCountOutputInventory, Line.IsCountInputInventory, Line.IsLineInfoSweepEnabled, Line.IsWOOnSingleJob, Line.LineShortName, Line.CurrentLineInfoID, Line.LastLineInfoID, Line.RfInvCreatedDateModeID, Line.RfEndJobInvModeID, Line.CurrentJobID, Line.IsScrapAsQualityLoss, Line.IsScrapInProductionCounts, Line.LineDownCostPerHour, Line.IsContributeLineGroupOutput, Line.IsContributeLineGroupWaste, Line.IsContributeLineGroupDowntime, Line_.OEETarget, Line_.WasteTarget, Line_.Reference1, Line_.Reference2, Line_.Reference3, Line_.Reference4, Line_.Reference5,  2 as \"org_id\" FROM Line FULL JOIN Line_ ON (Line.LineID = Line_.LineID)   WHERE \$CONDITIONS" --split-by Line.LineID --num-mappers 2  --target-dir /MEStemp/LineALL/2 --direct  -- --schema dbo --validate
 ENDTIME=$SECONDS
 echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest Manila LineALL" >> timings.txt
 
 echo "      "
 echo "     ##################################################"
 echo "     LineALL " from Line, Line_"
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER "
 echo "     ##################################################"
 echo "      "
 
 STARTTIME=$SECONDS
-sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT Line.LineID, Line.Line, Line.Description, Line.LineTypeID, Line.IsRetired, Line.RfIntervalModeID, Line.IsOEEInventoryIsolation, Line.IsOEEInventoryReintroduction, Line.IsCountOutputInventory, Line.IsCountInputInventory, Line.IsLineInfoSweepEnabled, Line.IsWOOnSingleJob, Line.LineShortName, Line.CurrentLineInfoID, Line.LastLineInfoID, Line.RfInvCreatedDateModeID, Line.RfEndJobInvModeID, Line.CurrentJobID, Line.IsScrapAsQualityLoss, Line.IsScrapInProductionCounts, Line.LineDownCostPerHour, Line.IsContributeLineGroupOutput, Line.IsContributeLineGroupWaste, Line.IsContributeLineGroupDowntime, Line_.OEETarget, Line_.WasteTarget, Line_.Reference1, Line_.Reference2, Line_.Reference3, Line_.Reference4, Line_.Reference5,  3 as \"org_id\" FROM Line JOIN Line_ ON (Line.LineID = Line_.LineID)   WHERE \$CONDITIONS" --split-by Line.LineID --num-mappers 2  --target-dir /MEStemp/LineALL/3 --direct  -- --schema dbo --validate
+sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT Line.LineID, Line.Line, Line.Description, Line.LineTypeID, Line.IsRetired, Line.RfIntervalModeID, Line.IsOEEInventoryIsolation, Line.IsOEEInventoryReintroduction, Line.IsCountOutputInventory, Line.IsCountInputInventory, Line.IsLineInfoSweepEnabled, Line.IsWOOnSingleJob, Line.LineShortName, Line.CurrentLineInfoID, Line.LastLineInfoID, Line.RfInvCreatedDateModeID, Line.RfEndJobInvModeID, Line.CurrentJobID, Line.IsScrapAsQualityLoss, Line.IsScrapInProductionCounts, Line.LineDownCostPerHour, Line.IsContributeLineGroupOutput, Line.IsContributeLineGroupWaste, Line.IsContributeLineGroupDowntime, Line_.OEETarget, Line_.WasteTarget, Line_.Reference1, Line_.Reference2, Line_.Reference3, Line_.Reference4, Line_.Reference5,  3 as \"org_id\" FROM Line FULL JOIN Line_ ON (Line.LineID = Line_.LineID)   WHERE \$CONDITIONS" --split-by Line.LineID --num-mappers 2  --target-dir /MEStemp/LineALL/3 --direct  -- --schema dbo --validate
 ENDTIME=$SECONDS
 echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest France - Devernajoule LineALL" >> timings.txt
 
 echo "      "
 echo "     ##################################################"
 echo "     LineALL " from Line, Line_"
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER "
 echo "     ##################################################"
 echo "      "
 
 STARTTIME=$SECONDS
-sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT Line.LineID, Line.Line, Line.Description, Line.LineTypeID, Line.IsRetired, Line.RfIntervalModeID, Line.IsOEEInventoryIsolation, Line.IsOEEInventoryReintroduction, Line.IsCountOutputInventory, Line.IsCountInputInventory, Line.IsLineInfoSweepEnabled, Line.IsWOOnSingleJob, Line.LineShortName, Line.CurrentLineInfoID, Line.LastLineInfoID, Line.RfInvCreatedDateModeID, Line.RfEndJobInvModeID, Line.CurrentJobID, Line.IsScrapAsQualityLoss, Line.IsScrapInProductionCounts, Line.LineDownCostPerHour, Line.IsContributeLineGroupOutput, Line.IsContributeLineGroupWaste, Line.IsContributeLineGroupDowntime, Line_.OEETarget, Line_.WasteTarget, Line_.Reference1, Line_.Reference2, Line_.Reference3, Line_.Reference4, Line_.Reference5,  4 as \"org_id\" FROM Line JOIN Line_ ON (Line.LineID = Line_.LineID)   WHERE \$CONDITIONS" --split-by Line.LineID --num-mappers 2  --target-dir /MEStemp/LineALL/4 --direct  -- --schema dbo --validate
+sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT Line.LineID, Line.Line, Line.Description, Line.LineTypeID, Line.IsRetired, Line.RfIntervalModeID, Line.IsOEEInventoryIsolation, Line.IsOEEInventoryReintroduction, Line.IsCountOutputInventory, Line.IsCountInputInventory, Line.IsLineInfoSweepEnabled, Line.IsWOOnSingleJob, Line.LineShortName, Line.CurrentLineInfoID, Line.LastLineInfoID, Line.RfInvCreatedDateModeID, Line.RfEndJobInvModeID, Line.CurrentJobID, Line.IsScrapAsQualityLoss, Line.IsScrapInProductionCounts, Line.LineDownCostPerHour, Line.IsContributeLineGroupOutput, Line.IsContributeLineGroupWaste, Line.IsContributeLineGroupDowntime, Line_.OEETarget, Line_.WasteTarget, Line_.Reference1, Line_.Reference2, Line_.Reference3, Line_.Reference4, Line_.Reference5,  4 as \"org_id\" FROM Line FULL JOIN Line_ ON (Line.LineID = Line_.LineID)   WHERE \$CONDITIONS" --split-by Line.LineID --num-mappers 2  --target-dir /MEStemp/LineALL/4 --direct  -- --schema dbo --validate
 ENDTIME=$SECONDS
 echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest France - Toullouse LineALL" >> timings.txt
 
 echo "      "
 echo "     ##################################################"
 echo "     LineALL " from Line, Line_"
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER "
 echo "     ##################################################"
 echo "      "
 
 STARTTIME=$SECONDS
-sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT Line.LineID, Line.Line, Line.Description, Line.LineTypeID, Line.IsRetired, Line.RfIntervalModeID, Line.IsOEEInventoryIsolation, Line.IsOEEInventoryReintroduction, Line.IsCountOutputInventory, Line.IsCountInputInventory, Line.IsLineInfoSweepEnabled, Line.IsWOOnSingleJob, Line.LineShortName, Line.CurrentLineInfoID, Line.LastLineInfoID, Line.RfInvCreatedDateModeID, Line.RfEndJobInvModeID, Line.CurrentJobID, Line.IsScrapAsQualityLoss, Line.IsScrapInProductionCounts, Line.LineDownCostPerHour, Line.IsContributeLineGroupOutput, Line.IsContributeLineGroupWaste, Line.IsContributeLineGroupDowntime, Line_.OEETarget, Line_.WasteTarget, Line_.Reference1, Line_.Reference2, Line_.Reference3, Line_.Reference4, Line_.Reference5,  5 as \"org_id\" FROM Line JOIN Line_ ON (Line.LineID = Line_.LineID)   WHERE \$CONDITIONS" --split-by Line.LineID --num-mappers 2  --target-dir /MEStemp/LineALL/5 --direct  -- --schema dbo --validate
+sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT Line.LineID, Line.Line, Line.Description, Line.LineTypeID, Line.IsRetired, Line.RfIntervalModeID, Line.IsOEEInventoryIsolation, Line.IsOEEInventoryReintroduction, Line.IsCountOutputInventory, Line.IsCountInputInventory, Line.IsLineInfoSweepEnabled, Line.IsWOOnSingleJob, Line.LineShortName, Line.CurrentLineInfoID, Line.LastLineInfoID, Line.RfInvCreatedDateModeID, Line.RfEndJobInvModeID, Line.CurrentJobID, Line.IsScrapAsQualityLoss, Line.IsScrapInProductionCounts, Line.LineDownCostPerHour, Line.IsContributeLineGroupOutput, Line.IsContributeLineGroupWaste, Line.IsContributeLineGroupDowntime, Line_.OEETarget, Line_.WasteTarget, Line_.Reference1, Line_.Reference2, Line_.Reference3, Line_.Reference4, Line_.Reference5,  5 as \"org_id\" FROM Line FULL JOIN Line_ ON (Line.LineID = Line_.LineID)   WHERE \$CONDITIONS" --split-by Line.LineID --num-mappers 2  --target-dir /MEStemp/LineALL/5 --direct  -- --schema dbo --validate
 ENDTIME=$SECONDS
 echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest South Africa LineALL" >> timings.txt
 echo " "
@@ -1887,60 +1887,60 @@ echo " "
 echo "      "
 echo "     ##################################################"
 echo "     LocationAll " from Location, LocationType"
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER "
 echo "     ##################################################"
 echo "      "
 
 STARTTIME=$SECONDS
-sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT Location.LocationID, Location.Location, Location.LocationTypeID, Location.IsRetired, Location.MaxQuantity, Location.LocationCode, Location.Description, LocationType.LocationType, LocationType.LocationTypeCode, LocationType.Description,  1 as \"org_id\" FROM Location JOIN LocationType ON (Location.LocationID = LocationType.LocationTypeID)   WHERE \$CONDITIONS" --split-by Location.LocationID --num-mappers 2  --target-dir /MEStemp/LocationAll/1 --direct  -- --schema dbo --validate
+sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT Location.LocationID, Location.Location, Location.LocationTypeID, Location.IsRetired, Location.MaxQuantity, Location.LocationCode, Location.Description, LocationType.LocationType, LocationType.LocationTypeCode,  1 as \"org_id\" FROM Location FULL JOIN LocationType ON (Location.LocationID = LocationType.LocationTypeID)   WHERE \$CONDITIONS" --split-by Location.LocationID --num-mappers 2  --target-dir /MEStemp/LocationAll/1 --direct  -- --schema dbo --validate
 ENDTIME=$SECONDS
 echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest Mexicali LocationAll" >> timings.txt
 
 echo "      "
 echo "     ##################################################"
 echo "     LocationAll " from Location, LocationType"
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER "
 echo "     ##################################################"
 echo "      "
 
 STARTTIME=$SECONDS
-sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT Location.LocationID, Location.Location, Location.LocationTypeID, Location.IsRetired, Location.MaxQuantity, Location.LocationCode, Location.Description, LocationType.LocationType, LocationType.LocationTypeCode, LocationType.Description,  2 as \"org_id\" FROM Location JOIN LocationType ON (Location.LocationID = LocationType.LocationTypeID)   WHERE \$CONDITIONS" --split-by Location.LocationID --num-mappers 2  --target-dir /MEStemp/LocationAll/2 --direct  -- --schema dbo --validate
+sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT Location.LocationID, Location.Location, Location.LocationTypeID, Location.IsRetired, Location.MaxQuantity, Location.LocationCode, Location.Description, LocationType.LocationType, LocationType.LocationTypeCode,  2 as \"org_id\" FROM Location FULL JOIN LocationType ON (Location.LocationID = LocationType.LocationTypeID)   WHERE \$CONDITIONS" --split-by Location.LocationID --num-mappers 2  --target-dir /MEStemp/LocationAll/2 --direct  -- --schema dbo --validate
 ENDTIME=$SECONDS
 echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest Manila LocationAll" >> timings.txt
 
 echo "      "
 echo "     ##################################################"
 echo "     LocationAll " from Location, LocationType"
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER "
 echo "     ##################################################"
 echo "      "
 
 STARTTIME=$SECONDS
-sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT Location.LocationID, Location.Location, Location.LocationTypeID, Location.IsRetired, Location.MaxQuantity, Location.LocationCode, Location.Description, LocationType.LocationType, LocationType.LocationTypeCode, LocationType.Description,  3 as \"org_id\" FROM Location JOIN LocationType ON (Location.LocationID = LocationType.LocationTypeID)   WHERE \$CONDITIONS" --split-by Location.LocationID --num-mappers 2  --target-dir /MEStemp/LocationAll/3 --direct  -- --schema dbo --validate
+sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT Location.LocationID, Location.Location, Location.LocationTypeID, Location.IsRetired, Location.MaxQuantity, Location.LocationCode, Location.Description, LocationType.LocationType, LocationType.LocationTypeCode,  3 as \"org_id\" FROM Location FULL JOIN LocationType ON (Location.LocationID = LocationType.LocationTypeID)   WHERE \$CONDITIONS" --split-by Location.LocationID --num-mappers 2  --target-dir /MEStemp/LocationAll/3 --direct  -- --schema dbo --validate
 ENDTIME=$SECONDS
 echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest France - Devernajoule LocationAll" >> timings.txt
 
 echo "      "
 echo "     ##################################################"
 echo "     LocationAll " from Location, LocationType"
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER "
 echo "     ##################################################"
 echo "      "
 
 STARTTIME=$SECONDS
-sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT Location.LocationID, Location.Location, Location.LocationTypeID, Location.IsRetired, Location.MaxQuantity, Location.LocationCode, Location.Description, LocationType.LocationType, LocationType.LocationTypeCode, LocationType.Description,  4 as \"org_id\" FROM Location JOIN LocationType ON (Location.LocationID = LocationType.LocationTypeID)   WHERE \$CONDITIONS" --split-by Location.LocationID --num-mappers 2  --target-dir /MEStemp/LocationAll/4 --direct  -- --schema dbo --validate
+sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT Location.LocationID, Location.Location, Location.LocationTypeID, Location.IsRetired, Location.MaxQuantity, Location.LocationCode, Location.Description, LocationType.LocationType, LocationType.LocationTypeCode,  4 as \"org_id\" FROM Location FULL JOIN LocationType ON (Location.LocationID = LocationType.LocationTypeID)   WHERE \$CONDITIONS" --split-by Location.LocationID --num-mappers 2  --target-dir /MEStemp/LocationAll/4 --direct  -- --schema dbo --validate
 ENDTIME=$SECONDS
 echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest France - Toullouse LocationAll" >> timings.txt
 
 echo "      "
 echo "     ##################################################"
 echo "     LocationAll " from Location, LocationType"
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER "
 echo "     ##################################################"
 echo "      "
 
 STARTTIME=$SECONDS
-sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT Location.LocationID, Location.Location, Location.LocationTypeID, Location.IsRetired, Location.MaxQuantity, Location.LocationCode, Location.Description, LocationType.LocationType, LocationType.LocationTypeCode, LocationType.Description,  5 as \"org_id\" FROM Location JOIN LocationType ON (Location.LocationID = LocationType.LocationTypeID)   WHERE \$CONDITIONS" --split-by Location.LocationID --num-mappers 2  --target-dir /MEStemp/LocationAll/5 --direct  -- --schema dbo --validate
+sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT Location.LocationID, Location.Location, Location.LocationTypeID, Location.IsRetired, Location.MaxQuantity, Location.LocationCode, Location.Description, LocationType.LocationType, LocationType.LocationTypeCode,  5 as \"org_id\" FROM Location FULL JOIN LocationType ON (Location.LocationID = LocationType.LocationTypeID)   WHERE \$CONDITIONS" --split-by Location.LocationID --num-mappers 2  --target-dir /MEStemp/LocationAll/5 --direct  -- --schema dbo --validate
 ENDTIME=$SECONDS
 echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest South Africa LocationAll" >> timings.txt
 echo " "
@@ -1953,60 +1953,60 @@ echo " "
 echo "      "
 echo "     ##################################################"
 echo "     MachineStageAll " from MachineStage, MachineStage_Custom"
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER "
 echo "     ##################################################"
 echo "      "
 
 STARTTIME=$SECONDS
-sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT MachineStage.MachineStageID, MachineStage.MachineStageTypeID, MachineStage.Name, MachineStage.IsRetired, MachineStage.DepartmentID, MachineStage.Description, MachineStage.CurrentShiftPatternID, MachineStage.NoHeads, MachineStage.IsOEEBottleNeck, MachineStage.IsProductionOutput, MachineStage.MachineStopID, MachineStage.StoppedScreenThreshold, MachineStage.LineSectionID, MachineStage.IsDiscrete, MachineStage.RfDowntimeCollectionModeID, MachineStage.RfSpoilageCollectionModeID, MachineStage.RfProductionCollectionModeID, MachineStage.LastBuildRecordID, MachineStage.CurrentJobID, MachineStage_Custom.ModuleDatabase, MachineStage_Custom.IntendedWOID, MachineStage_Custom.MachineStageCode, MachineStage_Custom.CurrentLaminateSize, MachineStage_Custom.Color, MachineStage_Custom.ModifiedDT, MachineStage_Custom.CleanState, MachineStage_Custom.CleaningCycleNo, MachineStage_Custom.CleaningLaminatePartID, MachineStage_Custom.CleaningLaminateSize,  1 as \"org_id\" FROM MachineStage JOIN MachineStage_Custom ON (MachineStage.MachineStageID = MachineStage_Custom.MachineStageID)   WHERE \$CONDITIONS" --split-by MachineStage.MachineStageID --num-mappers 2  --target-dir /MEStemp/MachineStageAll/1 --direct  -- --schema dbo --validate
+sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT MachineStage.MachineStageID, MachineStage.MachineStageTypeID, MachineStage.Name, MachineStage.IsRetired, MachineStage.DepartmentID, MachineStage.Description, MachineStage.CurrentShiftPatternID, MachineStage.NoHeads, MachineStage.IsOEEBottleNeck, MachineStage.IsProductionOutput, MachineStage.MachineStopID, MachineStage.StoppedScreenThreshold, MachineStage.LineSectionID, MachineStage.IsDiscrete, MachineStage.RfDowntimeCollectionModeID, MachineStage.RfSpoilageCollectionModeID, MachineStage.RfProductionCollectionModeID, MachineStage.LastBuildRecordID, MachineStage.CurrentJobID, MachineStage_Custom.ModuleDatabase, MachineStage_Custom.IntendedWOID, MachineStage_Custom.MachineStageCode, MachineStage_Custom.CurrentLaminateSize, MachineStage_Custom.Color, MachineStage_Custom.ModifiedDT, MachineStage_Custom.CleanState, MachineStage_Custom.CleaningCycleNo, MachineStage_Custom.CleaningLaminatePartID, MachineStage_Custom.CleaningLaminateSize,  1 as \"org_id\" FROM MachineStage FULL JOIN MachineStage_Custom ON (MachineStage.MachineStageID = MachineStage_Custom.MachineStageID)   WHERE \$CONDITIONS" --split-by MachineStage.MachineStageID --num-mappers 2  --target-dir /MEStemp/MachineStageAll/1 --direct  -- --schema dbo --validate
 ENDTIME=$SECONDS
 echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest Mexicali MachineStageAll" >> timings.txt
 
 echo "      "
 echo "     ##################################################"
 echo "     MachineStageAll " from MachineStage, MachineStage_Custom"
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER "
 echo "     ##################################################"
 echo "      "
 
 STARTTIME=$SECONDS
-sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT MachineStage.MachineStageID, MachineStage.MachineStageTypeID, MachineStage.Name, MachineStage.IsRetired, MachineStage.DepartmentID, MachineStage.Description, MachineStage.CurrentShiftPatternID, MachineStage.NoHeads, MachineStage.IsOEEBottleNeck, MachineStage.IsProductionOutput, MachineStage.MachineStopID, MachineStage.StoppedScreenThreshold, MachineStage.LineSectionID, MachineStage.IsDiscrete, MachineStage.RfDowntimeCollectionModeID, MachineStage.RfSpoilageCollectionModeID, MachineStage.RfProductionCollectionModeID, MachineStage.LastBuildRecordID, MachineStage.CurrentJobID, MachineStage_Custom.ModuleDatabase, MachineStage_Custom.IntendedWOID, MachineStage_Custom.MachineStageCode, MachineStage_Custom.CurrentLaminateSize, MachineStage_Custom.Color, MachineStage_Custom.ModifiedDT, MachineStage_Custom.CleanState, MachineStage_Custom.CleaningCycleNo, MachineStage_Custom.CleaningLaminatePartID, MachineStage_Custom.CleaningLaminateSize,  2 as \"org_id\" FROM MachineStage JOIN MachineStage_Custom ON (MachineStage.MachineStageID = MachineStage_Custom.MachineStageID)   WHERE \$CONDITIONS" --split-by MachineStage.MachineStageID --num-mappers 2  --target-dir /MEStemp/MachineStageAll/2 --direct  -- --schema dbo --validate
+sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT MachineStage.MachineStageID, MachineStage.MachineStageTypeID, MachineStage.Name, MachineStage.IsRetired, MachineStage.DepartmentID, MachineStage.Description, MachineStage.CurrentShiftPatternID, MachineStage.NoHeads, MachineStage.IsOEEBottleNeck, MachineStage.IsProductionOutput, MachineStage.MachineStopID, MachineStage.StoppedScreenThreshold, MachineStage.LineSectionID, MachineStage.IsDiscrete, MachineStage.RfDowntimeCollectionModeID, MachineStage.RfSpoilageCollectionModeID, MachineStage.RfProductionCollectionModeID, MachineStage.LastBuildRecordID, MachineStage.CurrentJobID, MachineStage_Custom.ModuleDatabase, MachineStage_Custom.IntendedWOID, MachineStage_Custom.MachineStageCode, MachineStage_Custom.CurrentLaminateSize, MachineStage_Custom.Color, MachineStage_Custom.ModifiedDT, MachineStage_Custom.CleanState, MachineStage_Custom.CleaningCycleNo, MachineStage_Custom.CleaningLaminatePartID, MachineStage_Custom.CleaningLaminateSize,  2 as \"org_id\" FROM MachineStage FULL JOIN MachineStage_Custom ON (MachineStage.MachineStageID = MachineStage_Custom.MachineStageID)   WHERE \$CONDITIONS" --split-by MachineStage.MachineStageID --num-mappers 2  --target-dir /MEStemp/MachineStageAll/2 --direct  -- --schema dbo --validate
 ENDTIME=$SECONDS
 echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest Manila MachineStageAll" >> timings.txt
 
 echo "      "
 echo "     ##################################################"
 echo "     MachineStageAll " from MachineStage, MachineStage_Custom"
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER "
 echo "     ##################################################"
 echo "      "
 
 STARTTIME=$SECONDS
-sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT MachineStage.MachineStageID, MachineStage.MachineStageTypeID, MachineStage.Name, MachineStage.IsRetired, MachineStage.DepartmentID, MachineStage.Description, MachineStage.CurrentShiftPatternID, MachineStage.NoHeads, MachineStage.IsOEEBottleNeck, MachineStage.IsProductionOutput, MachineStage.MachineStopID, MachineStage.StoppedScreenThreshold, MachineStage.LineSectionID, MachineStage.IsDiscrete, MachineStage.RfDowntimeCollectionModeID, MachineStage.RfSpoilageCollectionModeID, MachineStage.RfProductionCollectionModeID, MachineStage.LastBuildRecordID, MachineStage.CurrentJobID, MachineStage_Custom.ModuleDatabase, MachineStage_Custom.IntendedWOID, MachineStage_Custom.MachineStageCode, MachineStage_Custom.CurrentLaminateSize, MachineStage_Custom.Color, MachineStage_Custom.ModifiedDT, MachineStage_Custom.CleanState, MachineStage_Custom.CleaningCycleNo, MachineStage_Custom.CleaningLaminatePartID, MachineStage_Custom.CleaningLaminateSize,  3 as \"org_id\" FROM MachineStage JOIN MachineStage_Custom ON (MachineStage.MachineStageID = MachineStage_Custom.MachineStageID)   WHERE \$CONDITIONS" --split-by MachineStage.MachineStageID --num-mappers 2  --target-dir /MEStemp/MachineStageAll/3 --direct  -- --schema dbo --validate
+sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT MachineStage.MachineStageID, MachineStage.MachineStageTypeID, MachineStage.Name, MachineStage.IsRetired, MachineStage.DepartmentID, MachineStage.Description, MachineStage.CurrentShiftPatternID, MachineStage.NoHeads, MachineStage.IsOEEBottleNeck, MachineStage.IsProductionOutput, MachineStage.MachineStopID, MachineStage.StoppedScreenThreshold, MachineStage.LineSectionID, MachineStage.IsDiscrete, MachineStage.RfDowntimeCollectionModeID, MachineStage.RfSpoilageCollectionModeID, MachineStage.RfProductionCollectionModeID, MachineStage.LastBuildRecordID, MachineStage.CurrentJobID, MachineStage_Custom.ModuleDatabase, MachineStage_Custom.IntendedWOID, MachineStage_Custom.MachineStageCode, MachineStage_Custom.CurrentLaminateSize, MachineStage_Custom.Color, MachineStage_Custom.ModifiedDT, MachineStage_Custom.CleanState, MachineStage_Custom.CleaningCycleNo, MachineStage_Custom.CleaningLaminatePartID, MachineStage_Custom.CleaningLaminateSize,  3 as \"org_id\" FROM MachineStage FULL JOIN MachineStage_Custom ON (MachineStage.MachineStageID = MachineStage_Custom.MachineStageID)   WHERE \$CONDITIONS" --split-by MachineStage.MachineStageID --num-mappers 2  --target-dir /MEStemp/MachineStageAll/3 --direct  -- --schema dbo --validate
 ENDTIME=$SECONDS
 echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest France - Devernajoule MachineStageAll" >> timings.txt
 
 echo "      "
 echo "     ##################################################"
 echo "     MachineStageAll " from MachineStage, MachineStage_Custom"
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER "
 echo "     ##################################################"
 echo "      "
 
 STARTTIME=$SECONDS
-sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT MachineStage.MachineStageID, MachineStage.MachineStageTypeID, MachineStage.Name, MachineStage.IsRetired, MachineStage.DepartmentID, MachineStage.Description, MachineStage.CurrentShiftPatternID, MachineStage.NoHeads, MachineStage.IsOEEBottleNeck, MachineStage.IsProductionOutput, MachineStage.MachineStopID, MachineStage.StoppedScreenThreshold, MachineStage.LineSectionID, MachineStage.IsDiscrete, MachineStage.RfDowntimeCollectionModeID, MachineStage.RfSpoilageCollectionModeID, MachineStage.RfProductionCollectionModeID, MachineStage.LastBuildRecordID, MachineStage.CurrentJobID, MachineStage_Custom.ModuleDatabase, MachineStage_Custom.IntendedWOID, MachineStage_Custom.MachineStageCode, MachineStage_Custom.CurrentLaminateSize, MachineStage_Custom.Color, MachineStage_Custom.ModifiedDT, MachineStage_Custom.CleanState, MachineStage_Custom.CleaningCycleNo, MachineStage_Custom.CleaningLaminatePartID, MachineStage_Custom.CleaningLaminateSize,  4 as \"org_id\" FROM MachineStage JOIN MachineStage_Custom ON (MachineStage.MachineStageID = MachineStage_Custom.MachineStageID)   WHERE \$CONDITIONS" --split-by MachineStage.MachineStageID --num-mappers 2  --target-dir /MEStemp/MachineStageAll/4 --direct  -- --schema dbo --validate
+sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT MachineStage.MachineStageID, MachineStage.MachineStageTypeID, MachineStage.Name, MachineStage.IsRetired, MachineStage.DepartmentID, MachineStage.Description, MachineStage.CurrentShiftPatternID, MachineStage.NoHeads, MachineStage.IsOEEBottleNeck, MachineStage.IsProductionOutput, MachineStage.MachineStopID, MachineStage.StoppedScreenThreshold, MachineStage.LineSectionID, MachineStage.IsDiscrete, MachineStage.RfDowntimeCollectionModeID, MachineStage.RfSpoilageCollectionModeID, MachineStage.RfProductionCollectionModeID, MachineStage.LastBuildRecordID, MachineStage.CurrentJobID, MachineStage_Custom.ModuleDatabase, MachineStage_Custom.IntendedWOID, MachineStage_Custom.MachineStageCode, MachineStage_Custom.CurrentLaminateSize, MachineStage_Custom.Color, MachineStage_Custom.ModifiedDT, MachineStage_Custom.CleanState, MachineStage_Custom.CleaningCycleNo, MachineStage_Custom.CleaningLaminatePartID, MachineStage_Custom.CleaningLaminateSize,  4 as \"org_id\" FROM MachineStage FULL JOIN MachineStage_Custom ON (MachineStage.MachineStageID = MachineStage_Custom.MachineStageID)   WHERE \$CONDITIONS" --split-by MachineStage.MachineStageID --num-mappers 2  --target-dir /MEStemp/MachineStageAll/4 --direct  -- --schema dbo --validate
 ENDTIME=$SECONDS
 echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest France - Toullouse MachineStageAll" >> timings.txt
 
 echo "      "
 echo "     ##################################################"
 echo "     MachineStageAll " from MachineStage, MachineStage_Custom"
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER "
 echo "     ##################################################"
 echo "      "
 
 STARTTIME=$SECONDS
-sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT MachineStage.MachineStageID, MachineStage.MachineStageTypeID, MachineStage.Name, MachineStage.IsRetired, MachineStage.DepartmentID, MachineStage.Description, MachineStage.CurrentShiftPatternID, MachineStage.NoHeads, MachineStage.IsOEEBottleNeck, MachineStage.IsProductionOutput, MachineStage.MachineStopID, MachineStage.StoppedScreenThreshold, MachineStage.LineSectionID, MachineStage.IsDiscrete, MachineStage.RfDowntimeCollectionModeID, MachineStage.RfSpoilageCollectionModeID, MachineStage.RfProductionCollectionModeID, MachineStage.LastBuildRecordID, MachineStage.CurrentJobID, MachineStage_Custom.ModuleDatabase, MachineStage_Custom.IntendedWOID, MachineStage_Custom.MachineStageCode, MachineStage_Custom.CurrentLaminateSize, MachineStage_Custom.Color, MachineStage_Custom.ModifiedDT, MachineStage_Custom.CleanState, MachineStage_Custom.CleaningCycleNo, MachineStage_Custom.CleaningLaminatePartID, MachineStage_Custom.CleaningLaminateSize,  5 as \"org_id\" FROM MachineStage JOIN MachineStage_Custom ON (MachineStage.MachineStageID = MachineStage_Custom.MachineStageID)   WHERE \$CONDITIONS" --split-by MachineStage.MachineStageID --num-mappers 2  --target-dir /MEStemp/MachineStageAll/5 --direct  -- --schema dbo --validate
+sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT MachineStage.MachineStageID, MachineStage.MachineStageTypeID, MachineStage.Name, MachineStage.IsRetired, MachineStage.DepartmentID, MachineStage.Description, MachineStage.CurrentShiftPatternID, MachineStage.NoHeads, MachineStage.IsOEEBottleNeck, MachineStage.IsProductionOutput, MachineStage.MachineStopID, MachineStage.StoppedScreenThreshold, MachineStage.LineSectionID, MachineStage.IsDiscrete, MachineStage.RfDowntimeCollectionModeID, MachineStage.RfSpoilageCollectionModeID, MachineStage.RfProductionCollectionModeID, MachineStage.LastBuildRecordID, MachineStage.CurrentJobID, MachineStage_Custom.ModuleDatabase, MachineStage_Custom.IntendedWOID, MachineStage_Custom.MachineStageCode, MachineStage_Custom.CurrentLaminateSize, MachineStage_Custom.Color, MachineStage_Custom.ModifiedDT, MachineStage_Custom.CleanState, MachineStage_Custom.CleaningCycleNo, MachineStage_Custom.CleaningLaminatePartID, MachineStage_Custom.CleaningLaminateSize,  5 as \"org_id\" FROM MachineStage FULL JOIN MachineStage_Custom ON (MachineStage.MachineStageID = MachineStage_Custom.MachineStageID)   WHERE \$CONDITIONS" --split-by MachineStage.MachineStageID --num-mappers 2  --target-dir /MEStemp/MachineStageAll/5 --direct  -- --schema dbo --validate
 ENDTIME=$SECONDS
 echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest South Africa MachineStageAll" >> timings.txt
 echo " "
@@ -2019,60 +2019,60 @@ echo " "
 echo "      "
 echo "     ##################################################"
 echo "     PartALL " from Part, Part_, Part_custom"
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER "
 echo "     ##################################################"
 echo "      "
 
 STARTTIME=$SECONDS
-sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT Part.PartID, Part.PartNumber, Part.Description, Part.IsRetired, Part.BaseUnitID, Part.PartTypeID, Part.Reference1, Part.Reference2, Part.Reference3, Part.Reference4, Part.Reference5, Part.Variant1, Part.Variant2, Part.Variant3, Part.Variant4, Part.Variant5, Part.Variant6, Part.Variant7, Part.Variant8, Part.Variant9, Part.Variant10, Part.Variant11, Part.Variant12, Part.Variant13, Part.Variant14, Part.Variant15, Part.Variant16, Part.Variant17, Part.Variant18, Part.Variant19, Part.Variant20, Part_.TheoreticalSpeed, Part_.LabelsPerInventoryPack, Part_.ItemsPerInventoryPack, Part_.ItemsPerLayer, Part_.LayersPerInventoryPack, Part_.PackingCode, Part_.LabelTemplate, Part_.ProductionInstructions, Part_.QualityInstructions, Part_.CustomerPartNo, Part_.CustomerPartDescription, Part_.LabelText1, Part_.LabelText2, Part_.LabelText3, Part_.UnitPrice1, Part_.UnitPrice2, Part_.LegacyPartNo, Part_.CreateDT, Part_.ModifiedDT, Part_.LoginID, Part_.PartRevisionNo, Part_.PartClassificationID, Part_.LastPurchaseCost, Part_.AveragePurchaseCost, Part_.StandardPurchaseCost, Part_.StandardManufactureCost, Part_.StandardSaleCost, Part_.PartSubClassificationID, Part_.CreatedInvUseByPeriod, Part_.CreatedInvUseAfterPeriod, Part_custom.Txn_date, Part_custom.Inventory_Item_Id, Part_custom.Item_Type_Description,  1 as \"org_id\" FROM Part JOIN Part_ ON (Part.PartID = Part_.PartID) JOIN Part_custom ON (Part.PartID = Part_custom.PartID)   WHERE \$CONDITIONS" --split-by Part.PartID --num-mappers 2  --target-dir /MEStemp/PartALL/1 --direct  -- --schema dbo --validate
+sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT Part.PartID, Part.PartNumber, Part.Description, Part.IsRetired, Part.BaseUnitID, Part.PartTypeID, Part.Reference1, Part.Reference2, Part.Reference3, Part.Reference4, Part.Reference5, Part.Variant1, Part.Variant2, Part.Variant3, Part.Variant4, Part.Variant5, Part.Variant6, Part.Variant7, Part.Variant8, Part.Variant9, Part.Variant10, Part.Variant11, Part.Variant12, Part.Variant13, Part.Variant14, Part.Variant15, Part.Variant16, Part.Variant17, Part.Variant18, Part.Variant19, Part.Variant20, Part_.TheoreticalSpeed, Part_.LabelsPerInventoryPack, Part_.ItemsPerInventoryPack, Part_.ItemsPerLayer, Part_.LayersPerInventoryPack, Part_.PackingCode, Part_.LabelTemplate, Part_.ProductionInstructions, Part_.QualityInstructions, Part_.CustomerPartNo, Part_.CustomerPartDescription, Part_.LabelText1, Part_.LabelText2, Part_.LabelText3, Part_.UnitPrice1, Part_.UnitPrice2, Part_.LegacyPartNo, Part_.CreateDT, Part_.ModifiedDT, Part_.LoginID, Part_.PartRevisionNo, Part_.PartClassificationID, Part_.LastPurchaseCost, Part_.AveragePurchaseCost, Part_.StandardPurchaseCost, Part_.StandardManufactureCost, Part_.StandardSaleCost, Part_.PartSubClassificationID, Part_.CreatedInvUseByPeriod, Part_.CreatedInvUseAfterPeriod, Part_custom.Txn_date, Part_custom.Inventory_Item_Id, Part_custom.Item_Type_Description,  1 as \"org_id\" FROM Part FULL JOIN Part_ ON (Part.PartID = Part_.PartID) FULL JOIN Part_custom ON (Part.PartID = Part_custom.PartID)   WHERE \$CONDITIONS" --split-by Part.PartID --num-mappers 2  --target-dir /MEStemp/PartALL/1 --direct  -- --schema dbo --validate
 ENDTIME=$SECONDS
 echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest Mexicali PartALL" >> timings.txt
 
 echo "      "
 echo "     ##################################################"
 echo "     PartALL " from Part, Part_, Part_custom"
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER "
 echo "     ##################################################"
 echo "      "
 
 STARTTIME=$SECONDS
-sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT Part.PartID, Part.PartNumber, Part.Description, Part.IsRetired, Part.BaseUnitID, Part.PartTypeID, Part.Reference1, Part.Reference2, Part.Reference3, Part.Reference4, Part.Reference5, Part.Variant1, Part.Variant2, Part.Variant3, Part.Variant4, Part.Variant5, Part.Variant6, Part.Variant7, Part.Variant8, Part.Variant9, Part.Variant10, Part.Variant11, Part.Variant12, Part.Variant13, Part.Variant14, Part.Variant15, Part.Variant16, Part.Variant17, Part.Variant18, Part.Variant19, Part.Variant20, Part_.TheoreticalSpeed, Part_.LabelsPerInventoryPack, Part_.ItemsPerInventoryPack, Part_.ItemsPerLayer, Part_.LayersPerInventoryPack, Part_.PackingCode, Part_.LabelTemplate, Part_.ProductionInstructions, Part_.QualityInstructions, Part_.CustomerPartNo, Part_.CustomerPartDescription, Part_.LabelText1, Part_.LabelText2, Part_.LabelText3, Part_.UnitPrice1, Part_.UnitPrice2, Part_.LegacyPartNo, Part_.CreateDT, Part_.ModifiedDT, Part_.LoginID, Part_.PartRevisionNo, Part_.PartClassificationID, Part_.LastPurchaseCost, Part_.AveragePurchaseCost, Part_.StandardPurchaseCost, Part_.StandardManufactureCost, Part_.StandardSaleCost, Part_.PartSubClassificationID, Part_.CreatedInvUseByPeriod, Part_.CreatedInvUseAfterPeriod, Part_custom.Txn_date, Part_custom.Inventory_Item_Id, Part_custom.Item_Type_Description,  2 as \"org_id\" FROM Part JOIN Part_ ON (Part.PartID = Part_.PartID) JOIN Part_custom ON (Part.PartID = Part_custom.PartID)   WHERE \$CONDITIONS" --split-by Part.PartID --num-mappers 2  --target-dir /MEStemp/PartALL/2 --direct  -- --schema dbo --validate
+sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT Part.PartID, Part.PartNumber, Part.Description, Part.IsRetired, Part.BaseUnitID, Part.PartTypeID, Part.Reference1, Part.Reference2, Part.Reference3, Part.Reference4, Part.Reference5, Part.Variant1, Part.Variant2, Part.Variant3, Part.Variant4, Part.Variant5, Part.Variant6, Part.Variant7, Part.Variant8, Part.Variant9, Part.Variant10, Part.Variant11, Part.Variant12, Part.Variant13, Part.Variant14, Part.Variant15, Part.Variant16, Part.Variant17, Part.Variant18, Part.Variant19, Part.Variant20, Part_.TheoreticalSpeed, Part_.LabelsPerInventoryPack, Part_.ItemsPerInventoryPack, Part_.ItemsPerLayer, Part_.LayersPerInventoryPack, Part_.PackingCode, Part_.LabelTemplate, Part_.ProductionInstructions, Part_.QualityInstructions, Part_.CustomerPartNo, Part_.CustomerPartDescription, Part_.LabelText1, Part_.LabelText2, Part_.LabelText3, Part_.UnitPrice1, Part_.UnitPrice2, Part_.LegacyPartNo, Part_.CreateDT, Part_.ModifiedDT, Part_.LoginID, Part_.PartRevisionNo, Part_.PartClassificationID, Part_.LastPurchaseCost, Part_.AveragePurchaseCost, Part_.StandardPurchaseCost, Part_.StandardManufactureCost, Part_.StandardSaleCost, Part_.PartSubClassificationID, Part_.CreatedInvUseByPeriod, Part_.CreatedInvUseAfterPeriod, Part_custom.Txn_date, Part_custom.Inventory_Item_Id, Part_custom.Item_Type_Description,  2 as \"org_id\" FROM Part FULL JOIN Part_ ON (Part.PartID = Part_.PartID) FULL JOIN Part_custom ON (Part.PartID = Part_custom.PartID)   WHERE \$CONDITIONS" --split-by Part.PartID --num-mappers 2  --target-dir /MEStemp/PartALL/2 --direct  -- --schema dbo --validate
 ENDTIME=$SECONDS
 echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest Manila PartALL" >> timings.txt
 
 echo "      "
 echo "     ##################################################"
 echo "     PartALL " from Part, Part_, Part_custom"
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER "
 echo "     ##################################################"
 echo "      "
 
 STARTTIME=$SECONDS
-sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT Part.PartID, Part.PartNumber, Part.Description, Part.IsRetired, Part.BaseUnitID, Part.PartTypeID, Part.Reference1, Part.Reference2, Part.Reference3, Part.Reference4, Part.Reference5, Part.Variant1, Part.Variant2, Part.Variant3, Part.Variant4, Part.Variant5, Part.Variant6, Part.Variant7, Part.Variant8, Part.Variant9, Part.Variant10, Part.Variant11, Part.Variant12, Part.Variant13, Part.Variant14, Part.Variant15, Part.Variant16, Part.Variant17, Part.Variant18, Part.Variant19, Part.Variant20, Part_.TheoreticalSpeed, Part_.LabelsPerInventoryPack, Part_.ItemsPerInventoryPack, Part_.ItemsPerLayer, Part_.LayersPerInventoryPack, Part_.PackingCode, Part_.LabelTemplate, Part_.ProductionInstructions, Part_.QualityInstructions, Part_.CustomerPartNo, Part_.CustomerPartDescription, Part_.LabelText1, Part_.LabelText2, Part_.LabelText3, Part_.UnitPrice1, Part_.UnitPrice2, Part_.LegacyPartNo, Part_.CreateDT, Part_.ModifiedDT, Part_.LoginID, Part_.PartRevisionNo, Part_.PartClassificationID, Part_.LastPurchaseCost, Part_.AveragePurchaseCost, Part_.StandardPurchaseCost, Part_.StandardManufactureCost, Part_.StandardSaleCost, Part_.PartSubClassificationID, Part_.CreatedInvUseByPeriod, Part_.CreatedInvUseAfterPeriod, Part_custom.Txn_date, Part_custom.Inventory_Item_Id, Part_custom.Item_Type_Description,  3 as \"org_id\" FROM Part JOIN Part_ ON (Part.PartID = Part_.PartID) JOIN Part_custom ON (Part.PartID = Part_custom.PartID)   WHERE \$CONDITIONS" --split-by Part.PartID --num-mappers 2  --target-dir /MEStemp/PartALL/3 --direct  -- --schema dbo --validate
+sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT Part.PartID, Part.PartNumber, Part.Description, Part.IsRetired, Part.BaseUnitID, Part.PartTypeID, Part.Reference1, Part.Reference2, Part.Reference3, Part.Reference4, Part.Reference5, Part.Variant1, Part.Variant2, Part.Variant3, Part.Variant4, Part.Variant5, Part.Variant6, Part.Variant7, Part.Variant8, Part.Variant9, Part.Variant10, Part.Variant11, Part.Variant12, Part.Variant13, Part.Variant14, Part.Variant15, Part.Variant16, Part.Variant17, Part.Variant18, Part.Variant19, Part.Variant20, Part_.TheoreticalSpeed, Part_.LabelsPerInventoryPack, Part_.ItemsPerInventoryPack, Part_.ItemsPerLayer, Part_.LayersPerInventoryPack, Part_.PackingCode, Part_.LabelTemplate, Part_.ProductionInstructions, Part_.QualityInstructions, Part_.CustomerPartNo, Part_.CustomerPartDescription, Part_.LabelText1, Part_.LabelText2, Part_.LabelText3, Part_.UnitPrice1, Part_.UnitPrice2, Part_.LegacyPartNo, Part_.CreateDT, Part_.ModifiedDT, Part_.LoginID, Part_.PartRevisionNo, Part_.PartClassificationID, Part_.LastPurchaseCost, Part_.AveragePurchaseCost, Part_.StandardPurchaseCost, Part_.StandardManufactureCost, Part_.StandardSaleCost, Part_.PartSubClassificationID, Part_.CreatedInvUseByPeriod, Part_.CreatedInvUseAfterPeriod, Part_custom.Txn_date, Part_custom.Inventory_Item_Id, Part_custom.Item_Type_Description,  3 as \"org_id\" FROM Part FULL JOIN Part_ ON (Part.PartID = Part_.PartID) FULL JOIN Part_custom ON (Part.PartID = Part_custom.PartID)   WHERE \$CONDITIONS" --split-by Part.PartID --num-mappers 2  --target-dir /MEStemp/PartALL/3 --direct  -- --schema dbo --validate
 ENDTIME=$SECONDS
 echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest France - Devernajoule PartALL" >> timings.txt
 
 echo "      "
 echo "     ##################################################"
 echo "     PartALL " from Part, Part_, Part_custom"
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER "
 echo "     ##################################################"
 echo "      "
 
 STARTTIME=$SECONDS
-sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT Part.PartID, Part.PartNumber, Part.Description, Part.IsRetired, Part.BaseUnitID, Part.PartTypeID, Part.Reference1, Part.Reference2, Part.Reference3, Part.Reference4, Part.Reference5, Part.Variant1, Part.Variant2, Part.Variant3, Part.Variant4, Part.Variant5, Part.Variant6, Part.Variant7, Part.Variant8, Part.Variant9, Part.Variant10, Part.Variant11, Part.Variant12, Part.Variant13, Part.Variant14, Part.Variant15, Part.Variant16, Part.Variant17, Part.Variant18, Part.Variant19, Part.Variant20, Part_.TheoreticalSpeed, Part_.LabelsPerInventoryPack, Part_.ItemsPerInventoryPack, Part_.ItemsPerLayer, Part_.LayersPerInventoryPack, Part_.PackingCode, Part_.LabelTemplate, Part_.ProductionInstructions, Part_.QualityInstructions, Part_.CustomerPartNo, Part_.CustomerPartDescription, Part_.LabelText1, Part_.LabelText2, Part_.LabelText3, Part_.UnitPrice1, Part_.UnitPrice2, Part_.LegacyPartNo, Part_.CreateDT, Part_.ModifiedDT, Part_.LoginID, Part_.PartRevisionNo, Part_.PartClassificationID, Part_.LastPurchaseCost, Part_.AveragePurchaseCost, Part_.StandardPurchaseCost, Part_.StandardManufactureCost, Part_.StandardSaleCost, Part_.PartSubClassificationID, Part_.CreatedInvUseByPeriod, Part_.CreatedInvUseAfterPeriod, Part_custom.Txn_date, Part_custom.Inventory_Item_Id, Part_custom.Item_Type_Description,  4 as \"org_id\" FROM Part JOIN Part_ ON (Part.PartID = Part_.PartID) JOIN Part_custom ON (Part.PartID = Part_custom.PartID)   WHERE \$CONDITIONS" --split-by Part.PartID --num-mappers 2  --target-dir /MEStemp/PartALL/4 --direct  -- --schema dbo --validate
+sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT Part.PartID, Part.PartNumber, Part.Description, Part.IsRetired, Part.BaseUnitID, Part.PartTypeID, Part.Reference1, Part.Reference2, Part.Reference3, Part.Reference4, Part.Reference5, Part.Variant1, Part.Variant2, Part.Variant3, Part.Variant4, Part.Variant5, Part.Variant6, Part.Variant7, Part.Variant8, Part.Variant9, Part.Variant10, Part.Variant11, Part.Variant12, Part.Variant13, Part.Variant14, Part.Variant15, Part.Variant16, Part.Variant17, Part.Variant18, Part.Variant19, Part.Variant20, Part_.TheoreticalSpeed, Part_.LabelsPerInventoryPack, Part_.ItemsPerInventoryPack, Part_.ItemsPerLayer, Part_.LayersPerInventoryPack, Part_.PackingCode, Part_.LabelTemplate, Part_.ProductionInstructions, Part_.QualityInstructions, Part_.CustomerPartNo, Part_.CustomerPartDescription, Part_.LabelText1, Part_.LabelText2, Part_.LabelText3, Part_.UnitPrice1, Part_.UnitPrice2, Part_.LegacyPartNo, Part_.CreateDT, Part_.ModifiedDT, Part_.LoginID, Part_.PartRevisionNo, Part_.PartClassificationID, Part_.LastPurchaseCost, Part_.AveragePurchaseCost, Part_.StandardPurchaseCost, Part_.StandardManufactureCost, Part_.StandardSaleCost, Part_.PartSubClassificationID, Part_.CreatedInvUseByPeriod, Part_.CreatedInvUseAfterPeriod, Part_custom.Txn_date, Part_custom.Inventory_Item_Id, Part_custom.Item_Type_Description,  4 as \"org_id\" FROM Part FULL JOIN Part_ ON (Part.PartID = Part_.PartID) FULL JOIN Part_custom ON (Part.PartID = Part_custom.PartID)   WHERE \$CONDITIONS" --split-by Part.PartID --num-mappers 2  --target-dir /MEStemp/PartALL/4 --direct  -- --schema dbo --validate
 ENDTIME=$SECONDS
 echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest France - Toullouse PartALL" >> timings.txt
 
 echo "      "
 echo "     ##################################################"
 echo "     PartALL " from Part, Part_, Part_custom"
-echo "     sqoop: 'jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER' "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER "
 echo "     ##################################################"
 echo "      "
 
 STARTTIME=$SECONDS
-sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT Part.PartID, Part.PartNumber, Part.Description, Part.IsRetired, Part.BaseUnitID, Part.PartTypeID, Part.Reference1, Part.Reference2, Part.Reference3, Part.Reference4, Part.Reference5, Part.Variant1, Part.Variant2, Part.Variant3, Part.Variant4, Part.Variant5, Part.Variant6, Part.Variant7, Part.Variant8, Part.Variant9, Part.Variant10, Part.Variant11, Part.Variant12, Part.Variant13, Part.Variant14, Part.Variant15, Part.Variant16, Part.Variant17, Part.Variant18, Part.Variant19, Part.Variant20, Part_.TheoreticalSpeed, Part_.LabelsPerInventoryPack, Part_.ItemsPerInventoryPack, Part_.ItemsPerLayer, Part_.LayersPerInventoryPack, Part_.PackingCode, Part_.LabelTemplate, Part_.ProductionInstructions, Part_.QualityInstructions, Part_.CustomerPartNo, Part_.CustomerPartDescription, Part_.LabelText1, Part_.LabelText2, Part_.LabelText3, Part_.UnitPrice1, Part_.UnitPrice2, Part_.LegacyPartNo, Part_.CreateDT, Part_.ModifiedDT, Part_.LoginID, Part_.PartRevisionNo, Part_.PartClassificationID, Part_.LastPurchaseCost, Part_.AveragePurchaseCost, Part_.StandardPurchaseCost, Part_.StandardManufactureCost, Part_.StandardSaleCost, Part_.PartSubClassificationID, Part_.CreatedInvUseByPeriod, Part_.CreatedInvUseAfterPeriod, Part_custom.Txn_date, Part_custom.Inventory_Item_Id, Part_custom.Item_Type_Description,  5 as \"org_id\" FROM Part JOIN Part_ ON (Part.PartID = Part_.PartID) JOIN Part_custom ON (Part.PartID = Part_custom.PartID)   WHERE \$CONDITIONS" --split-by Part.PartID --num-mappers 2  --target-dir /MEStemp/PartALL/5 --direct  -- --schema dbo --validate
+sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT Part.PartID, Part.PartNumber, Part.Description, Part.IsRetired, Part.BaseUnitID, Part.PartTypeID, Part.Reference1, Part.Reference2, Part.Reference3, Part.Reference4, Part.Reference5, Part.Variant1, Part.Variant2, Part.Variant3, Part.Variant4, Part.Variant5, Part.Variant6, Part.Variant7, Part.Variant8, Part.Variant9, Part.Variant10, Part.Variant11, Part.Variant12, Part.Variant13, Part.Variant14, Part.Variant15, Part.Variant16, Part.Variant17, Part.Variant18, Part.Variant19, Part.Variant20, Part_.TheoreticalSpeed, Part_.LabelsPerInventoryPack, Part_.ItemsPerInventoryPack, Part_.ItemsPerLayer, Part_.LayersPerInventoryPack, Part_.PackingCode, Part_.LabelTemplate, Part_.ProductionInstructions, Part_.QualityInstructions, Part_.CustomerPartNo, Part_.CustomerPartDescription, Part_.LabelText1, Part_.LabelText2, Part_.LabelText3, Part_.UnitPrice1, Part_.UnitPrice2, Part_.LegacyPartNo, Part_.CreateDT, Part_.ModifiedDT, Part_.LoginID, Part_.PartRevisionNo, Part_.PartClassificationID, Part_.LastPurchaseCost, Part_.AveragePurchaseCost, Part_.StandardPurchaseCost, Part_.StandardManufactureCost, Part_.StandardSaleCost, Part_.PartSubClassificationID, Part_.CreatedInvUseByPeriod, Part_.CreatedInvUseAfterPeriod, Part_custom.Txn_date, Part_custom.Inventory_Item_Id, Part_custom.Item_Type_Description,  5 as \"org_id\" FROM Part FULL JOIN Part_ ON (Part.PartID = Part_.PartID) FULL JOIN Part_custom ON (Part.PartID = Part_custom.PartID)   WHERE \$CONDITIONS" --split-by Part.PartID --num-mappers 2  --target-dir /MEStemp/PartALL/5 --direct  -- --schema dbo --validate
 ENDTIME=$SECONDS
 echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest South Africa PartALL" >> timings.txt
 
@@ -2094,7 +2094,7 @@ echo "Hive: Conditionally create table LocationAll"
 echo "##################################################"
 echo " "
 
-hive -e "Create External table IF NOT EXISTS MEStemp.LocationAll (LocationID int, Location varchar(508), LocationTypeID smallint, IsRetired tinyint, MaxQuantity float, LocationCode varchar(100), Description varchar(508), LocationType varchar(100), LocationTypeCode varchar(100), Description varchar(508),  org_id int) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile location '/MEStemp/'"
+hive -e "Create External table IF NOT EXISTS MEStemp.LocationAll (LocationID int, Location varchar(508), LocationTypeID smallint, IsRetired tinyint, MaxQuantity float, LocationCode varchar(100), Description varchar(508), LocationType varchar(100), LocationTypeCode varchar(100),  org_id int) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile location '/MEStemp/'"
 
 echo " "
 echo "##################################################"
