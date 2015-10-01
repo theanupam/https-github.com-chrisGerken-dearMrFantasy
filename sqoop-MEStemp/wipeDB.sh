@@ -1,79 +1,79 @@
 
 
-hive drop table MEStemp/Underscore_SP_Crate;
+hive drop table MEStemp/U_SP_Crate;
 
 hadoop fs -test -d /MES/PartType
     if [ $? = 0 ]
             then
-                hdfs dfs -rm -r /MEStemp/Underscore_SP_Crate
+                hdfs dfs -rm -r /MEStemp/U_SP_Crate
                 else
-                 echo "/MEStemp/Underscore_SP_Crate not present in HDFS"
+                 echo "/MEStemp/U_SP_Crate not present in HDFS"
     fi
 
 
-hive drop table MEStemp/Underscore_SP_CrateLabel;
+hive drop table MEStemp/U_SP_CrateLabel;
 
 hadoop fs -test -d /MES/PartType
     if [ $? = 0 ]
             then
-                hdfs dfs -rm -r /MEStemp/Underscore_SP_CrateLabel
+                hdfs dfs -rm -r /MEStemp/U_SP_CrateLabel
                 else
-                 echo "/MEStemp/Underscore_SP_CrateLabel not present in HDFS"
+                 echo "/MEStemp/U_SP_CrateLabel not present in HDFS"
     fi
 
 
-hive drop table MEStemp/Underscore_SP_LkInvIsolatedReasonMST;
+hive drop table MEStemp/U_SP_LkInvIsolatedReasonMST;
 
 hadoop fs -test -d /MES/PartType
     if [ $? = 0 ]
             then
-                hdfs dfs -rm -r /MEStemp/Underscore_SP_LkInvIsolatedReasonMST
+                hdfs dfs -rm -r /MEStemp/U_SP_LkInvIsolatedReasonMST
                 else
-                 echo "/MEStemp/Underscore_SP_LkInvIsolatedReasonMST not present in HDFS"
+                 echo "/MEStemp/U_SP_LkInvIsolatedReasonMST not present in HDFS"
     fi
 
 
-hive drop table MEStemp/Underscore_SP_Pallet;
+hive drop table MEStemp/U_SP_Pallet;
 
 hadoop fs -test -d /MES/PartType
     if [ $? = 0 ]
             then
-                hdfs dfs -rm -r /MEStemp/Underscore_SP_Pallet
+                hdfs dfs -rm -r /MEStemp/U_SP_Pallet
                 else
-                 echo "/MEStemp/Underscore_SP_Pallet not present in HDFS"
+                 echo "/MEStemp/U_SP_Pallet not present in HDFS"
     fi
 
 
-hive drop table MEStemp/Underscore_SP_PalletLabel;
+hive drop table MEStemp/U_SP_PalletLabel;
 
 hadoop fs -test -d /MES/PartType
     if [ $? = 0 ]
             then
-                hdfs dfs -rm -r /MEStemp/Underscore_SP_PalletLabel
+                hdfs dfs -rm -r /MEStemp/U_SP_PalletLabel
                 else
-                 echo "/MEStemp/Underscore_SP_PalletLabel not present in HDFS"
+                 echo "/MEStemp/U_SP_PalletLabel not present in HDFS"
     fi
 
 
-hive drop table MEStemp/Underscore_SP_SEQ_LPN;
+hive drop table MEStemp/U_SP_SEQ_LPN;
 
 hadoop fs -test -d /MES/PartType
     if [ $? = 0 ]
             then
-                hdfs dfs -rm -r /MEStemp/Underscore_SP_SEQ_LPN
+                hdfs dfs -rm -r /MEStemp/U_SP_SEQ_LPN
                 else
-                 echo "/MEStemp/Underscore_SP_SEQ_LPN not present in HDFS"
+                 echo "/MEStemp/U_SP_SEQ_LPN not present in HDFS"
     fi
 
 
-hive drop table MEStemp/Underscore_SPML_ModuleInfo;
+hive drop table MEStemp/U_SPML_ModuleInfo;
 
 hadoop fs -test -d /MES/PartType
     if [ $? = 0 ]
             then
-                hdfs dfs -rm -r /MEStemp/Underscore_SPML_ModuleInfo
+                hdfs dfs -rm -r /MEStemp/U_SPML_ModuleInfo
                 else
-                 echo "/MEStemp/Underscore_SPML_ModuleInfo not present in HDFS"
+                 echo "/MEStemp/U_SPML_ModuleInfo not present in HDFS"
     fi
 
 
