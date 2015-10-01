@@ -4,13 +4,15 @@
  
  	<action name="Delete-Lake">
         <fs>
-            <delete path='[PATH]'/>
+            <delete path='/MEStemp'/>
         </fs>
         <ok to="Fork-Ingest"/>
         <error to="end"/>
     </action>
 
 	<fork name="Fork-Ingest">
+
+        <path start="_SPML_ModuleInfo-Fork" />
 
         <path start="Address-Fork" />
 
@@ -61,6 +63,216 @@
         <path start="Unit-Fork" />
 
 	</fork>
+
+
+	<fork name="_SPML_ModuleInfo-Fork">
+
+        <path start="_SPML_ModuleInfo-SPMX-Ingest" />
+
+        <path start="_SPML_ModuleInfo-SPMM-Ingest" />
+
+        <path start="_SPML_ModuleInfo-SPDV-Ingest" />
+
+        <path start="_SPML_ModuleInfo-SPTT-Ingest" />
+
+        <path start="_SPML_ModuleInfo-SPTM-Ingest" />
+
+	</fork>
+
+
+    <action name="_SPML_ModuleInfo-SPMX-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>prod-hubnamedaws01.sunpowercorp.com:8020</job-tracker>
+            <name-node>prod-hubnamedaws01.sunpowercorp.com:8050</name-node>
+			<configuration>
+				<property>
+					<name>oozie.hive.defaults</name>
+					<value>/etc/hive/conf/hive-default.xml.template</value>
+				</property>
+			</configuration>
+            <arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT ModuleInfoID,SerialNo,LaminateID,LaminateCreatedDT,LaminateOrderNo,LaminatePartNo,BINNo,CktFormBuildPart,CktFormBuildMachine,CktFormBuildDT,GlassBuildPart,GlassBuildDate,LaminationBuildMachine,LaminationBuildDT,ModuleID,ModuleCreatedDT,ModuleOrderNo,IntendedModulePartNo,IntendedModulePartDesc,FramingBuildPart,FramingBuildMachine,FramingBuildDT,JboxBuildPart,JboxBuildDT,FlashtestClassifiedDT,FinalModulePartNo,FinalModulePartDesc,ActualPower,ActualVocMod,ActualFF,PackedDT,InventoryState,JboxBuildMachine,ActualIsc,FlashtestBuildMachine,Komax1,Komax2,Komax3,GlassID,CellType,StringerOperator,CircuitOperator1,CircuitOperator2,TrimChangeReason,PowerChartGenerated,LaminateWoId,ModuleWoId,VisualStateId,RfInvStateId,ElTestDate,ElBuildMachine,ActualVmpMod,ActualImpMod,TrimBuildMachine,TrimBuildDT,CellThickness,PalletID,FlashTestID,PadLock,BtoCtoSerialNo,EvaUseByDT,IsBtoCto,IntendedModuleWOID, 1 as "org_id"  FROM dbo._SPML_ModuleInfo WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStemp/_SPML_ModuleInfo/1</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="_SPML_ModuleInfo-Join"/>
+        <error to="end"/>
+    </action>
+
+
+
+    <action name="_SPML_ModuleInfo-SPMM-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>prod-hubnamedaws01.sunpowercorp.com:8020</job-tracker>
+            <name-node>prod-hubnamedaws01.sunpowercorp.com:8050</name-node>
+			<configuration>
+				<property>
+					<name>oozie.hive.defaults</name>
+					<value>/etc/hive/conf/hive-default.xml.template</value>
+				</property>
+			</configuration>
+            <arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT ModuleInfoID,SerialNo,LaminateID,LaminateCreatedDT,LaminateOrderNo,LaminatePartNo,BINNo,CktFormBuildPart,CktFormBuildMachine,CktFormBuildDT,GlassBuildPart,GlassBuildDate,LaminationBuildMachine,LaminationBuildDT,ModuleID,ModuleCreatedDT,ModuleOrderNo,IntendedModulePartNo,IntendedModulePartDesc,FramingBuildPart,FramingBuildMachine,FramingBuildDT,JboxBuildPart,JboxBuildDT,FlashtestClassifiedDT,FinalModulePartNo,FinalModulePartDesc,ActualPower,ActualVocMod,ActualFF,PackedDT,InventoryState,JboxBuildMachine,ActualIsc,FlashtestBuildMachine,Komax1,Komax2,Komax3,GlassID,CellType,StringerOperator,CircuitOperator1,CircuitOperator2,TrimChangeReason,PowerChartGenerated,LaminateWoId,ModuleWoId,VisualStateId,RfInvStateId,ElTestDate,ElBuildMachine,ActualVmpMod,ActualImpMod,TrimBuildMachine,TrimBuildDT,CellThickness,PalletID,FlashTestID,PadLock,BtoCtoSerialNo,EvaUseByDT,IsBtoCto,IntendedModuleWOID, 2 as "org_id"  FROM dbo._SPML_ModuleInfo WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStemp/_SPML_ModuleInfo/2</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="_SPML_ModuleInfo-Join"/>
+        <error to="end"/>
+    </action>
+
+
+
+    <action name="_SPML_ModuleInfo-SPDV-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>prod-hubnamedaws01.sunpowercorp.com:8020</job-tracker>
+            <name-node>prod-hubnamedaws01.sunpowercorp.com:8050</name-node>
+			<configuration>
+				<property>
+					<name>oozie.hive.defaults</name>
+					<value>/etc/hive/conf/hive-default.xml.template</value>
+				</property>
+			</configuration>
+            <arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT ModuleInfoID,SerialNo,LaminateID,LaminateCreatedDT,LaminateOrderNo,LaminatePartNo,BINNo,CktFormBuildPart,CktFormBuildMachine,CktFormBuildDT,GlassBuildPart,GlassBuildDate,LaminationBuildMachine,LaminationBuildDT,ModuleID,ModuleCreatedDT,ModuleOrderNo,IntendedModulePartNo,IntendedModulePartDesc,FramingBuildPart,FramingBuildMachine,FramingBuildDT,JboxBuildPart,JboxBuildDT,FlashtestClassifiedDT,FinalModulePartNo,FinalModulePartDesc,ActualPower,ActualVocMod,ActualFF,PackedDT,InventoryState,JboxBuildMachine,ActualIsc,FlashtestBuildMachine,Komax1,Komax2,Komax3,GlassID,CellType,StringerOperator,CircuitOperator1,CircuitOperator2,TrimChangeReason,PowerChartGenerated,LaminateWoId,ModuleWoId,VisualStateId,RfInvStateId,ElTestDate,ElBuildMachine,ActualVmpMod,ActualImpMod,TrimBuildMachine,TrimBuildDT,CellThickness,PalletID,FlashTestID,PadLock,BtoCtoSerialNo,EvaUseByDT,IsBtoCto,IntendedModuleWOID, 3 as "org_id"  FROM dbo._SPML_ModuleInfo WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStemp/_SPML_ModuleInfo/3</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="_SPML_ModuleInfo-Join"/>
+        <error to="end"/>
+    </action>
+
+
+
+    <action name="_SPML_ModuleInfo-SPTT-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>prod-hubnamedaws01.sunpowercorp.com:8020</job-tracker>
+            <name-node>prod-hubnamedaws01.sunpowercorp.com:8050</name-node>
+			<configuration>
+				<property>
+					<name>oozie.hive.defaults</name>
+					<value>/etc/hive/conf/hive-default.xml.template</value>
+				</property>
+			</configuration>
+            <arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT ModuleInfoID,SerialNo,LaminateID,LaminateCreatedDT,LaminateOrderNo,LaminatePartNo,BINNo,CktFormBuildPart,CktFormBuildMachine,CktFormBuildDT,GlassBuildPart,GlassBuildDate,LaminationBuildMachine,LaminationBuildDT,ModuleID,ModuleCreatedDT,ModuleOrderNo,IntendedModulePartNo,IntendedModulePartDesc,FramingBuildPart,FramingBuildMachine,FramingBuildDT,JboxBuildPart,JboxBuildDT,FlashtestClassifiedDT,FinalModulePartNo,FinalModulePartDesc,ActualPower,ActualVocMod,ActualFF,PackedDT,InventoryState,JboxBuildMachine,ActualIsc,FlashtestBuildMachine,Komax1,Komax2,Komax3,GlassID,CellType,StringerOperator,CircuitOperator1,CircuitOperator2,TrimChangeReason,PowerChartGenerated,LaminateWoId,ModuleWoId,VisualStateId,RfInvStateId,ElTestDate,ElBuildMachine,ActualVmpMod,ActualImpMod,TrimBuildMachine,TrimBuildDT,CellThickness,PalletID,FlashTestID,PadLock,BtoCtoSerialNo,EvaUseByDT,IsBtoCto,IntendedModuleWOID, 4 as "org_id"  FROM dbo._SPML_ModuleInfo WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStemp/_SPML_ModuleInfo/4</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="_SPML_ModuleInfo-Join"/>
+        <error to="end"/>
+    </action>
+
+
+
+    <action name="_SPML_ModuleInfo-SPTM-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>prod-hubnamedaws01.sunpowercorp.com:8020</job-tracker>
+            <name-node>prod-hubnamedaws01.sunpowercorp.com:8050</name-node>
+			<configuration>
+				<property>
+					<name>oozie.hive.defaults</name>
+					<value>/etc/hive/conf/hive-default.xml.template</value>
+				</property>
+			</configuration>
+            <arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT ModuleInfoID,SerialNo,LaminateID,LaminateCreatedDT,LaminateOrderNo,LaminatePartNo,BINNo,CktFormBuildPart,CktFormBuildMachine,CktFormBuildDT,GlassBuildPart,GlassBuildDate,LaminationBuildMachine,LaminationBuildDT,ModuleID,ModuleCreatedDT,ModuleOrderNo,IntendedModulePartNo,IntendedModulePartDesc,FramingBuildPart,FramingBuildMachine,FramingBuildDT,JboxBuildPart,JboxBuildDT,FlashtestClassifiedDT,FinalModulePartNo,FinalModulePartDesc,ActualPower,ActualVocMod,ActualFF,PackedDT,InventoryState,JboxBuildMachine,ActualIsc,FlashtestBuildMachine,Komax1,Komax2,Komax3,GlassID,CellType,StringerOperator,CircuitOperator1,CircuitOperator2,TrimChangeReason,PowerChartGenerated,LaminateWoId,ModuleWoId,VisualStateId,RfInvStateId,ElTestDate,ElBuildMachine,ActualVmpMod,ActualImpMod,TrimBuildMachine,TrimBuildDT,CellThickness,PalletID,FlashTestID,PadLock,BtoCtoSerialNo,EvaUseByDT,IsBtoCto,IntendedModuleWOID, 5 as "org_id"  FROM dbo._SPML_ModuleInfo WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStemp/_SPML_ModuleInfo/5</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="_SPML_ModuleInfo-Join"/>
+        <error to="end"/>
+    </action>
+
+
+
+    <join name="_SPML_ModuleInfo-Join" to="_SPML_ModuleInfo-Create" />
+
+    <action name="_SPML_ModuleInfo-Create">
+		<shell xmlns="uri:oozie:shell-action:0.1">
+			<job-tracker>prod-hubnamedaws01.sunpowercorp.com:8020</job-tracker>
+            <name-node>prod-hubnamedaws01.sunpowercorp.com:8050</name-node>
+			<exec>${appPath}/hive.sh</exec>
+			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
+			<file>${appPath}/hive_pill</file>
+		</shell>
+        <ok to="Ingest-Join"/>
+        <error to="end"/>
+    </action>
 
 
 	<fork name="Address-Fork">
@@ -265,7 +477,7 @@
 			<job-tracker>prod-hubnamedaws01.sunpowercorp.com:8020</job-tracker>
             <name-node>prod-hubnamedaws01.sunpowercorp.com:8050</name-node>
 			<exec>${appPath}/hive.sh</exec>
-			<file>${appPath}/hive.sh</file> 
+			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
 			<file>${appPath}/hive_pill</file>
 		</shell>
         <ok to="Ingest-Join"/>
@@ -475,7 +687,7 @@
 			<job-tracker>prod-hubnamedaws01.sunpowercorp.com:8020</job-tracker>
             <name-node>prod-hubnamedaws01.sunpowercorp.com:8050</name-node>
 			<exec>${appPath}/hive.sh</exec>
-			<file>${appPath}/hive.sh</file> 
+			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
 			<file>${appPath}/hive_pill</file>
 		</shell>
         <ok to="Ingest-Join"/>
@@ -685,7 +897,7 @@
 			<job-tracker>prod-hubnamedaws01.sunpowercorp.com:8020</job-tracker>
             <name-node>prod-hubnamedaws01.sunpowercorp.com:8050</name-node>
 			<exec>${appPath}/hive.sh</exec>
-			<file>${appPath}/hive.sh</file> 
+			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
 			<file>${appPath}/hive_pill</file>
 		</shell>
         <ok to="Ingest-Join"/>
@@ -895,7 +1107,7 @@
 			<job-tracker>prod-hubnamedaws01.sunpowercorp.com:8020</job-tracker>
             <name-node>prod-hubnamedaws01.sunpowercorp.com:8050</name-node>
 			<exec>${appPath}/hive.sh</exec>
-			<file>${appPath}/hive.sh</file> 
+			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
 			<file>${appPath}/hive_pill</file>
 		</shell>
         <ok to="Ingest-Join"/>
@@ -1105,7 +1317,7 @@
 			<job-tracker>prod-hubnamedaws01.sunpowercorp.com:8020</job-tracker>
             <name-node>prod-hubnamedaws01.sunpowercorp.com:8050</name-node>
 			<exec>${appPath}/hive.sh</exec>
-			<file>${appPath}/hive.sh</file> 
+			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
 			<file>${appPath}/hive_pill</file>
 		</shell>
         <ok to="Ingest-Join"/>
@@ -1315,7 +1527,7 @@
 			<job-tracker>prod-hubnamedaws01.sunpowercorp.com:8020</job-tracker>
             <name-node>prod-hubnamedaws01.sunpowercorp.com:8050</name-node>
 			<exec>${appPath}/hive.sh</exec>
-			<file>${appPath}/hive.sh</file> 
+			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
 			<file>${appPath}/hive_pill</file>
 		</shell>
         <ok to="Ingest-Join"/>
@@ -1525,7 +1737,7 @@
 			<job-tracker>prod-hubnamedaws01.sunpowercorp.com:8020</job-tracker>
             <name-node>prod-hubnamedaws01.sunpowercorp.com:8050</name-node>
 			<exec>${appPath}/hive.sh</exec>
-			<file>${appPath}/hive.sh</file> 
+			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
 			<file>${appPath}/hive_pill</file>
 		</shell>
         <ok to="Ingest-Join"/>
@@ -1735,7 +1947,7 @@
 			<job-tracker>prod-hubnamedaws01.sunpowercorp.com:8020</job-tracker>
             <name-node>prod-hubnamedaws01.sunpowercorp.com:8050</name-node>
 			<exec>${appPath}/hive.sh</exec>
-			<file>${appPath}/hive.sh</file> 
+			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
 			<file>${appPath}/hive_pill</file>
 		</shell>
         <ok to="Ingest-Join"/>
@@ -1945,7 +2157,7 @@
 			<job-tracker>prod-hubnamedaws01.sunpowercorp.com:8020</job-tracker>
             <name-node>prod-hubnamedaws01.sunpowercorp.com:8050</name-node>
 			<exec>${appPath}/hive.sh</exec>
-			<file>${appPath}/hive.sh</file> 
+			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
 			<file>${appPath}/hive_pill</file>
 		</shell>
         <ok to="Ingest-Join"/>
@@ -2155,7 +2367,7 @@
 			<job-tracker>prod-hubnamedaws01.sunpowercorp.com:8020</job-tracker>
             <name-node>prod-hubnamedaws01.sunpowercorp.com:8050</name-node>
 			<exec>${appPath}/hive.sh</exec>
-			<file>${appPath}/hive.sh</file> 
+			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
 			<file>${appPath}/hive_pill</file>
 		</shell>
         <ok to="Ingest-Join"/>
@@ -2365,7 +2577,7 @@
 			<job-tracker>prod-hubnamedaws01.sunpowercorp.com:8020</job-tracker>
             <name-node>prod-hubnamedaws01.sunpowercorp.com:8050</name-node>
 			<exec>${appPath}/hive.sh</exec>
-			<file>${appPath}/hive.sh</file> 
+			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
 			<file>${appPath}/hive_pill</file>
 		</shell>
         <ok to="Ingest-Join"/>
@@ -2575,7 +2787,7 @@
 			<job-tracker>prod-hubnamedaws01.sunpowercorp.com:8020</job-tracker>
             <name-node>prod-hubnamedaws01.sunpowercorp.com:8050</name-node>
 			<exec>${appPath}/hive.sh</exec>
-			<file>${appPath}/hive.sh</file> 
+			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
 			<file>${appPath}/hive_pill</file>
 		</shell>
         <ok to="Ingest-Join"/>
@@ -2785,7 +2997,7 @@
 			<job-tracker>prod-hubnamedaws01.sunpowercorp.com:8020</job-tracker>
             <name-node>prod-hubnamedaws01.sunpowercorp.com:8050</name-node>
 			<exec>${appPath}/hive.sh</exec>
-			<file>${appPath}/hive.sh</file> 
+			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
 			<file>${appPath}/hive_pill</file>
 		</shell>
         <ok to="Ingest-Join"/>
@@ -2995,7 +3207,7 @@
 			<job-tracker>prod-hubnamedaws01.sunpowercorp.com:8020</job-tracker>
             <name-node>prod-hubnamedaws01.sunpowercorp.com:8050</name-node>
 			<exec>${appPath}/hive.sh</exec>
-			<file>${appPath}/hive.sh</file> 
+			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
 			<file>${appPath}/hive_pill</file>
 		</shell>
         <ok to="Ingest-Join"/>
@@ -3205,7 +3417,7 @@
 			<job-tracker>prod-hubnamedaws01.sunpowercorp.com:8020</job-tracker>
             <name-node>prod-hubnamedaws01.sunpowercorp.com:8050</name-node>
 			<exec>${appPath}/hive.sh</exec>
-			<file>${appPath}/hive.sh</file> 
+			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
 			<file>${appPath}/hive_pill</file>
 		</shell>
         <ok to="Ingest-Join"/>
@@ -3415,7 +3627,7 @@
 			<job-tracker>prod-hubnamedaws01.sunpowercorp.com:8020</job-tracker>
             <name-node>prod-hubnamedaws01.sunpowercorp.com:8050</name-node>
 			<exec>${appPath}/hive.sh</exec>
-			<file>${appPath}/hive.sh</file> 
+			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
 			<file>${appPath}/hive_pill</file>
 		</shell>
         <ok to="Ingest-Join"/>
@@ -3625,7 +3837,7 @@
 			<job-tracker>prod-hubnamedaws01.sunpowercorp.com:8020</job-tracker>
             <name-node>prod-hubnamedaws01.sunpowercorp.com:8050</name-node>
 			<exec>${appPath}/hive.sh</exec>
-			<file>${appPath}/hive.sh</file> 
+			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
 			<file>${appPath}/hive_pill</file>
 		</shell>
         <ok to="Ingest-Join"/>
@@ -3835,7 +4047,7 @@
 			<job-tracker>prod-hubnamedaws01.sunpowercorp.com:8020</job-tracker>
             <name-node>prod-hubnamedaws01.sunpowercorp.com:8050</name-node>
 			<exec>${appPath}/hive.sh</exec>
-			<file>${appPath}/hive.sh</file> 
+			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
 			<file>${appPath}/hive_pill</file>
 		</shell>
         <ok to="Ingest-Join"/>
@@ -4045,7 +4257,7 @@
 			<job-tracker>prod-hubnamedaws01.sunpowercorp.com:8020</job-tracker>
             <name-node>prod-hubnamedaws01.sunpowercorp.com:8050</name-node>
 			<exec>${appPath}/hive.sh</exec>
-			<file>${appPath}/hive.sh</file> 
+			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
 			<file>${appPath}/hive_pill</file>
 		</shell>
         <ok to="Ingest-Join"/>
@@ -4255,7 +4467,7 @@
 			<job-tracker>prod-hubnamedaws01.sunpowercorp.com:8020</job-tracker>
             <name-node>prod-hubnamedaws01.sunpowercorp.com:8050</name-node>
 			<exec>${appPath}/hive.sh</exec>
-			<file>${appPath}/hive.sh</file> 
+			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
 			<file>${appPath}/hive_pill</file>
 		</shell>
         <ok to="Ingest-Join"/>
@@ -4465,7 +4677,7 @@
 			<job-tracker>prod-hubnamedaws01.sunpowercorp.com:8020</job-tracker>
             <name-node>prod-hubnamedaws01.sunpowercorp.com:8050</name-node>
 			<exec>${appPath}/hive.sh</exec>
-			<file>${appPath}/hive.sh</file> 
+			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
 			<file>${appPath}/hive_pill</file>
 		</shell>
         <ok to="Ingest-Join"/>
@@ -4675,7 +4887,7 @@
 			<job-tracker>prod-hubnamedaws01.sunpowercorp.com:8020</job-tracker>
             <name-node>prod-hubnamedaws01.sunpowercorp.com:8050</name-node>
 			<exec>${appPath}/hive.sh</exec>
-			<file>${appPath}/hive.sh</file> 
+			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
 			<file>${appPath}/hive_pill</file>
 		</shell>
         <ok to="Ingest-Join"/>
@@ -4885,7 +5097,7 @@
 			<job-tracker>prod-hubnamedaws01.sunpowercorp.com:8020</job-tracker>
             <name-node>prod-hubnamedaws01.sunpowercorp.com:8050</name-node>
 			<exec>${appPath}/hive.sh</exec>
-			<file>${appPath}/hive.sh</file> 
+			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
 			<file>${appPath}/hive_pill</file>
 		</shell>
         <ok to="Ingest-Join"/>
@@ -5095,7 +5307,7 @@
 			<job-tracker>prod-hubnamedaws01.sunpowercorp.com:8020</job-tracker>
             <name-node>prod-hubnamedaws01.sunpowercorp.com:8050</name-node>
 			<exec>${appPath}/hive.sh</exec>
-			<file>${appPath}/hive.sh</file> 
+			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
 			<file>${appPath}/hive_pill</file>
 		</shell>
         <ok to="Ingest-Join"/>
