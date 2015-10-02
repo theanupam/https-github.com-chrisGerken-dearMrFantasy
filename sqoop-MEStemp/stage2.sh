@@ -7,209 +7,209 @@ sudo cp yieldIngestWorkflow.xml  /home/hdfs/yieldIngestWorkflow.xml
 sudo cp yieldIngestProperties.properties  /home/hdfs/yieldIngestProperties.properties
 
 
-sudo cp CreateSimple__SPML_ModuleInfo.sh  /home/hdfs/CreateSimple__SPML_ModuleInfo.sh
-sudo cp IngestSimple__SPML_ModuleInfo_SPMX.sh  /home/hdfs/IngestSimple__SPML_ModuleInfo_SPMX.sh
-sudo cp IngestSimple__SPML_ModuleInfo_SPMM.sh  /home/hdfs/IngestSimple__SPML_ModuleInfo_SPMM.sh
-sudo cp IngestSimple__SPML_ModuleInfo_SPDV.sh  /home/hdfs/IngestSimple__SPML_ModuleInfo_SPDV.sh
-sudo cp IngestSimple__SPML_ModuleInfo_SPTT.sh  /home/hdfs/IngestSimple__SPML_ModuleInfo_SPTT.sh
-sudo cp IngestSimple__SPML_ModuleInfo_SPTM.sh  /home/hdfs/IngestSimple__SPML_ModuleInfo_SPTM.sh
-sudo cp CreateSimple_Address.sh  /home/hdfs/CreateSimple_Address.sh
-sudo cp IngestSimple_Address_SPMX.sh  /home/hdfs/IngestSimple_Address_SPMX.sh
-sudo cp IngestSimple_Address_SPMM.sh  /home/hdfs/IngestSimple_Address_SPMM.sh
-sudo cp IngestSimple_Address_SPDV.sh  /home/hdfs/IngestSimple_Address_SPDV.sh
-sudo cp IngestSimple_Address_SPTT.sh  /home/hdfs/IngestSimple_Address_SPTT.sh
-sudo cp IngestSimple_Address_SPTM.sh  /home/hdfs/IngestSimple_Address_SPTM.sh
-sudo cp CreateSimple_Customer.sh  /home/hdfs/CreateSimple_Customer.sh
-sudo cp IngestSimple_Customer_SPMX.sh  /home/hdfs/IngestSimple_Customer_SPMX.sh
-sudo cp IngestSimple_Customer_SPMM.sh  /home/hdfs/IngestSimple_Customer_SPMM.sh
-sudo cp IngestSimple_Customer_SPDV.sh  /home/hdfs/IngestSimple_Customer_SPDV.sh
-sudo cp IngestSimple_Customer_SPTT.sh  /home/hdfs/IngestSimple_Customer_SPTT.sh
-sudo cp IngestSimple_Customer_SPTM.sh  /home/hdfs/IngestSimple_Customer_SPTM.sh
-sudo cp CreateSimple_Department.sh  /home/hdfs/CreateSimple_Department.sh
-sudo cp IngestSimple_Department_SPMX.sh  /home/hdfs/IngestSimple_Department_SPMX.sh
-sudo cp IngestSimple_Department_SPMM.sh  /home/hdfs/IngestSimple_Department_SPMM.sh
-sudo cp IngestSimple_Department_SPDV.sh  /home/hdfs/IngestSimple_Department_SPDV.sh
-sudo cp IngestSimple_Department_SPTT.sh  /home/hdfs/IngestSimple_Department_SPTT.sh
-sudo cp IngestSimple_Department_SPTM.sh  /home/hdfs/IngestSimple_Department_SPTM.sh
-sudo cp CreateSimple_InvIsolatedReason.sh  /home/hdfs/CreateSimple_InvIsolatedReason.sh
-sudo cp IngestSimple_InvIsolatedReason_SPMX.sh  /home/hdfs/IngestSimple_InvIsolatedReason_SPMX.sh
-sudo cp IngestSimple_InvIsolatedReason_SPMM.sh  /home/hdfs/IngestSimple_InvIsolatedReason_SPMM.sh
-sudo cp IngestSimple_InvIsolatedReason_SPDV.sh  /home/hdfs/IngestSimple_InvIsolatedReason_SPDV.sh
-sudo cp IngestSimple_InvIsolatedReason_SPTT.sh  /home/hdfs/IngestSimple_InvIsolatedReason_SPTT.sh
-sudo cp IngestSimple_InvIsolatedReason_SPTM.sh  /home/hdfs/IngestSimple_InvIsolatedReason_SPTM.sh
-sudo cp CreateSimple_InvState.sh  /home/hdfs/CreateSimple_InvState.sh
-sudo cp IngestSimple_InvState_SPMX.sh  /home/hdfs/IngestSimple_InvState_SPMX.sh
-sudo cp IngestSimple_InvState_SPMM.sh  /home/hdfs/IngestSimple_InvState_SPMM.sh
-sudo cp IngestSimple_InvState_SPDV.sh  /home/hdfs/IngestSimple_InvState_SPDV.sh
-sudo cp IngestSimple_InvState_SPTT.sh  /home/hdfs/IngestSimple_InvState_SPTT.sh
-sudo cp IngestSimple_InvState_SPTM.sh  /home/hdfs/IngestSimple_InvState_SPTM.sh
-sudo cp CreateSimple_LineGroup.sh  /home/hdfs/CreateSimple_LineGroup.sh
-sudo cp IngestSimple_LineGroup_SPMX.sh  /home/hdfs/IngestSimple_LineGroup_SPMX.sh
-sudo cp IngestSimple_LineGroup_SPMM.sh  /home/hdfs/IngestSimple_LineGroup_SPMM.sh
-sudo cp IngestSimple_LineGroup_SPDV.sh  /home/hdfs/IngestSimple_LineGroup_SPDV.sh
-sudo cp IngestSimple_LineGroup_SPTT.sh  /home/hdfs/IngestSimple_LineGroup_SPTT.sh
-sudo cp IngestSimple_LineGroup_SPTM.sh  /home/hdfs/IngestSimple_LineGroup_SPTM.sh
-sudo cp CreateSimple_LineInfo.sh  /home/hdfs/CreateSimple_LineInfo.sh
-sudo cp IngestSimple_LineInfo_SPMX.sh  /home/hdfs/IngestSimple_LineInfo_SPMX.sh
-sudo cp IngestSimple_LineInfo_SPMM.sh  /home/hdfs/IngestSimple_LineInfo_SPMM.sh
-sudo cp IngestSimple_LineInfo_SPDV.sh  /home/hdfs/IngestSimple_LineInfo_SPDV.sh
-sudo cp IngestSimple_LineInfo_SPTT.sh  /home/hdfs/IngestSimple_LineInfo_SPTT.sh
-sudo cp IngestSimple_LineInfo_SPTM.sh  /home/hdfs/IngestSimple_LineInfo_SPTM.sh
-sudo cp CreateSimple_LineSection.sh  /home/hdfs/CreateSimple_LineSection.sh
-sudo cp IngestSimple_LineSection_SPMX.sh  /home/hdfs/IngestSimple_LineSection_SPMX.sh
-sudo cp IngestSimple_LineSection_SPMM.sh  /home/hdfs/IngestSimple_LineSection_SPMM.sh
-sudo cp IngestSimple_LineSection_SPDV.sh  /home/hdfs/IngestSimple_LineSection_SPDV.sh
-sudo cp IngestSimple_LineSection_SPTT.sh  /home/hdfs/IngestSimple_LineSection_SPTT.sh
-sudo cp IngestSimple_LineSection_SPTM.sh  /home/hdfs/IngestSimple_LineSection_SPTM.sh
-sudo cp CreateSimple_LineType.sh  /home/hdfs/CreateSimple_LineType.sh
-sudo cp IngestSimple_LineType_SPMX.sh  /home/hdfs/IngestSimple_LineType_SPMX.sh
-sudo cp IngestSimple_LineType_SPMM.sh  /home/hdfs/IngestSimple_LineType_SPMM.sh
-sudo cp IngestSimple_LineType_SPDV.sh  /home/hdfs/IngestSimple_LineType_SPDV.sh
-sudo cp IngestSimple_LineType_SPTT.sh  /home/hdfs/IngestSimple_LineType_SPTT.sh
-sudo cp IngestSimple_LineType_SPTM.sh  /home/hdfs/IngestSimple_LineType_SPTM.sh
-sudo cp CreateSimple_MachineStageType.sh  /home/hdfs/CreateSimple_MachineStageType.sh
-sudo cp IngestSimple_MachineStageType_SPMX.sh  /home/hdfs/IngestSimple_MachineStageType_SPMX.sh
-sudo cp IngestSimple_MachineStageType_SPMM.sh  /home/hdfs/IngestSimple_MachineStageType_SPMM.sh
-sudo cp IngestSimple_MachineStageType_SPDV.sh  /home/hdfs/IngestSimple_MachineStageType_SPDV.sh
-sudo cp IngestSimple_MachineStageType_SPTT.sh  /home/hdfs/IngestSimple_MachineStageType_SPTT.sh
-sudo cp IngestSimple_MachineStageType_SPTM.sh  /home/hdfs/IngestSimple_MachineStageType_SPTM.sh
-sudo cp CreateSimple_MachineStop.sh  /home/hdfs/CreateSimple_MachineStop.sh
-sudo cp IngestSimple_MachineStop_SPMX.sh  /home/hdfs/IngestSimple_MachineStop_SPMX.sh
-sudo cp IngestSimple_MachineStop_SPMM.sh  /home/hdfs/IngestSimple_MachineStop_SPMM.sh
-sudo cp IngestSimple_MachineStop_SPDV.sh  /home/hdfs/IngestSimple_MachineStop_SPDV.sh
-sudo cp IngestSimple_MachineStop_SPTT.sh  /home/hdfs/IngestSimple_MachineStop_SPTT.sh
-sudo cp IngestSimple_MachineStop_SPTM.sh  /home/hdfs/IngestSimple_MachineStop_SPTM.sh
-sudo cp CreateSimple_MachineStopCategory.sh  /home/hdfs/CreateSimple_MachineStopCategory.sh
-sudo cp IngestSimple_MachineStopCategory_SPMX.sh  /home/hdfs/IngestSimple_MachineStopCategory_SPMX.sh
-sudo cp IngestSimple_MachineStopCategory_SPMM.sh  /home/hdfs/IngestSimple_MachineStopCategory_SPMM.sh
-sudo cp IngestSimple_MachineStopCategory_SPDV.sh  /home/hdfs/IngestSimple_MachineStopCategory_SPDV.sh
-sudo cp IngestSimple_MachineStopCategory_SPTT.sh  /home/hdfs/IngestSimple_MachineStopCategory_SPTT.sh
-sudo cp IngestSimple_MachineStopCategory_SPTM.sh  /home/hdfs/IngestSimple_MachineStopCategory_SPTM.sh
-sudo cp CreateSimple_MachineStopReason.sh  /home/hdfs/CreateSimple_MachineStopReason.sh
-sudo cp IngestSimple_MachineStopReason_SPMX.sh  /home/hdfs/IngestSimple_MachineStopReason_SPMX.sh
-sudo cp IngestSimple_MachineStopReason_SPMM.sh  /home/hdfs/IngestSimple_MachineStopReason_SPMM.sh
-sudo cp IngestSimple_MachineStopReason_SPDV.sh  /home/hdfs/IngestSimple_MachineStopReason_SPDV.sh
-sudo cp IngestSimple_MachineStopReason_SPTT.sh  /home/hdfs/IngestSimple_MachineStopReason_SPTT.sh
-sudo cp IngestSimple_MachineStopReason_SPTM.sh  /home/hdfs/IngestSimple_MachineStopReason_SPTM.sh
-sudo cp CreateSimple_Operation.sh  /home/hdfs/CreateSimple_Operation.sh
-sudo cp IngestSimple_Operation_SPMX.sh  /home/hdfs/IngestSimple_Operation_SPMX.sh
-sudo cp IngestSimple_Operation_SPMM.sh  /home/hdfs/IngestSimple_Operation_SPMM.sh
-sudo cp IngestSimple_Operation_SPDV.sh  /home/hdfs/IngestSimple_Operation_SPDV.sh
-sudo cp IngestSimple_Operation_SPTT.sh  /home/hdfs/IngestSimple_Operation_SPTT.sh
-sudo cp IngestSimple_Operation_SPTM.sh  /home/hdfs/IngestSimple_Operation_SPTM.sh
-sudo cp CreateSimple_OperationType.sh  /home/hdfs/CreateSimple_OperationType.sh
-sudo cp IngestSimple_OperationType_SPMX.sh  /home/hdfs/IngestSimple_OperationType_SPMX.sh
-sudo cp IngestSimple_OperationType_SPMM.sh  /home/hdfs/IngestSimple_OperationType_SPMM.sh
-sudo cp IngestSimple_OperationType_SPDV.sh  /home/hdfs/IngestSimple_OperationType_SPDV.sh
-sudo cp IngestSimple_OperationType_SPTT.sh  /home/hdfs/IngestSimple_OperationType_SPTT.sh
-sudo cp IngestSimple_OperationType_SPTM.sh  /home/hdfs/IngestSimple_OperationType_SPTM.sh
-sudo cp CreateSimple_PartClassification.sh  /home/hdfs/CreateSimple_PartClassification.sh
-sudo cp IngestSimple_PartClassification_SPMX.sh  /home/hdfs/IngestSimple_PartClassification_SPMX.sh
-sudo cp IngestSimple_PartClassification_SPMM.sh  /home/hdfs/IngestSimple_PartClassification_SPMM.sh
-sudo cp IngestSimple_PartClassification_SPDV.sh  /home/hdfs/IngestSimple_PartClassification_SPDV.sh
-sudo cp IngestSimple_PartClassification_SPTT.sh  /home/hdfs/IngestSimple_PartClassification_SPTT.sh
-sudo cp IngestSimple_PartClassification_SPTM.sh  /home/hdfs/IngestSimple_PartClassification_SPTM.sh
-sudo cp CreateSimple_PartSubClassification.sh  /home/hdfs/CreateSimple_PartSubClassification.sh
-sudo cp IngestSimple_PartSubClassification_SPMX.sh  /home/hdfs/IngestSimple_PartSubClassification_SPMX.sh
-sudo cp IngestSimple_PartSubClassification_SPMM.sh  /home/hdfs/IngestSimple_PartSubClassification_SPMM.sh
-sudo cp IngestSimple_PartSubClassification_SPDV.sh  /home/hdfs/IngestSimple_PartSubClassification_SPDV.sh
-sudo cp IngestSimple_PartSubClassification_SPTT.sh  /home/hdfs/IngestSimple_PartSubClassification_SPTT.sh
-sudo cp IngestSimple_PartSubClassification_SPTM.sh  /home/hdfs/IngestSimple_PartSubClassification_SPTM.sh
-sudo cp CreateSimple_PartType.sh  /home/hdfs/CreateSimple_PartType.sh
-sudo cp IngestSimple_PartType_SPMX.sh  /home/hdfs/IngestSimple_PartType_SPMX.sh
-sudo cp IngestSimple_PartType_SPMM.sh  /home/hdfs/IngestSimple_PartType_SPMM.sh
-sudo cp IngestSimple_PartType_SPDV.sh  /home/hdfs/IngestSimple_PartType_SPDV.sh
-sudo cp IngestSimple_PartType_SPTT.sh  /home/hdfs/IngestSimple_PartType_SPTT.sh
-sudo cp IngestSimple_PartType_SPTM.sh  /home/hdfs/IngestSimple_PartType_SPTM.sh
-sudo cp CreateSimple_Shift.sh  /home/hdfs/CreateSimple_Shift.sh
-sudo cp IngestSimple_Shift_SPMX.sh  /home/hdfs/IngestSimple_Shift_SPMX.sh
-sudo cp IngestSimple_Shift_SPMM.sh  /home/hdfs/IngestSimple_Shift_SPMM.sh
-sudo cp IngestSimple_Shift_SPDV.sh  /home/hdfs/IngestSimple_Shift_SPDV.sh
-sudo cp IngestSimple_Shift_SPTT.sh  /home/hdfs/IngestSimple_Shift_SPTT.sh
-sudo cp IngestSimple_Shift_SPTM.sh  /home/hdfs/IngestSimple_Shift_SPTM.sh
-sudo cp CreateSimple_ShiftPattern.sh  /home/hdfs/CreateSimple_ShiftPattern.sh
-sudo cp IngestSimple_ShiftPattern_SPMX.sh  /home/hdfs/IngestSimple_ShiftPattern_SPMX.sh
-sudo cp IngestSimple_ShiftPattern_SPMM.sh  /home/hdfs/IngestSimple_ShiftPattern_SPMM.sh
-sudo cp IngestSimple_ShiftPattern_SPDV.sh  /home/hdfs/IngestSimple_ShiftPattern_SPDV.sh
-sudo cp IngestSimple_ShiftPattern_SPTT.sh  /home/hdfs/IngestSimple_ShiftPattern_SPTT.sh
-sudo cp IngestSimple_ShiftPattern_SPTM.sh  /home/hdfs/IngestSimple_ShiftPattern_SPTM.sh
-sudo cp CreateSimple_ShiftType.sh  /home/hdfs/CreateSimple_ShiftType.sh
-sudo cp IngestSimple_ShiftType_SPMX.sh  /home/hdfs/IngestSimple_ShiftType_SPMX.sh
-sudo cp IngestSimple_ShiftType_SPMM.sh  /home/hdfs/IngestSimple_ShiftType_SPMM.sh
-sudo cp IngestSimple_ShiftType_SPDV.sh  /home/hdfs/IngestSimple_ShiftType_SPDV.sh
-sudo cp IngestSimple_ShiftType_SPTT.sh  /home/hdfs/IngestSimple_ShiftType_SPTT.sh
-sudo cp IngestSimple_ShiftType_SPTM.sh  /home/hdfs/IngestSimple_ShiftType_SPTM.sh
-sudo cp CreateSimple_Supplier.sh  /home/hdfs/CreateSimple_Supplier.sh
-sudo cp IngestSimple_Supplier_SPMX.sh  /home/hdfs/IngestSimple_Supplier_SPMX.sh
-sudo cp IngestSimple_Supplier_SPMM.sh  /home/hdfs/IngestSimple_Supplier_SPMM.sh
-sudo cp IngestSimple_Supplier_SPDV.sh  /home/hdfs/IngestSimple_Supplier_SPDV.sh
-sudo cp IngestSimple_Supplier_SPTT.sh  /home/hdfs/IngestSimple_Supplier_SPTT.sh
-sudo cp IngestSimple_Supplier_SPTM.sh  /home/hdfs/IngestSimple_Supplier_SPTM.sh
-sudo cp CreateSimple_TagList.sh  /home/hdfs/CreateSimple_TagList.sh
-sudo cp IngestSimple_TagList_SPMX.sh  /home/hdfs/IngestSimple_TagList_SPMX.sh
-sudo cp IngestSimple_TagList_SPMM.sh  /home/hdfs/IngestSimple_TagList_SPMM.sh
-sudo cp IngestSimple_TagList_SPDV.sh  /home/hdfs/IngestSimple_TagList_SPDV.sh
-sudo cp IngestSimple_TagList_SPTT.sh  /home/hdfs/IngestSimple_TagList_SPTT.sh
-sudo cp IngestSimple_TagList_SPTM.sh  /home/hdfs/IngestSimple_TagList_SPTM.sh
-sudo cp CreateSimple_Unit.sh  /home/hdfs/CreateSimple_Unit.sh
-sudo cp IngestSimple_Unit_SPMX.sh  /home/hdfs/IngestSimple_Unit_SPMX.sh
-sudo cp IngestSimple_Unit_SPMM.sh  /home/hdfs/IngestSimple_Unit_SPMM.sh
-sudo cp IngestSimple_Unit_SPDV.sh  /home/hdfs/IngestSimple_Unit_SPDV.sh
-sudo cp IngestSimple_Unit_SPTT.sh  /home/hdfs/IngestSimple_Unit_SPTT.sh
-sudo cp IngestSimple_Unit_SPTM.sh  /home/hdfs/IngestSimple_Unit_SPTM.sh
+# sudo cp CreateSimple__SPML_ModuleInfo.sh  /home/hdfs/CreateSimple__SPML_ModuleInfo.sh
+# sudo cp IngestSimple__SPML_ModuleInfo_SPMX.sh  /home/hdfs/IngestSimple__SPML_ModuleInfo_SPMX.sh
+# sudo cp IngestSimple__SPML_ModuleInfo_SPMM.sh  /home/hdfs/IngestSimple__SPML_ModuleInfo_SPMM.sh
+# sudo cp IngestSimple__SPML_ModuleInfo_SPDV.sh  /home/hdfs/IngestSimple__SPML_ModuleInfo_SPDV.sh
+# sudo cp IngestSimple__SPML_ModuleInfo_SPTT.sh  /home/hdfs/IngestSimple__SPML_ModuleInfo_SPTT.sh
+# sudo cp IngestSimple__SPML_ModuleInfo_SPTM.sh  /home/hdfs/IngestSimple__SPML_ModuleInfo_SPTM.sh
+# sudo cp CreateSimple_Address.sh  /home/hdfs/CreateSimple_Address.sh
+# sudo cp IngestSimple_Address_SPMX.sh  /home/hdfs/IngestSimple_Address_SPMX.sh
+# sudo cp IngestSimple_Address_SPMM.sh  /home/hdfs/IngestSimple_Address_SPMM.sh
+# sudo cp IngestSimple_Address_SPDV.sh  /home/hdfs/IngestSimple_Address_SPDV.sh
+# sudo cp IngestSimple_Address_SPTT.sh  /home/hdfs/IngestSimple_Address_SPTT.sh
+# sudo cp IngestSimple_Address_SPTM.sh  /home/hdfs/IngestSimple_Address_SPTM.sh
+# sudo cp CreateSimple_Customer.sh  /home/hdfs/CreateSimple_Customer.sh
+# sudo cp IngestSimple_Customer_SPMX.sh  /home/hdfs/IngestSimple_Customer_SPMX.sh
+# sudo cp IngestSimple_Customer_SPMM.sh  /home/hdfs/IngestSimple_Customer_SPMM.sh
+# sudo cp IngestSimple_Customer_SPDV.sh  /home/hdfs/IngestSimple_Customer_SPDV.sh
+# sudo cp IngestSimple_Customer_SPTT.sh  /home/hdfs/IngestSimple_Customer_SPTT.sh
+# sudo cp IngestSimple_Customer_SPTM.sh  /home/hdfs/IngestSimple_Customer_SPTM.sh
+# sudo cp CreateSimple_Department.sh  /home/hdfs/CreateSimple_Department.sh
+# sudo cp IngestSimple_Department_SPMX.sh  /home/hdfs/IngestSimple_Department_SPMX.sh
+# sudo cp IngestSimple_Department_SPMM.sh  /home/hdfs/IngestSimple_Department_SPMM.sh
+# sudo cp IngestSimple_Department_SPDV.sh  /home/hdfs/IngestSimple_Department_SPDV.sh
+# sudo cp IngestSimple_Department_SPTT.sh  /home/hdfs/IngestSimple_Department_SPTT.sh
+# sudo cp IngestSimple_Department_SPTM.sh  /home/hdfs/IngestSimple_Department_SPTM.sh
+# sudo cp CreateSimple_InvIsolatedReason.sh  /home/hdfs/CreateSimple_InvIsolatedReason.sh
+# sudo cp IngestSimple_InvIsolatedReason_SPMX.sh  /home/hdfs/IngestSimple_InvIsolatedReason_SPMX.sh
+# sudo cp IngestSimple_InvIsolatedReason_SPMM.sh  /home/hdfs/IngestSimple_InvIsolatedReason_SPMM.sh
+# sudo cp IngestSimple_InvIsolatedReason_SPDV.sh  /home/hdfs/IngestSimple_InvIsolatedReason_SPDV.sh
+# sudo cp IngestSimple_InvIsolatedReason_SPTT.sh  /home/hdfs/IngestSimple_InvIsolatedReason_SPTT.sh
+# sudo cp IngestSimple_InvIsolatedReason_SPTM.sh  /home/hdfs/IngestSimple_InvIsolatedReason_SPTM.sh
+# sudo cp CreateSimple_InvState.sh  /home/hdfs/CreateSimple_InvState.sh
+# sudo cp IngestSimple_InvState_SPMX.sh  /home/hdfs/IngestSimple_InvState_SPMX.sh
+# sudo cp IngestSimple_InvState_SPMM.sh  /home/hdfs/IngestSimple_InvState_SPMM.sh
+# sudo cp IngestSimple_InvState_SPDV.sh  /home/hdfs/IngestSimple_InvState_SPDV.sh
+# sudo cp IngestSimple_InvState_SPTT.sh  /home/hdfs/IngestSimple_InvState_SPTT.sh
+# sudo cp IngestSimple_InvState_SPTM.sh  /home/hdfs/IngestSimple_InvState_SPTM.sh
+# sudo cp CreateSimple_LineGroup.sh  /home/hdfs/CreateSimple_LineGroup.sh
+# sudo cp IngestSimple_LineGroup_SPMX.sh  /home/hdfs/IngestSimple_LineGroup_SPMX.sh
+# sudo cp IngestSimple_LineGroup_SPMM.sh  /home/hdfs/IngestSimple_LineGroup_SPMM.sh
+# sudo cp IngestSimple_LineGroup_SPDV.sh  /home/hdfs/IngestSimple_LineGroup_SPDV.sh
+# sudo cp IngestSimple_LineGroup_SPTT.sh  /home/hdfs/IngestSimple_LineGroup_SPTT.sh
+# sudo cp IngestSimple_LineGroup_SPTM.sh  /home/hdfs/IngestSimple_LineGroup_SPTM.sh
+# sudo cp CreateSimple_LineInfo.sh  /home/hdfs/CreateSimple_LineInfo.sh
+# sudo cp IngestSimple_LineInfo_SPMX.sh  /home/hdfs/IngestSimple_LineInfo_SPMX.sh
+# sudo cp IngestSimple_LineInfo_SPMM.sh  /home/hdfs/IngestSimple_LineInfo_SPMM.sh
+# sudo cp IngestSimple_LineInfo_SPDV.sh  /home/hdfs/IngestSimple_LineInfo_SPDV.sh
+# sudo cp IngestSimple_LineInfo_SPTT.sh  /home/hdfs/IngestSimple_LineInfo_SPTT.sh
+# sudo cp IngestSimple_LineInfo_SPTM.sh  /home/hdfs/IngestSimple_LineInfo_SPTM.sh
+# sudo cp CreateSimple_LineSection.sh  /home/hdfs/CreateSimple_LineSection.sh
+# sudo cp IngestSimple_LineSection_SPMX.sh  /home/hdfs/IngestSimple_LineSection_SPMX.sh
+# sudo cp IngestSimple_LineSection_SPMM.sh  /home/hdfs/IngestSimple_LineSection_SPMM.sh
+# sudo cp IngestSimple_LineSection_SPDV.sh  /home/hdfs/IngestSimple_LineSection_SPDV.sh
+# sudo cp IngestSimple_LineSection_SPTT.sh  /home/hdfs/IngestSimple_LineSection_SPTT.sh
+# sudo cp IngestSimple_LineSection_SPTM.sh  /home/hdfs/IngestSimple_LineSection_SPTM.sh
+# sudo cp CreateSimple_LineType.sh  /home/hdfs/CreateSimple_LineType.sh
+# sudo cp IngestSimple_LineType_SPMX.sh  /home/hdfs/IngestSimple_LineType_SPMX.sh
+# sudo cp IngestSimple_LineType_SPMM.sh  /home/hdfs/IngestSimple_LineType_SPMM.sh
+# sudo cp IngestSimple_LineType_SPDV.sh  /home/hdfs/IngestSimple_LineType_SPDV.sh
+# sudo cp IngestSimple_LineType_SPTT.sh  /home/hdfs/IngestSimple_LineType_SPTT.sh
+# sudo cp IngestSimple_LineType_SPTM.sh  /home/hdfs/IngestSimple_LineType_SPTM.sh
+# sudo cp CreateSimple_MachineStageType.sh  /home/hdfs/CreateSimple_MachineStageType.sh
+# sudo cp IngestSimple_MachineStageType_SPMX.sh  /home/hdfs/IngestSimple_MachineStageType_SPMX.sh
+# sudo cp IngestSimple_MachineStageType_SPMM.sh  /home/hdfs/IngestSimple_MachineStageType_SPMM.sh
+# sudo cp IngestSimple_MachineStageType_SPDV.sh  /home/hdfs/IngestSimple_MachineStageType_SPDV.sh
+# sudo cp IngestSimple_MachineStageType_SPTT.sh  /home/hdfs/IngestSimple_MachineStageType_SPTT.sh
+# sudo cp IngestSimple_MachineStageType_SPTM.sh  /home/hdfs/IngestSimple_MachineStageType_SPTM.sh
+# sudo cp CreateSimple_MachineStop.sh  /home/hdfs/CreateSimple_MachineStop.sh
+# sudo cp IngestSimple_MachineStop_SPMX.sh  /home/hdfs/IngestSimple_MachineStop_SPMX.sh
+# sudo cp IngestSimple_MachineStop_SPMM.sh  /home/hdfs/IngestSimple_MachineStop_SPMM.sh
+# sudo cp IngestSimple_MachineStop_SPDV.sh  /home/hdfs/IngestSimple_MachineStop_SPDV.sh
+# sudo cp IngestSimple_MachineStop_SPTT.sh  /home/hdfs/IngestSimple_MachineStop_SPTT.sh
+# sudo cp IngestSimple_MachineStop_SPTM.sh  /home/hdfs/IngestSimple_MachineStop_SPTM.sh
+# sudo cp CreateSimple_MachineStopCategory.sh  /home/hdfs/CreateSimple_MachineStopCategory.sh
+# sudo cp IngestSimple_MachineStopCategory_SPMX.sh  /home/hdfs/IngestSimple_MachineStopCategory_SPMX.sh
+# sudo cp IngestSimple_MachineStopCategory_SPMM.sh  /home/hdfs/IngestSimple_MachineStopCategory_SPMM.sh
+# sudo cp IngestSimple_MachineStopCategory_SPDV.sh  /home/hdfs/IngestSimple_MachineStopCategory_SPDV.sh
+# sudo cp IngestSimple_MachineStopCategory_SPTT.sh  /home/hdfs/IngestSimple_MachineStopCategory_SPTT.sh
+# sudo cp IngestSimple_MachineStopCategory_SPTM.sh  /home/hdfs/IngestSimple_MachineStopCategory_SPTM.sh
+# sudo cp CreateSimple_MachineStopReason.sh  /home/hdfs/CreateSimple_MachineStopReason.sh
+# sudo cp IngestSimple_MachineStopReason_SPMX.sh  /home/hdfs/IngestSimple_MachineStopReason_SPMX.sh
+# sudo cp IngestSimple_MachineStopReason_SPMM.sh  /home/hdfs/IngestSimple_MachineStopReason_SPMM.sh
+# sudo cp IngestSimple_MachineStopReason_SPDV.sh  /home/hdfs/IngestSimple_MachineStopReason_SPDV.sh
+# sudo cp IngestSimple_MachineStopReason_SPTT.sh  /home/hdfs/IngestSimple_MachineStopReason_SPTT.sh
+# sudo cp IngestSimple_MachineStopReason_SPTM.sh  /home/hdfs/IngestSimple_MachineStopReason_SPTM.sh
+# sudo cp CreateSimple_Operation.sh  /home/hdfs/CreateSimple_Operation.sh
+# sudo cp IngestSimple_Operation_SPMX.sh  /home/hdfs/IngestSimple_Operation_SPMX.sh
+# sudo cp IngestSimple_Operation_SPMM.sh  /home/hdfs/IngestSimple_Operation_SPMM.sh
+# sudo cp IngestSimple_Operation_SPDV.sh  /home/hdfs/IngestSimple_Operation_SPDV.sh
+# sudo cp IngestSimple_Operation_SPTT.sh  /home/hdfs/IngestSimple_Operation_SPTT.sh
+# sudo cp IngestSimple_Operation_SPTM.sh  /home/hdfs/IngestSimple_Operation_SPTM.sh
+# sudo cp CreateSimple_OperationType.sh  /home/hdfs/CreateSimple_OperationType.sh
+# sudo cp IngestSimple_OperationType_SPMX.sh  /home/hdfs/IngestSimple_OperationType_SPMX.sh
+# sudo cp IngestSimple_OperationType_SPMM.sh  /home/hdfs/IngestSimple_OperationType_SPMM.sh
+# sudo cp IngestSimple_OperationType_SPDV.sh  /home/hdfs/IngestSimple_OperationType_SPDV.sh
+# sudo cp IngestSimple_OperationType_SPTT.sh  /home/hdfs/IngestSimple_OperationType_SPTT.sh
+# sudo cp IngestSimple_OperationType_SPTM.sh  /home/hdfs/IngestSimple_OperationType_SPTM.sh
+# sudo cp CreateSimple_PartClassification.sh  /home/hdfs/CreateSimple_PartClassification.sh
+# sudo cp IngestSimple_PartClassification_SPMX.sh  /home/hdfs/IngestSimple_PartClassification_SPMX.sh
+# sudo cp IngestSimple_PartClassification_SPMM.sh  /home/hdfs/IngestSimple_PartClassification_SPMM.sh
+# sudo cp IngestSimple_PartClassification_SPDV.sh  /home/hdfs/IngestSimple_PartClassification_SPDV.sh
+# sudo cp IngestSimple_PartClassification_SPTT.sh  /home/hdfs/IngestSimple_PartClassification_SPTT.sh
+# sudo cp IngestSimple_PartClassification_SPTM.sh  /home/hdfs/IngestSimple_PartClassification_SPTM.sh
+# sudo cp CreateSimple_PartSubClassification.sh  /home/hdfs/CreateSimple_PartSubClassification.sh
+# sudo cp IngestSimple_PartSubClassification_SPMX.sh  /home/hdfs/IngestSimple_PartSubClassification_SPMX.sh
+# sudo cp IngestSimple_PartSubClassification_SPMM.sh  /home/hdfs/IngestSimple_PartSubClassification_SPMM.sh
+# sudo cp IngestSimple_PartSubClassification_SPDV.sh  /home/hdfs/IngestSimple_PartSubClassification_SPDV.sh
+# sudo cp IngestSimple_PartSubClassification_SPTT.sh  /home/hdfs/IngestSimple_PartSubClassification_SPTT.sh
+# sudo cp IngestSimple_PartSubClassification_SPTM.sh  /home/hdfs/IngestSimple_PartSubClassification_SPTM.sh
+# sudo cp CreateSimple_PartType.sh  /home/hdfs/CreateSimple_PartType.sh
+# sudo cp IngestSimple_PartType_SPMX.sh  /home/hdfs/IngestSimple_PartType_SPMX.sh
+# sudo cp IngestSimple_PartType_SPMM.sh  /home/hdfs/IngestSimple_PartType_SPMM.sh
+# sudo cp IngestSimple_PartType_SPDV.sh  /home/hdfs/IngestSimple_PartType_SPDV.sh
+# sudo cp IngestSimple_PartType_SPTT.sh  /home/hdfs/IngestSimple_PartType_SPTT.sh
+# sudo cp IngestSimple_PartType_SPTM.sh  /home/hdfs/IngestSimple_PartType_SPTM.sh
+# sudo cp CreateSimple_Shift.sh  /home/hdfs/CreateSimple_Shift.sh
+# sudo cp IngestSimple_Shift_SPMX.sh  /home/hdfs/IngestSimple_Shift_SPMX.sh
+# sudo cp IngestSimple_Shift_SPMM.sh  /home/hdfs/IngestSimple_Shift_SPMM.sh
+# sudo cp IngestSimple_Shift_SPDV.sh  /home/hdfs/IngestSimple_Shift_SPDV.sh
+# sudo cp IngestSimple_Shift_SPTT.sh  /home/hdfs/IngestSimple_Shift_SPTT.sh
+# sudo cp IngestSimple_Shift_SPTM.sh  /home/hdfs/IngestSimple_Shift_SPTM.sh
+# sudo cp CreateSimple_ShiftPattern.sh  /home/hdfs/CreateSimple_ShiftPattern.sh
+# sudo cp IngestSimple_ShiftPattern_SPMX.sh  /home/hdfs/IngestSimple_ShiftPattern_SPMX.sh
+# sudo cp IngestSimple_ShiftPattern_SPMM.sh  /home/hdfs/IngestSimple_ShiftPattern_SPMM.sh
+# sudo cp IngestSimple_ShiftPattern_SPDV.sh  /home/hdfs/IngestSimple_ShiftPattern_SPDV.sh
+# sudo cp IngestSimple_ShiftPattern_SPTT.sh  /home/hdfs/IngestSimple_ShiftPattern_SPTT.sh
+# sudo cp IngestSimple_ShiftPattern_SPTM.sh  /home/hdfs/IngestSimple_ShiftPattern_SPTM.sh
+# sudo cp CreateSimple_ShiftType.sh  /home/hdfs/CreateSimple_ShiftType.sh
+# sudo cp IngestSimple_ShiftType_SPMX.sh  /home/hdfs/IngestSimple_ShiftType_SPMX.sh
+# sudo cp IngestSimple_ShiftType_SPMM.sh  /home/hdfs/IngestSimple_ShiftType_SPMM.sh
+# sudo cp IngestSimple_ShiftType_SPDV.sh  /home/hdfs/IngestSimple_ShiftType_SPDV.sh
+# sudo cp IngestSimple_ShiftType_SPTT.sh  /home/hdfs/IngestSimple_ShiftType_SPTT.sh
+# sudo cp IngestSimple_ShiftType_SPTM.sh  /home/hdfs/IngestSimple_ShiftType_SPTM.sh
+# sudo cp CreateSimple_Supplier.sh  /home/hdfs/CreateSimple_Supplier.sh
+# sudo cp IngestSimple_Supplier_SPMX.sh  /home/hdfs/IngestSimple_Supplier_SPMX.sh
+# sudo cp IngestSimple_Supplier_SPMM.sh  /home/hdfs/IngestSimple_Supplier_SPMM.sh
+# sudo cp IngestSimple_Supplier_SPDV.sh  /home/hdfs/IngestSimple_Supplier_SPDV.sh
+# sudo cp IngestSimple_Supplier_SPTT.sh  /home/hdfs/IngestSimple_Supplier_SPTT.sh
+# sudo cp IngestSimple_Supplier_SPTM.sh  /home/hdfs/IngestSimple_Supplier_SPTM.sh
+# sudo cp CreateSimple_TagList.sh  /home/hdfs/CreateSimple_TagList.sh
+# sudo cp IngestSimple_TagList_SPMX.sh  /home/hdfs/IngestSimple_TagList_SPMX.sh
+# sudo cp IngestSimple_TagList_SPMM.sh  /home/hdfs/IngestSimple_TagList_SPMM.sh
+# sudo cp IngestSimple_TagList_SPDV.sh  /home/hdfs/IngestSimple_TagList_SPDV.sh
+# sudo cp IngestSimple_TagList_SPTT.sh  /home/hdfs/IngestSimple_TagList_SPTT.sh
+# sudo cp IngestSimple_TagList_SPTM.sh  /home/hdfs/IngestSimple_TagList_SPTM.sh
+# sudo cp CreateSimple_Unit.sh  /home/hdfs/CreateSimple_Unit.sh
+# sudo cp IngestSimple_Unit_SPMX.sh  /home/hdfs/IngestSimple_Unit_SPMX.sh
+# sudo cp IngestSimple_Unit_SPMM.sh  /home/hdfs/IngestSimple_Unit_SPMM.sh
+# sudo cp IngestSimple_Unit_SPDV.sh  /home/hdfs/IngestSimple_Unit_SPDV.sh
+# sudo cp IngestSimple_Unit_SPTT.sh  /home/hdfs/IngestSimple_Unit_SPTT.sh
+# sudo cp IngestSimple_Unit_SPTM.sh  /home/hdfs/IngestSimple_Unit_SPTM.sh
 
-sudo cp CreateJoin_.sh  /home/hdfs/CreateJoin_.sh
-sudo cp IngestJoin__SPMX.sh  /home/hdfs/IngestJoin__SPMX.sh
-sudo cp IngestJoin__SPMM.sh  /home/hdfs/IngestJoin__SPMM.sh
-sudo cp IngestJoin__SPDV.sh  /home/hdfs/IngestJoin__SPDV.sh
-sudo cp IngestJoin__SPTT.sh  /home/hdfs/IngestJoin__SPTT.sh
-sudo cp IngestJoin__SPTM.sh  /home/hdfs/IngestJoin__SPTM.sh
-sudo cp CreateJoin_.sh  /home/hdfs/CreateJoin_.sh
-sudo cp IngestJoin__SPMX.sh  /home/hdfs/IngestJoin__SPMX.sh
-sudo cp IngestJoin__SPMM.sh  /home/hdfs/IngestJoin__SPMM.sh
-sudo cp IngestJoin__SPDV.sh  /home/hdfs/IngestJoin__SPDV.sh
-sudo cp IngestJoin__SPTT.sh  /home/hdfs/IngestJoin__SPTT.sh
-sudo cp IngestJoin__SPTM.sh  /home/hdfs/IngestJoin__SPTM.sh
-sudo cp CreateJoin_.sh  /home/hdfs/CreateJoin_.sh
-sudo cp IngestJoin__SPMX.sh  /home/hdfs/IngestJoin__SPMX.sh
-sudo cp IngestJoin__SPMM.sh  /home/hdfs/IngestJoin__SPMM.sh
-sudo cp IngestJoin__SPDV.sh  /home/hdfs/IngestJoin__SPDV.sh
-sudo cp IngestJoin__SPTT.sh  /home/hdfs/IngestJoin__SPTT.sh
-sudo cp IngestJoin__SPTM.sh  /home/hdfs/IngestJoin__SPTM.sh
-sudo cp CreateJoin_.sh  /home/hdfs/CreateJoin_.sh
-sudo cp IngestJoin__SPMX.sh  /home/hdfs/IngestJoin__SPMX.sh
-sudo cp IngestJoin__SPMM.sh  /home/hdfs/IngestJoin__SPMM.sh
-sudo cp IngestJoin__SPDV.sh  /home/hdfs/IngestJoin__SPDV.sh
-sudo cp IngestJoin__SPTT.sh  /home/hdfs/IngestJoin__SPTT.sh
-sudo cp IngestJoin__SPTM.sh  /home/hdfs/IngestJoin__SPTM.sh
-sudo cp CreateJoin_.sh  /home/hdfs/CreateJoin_.sh
-sudo cp IngestJoin__SPMX.sh  /home/hdfs/IngestJoin__SPMX.sh
-sudo cp IngestJoin__SPMM.sh  /home/hdfs/IngestJoin__SPMM.sh
-sudo cp IngestJoin__SPDV.sh  /home/hdfs/IngestJoin__SPDV.sh
-sudo cp IngestJoin__SPTT.sh  /home/hdfs/IngestJoin__SPTT.sh
-sudo cp IngestJoin__SPTM.sh  /home/hdfs/IngestJoin__SPTM.sh
-sudo cp CreateJoin_.sh  /home/hdfs/CreateJoin_.sh
-sudo cp IngestJoin__SPMX.sh  /home/hdfs/IngestJoin__SPMX.sh
-sudo cp IngestJoin__SPMM.sh  /home/hdfs/IngestJoin__SPMM.sh
-sudo cp IngestJoin__SPDV.sh  /home/hdfs/IngestJoin__SPDV.sh
-sudo cp IngestJoin__SPTT.sh  /home/hdfs/IngestJoin__SPTT.sh
-sudo cp IngestJoin__SPTM.sh  /home/hdfs/IngestJoin__SPTM.sh
-sudo cp CreateJoin_.sh  /home/hdfs/CreateJoin_.sh
-sudo cp IngestJoin__SPMX.sh  /home/hdfs/IngestJoin__SPMX.sh
-sudo cp IngestJoin__SPMM.sh  /home/hdfs/IngestJoin__SPMM.sh
-sudo cp IngestJoin__SPDV.sh  /home/hdfs/IngestJoin__SPDV.sh
-sudo cp IngestJoin__SPTT.sh  /home/hdfs/IngestJoin__SPTT.sh
-sudo cp IngestJoin__SPTM.sh  /home/hdfs/IngestJoin__SPTM.sh
-sudo cp CreateJoin_.sh  /home/hdfs/CreateJoin_.sh
-sudo cp IngestJoin__SPMX.sh  /home/hdfs/IngestJoin__SPMX.sh
-sudo cp IngestJoin__SPMM.sh  /home/hdfs/IngestJoin__SPMM.sh
-sudo cp IngestJoin__SPDV.sh  /home/hdfs/IngestJoin__SPDV.sh
-sudo cp IngestJoin__SPTT.sh  /home/hdfs/IngestJoin__SPTT.sh
-sudo cp IngestJoin__SPTM.sh  /home/hdfs/IngestJoin__SPTM.sh
-sudo cp CreateJoin_.sh  /home/hdfs/CreateJoin_.sh
-sudo cp IngestJoin__SPMX.sh  /home/hdfs/IngestJoin__SPMX.sh
-sudo cp IngestJoin__SPMM.sh  /home/hdfs/IngestJoin__SPMM.sh
-sudo cp IngestJoin__SPDV.sh  /home/hdfs/IngestJoin__SPDV.sh
-sudo cp IngestJoin__SPTT.sh  /home/hdfs/IngestJoin__SPTT.sh
-sudo cp IngestJoin__SPTM.sh  /home/hdfs/IngestJoin__SPTM.sh
+# sudo cp CreateJoin_.sh  /home/hdfs/CreateJoin_.sh
+# sudo cp IngestJoin__SPMX.sh  /home/hdfs/IngestJoin__SPMX.sh
+# sudo cp IngestJoin__SPMM.sh  /home/hdfs/IngestJoin__SPMM.sh
+# sudo cp IngestJoin__SPDV.sh  /home/hdfs/IngestJoin__SPDV.sh
+# sudo cp IngestJoin__SPTT.sh  /home/hdfs/IngestJoin__SPTT.sh
+# sudo cp IngestJoin__SPTM.sh  /home/hdfs/IngestJoin__SPTM.sh
+# sudo cp CreateJoin_.sh  /home/hdfs/CreateJoin_.sh
+# sudo cp IngestJoin__SPMX.sh  /home/hdfs/IngestJoin__SPMX.sh
+# sudo cp IngestJoin__SPMM.sh  /home/hdfs/IngestJoin__SPMM.sh
+# sudo cp IngestJoin__SPDV.sh  /home/hdfs/IngestJoin__SPDV.sh
+# sudo cp IngestJoin__SPTT.sh  /home/hdfs/IngestJoin__SPTT.sh
+# sudo cp IngestJoin__SPTM.sh  /home/hdfs/IngestJoin__SPTM.sh
+# sudo cp CreateJoin_.sh  /home/hdfs/CreateJoin_.sh
+# sudo cp IngestJoin__SPMX.sh  /home/hdfs/IngestJoin__SPMX.sh
+# sudo cp IngestJoin__SPMM.sh  /home/hdfs/IngestJoin__SPMM.sh
+# sudo cp IngestJoin__SPDV.sh  /home/hdfs/IngestJoin__SPDV.sh
+# sudo cp IngestJoin__SPTT.sh  /home/hdfs/IngestJoin__SPTT.sh
+# sudo cp IngestJoin__SPTM.sh  /home/hdfs/IngestJoin__SPTM.sh
+# sudo cp CreateJoin_.sh  /home/hdfs/CreateJoin_.sh
+# sudo cp IngestJoin__SPMX.sh  /home/hdfs/IngestJoin__SPMX.sh
+# sudo cp IngestJoin__SPMM.sh  /home/hdfs/IngestJoin__SPMM.sh
+# sudo cp IngestJoin__SPDV.sh  /home/hdfs/IngestJoin__SPDV.sh
+# sudo cp IngestJoin__SPTT.sh  /home/hdfs/IngestJoin__SPTT.sh
+# sudo cp IngestJoin__SPTM.sh  /home/hdfs/IngestJoin__SPTM.sh
+# sudo cp CreateJoin_.sh  /home/hdfs/CreateJoin_.sh
+# sudo cp IngestJoin__SPMX.sh  /home/hdfs/IngestJoin__SPMX.sh
+# sudo cp IngestJoin__SPMM.sh  /home/hdfs/IngestJoin__SPMM.sh
+# sudo cp IngestJoin__SPDV.sh  /home/hdfs/IngestJoin__SPDV.sh
+# sudo cp IngestJoin__SPTT.sh  /home/hdfs/IngestJoin__SPTT.sh
+# sudo cp IngestJoin__SPTM.sh  /home/hdfs/IngestJoin__SPTM.sh
+# sudo cp CreateJoin_.sh  /home/hdfs/CreateJoin_.sh
+# sudo cp IngestJoin__SPMX.sh  /home/hdfs/IngestJoin__SPMX.sh
+# sudo cp IngestJoin__SPMM.sh  /home/hdfs/IngestJoin__SPMM.sh
+# sudo cp IngestJoin__SPDV.sh  /home/hdfs/IngestJoin__SPDV.sh
+# sudo cp IngestJoin__SPTT.sh  /home/hdfs/IngestJoin__SPTT.sh
+# sudo cp IngestJoin__SPTM.sh  /home/hdfs/IngestJoin__SPTM.sh
+# sudo cp CreateJoin_.sh  /home/hdfs/CreateJoin_.sh
+# sudo cp IngestJoin__SPMX.sh  /home/hdfs/IngestJoin__SPMX.sh
+# sudo cp IngestJoin__SPMM.sh  /home/hdfs/IngestJoin__SPMM.sh
+# sudo cp IngestJoin__SPDV.sh  /home/hdfs/IngestJoin__SPDV.sh
+# sudo cp IngestJoin__SPTT.sh  /home/hdfs/IngestJoin__SPTT.sh
+# sudo cp IngestJoin__SPTM.sh  /home/hdfs/IngestJoin__SPTM.sh
+# sudo cp CreateJoin_.sh  /home/hdfs/CreateJoin_.sh
+# sudo cp IngestJoin__SPMX.sh  /home/hdfs/IngestJoin__SPMX.sh
+# sudo cp IngestJoin__SPMM.sh  /home/hdfs/IngestJoin__SPMM.sh
+# sudo cp IngestJoin__SPDV.sh  /home/hdfs/IngestJoin__SPDV.sh
+# sudo cp IngestJoin__SPTT.sh  /home/hdfs/IngestJoin__SPTT.sh
+# sudo cp IngestJoin__SPTM.sh  /home/hdfs/IngestJoin__SPTM.sh
+# sudo cp CreateJoin_.sh  /home/hdfs/CreateJoin_.sh
+# sudo cp IngestJoin__SPMX.sh  /home/hdfs/IngestJoin__SPMX.sh
+# sudo cp IngestJoin__SPMM.sh  /home/hdfs/IngestJoin__SPMM.sh
+# sudo cp IngestJoin__SPDV.sh  /home/hdfs/IngestJoin__SPDV.sh
+# sudo cp IngestJoin__SPTT.sh  /home/hdfs/IngestJoin__SPTT.sh
+# sudo cp IngestJoin__SPTM.sh  /home/hdfs/IngestJoin__SPTM.sh
 

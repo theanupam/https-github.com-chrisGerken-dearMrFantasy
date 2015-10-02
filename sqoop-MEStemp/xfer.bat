@@ -11,209 +11,209 @@ pscp  -pw d4e30f24   hiveSimple.sh    appladm@prod-hubnamedaws01.sunpowercorp.co
 
 
 
-pscp  -pw d4e30f24   hive/CreateSimple__SPML_ModuleInfo.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple__SPML_ModuleInfo.sh
-pscp  -pw d4e30f24   hive/IngestSimple__SPML_ModuleInfo_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple__SPML_ModuleInfo_SPMX.sh
-pscp  -pw d4e30f24   hive/IngestSimple__SPML_ModuleInfo_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple__SPML_ModuleInfo_SPMM.sh
-pscp  -pw d4e30f24   hive/IngestSimple__SPML_ModuleInfo_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple__SPML_ModuleInfo_SPDV.sh
-pscp  -pw d4e30f24   hive/IngestSimple__SPML_ModuleInfo_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple__SPML_ModuleInfo_SPTT.sh
-pscp  -pw d4e30f24   hive/IngestSimple__SPML_ModuleInfo_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple__SPML_ModuleInfo_SPTM.sh
-pscp  -pw d4e30f24   hive/CreateSimple_Address.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple_Address.sh
-pscp  -pw d4e30f24   hive/IngestSimple_Address_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Address_SPMX.sh
-pscp  -pw d4e30f24   hive/IngestSimple_Address_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Address_SPMM.sh
-pscp  -pw d4e30f24   hive/IngestSimple_Address_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Address_SPDV.sh
-pscp  -pw d4e30f24   hive/IngestSimple_Address_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Address_SPTT.sh
-pscp  -pw d4e30f24   hive/IngestSimple_Address_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Address_SPTM.sh
-pscp  -pw d4e30f24   hive/CreateSimple_Customer.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple_Customer.sh
-pscp  -pw d4e30f24   hive/IngestSimple_Customer_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Customer_SPMX.sh
-pscp  -pw d4e30f24   hive/IngestSimple_Customer_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Customer_SPMM.sh
-pscp  -pw d4e30f24   hive/IngestSimple_Customer_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Customer_SPDV.sh
-pscp  -pw d4e30f24   hive/IngestSimple_Customer_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Customer_SPTT.sh
-pscp  -pw d4e30f24   hive/IngestSimple_Customer_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Customer_SPTM.sh
-pscp  -pw d4e30f24   hive/CreateSimple_Department.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple_Department.sh
-pscp  -pw d4e30f24   hive/IngestSimple_Department_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Department_SPMX.sh
-pscp  -pw d4e30f24   hive/IngestSimple_Department_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Department_SPMM.sh
-pscp  -pw d4e30f24   hive/IngestSimple_Department_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Department_SPDV.sh
-pscp  -pw d4e30f24   hive/IngestSimple_Department_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Department_SPTT.sh
-pscp  -pw d4e30f24   hive/IngestSimple_Department_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Department_SPTM.sh
-pscp  -pw d4e30f24   hive/CreateSimple_InvIsolatedReason.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple_InvIsolatedReason.sh
-pscp  -pw d4e30f24   hive/IngestSimple_InvIsolatedReason_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_InvIsolatedReason_SPMX.sh
-pscp  -pw d4e30f24   hive/IngestSimple_InvIsolatedReason_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_InvIsolatedReason_SPMM.sh
-pscp  -pw d4e30f24   hive/IngestSimple_InvIsolatedReason_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_InvIsolatedReason_SPDV.sh
-pscp  -pw d4e30f24   hive/IngestSimple_InvIsolatedReason_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_InvIsolatedReason_SPTT.sh
-pscp  -pw d4e30f24   hive/IngestSimple_InvIsolatedReason_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_InvIsolatedReason_SPTM.sh
-pscp  -pw d4e30f24   hive/CreateSimple_InvState.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple_InvState.sh
-pscp  -pw d4e30f24   hive/IngestSimple_InvState_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_InvState_SPMX.sh
-pscp  -pw d4e30f24   hive/IngestSimple_InvState_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_InvState_SPMM.sh
-pscp  -pw d4e30f24   hive/IngestSimple_InvState_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_InvState_SPDV.sh
-pscp  -pw d4e30f24   hive/IngestSimple_InvState_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_InvState_SPTT.sh
-pscp  -pw d4e30f24   hive/IngestSimple_InvState_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_InvState_SPTM.sh
-pscp  -pw d4e30f24   hive/CreateSimple_LineGroup.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple_LineGroup.sh
-pscp  -pw d4e30f24   hive/IngestSimple_LineGroup_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_LineGroup_SPMX.sh
-pscp  -pw d4e30f24   hive/IngestSimple_LineGroup_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_LineGroup_SPMM.sh
-pscp  -pw d4e30f24   hive/IngestSimple_LineGroup_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_LineGroup_SPDV.sh
-pscp  -pw d4e30f24   hive/IngestSimple_LineGroup_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_LineGroup_SPTT.sh
-pscp  -pw d4e30f24   hive/IngestSimple_LineGroup_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_LineGroup_SPTM.sh
-pscp  -pw d4e30f24   hive/CreateSimple_LineInfo.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple_LineInfo.sh
-pscp  -pw d4e30f24   hive/IngestSimple_LineInfo_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_LineInfo_SPMX.sh
-pscp  -pw d4e30f24   hive/IngestSimple_LineInfo_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_LineInfo_SPMM.sh
-pscp  -pw d4e30f24   hive/IngestSimple_LineInfo_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_LineInfo_SPDV.sh
-pscp  -pw d4e30f24   hive/IngestSimple_LineInfo_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_LineInfo_SPTT.sh
-pscp  -pw d4e30f24   hive/IngestSimple_LineInfo_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_LineInfo_SPTM.sh
-pscp  -pw d4e30f24   hive/CreateSimple_LineSection.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple_LineSection.sh
-pscp  -pw d4e30f24   hive/IngestSimple_LineSection_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_LineSection_SPMX.sh
-pscp  -pw d4e30f24   hive/IngestSimple_LineSection_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_LineSection_SPMM.sh
-pscp  -pw d4e30f24   hive/IngestSimple_LineSection_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_LineSection_SPDV.sh
-pscp  -pw d4e30f24   hive/IngestSimple_LineSection_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_LineSection_SPTT.sh
-pscp  -pw d4e30f24   hive/IngestSimple_LineSection_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_LineSection_SPTM.sh
-pscp  -pw d4e30f24   hive/CreateSimple_LineType.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple_LineType.sh
-pscp  -pw d4e30f24   hive/IngestSimple_LineType_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_LineType_SPMX.sh
-pscp  -pw d4e30f24   hive/IngestSimple_LineType_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_LineType_SPMM.sh
-pscp  -pw d4e30f24   hive/IngestSimple_LineType_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_LineType_SPDV.sh
-pscp  -pw d4e30f24   hive/IngestSimple_LineType_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_LineType_SPTT.sh
-pscp  -pw d4e30f24   hive/IngestSimple_LineType_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_LineType_SPTM.sh
-pscp  -pw d4e30f24   hive/CreateSimple_MachineStageType.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple_MachineStageType.sh
-pscp  -pw d4e30f24   hive/IngestSimple_MachineStageType_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_MachineStageType_SPMX.sh
-pscp  -pw d4e30f24   hive/IngestSimple_MachineStageType_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_MachineStageType_SPMM.sh
-pscp  -pw d4e30f24   hive/IngestSimple_MachineStageType_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_MachineStageType_SPDV.sh
-pscp  -pw d4e30f24   hive/IngestSimple_MachineStageType_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_MachineStageType_SPTT.sh
-pscp  -pw d4e30f24   hive/IngestSimple_MachineStageType_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_MachineStageType_SPTM.sh
-pscp  -pw d4e30f24   hive/CreateSimple_MachineStop.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple_MachineStop.sh
-pscp  -pw d4e30f24   hive/IngestSimple_MachineStop_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_MachineStop_SPMX.sh
-pscp  -pw d4e30f24   hive/IngestSimple_MachineStop_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_MachineStop_SPMM.sh
-pscp  -pw d4e30f24   hive/IngestSimple_MachineStop_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_MachineStop_SPDV.sh
-pscp  -pw d4e30f24   hive/IngestSimple_MachineStop_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_MachineStop_SPTT.sh
-pscp  -pw d4e30f24   hive/IngestSimple_MachineStop_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_MachineStop_SPTM.sh
-pscp  -pw d4e30f24   hive/CreateSimple_MachineStopCategory.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple_MachineStopCategory.sh
-pscp  -pw d4e30f24   hive/IngestSimple_MachineStopCategory_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_MachineStopCategory_SPMX.sh
-pscp  -pw d4e30f24   hive/IngestSimple_MachineStopCategory_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_MachineStopCategory_SPMM.sh
-pscp  -pw d4e30f24   hive/IngestSimple_MachineStopCategory_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_MachineStopCategory_SPDV.sh
-pscp  -pw d4e30f24   hive/IngestSimple_MachineStopCategory_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_MachineStopCategory_SPTT.sh
-pscp  -pw d4e30f24   hive/IngestSimple_MachineStopCategory_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_MachineStopCategory_SPTM.sh
-pscp  -pw d4e30f24   hive/CreateSimple_MachineStopReason.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple_MachineStopReason.sh
-pscp  -pw d4e30f24   hive/IngestSimple_MachineStopReason_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_MachineStopReason_SPMX.sh
-pscp  -pw d4e30f24   hive/IngestSimple_MachineStopReason_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_MachineStopReason_SPMM.sh
-pscp  -pw d4e30f24   hive/IngestSimple_MachineStopReason_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_MachineStopReason_SPDV.sh
-pscp  -pw d4e30f24   hive/IngestSimple_MachineStopReason_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_MachineStopReason_SPTT.sh
-pscp  -pw d4e30f24   hive/IngestSimple_MachineStopReason_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_MachineStopReason_SPTM.sh
-pscp  -pw d4e30f24   hive/CreateSimple_Operation.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple_Operation.sh
-pscp  -pw d4e30f24   hive/IngestSimple_Operation_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Operation_SPMX.sh
-pscp  -pw d4e30f24   hive/IngestSimple_Operation_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Operation_SPMM.sh
-pscp  -pw d4e30f24   hive/IngestSimple_Operation_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Operation_SPDV.sh
-pscp  -pw d4e30f24   hive/IngestSimple_Operation_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Operation_SPTT.sh
-pscp  -pw d4e30f24   hive/IngestSimple_Operation_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Operation_SPTM.sh
-pscp  -pw d4e30f24   hive/CreateSimple_OperationType.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple_OperationType.sh
-pscp  -pw d4e30f24   hive/IngestSimple_OperationType_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_OperationType_SPMX.sh
-pscp  -pw d4e30f24   hive/IngestSimple_OperationType_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_OperationType_SPMM.sh
-pscp  -pw d4e30f24   hive/IngestSimple_OperationType_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_OperationType_SPDV.sh
-pscp  -pw d4e30f24   hive/IngestSimple_OperationType_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_OperationType_SPTT.sh
-pscp  -pw d4e30f24   hive/IngestSimple_OperationType_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_OperationType_SPTM.sh
-pscp  -pw d4e30f24   hive/CreateSimple_PartClassification.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple_PartClassification.sh
-pscp  -pw d4e30f24   hive/IngestSimple_PartClassification_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_PartClassification_SPMX.sh
-pscp  -pw d4e30f24   hive/IngestSimple_PartClassification_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_PartClassification_SPMM.sh
-pscp  -pw d4e30f24   hive/IngestSimple_PartClassification_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_PartClassification_SPDV.sh
-pscp  -pw d4e30f24   hive/IngestSimple_PartClassification_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_PartClassification_SPTT.sh
-pscp  -pw d4e30f24   hive/IngestSimple_PartClassification_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_PartClassification_SPTM.sh
-pscp  -pw d4e30f24   hive/CreateSimple_PartSubClassification.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple_PartSubClassification.sh
-pscp  -pw d4e30f24   hive/IngestSimple_PartSubClassification_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_PartSubClassification_SPMX.sh
-pscp  -pw d4e30f24   hive/IngestSimple_PartSubClassification_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_PartSubClassification_SPMM.sh
-pscp  -pw d4e30f24   hive/IngestSimple_PartSubClassification_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_PartSubClassification_SPDV.sh
-pscp  -pw d4e30f24   hive/IngestSimple_PartSubClassification_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_PartSubClassification_SPTT.sh
-pscp  -pw d4e30f24   hive/IngestSimple_PartSubClassification_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_PartSubClassification_SPTM.sh
-pscp  -pw d4e30f24   hive/CreateSimple_PartType.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple_PartType.sh
-pscp  -pw d4e30f24   hive/IngestSimple_PartType_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_PartType_SPMX.sh
-pscp  -pw d4e30f24   hive/IngestSimple_PartType_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_PartType_SPMM.sh
-pscp  -pw d4e30f24   hive/IngestSimple_PartType_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_PartType_SPDV.sh
-pscp  -pw d4e30f24   hive/IngestSimple_PartType_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_PartType_SPTT.sh
-pscp  -pw d4e30f24   hive/IngestSimple_PartType_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_PartType_SPTM.sh
-pscp  -pw d4e30f24   hive/CreateSimple_Shift.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple_Shift.sh
-pscp  -pw d4e30f24   hive/IngestSimple_Shift_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Shift_SPMX.sh
-pscp  -pw d4e30f24   hive/IngestSimple_Shift_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Shift_SPMM.sh
-pscp  -pw d4e30f24   hive/IngestSimple_Shift_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Shift_SPDV.sh
-pscp  -pw d4e30f24   hive/IngestSimple_Shift_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Shift_SPTT.sh
-pscp  -pw d4e30f24   hive/IngestSimple_Shift_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Shift_SPTM.sh
-pscp  -pw d4e30f24   hive/CreateSimple_ShiftPattern.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple_ShiftPattern.sh
-pscp  -pw d4e30f24   hive/IngestSimple_ShiftPattern_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_ShiftPattern_SPMX.sh
-pscp  -pw d4e30f24   hive/IngestSimple_ShiftPattern_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_ShiftPattern_SPMM.sh
-pscp  -pw d4e30f24   hive/IngestSimple_ShiftPattern_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_ShiftPattern_SPDV.sh
-pscp  -pw d4e30f24   hive/IngestSimple_ShiftPattern_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_ShiftPattern_SPTT.sh
-pscp  -pw d4e30f24   hive/IngestSimple_ShiftPattern_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_ShiftPattern_SPTM.sh
-pscp  -pw d4e30f24   hive/CreateSimple_ShiftType.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple_ShiftType.sh
-pscp  -pw d4e30f24   hive/IngestSimple_ShiftType_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_ShiftType_SPMX.sh
-pscp  -pw d4e30f24   hive/IngestSimple_ShiftType_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_ShiftType_SPMM.sh
-pscp  -pw d4e30f24   hive/IngestSimple_ShiftType_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_ShiftType_SPDV.sh
-pscp  -pw d4e30f24   hive/IngestSimple_ShiftType_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_ShiftType_SPTT.sh
-pscp  -pw d4e30f24   hive/IngestSimple_ShiftType_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_ShiftType_SPTM.sh
-pscp  -pw d4e30f24   hive/CreateSimple_Supplier.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple_Supplier.sh
-pscp  -pw d4e30f24   hive/IngestSimple_Supplier_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Supplier_SPMX.sh
-pscp  -pw d4e30f24   hive/IngestSimple_Supplier_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Supplier_SPMM.sh
-pscp  -pw d4e30f24   hive/IngestSimple_Supplier_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Supplier_SPDV.sh
-pscp  -pw d4e30f24   hive/IngestSimple_Supplier_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Supplier_SPTT.sh
-pscp  -pw d4e30f24   hive/IngestSimple_Supplier_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Supplier_SPTM.sh
-pscp  -pw d4e30f24   hive/CreateSimple_TagList.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple_TagList.sh
-pscp  -pw d4e30f24   hive/IngestSimple_TagList_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_TagList_SPMX.sh
-pscp  -pw d4e30f24   hive/IngestSimple_TagList_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_TagList_SPMM.sh
-pscp  -pw d4e30f24   hive/IngestSimple_TagList_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_TagList_SPDV.sh
-pscp  -pw d4e30f24   hive/IngestSimple_TagList_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_TagList_SPTT.sh
-pscp  -pw d4e30f24   hive/IngestSimple_TagList_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_TagList_SPTM.sh
-pscp  -pw d4e30f24   hive/CreateSimple_Unit.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple_Unit.sh
-pscp  -pw d4e30f24   hive/IngestSimple_Unit_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Unit_SPMX.sh
-pscp  -pw d4e30f24   hive/IngestSimple_Unit_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Unit_SPMM.sh
-pscp  -pw d4e30f24   hive/IngestSimple_Unit_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Unit_SPDV.sh
-pscp  -pw d4e30f24   hive/IngestSimple_Unit_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Unit_SPTT.sh
-pscp  -pw d4e30f24   hive/IngestSimple_Unit_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Unit_SPTM.sh
+REM pscp  -pw d4e30f24   hive/CreateSimple__SPML_ModuleInfo.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple__SPML_ModuleInfo.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple__SPML_ModuleInfo_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple__SPML_ModuleInfo_SPMX.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple__SPML_ModuleInfo_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple__SPML_ModuleInfo_SPMM.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple__SPML_ModuleInfo_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple__SPML_ModuleInfo_SPDV.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple__SPML_ModuleInfo_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple__SPML_ModuleInfo_SPTT.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple__SPML_ModuleInfo_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple__SPML_ModuleInfo_SPTM.sh
+REM pscp  -pw d4e30f24   hive/CreateSimple_Address.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple_Address.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_Address_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Address_SPMX.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_Address_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Address_SPMM.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_Address_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Address_SPDV.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_Address_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Address_SPTT.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_Address_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Address_SPTM.sh
+REM pscp  -pw d4e30f24   hive/CreateSimple_Customer.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple_Customer.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_Customer_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Customer_SPMX.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_Customer_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Customer_SPMM.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_Customer_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Customer_SPDV.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_Customer_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Customer_SPTT.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_Customer_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Customer_SPTM.sh
+REM pscp  -pw d4e30f24   hive/CreateSimple_Department.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple_Department.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_Department_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Department_SPMX.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_Department_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Department_SPMM.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_Department_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Department_SPDV.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_Department_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Department_SPTT.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_Department_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Department_SPTM.sh
+REM pscp  -pw d4e30f24   hive/CreateSimple_InvIsolatedReason.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple_InvIsolatedReason.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_InvIsolatedReason_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_InvIsolatedReason_SPMX.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_InvIsolatedReason_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_InvIsolatedReason_SPMM.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_InvIsolatedReason_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_InvIsolatedReason_SPDV.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_InvIsolatedReason_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_InvIsolatedReason_SPTT.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_InvIsolatedReason_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_InvIsolatedReason_SPTM.sh
+REM pscp  -pw d4e30f24   hive/CreateSimple_InvState.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple_InvState.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_InvState_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_InvState_SPMX.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_InvState_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_InvState_SPMM.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_InvState_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_InvState_SPDV.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_InvState_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_InvState_SPTT.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_InvState_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_InvState_SPTM.sh
+REM pscp  -pw d4e30f24   hive/CreateSimple_LineGroup.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple_LineGroup.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_LineGroup_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_LineGroup_SPMX.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_LineGroup_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_LineGroup_SPMM.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_LineGroup_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_LineGroup_SPDV.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_LineGroup_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_LineGroup_SPTT.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_LineGroup_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_LineGroup_SPTM.sh
+REM pscp  -pw d4e30f24   hive/CreateSimple_LineInfo.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple_LineInfo.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_LineInfo_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_LineInfo_SPMX.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_LineInfo_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_LineInfo_SPMM.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_LineInfo_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_LineInfo_SPDV.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_LineInfo_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_LineInfo_SPTT.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_LineInfo_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_LineInfo_SPTM.sh
+REM pscp  -pw d4e30f24   hive/CreateSimple_LineSection.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple_LineSection.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_LineSection_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_LineSection_SPMX.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_LineSection_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_LineSection_SPMM.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_LineSection_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_LineSection_SPDV.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_LineSection_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_LineSection_SPTT.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_LineSection_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_LineSection_SPTM.sh
+REM pscp  -pw d4e30f24   hive/CreateSimple_LineType.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple_LineType.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_LineType_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_LineType_SPMX.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_LineType_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_LineType_SPMM.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_LineType_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_LineType_SPDV.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_LineType_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_LineType_SPTT.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_LineType_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_LineType_SPTM.sh
+REM pscp  -pw d4e30f24   hive/CreateSimple_MachineStageType.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple_MachineStageType.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_MachineStageType_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_MachineStageType_SPMX.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_MachineStageType_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_MachineStageType_SPMM.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_MachineStageType_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_MachineStageType_SPDV.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_MachineStageType_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_MachineStageType_SPTT.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_MachineStageType_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_MachineStageType_SPTM.sh
+REM pscp  -pw d4e30f24   hive/CreateSimple_MachineStop.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple_MachineStop.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_MachineStop_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_MachineStop_SPMX.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_MachineStop_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_MachineStop_SPMM.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_MachineStop_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_MachineStop_SPDV.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_MachineStop_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_MachineStop_SPTT.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_MachineStop_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_MachineStop_SPTM.sh
+REM pscp  -pw d4e30f24   hive/CreateSimple_MachineStopCategory.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple_MachineStopCategory.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_MachineStopCategory_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_MachineStopCategory_SPMX.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_MachineStopCategory_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_MachineStopCategory_SPMM.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_MachineStopCategory_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_MachineStopCategory_SPDV.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_MachineStopCategory_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_MachineStopCategory_SPTT.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_MachineStopCategory_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_MachineStopCategory_SPTM.sh
+REM pscp  -pw d4e30f24   hive/CreateSimple_MachineStopReason.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple_MachineStopReason.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_MachineStopReason_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_MachineStopReason_SPMX.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_MachineStopReason_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_MachineStopReason_SPMM.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_MachineStopReason_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_MachineStopReason_SPDV.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_MachineStopReason_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_MachineStopReason_SPTT.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_MachineStopReason_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_MachineStopReason_SPTM.sh
+REM pscp  -pw d4e30f24   hive/CreateSimple_Operation.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple_Operation.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_Operation_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Operation_SPMX.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_Operation_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Operation_SPMM.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_Operation_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Operation_SPDV.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_Operation_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Operation_SPTT.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_Operation_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Operation_SPTM.sh
+REM pscp  -pw d4e30f24   hive/CreateSimple_OperationType.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple_OperationType.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_OperationType_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_OperationType_SPMX.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_OperationType_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_OperationType_SPMM.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_OperationType_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_OperationType_SPDV.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_OperationType_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_OperationType_SPTT.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_OperationType_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_OperationType_SPTM.sh
+REM pscp  -pw d4e30f24   hive/CreateSimple_PartClassification.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple_PartClassification.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_PartClassification_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_PartClassification_SPMX.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_PartClassification_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_PartClassification_SPMM.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_PartClassification_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_PartClassification_SPDV.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_PartClassification_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_PartClassification_SPTT.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_PartClassification_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_PartClassification_SPTM.sh
+REM pscp  -pw d4e30f24   hive/CreateSimple_PartSubClassification.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple_PartSubClassification.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_PartSubClassification_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_PartSubClassification_SPMX.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_PartSubClassification_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_PartSubClassification_SPMM.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_PartSubClassification_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_PartSubClassification_SPDV.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_PartSubClassification_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_PartSubClassification_SPTT.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_PartSubClassification_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_PartSubClassification_SPTM.sh
+REM pscp  -pw d4e30f24   hive/CreateSimple_PartType.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple_PartType.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_PartType_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_PartType_SPMX.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_PartType_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_PartType_SPMM.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_PartType_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_PartType_SPDV.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_PartType_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_PartType_SPTT.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_PartType_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_PartType_SPTM.sh
+REM pscp  -pw d4e30f24   hive/CreateSimple_Shift.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple_Shift.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_Shift_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Shift_SPMX.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_Shift_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Shift_SPMM.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_Shift_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Shift_SPDV.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_Shift_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Shift_SPTT.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_Shift_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Shift_SPTM.sh
+REM pscp  -pw d4e30f24   hive/CreateSimple_ShiftPattern.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple_ShiftPattern.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_ShiftPattern_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_ShiftPattern_SPMX.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_ShiftPattern_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_ShiftPattern_SPMM.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_ShiftPattern_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_ShiftPattern_SPDV.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_ShiftPattern_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_ShiftPattern_SPTT.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_ShiftPattern_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_ShiftPattern_SPTM.sh
+REM pscp  -pw d4e30f24   hive/CreateSimple_ShiftType.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple_ShiftType.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_ShiftType_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_ShiftType_SPMX.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_ShiftType_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_ShiftType_SPMM.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_ShiftType_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_ShiftType_SPDV.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_ShiftType_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_ShiftType_SPTT.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_ShiftType_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_ShiftType_SPTM.sh
+REM pscp  -pw d4e30f24   hive/CreateSimple_Supplier.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple_Supplier.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_Supplier_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Supplier_SPMX.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_Supplier_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Supplier_SPMM.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_Supplier_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Supplier_SPDV.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_Supplier_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Supplier_SPTT.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_Supplier_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Supplier_SPTM.sh
+REM pscp  -pw d4e30f24   hive/CreateSimple_TagList.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple_TagList.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_TagList_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_TagList_SPMX.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_TagList_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_TagList_SPMM.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_TagList_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_TagList_SPDV.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_TagList_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_TagList_SPTT.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_TagList_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_TagList_SPTM.sh
+REM pscp  -pw d4e30f24   hive/CreateSimple_Unit.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateSimple_Unit.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_Unit_SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Unit_SPMX.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_Unit_SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Unit_SPMM.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_Unit_SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Unit_SPDV.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_Unit_SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Unit_SPTT.sh
+REM pscp  -pw d4e30f24   hive/IngestSimple_Unit_SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestSimple_Unit_SPTM.sh
 
-pscp  -pw d4e30f24   hive/CreateJoin_.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateJoin_.sh
-pscp  -pw d4e30f24   hive/IngestJoin__SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPMX.sh
-pscp  -pw d4e30f24   hive/IngestJoin__SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPMM.sh
-pscp  -pw d4e30f24   hive/IngestJoin__SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPDV.sh
-pscp  -pw d4e30f24   hive/IngestJoin__SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPTT.sh
-pscp  -pw d4e30f24   hive/IngestJoin__SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPTM.sh
-pscp  -pw d4e30f24   hive/CreateJoin_.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateJoin_.sh
-pscp  -pw d4e30f24   hive/IngestJoin__SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPMX.sh
-pscp  -pw d4e30f24   hive/IngestJoin__SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPMM.sh
-pscp  -pw d4e30f24   hive/IngestJoin__SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPDV.sh
-pscp  -pw d4e30f24   hive/IngestJoin__SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPTT.sh
-pscp  -pw d4e30f24   hive/IngestJoin__SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPTM.sh
-pscp  -pw d4e30f24   hive/CreateJoin_.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateJoin_.sh
-pscp  -pw d4e30f24   hive/IngestJoin__SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPMX.sh
-pscp  -pw d4e30f24   hive/IngestJoin__SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPMM.sh
-pscp  -pw d4e30f24   hive/IngestJoin__SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPDV.sh
-pscp  -pw d4e30f24   hive/IngestJoin__SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPTT.sh
-pscp  -pw d4e30f24   hive/IngestJoin__SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPTM.sh
-pscp  -pw d4e30f24   hive/CreateJoin_.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateJoin_.sh
-pscp  -pw d4e30f24   hive/IngestJoin__SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPMX.sh
-pscp  -pw d4e30f24   hive/IngestJoin__SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPMM.sh
-pscp  -pw d4e30f24   hive/IngestJoin__SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPDV.sh
-pscp  -pw d4e30f24   hive/IngestJoin__SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPTT.sh
-pscp  -pw d4e30f24   hive/IngestJoin__SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPTM.sh
-pscp  -pw d4e30f24   hive/CreateJoin_.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateJoin_.sh
-pscp  -pw d4e30f24   hive/IngestJoin__SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPMX.sh
-pscp  -pw d4e30f24   hive/IngestJoin__SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPMM.sh
-pscp  -pw d4e30f24   hive/IngestJoin__SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPDV.sh
-pscp  -pw d4e30f24   hive/IngestJoin__SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPTT.sh
-pscp  -pw d4e30f24   hive/IngestJoin__SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPTM.sh
-pscp  -pw d4e30f24   hive/CreateJoin_.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateJoin_.sh
-pscp  -pw d4e30f24   hive/IngestJoin__SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPMX.sh
-pscp  -pw d4e30f24   hive/IngestJoin__SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPMM.sh
-pscp  -pw d4e30f24   hive/IngestJoin__SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPDV.sh
-pscp  -pw d4e30f24   hive/IngestJoin__SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPTT.sh
-pscp  -pw d4e30f24   hive/IngestJoin__SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPTM.sh
-pscp  -pw d4e30f24   hive/CreateJoin_.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateJoin_.sh
-pscp  -pw d4e30f24   hive/IngestJoin__SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPMX.sh
-pscp  -pw d4e30f24   hive/IngestJoin__SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPMM.sh
-pscp  -pw d4e30f24   hive/IngestJoin__SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPDV.sh
-pscp  -pw d4e30f24   hive/IngestJoin__SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPTT.sh
-pscp  -pw d4e30f24   hive/IngestJoin__SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPTM.sh
-pscp  -pw d4e30f24   hive/CreateJoin_.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateJoin_.sh
-pscp  -pw d4e30f24   hive/IngestJoin__SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPMX.sh
-pscp  -pw d4e30f24   hive/IngestJoin__SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPMM.sh
-pscp  -pw d4e30f24   hive/IngestJoin__SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPDV.sh
-pscp  -pw d4e30f24   hive/IngestJoin__SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPTT.sh
-pscp  -pw d4e30f24   hive/IngestJoin__SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPTM.sh
-pscp  -pw d4e30f24   hive/CreateJoin_.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateJoin_.sh
-pscp  -pw d4e30f24   hive/IngestJoin__SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPMX.sh
-pscp  -pw d4e30f24   hive/IngestJoin__SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPMM.sh
-pscp  -pw d4e30f24   hive/IngestJoin__SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPDV.sh
-pscp  -pw d4e30f24   hive/IngestJoin__SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPTT.sh
-pscp  -pw d4e30f24   hive/IngestJoin__SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPTM.sh
+REM pscp  -pw d4e30f24   hive/CreateJoin_.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateJoin_.sh
+REM pscp  -pw d4e30f24   hive/IngestJoin__SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPMX.sh
+REM pscp  -pw d4e30f24   hive/IngestJoin__SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPMM.sh
+REM pscp  -pw d4e30f24   hive/IngestJoin__SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPDV.sh
+REM pscp  -pw d4e30f24   hive/IngestJoin__SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPTT.sh
+REM pscp  -pw d4e30f24   hive/IngestJoin__SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPTM.sh
+REM pscp  -pw d4e30f24   hive/CreateJoin_.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateJoin_.sh
+REM pscp  -pw d4e30f24   hive/IngestJoin__SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPMX.sh
+REM pscp  -pw d4e30f24   hive/IngestJoin__SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPMM.sh
+REM pscp  -pw d4e30f24   hive/IngestJoin__SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPDV.sh
+REM pscp  -pw d4e30f24   hive/IngestJoin__SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPTT.sh
+REM pscp  -pw d4e30f24   hive/IngestJoin__SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPTM.sh
+REM pscp  -pw d4e30f24   hive/CreateJoin_.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateJoin_.sh
+REM pscp  -pw d4e30f24   hive/IngestJoin__SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPMX.sh
+REM pscp  -pw d4e30f24   hive/IngestJoin__SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPMM.sh
+REM pscp  -pw d4e30f24   hive/IngestJoin__SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPDV.sh
+REM pscp  -pw d4e30f24   hive/IngestJoin__SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPTT.sh
+REM pscp  -pw d4e30f24   hive/IngestJoin__SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPTM.sh
+REM pscp  -pw d4e30f24   hive/CreateJoin_.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateJoin_.sh
+REM pscp  -pw d4e30f24   hive/IngestJoin__SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPMX.sh
+REM pscp  -pw d4e30f24   hive/IngestJoin__SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPMM.sh
+REM pscp  -pw d4e30f24   hive/IngestJoin__SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPDV.sh
+REM pscp  -pw d4e30f24   hive/IngestJoin__SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPTT.sh
+REM pscp  -pw d4e30f24   hive/IngestJoin__SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPTM.sh
+REM pscp  -pw d4e30f24   hive/CreateJoin_.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateJoin_.sh
+REM pscp  -pw d4e30f24   hive/IngestJoin__SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPMX.sh
+REM pscp  -pw d4e30f24   hive/IngestJoin__SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPMM.sh
+REM pscp  -pw d4e30f24   hive/IngestJoin__SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPDV.sh
+REM pscp  -pw d4e30f24   hive/IngestJoin__SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPTT.sh
+REM pscp  -pw d4e30f24   hive/IngestJoin__SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPTM.sh
+REM pscp  -pw d4e30f24   hive/CreateJoin_.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateJoin_.sh
+REM pscp  -pw d4e30f24   hive/IngestJoin__SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPMX.sh
+REM pscp  -pw d4e30f24   hive/IngestJoin__SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPMM.sh
+REM pscp  -pw d4e30f24   hive/IngestJoin__SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPDV.sh
+REM pscp  -pw d4e30f24   hive/IngestJoin__SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPTT.sh
+REM pscp  -pw d4e30f24   hive/IngestJoin__SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPTM.sh
+REM pscp  -pw d4e30f24   hive/CreateJoin_.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateJoin_.sh
+REM pscp  -pw d4e30f24   hive/IngestJoin__SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPMX.sh
+REM pscp  -pw d4e30f24   hive/IngestJoin__SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPMM.sh
+REM pscp  -pw d4e30f24   hive/IngestJoin__SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPDV.sh
+REM pscp  -pw d4e30f24   hive/IngestJoin__SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPTT.sh
+REM pscp  -pw d4e30f24   hive/IngestJoin__SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPTM.sh
+REM pscp  -pw d4e30f24   hive/CreateJoin_.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateJoin_.sh
+REM pscp  -pw d4e30f24   hive/IngestJoin__SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPMX.sh
+REM pscp  -pw d4e30f24   hive/IngestJoin__SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPMM.sh
+REM pscp  -pw d4e30f24   hive/IngestJoin__SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPDV.sh
+REM pscp  -pw d4e30f24   hive/IngestJoin__SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPTT.sh
+REM pscp  -pw d4e30f24   hive/IngestJoin__SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPTM.sh
+REM pscp  -pw d4e30f24   hive/CreateJoin_.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/CreateJoin_.sh
+REM pscp  -pw d4e30f24   hive/IngestJoin__SPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPMX.sh
+REM pscp  -pw d4e30f24   hive/IngestJoin__SPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPMM.sh
+REM pscp  -pw d4e30f24   hive/IngestJoin__SPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPDV.sh
+REM pscp  -pw d4e30f24   hive/IngestJoin__SPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPTT.sh
+REM pscp  -pw d4e30f24   hive/IngestJoin__SPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IngestJoin__SPTM.sh
 
