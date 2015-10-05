@@ -53,5 +53,14 @@ pscp  -pw d4e30f24   ingest/ingestMachineStageAll.sh    appladm@prod-hubnamedaws
 pscp  -pw d4e30f24   ingest/ingestPartALL.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/ingestPartALL.sh
 
 pscp  -pw d4e30f24   ingest/ingestWOALL.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/ingestWOALL.sh
-
 pscp  -pw d4e30f24   ingest/ingest.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/ingest.sh
+
+
+pscp  -pw d4e30f24   ingest/modcoIngestSPMX.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/modcoIngestSPMX.sh
+pscp  -pw d4e30f24   ingest/modcoIngestSPMM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/modcoIngestSPMM.sh
+pscp  -pw d4e30f24   ingest/modcoIngestSPDV.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/modcoIngestSPDV.sh
+pscp  -pw d4e30f24   ingest/modcoIngestSPTT.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/modcoIngestSPTT.sh
+pscp  -pw d4e30f24   ingest/modcoIngestSPTM.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/modcoIngestSPTM.sh
+
+pscp  -pw d4e30f24   ingest/modcoIngestBefore.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/modcoIngestBefore.sh
+pscp  -pw d4e30f24   ingest/modcoIngestAfter.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/modcoIngestAfter.sh

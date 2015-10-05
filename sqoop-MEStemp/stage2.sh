@@ -50,5 +50,14 @@ sudo cp ingestMachineStageAll.sh  /home/hdfs/ingestMachineStageAll.sh
 sudo cp ingestPartALL.sh  /home/hdfs/ingestPartALL.sh
 
 sudo cp ingestWOALL.sh  /home/hdfs/ingestWOALL.sh
-
 sudo cp ingest.sh  /home/hdfs/ingest.sh
+
+
+sudo cp modcoIngestSPMX.sh  /home/hdfs/modcoIngestSPMX.sh
+sudo cp modcoIngestSPMM.sh  /home/hdfs/modcoIngestSPMM.sh
+sudo cp modcoIngestSPDV.sh  /home/hdfs/modcoIngestSPDV.sh
+sudo cp modcoIngestSPTT.sh  /home/hdfs/modcoIngestSPTT.sh
+sudo cp modcoIngestSPTM.sh  /home/hdfs/modcoIngestSPTM.sh
+
+sudo cp modcoIngestBefore.sh  /home/hdfs/modcoIngestBefore.sh
+sudo cp modcoIngestAfter.sh  /home/hdfs/modcoIngestAfter.sh
