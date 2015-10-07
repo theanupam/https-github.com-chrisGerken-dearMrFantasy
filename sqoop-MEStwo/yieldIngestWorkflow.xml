@@ -1,0 +1,446 @@
+<workflow-app name="MEStwo-Ingest" xmlns="uri:oozie:workflow:0.1">
+ 
+ 	<start to="Delete-Lake"/>
+ 
+ 	<action name="Delete-Lake">
+        <fs>
+            <delete path='hdfs://prod-hubnamedaws01.sunpowercorp.com:8020/MEStwo'/>
+        </fs>
+        <ok to="Fork-Ingest"/>
+        <error to="end"/>
+    </action>
+
+	<fork name="Fork-Ingest">
+
+        <path start="LineGroup-Fork" />
+
+        <path start="LineInfo-Fork" />
+
+	</fork>
+
+
+	<fork name="LineGroup-Fork">
+
+        <path start="LineGroup-SPMX-Ingest" />
+
+        <path start="LineGroup-SPMM-Ingest" />
+
+        <path start="LineGroup-SPDV-Ingest" />
+
+        <path start="LineGroup-SPTT-Ingest" />
+
+        <path start="LineGroup-SPTM-Ingest" />
+
+	</fork>
+
+
+    <action name="LineGroup-SPMX-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<configuration>
+				<property>
+					<name>oozie.hive.defaults</name>
+					<value>/etc/hive/conf/hive-default.xml.template</value>
+				</property>
+			</configuration>
+            <arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT LineGroupID,LineGroup,LineGroupCode,Description,OEETarget,WasteTarget,Reference1,Reference2,Reference3,Reference4,Reference5, 1 as "org_id"  FROM dbo.LineGroup WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStwo/LineGroup/1</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="LineGroup-Join"/>
+        <error to="LineGroup-Join"/>
+    </action>
+
+
+
+    <action name="LineGroup-SPMM-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<configuration>
+				<property>
+					<name>oozie.hive.defaults</name>
+					<value>/etc/hive/conf/hive-default.xml.template</value>
+				</property>
+			</configuration>
+            <arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT LineGroupID,LineGroup,LineGroupCode,Description,OEETarget,WasteTarget,Reference1,Reference2,Reference3,Reference4,Reference5, 2 as "org_id"  FROM dbo.LineGroup WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStwo/LineGroup/2</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="LineGroup-Join"/>
+        <error to="LineGroup-Join"/>
+    </action>
+
+
+
+    <action name="LineGroup-SPDV-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<configuration>
+				<property>
+					<name>oozie.hive.defaults</name>
+					<value>/etc/hive/conf/hive-default.xml.template</value>
+				</property>
+			</configuration>
+            <arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT LineGroupID,LineGroup,LineGroupCode,Description,OEETarget,WasteTarget,Reference1,Reference2,Reference3,Reference4,Reference5, 3 as "org_id"  FROM dbo.LineGroup WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStwo/LineGroup/3</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="LineGroup-Join"/>
+        <error to="LineGroup-Join"/>
+    </action>
+
+
+
+    <action name="LineGroup-SPTT-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<configuration>
+				<property>
+					<name>oozie.hive.defaults</name>
+					<value>/etc/hive/conf/hive-default.xml.template</value>
+				</property>
+			</configuration>
+            <arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT LineGroupID,LineGroup,LineGroupCode,Description,OEETarget,WasteTarget,Reference1,Reference2,Reference3,Reference4,Reference5, 4 as "org_id"  FROM dbo.LineGroup WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStwo/LineGroup/4</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="LineGroup-Join"/>
+        <error to="LineGroup-Join"/>
+    </action>
+
+
+
+    <action name="LineGroup-SPTM-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<configuration>
+				<property>
+					<name>oozie.hive.defaults</name>
+					<value>/etc/hive/conf/hive-default.xml.template</value>
+				</property>
+			</configuration>
+            <arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT LineGroupID,LineGroup,LineGroupCode,Description,OEETarget,WasteTarget,Reference1,Reference2,Reference3,Reference4,Reference5, 5 as "org_id"  FROM dbo.LineGroup WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStwo/LineGroup/5</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="LineGroup-Join"/>
+        <error to="LineGroup-Join"/>
+    </action>
+
+
+
+    <join name="LineGroup-Join" to="LineGroup-Create" />
+
+    <action name="LineGroup-Create">
+		<shell xmlns="uri:oozie:shell-action:0.1">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<exec>${appPath}/hive.sh</exec>
+			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
+			<file>${appPath}/hive_pill</file>
+		</shell>
+        <ok to="Ingest-Join"/>
+        <error to="Ingest-Join"/>
+    </action>
+
+
+	<fork name="LineInfo-Fork">
+
+        <path start="LineInfo-SPMX-Ingest" />
+
+        <path start="LineInfo-SPMM-Ingest" />
+
+        <path start="LineInfo-SPDV-Ingest" />
+
+        <path start="LineInfo-SPTT-Ingest" />
+
+        <path start="LineInfo-SPTM-Ingest" />
+
+	</fork>
+
+
+    <action name="LineInfo-SPMX-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<configuration>
+				<property>
+					<name>oozie.hive.defaults</name>
+					<value>/etc/hive/conf/hive-default.xml.template</value>
+				</property>
+			</configuration>
+            <arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT LineInfoID,RfLineInfoEventID,LineID,ShiftID,WOID,FromDT,ToDT,rfDayHourPeriodID,TotalTime,ExcludedTime,ScheduledTime,STOperations,STInduced,DTTechnical,DTOperations,DTQuality,DownTime,StopTime,RunTime,NotRunTime,TheoreticalCycleTime,QuantityScrap,QuantityGood,ModifiedDT,LoginID,QuantityIn,TotalInventoryProduced,TotalInventoryReintroduced,NetQuantityProduced,QuantityInLineSpoilage,TotalSpoilage,AccountedSpoilage,TotalInventoryIsolated,ProductionStopJobID,TotalUnitsProduced,BottleNeckMachineStageID,InventoryIn,InterProdStopTime,InProdStopTime,QuantityUnitsIn,QuantityInventoryIn,TotalQuantityProduced,TotalPacksProduced,TotalPacksIsolated,TotalPacksReintroduced,TotalPacksMade,ValidState,LineGroupID,LineGroupShiftID,LineGroupBottleneckID, 1 as "org_id"  FROM dbo.LineInfo WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStwo/LineInfo/1</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="LineInfo-Join"/>
+        <error to="LineInfo-Join"/>
+    </action>
+
+
+
+    <action name="LineInfo-SPMM-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<configuration>
+				<property>
+					<name>oozie.hive.defaults</name>
+					<value>/etc/hive/conf/hive-default.xml.template</value>
+				</property>
+			</configuration>
+            <arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT LineInfoID,RfLineInfoEventID,LineID,ShiftID,WOID,FromDT,ToDT,rfDayHourPeriodID,TotalTime,ExcludedTime,ScheduledTime,STOperations,STInduced,DTTechnical,DTOperations,DTQuality,DownTime,StopTime,RunTime,NotRunTime,TheoreticalCycleTime,QuantityScrap,QuantityGood,ModifiedDT,LoginID,QuantityIn,TotalInventoryProduced,TotalInventoryReintroduced,NetQuantityProduced,QuantityInLineSpoilage,TotalSpoilage,AccountedSpoilage,TotalInventoryIsolated,ProductionStopJobID,TotalUnitsProduced,BottleNeckMachineStageID,InventoryIn,InterProdStopTime,InProdStopTime,QuantityUnitsIn,QuantityInventoryIn,TotalQuantityProduced,TotalPacksProduced,TotalPacksIsolated,TotalPacksReintroduced,TotalPacksMade,ValidState,LineGroupID,LineGroupShiftID,LineGroupBottleneckID, 2 as "org_id"  FROM dbo.LineInfo WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStwo/LineInfo/2</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="LineInfo-Join"/>
+        <error to="LineInfo-Join"/>
+    </action>
+
+
+
+    <action name="LineInfo-SPDV-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<configuration>
+				<property>
+					<name>oozie.hive.defaults</name>
+					<value>/etc/hive/conf/hive-default.xml.template</value>
+				</property>
+			</configuration>
+            <arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT LineInfoID,RfLineInfoEventID,LineID,ShiftID,WOID,FromDT,ToDT,rfDayHourPeriodID,TotalTime,ExcludedTime,ScheduledTime,STOperations,STInduced,DTTechnical,DTOperations,DTQuality,DownTime,StopTime,RunTime,NotRunTime,TheoreticalCycleTime,QuantityScrap,QuantityGood,ModifiedDT,LoginID,QuantityIn,TotalInventoryProduced,TotalInventoryReintroduced,NetQuantityProduced,QuantityInLineSpoilage,TotalSpoilage,AccountedSpoilage,TotalInventoryIsolated,ProductionStopJobID,TotalUnitsProduced,BottleNeckMachineStageID,InventoryIn,InterProdStopTime,InProdStopTime,QuantityUnitsIn,QuantityInventoryIn,TotalQuantityProduced,TotalPacksProduced,TotalPacksIsolated,TotalPacksReintroduced,TotalPacksMade,ValidState,LineGroupID,LineGroupShiftID,LineGroupBottleneckID, 3 as "org_id"  FROM dbo.LineInfo WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStwo/LineInfo/3</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="LineInfo-Join"/>
+        <error to="LineInfo-Join"/>
+    </action>
+
+
+
+    <action name="LineInfo-SPTT-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<configuration>
+				<property>
+					<name>oozie.hive.defaults</name>
+					<value>/etc/hive/conf/hive-default.xml.template</value>
+				</property>
+			</configuration>
+            <arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT LineInfoID,RfLineInfoEventID,LineID,ShiftID,WOID,FromDT,ToDT,rfDayHourPeriodID,TotalTime,ExcludedTime,ScheduledTime,STOperations,STInduced,DTTechnical,DTOperations,DTQuality,DownTime,StopTime,RunTime,NotRunTime,TheoreticalCycleTime,QuantityScrap,QuantityGood,ModifiedDT,LoginID,QuantityIn,TotalInventoryProduced,TotalInventoryReintroduced,NetQuantityProduced,QuantityInLineSpoilage,TotalSpoilage,AccountedSpoilage,TotalInventoryIsolated,ProductionStopJobID,TotalUnitsProduced,BottleNeckMachineStageID,InventoryIn,InterProdStopTime,InProdStopTime,QuantityUnitsIn,QuantityInventoryIn,TotalQuantityProduced,TotalPacksProduced,TotalPacksIsolated,TotalPacksReintroduced,TotalPacksMade,ValidState,LineGroupID,LineGroupShiftID,LineGroupBottleneckID, 4 as "org_id"  FROM dbo.LineInfo WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStwo/LineInfo/4</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="LineInfo-Join"/>
+        <error to="LineInfo-Join"/>
+    </action>
+
+
+
+    <action name="LineInfo-SPTM-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<configuration>
+				<property>
+					<name>oozie.hive.defaults</name>
+					<value>/etc/hive/conf/hive-default.xml.template</value>
+				</property>
+			</configuration>
+            <arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT LineInfoID,RfLineInfoEventID,LineID,ShiftID,WOID,FromDT,ToDT,rfDayHourPeriodID,TotalTime,ExcludedTime,ScheduledTime,STOperations,STInduced,DTTechnical,DTOperations,DTQuality,DownTime,StopTime,RunTime,NotRunTime,TheoreticalCycleTime,QuantityScrap,QuantityGood,ModifiedDT,LoginID,QuantityIn,TotalInventoryProduced,TotalInventoryReintroduced,NetQuantityProduced,QuantityInLineSpoilage,TotalSpoilage,AccountedSpoilage,TotalInventoryIsolated,ProductionStopJobID,TotalUnitsProduced,BottleNeckMachineStageID,InventoryIn,InterProdStopTime,InProdStopTime,QuantityUnitsIn,QuantityInventoryIn,TotalQuantityProduced,TotalPacksProduced,TotalPacksIsolated,TotalPacksReintroduced,TotalPacksMade,ValidState,LineGroupID,LineGroupShiftID,LineGroupBottleneckID, 5 as "org_id"  FROM dbo.LineInfo WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStwo/LineInfo/5</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="LineInfo-Join"/>
+        <error to="LineInfo-Join"/>
+    </action>
+
+
+
+    <join name="LineInfo-Join" to="LineInfo-Create" />
+
+    <action name="LineInfo-Create">
+		<shell xmlns="uri:oozie:shell-action:0.1">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<exec>${appPath}/hive.sh</exec>
+			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
+			<file>${appPath}/hive_pill</file>
+		</shell>
+        <ok to="Ingest-Join"/>
+        <error to="Ingest-Join"/>
+    </action>
+
+
+    <join name="Ingest-Join" to="end" />
+
+	<end name="end"/>
+
+</workflow-app>
