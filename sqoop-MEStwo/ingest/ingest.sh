@@ -9,8 +9,31 @@ hadoop fs -test -d /MEStemp
                  echo "/MEStemp not present in HDFS"
     fi
 
+exec ./ingest_SPML_ModuleInfo.sh & 
+exec ./ingestAddress.sh & 
+exec ./ingestCustomer.sh & 
+exec ./ingestDepartment.sh & 
+exec ./ingestInvIsolatedReason.sh & 
+exec ./ingestInvState.sh & 
 exec ./ingestLineGroup.sh & 
 exec ./ingestLineInfo.sh & 
+exec ./ingestLineSection.sh & 
+exec ./ingestLineType.sh & 
+exec ./ingestMachineStageType.sh & 
+exec ./ingestMachineStop.sh & 
+exec ./ingestMachineStopCategory.sh & 
+exec ./ingestMachineStopReason.sh & 
+exec ./ingestOperation.sh & 
+exec ./ingestOperationType.sh & 
+exec ./ingestPartClassification.sh & 
+exec ./ingestPartSubClassification.sh & 
+exec ./ingestPartType.sh & 
+exec ./ingestShift.sh & 
+exec ./ingestShiftPattern.sh & 
+exec ./ingestShiftType.sh & 
+exec ./ingestSupplier.sh & 
+exec ./ingestTagList.sh & 
+exec ./ingestUnit.sh & 
 
 exec ./ingestBuildRecordALL.sh & 
 
