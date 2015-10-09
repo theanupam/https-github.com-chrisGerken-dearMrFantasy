@@ -14,6 +14,7 @@ pscp  -pw d4e30f24   ingest/ingest_SPML_ModuleInfo.sh    appladm@prod-hubnamedaw
 pscp  -pw d4e30f24   ingest/ingestAddress.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/ingestAddress.sh
 pscp  -pw d4e30f24   ingest/ingestCustomer.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/ingestCustomer.sh
 pscp  -pw d4e30f24   ingest/ingestDepartment.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/ingestDepartment.sh
+pscp  -pw d4e30f24   ingest/ingestInvChangeState.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/ingestInvChangeState.sh
 pscp  -pw d4e30f24   ingest/ingestInvIsolatedReason.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/ingestInvIsolatedReason.sh
 pscp  -pw d4e30f24   ingest/ingestInvState.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/ingestInvState.sh
 pscp  -pw d4e30f24   ingest/ingestLineGroup.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/ingestLineGroup.sh
@@ -21,7 +22,6 @@ pscp  -pw d4e30f24   ingest/ingestLineInfo.sh    appladm@prod-hubnamedaws01.sunp
 pscp  -pw d4e30f24   ingest/ingestLineSection.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/ingestLineSection.sh
 pscp  -pw d4e30f24   ingest/ingestLineType.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/ingestLineType.sh
 pscp  -pw d4e30f24   ingest/ingestMachineStageType.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/ingestMachineStageType.sh
-pscp  -pw d4e30f24   ingest/ingestMachineStop.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/ingestMachineStop.sh
 pscp  -pw d4e30f24   ingest/ingestMachineStopCategory.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/ingestMachineStopCategory.sh
 pscp  -pw d4e30f24   ingest/ingestMachineStopReason.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/ingestMachineStopReason.sh
 pscp  -pw d4e30f24   ingest/ingestOperation.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/ingestOperation.sh
@@ -29,6 +29,7 @@ pscp  -pw d4e30f24   ingest/ingestOperationType.sh    appladm@prod-hubnamedaws01
 pscp  -pw d4e30f24   ingest/ingestPartClassification.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/ingestPartClassification.sh
 pscp  -pw d4e30f24   ingest/ingestPartSubClassification.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/ingestPartSubClassification.sh
 pscp  -pw d4e30f24   ingest/ingestPartType.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/ingestPartType.sh
+pscp  -pw d4e30f24   ingest/ingestScrapReason.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/ingestScrapReason.sh
 pscp  -pw d4e30f24   ingest/ingestShift.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/ingestShift.sh
 pscp  -pw d4e30f24   ingest/ingestShiftPattern.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/ingestShiftPattern.sh
 pscp  -pw d4e30f24   ingest/ingestShiftType.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/ingestShiftType.sh
@@ -49,6 +50,8 @@ pscp  -pw d4e30f24   ingest/ingestLineALL.sh    appladm@prod-hubnamedaws01.sunpo
 pscp  -pw d4e30f24   ingest/ingestLocationAll.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/ingestLocationAll.sh
 
 pscp  -pw d4e30f24   ingest/ingestMachineStageAll.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/ingestMachineStageAll.sh
+
+pscp  -pw d4e30f24   ingest/ingestMachineStopAll.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/ingestMachineStopAll.sh
 
 pscp  -pw d4e30f24   ingest/ingestPartALL.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/ingestPartALL.sh
 

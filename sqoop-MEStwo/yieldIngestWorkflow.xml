@@ -20,6 +20,8 @@
 
         <path start="Department-Fork" />
 
+        <path start="InvChangeState-Fork" />
+
         <path start="InvIsolatedReason-Fork" />
 
         <path start="InvState-Fork" />
@@ -34,8 +36,6 @@
 
         <path start="MachineStageType-Fork" />
 
-        <path start="MachineStop-Fork" />
-
         <path start="MachineStopCategory-Fork" />
 
         <path start="MachineStopReason-Fork" />
@@ -49,6 +49,8 @@
         <path start="PartSubClassification-Fork" />
 
         <path start="PartType-Fork" />
+
+        <path start="ScrapReason-Fork" />
 
         <path start="Shift-Fork" />
 
@@ -278,7 +280,6 @@
             <name-node>${nameNode}</name-node>
 			<exec>${appPath}/hive.sh</exec>
 			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
-			<file>${appPath}/hive_pill</file>
 		</shell>
         <ok to="Ingest-Join"/>
         <error to="Ingest-Join"/>
@@ -488,7 +489,6 @@
             <name-node>${nameNode}</name-node>
 			<exec>${appPath}/hive.sh</exec>
 			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
-			<file>${appPath}/hive_pill</file>
 		</shell>
         <ok to="Ingest-Join"/>
         <error to="Ingest-Join"/>
@@ -698,7 +698,6 @@
             <name-node>${nameNode}</name-node>
 			<exec>${appPath}/hive.sh</exec>
 			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
-			<file>${appPath}/hive_pill</file>
 		</shell>
         <ok to="Ingest-Join"/>
         <error to="Ingest-Join"/>
@@ -908,7 +907,215 @@
             <name-node>${nameNode}</name-node>
 			<exec>${appPath}/hive.sh</exec>
 			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
-			<file>${appPath}/hive_pill</file>
+		</shell>
+        <ok to="Ingest-Join"/>
+        <error to="Ingest-Join"/>
+    </action>
+
+
+	<fork name="InvChangeState-Fork">
+
+        <path start="InvChangeState-SPMX-Ingest" />
+
+        <path start="InvChangeState-SPMM-Ingest" />
+
+        <path start="InvChangeState-SPDV-Ingest" />
+
+        <path start="InvChangeState-SPTT-Ingest" />
+
+        <path start="InvChangeState-SPTM-Ingest" />
+
+	</fork>
+
+
+    <action name="InvChangeState-SPMX-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<configuration>
+				<property>
+					<name>oozie.hive.defaults</name>
+					<value>/etc/hive/conf/hive-default.xml.template</value>
+				</property>
+			</configuration>
+            <arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT InvChangeStateID,InventoryPackID,FromDT,ToDT,InvIsolatedReasonID,Comments,LoginID,OpenedDT,SavedDT,IsEdited,RevisionNo,OriginalLoginID,EditedInvChangeStateID,InvStateID, 1 as "org_id"  FROM dbo.InvChangeState WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStwo/InvChangeState/1</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="InvChangeState-Join"/>
+        <error to="InvChangeState-Join"/>
+    </action>
+
+
+
+    <action name="InvChangeState-SPMM-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<configuration>
+				<property>
+					<name>oozie.hive.defaults</name>
+					<value>/etc/hive/conf/hive-default.xml.template</value>
+				</property>
+			</configuration>
+            <arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT InvChangeStateID,InventoryPackID,FromDT,ToDT,InvIsolatedReasonID,Comments,LoginID,OpenedDT,SavedDT,IsEdited,RevisionNo,OriginalLoginID,EditedInvChangeStateID,InvStateID, 2 as "org_id"  FROM dbo.InvChangeState WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStwo/InvChangeState/2</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="InvChangeState-Join"/>
+        <error to="InvChangeState-Join"/>
+    </action>
+
+
+
+    <action name="InvChangeState-SPDV-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<configuration>
+				<property>
+					<name>oozie.hive.defaults</name>
+					<value>/etc/hive/conf/hive-default.xml.template</value>
+				</property>
+			</configuration>
+            <arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT InvChangeStateID,InventoryPackID,FromDT,ToDT,InvIsolatedReasonID,Comments,LoginID,OpenedDT,SavedDT,IsEdited,RevisionNo,OriginalLoginID,EditedInvChangeStateID,InvStateID, 3 as "org_id"  FROM dbo.InvChangeState WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStwo/InvChangeState/3</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="InvChangeState-Join"/>
+        <error to="InvChangeState-Join"/>
+    </action>
+
+
+
+    <action name="InvChangeState-SPTT-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<configuration>
+				<property>
+					<name>oozie.hive.defaults</name>
+					<value>/etc/hive/conf/hive-default.xml.template</value>
+				</property>
+			</configuration>
+            <arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT InvChangeStateID,InventoryPackID,FromDT,ToDT,InvIsolatedReasonID,Comments,LoginID,OpenedDT,SavedDT,IsEdited,RevisionNo,OriginalLoginID,EditedInvChangeStateID,InvStateID, 4 as "org_id"  FROM dbo.InvChangeState WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStwo/InvChangeState/4</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="InvChangeState-Join"/>
+        <error to="InvChangeState-Join"/>
+    </action>
+
+
+
+    <action name="InvChangeState-SPTM-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<configuration>
+				<property>
+					<name>oozie.hive.defaults</name>
+					<value>/etc/hive/conf/hive-default.xml.template</value>
+				</property>
+			</configuration>
+            <arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT InvChangeStateID,InventoryPackID,FromDT,ToDT,InvIsolatedReasonID,Comments,LoginID,OpenedDT,SavedDT,IsEdited,RevisionNo,OriginalLoginID,EditedInvChangeStateID,InvStateID, 5 as "org_id"  FROM dbo.InvChangeState WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStwo/InvChangeState/5</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="InvChangeState-Join"/>
+        <error to="InvChangeState-Join"/>
+    </action>
+
+
+
+    <join name="InvChangeState-Join" to="InvChangeState-Create" />
+
+    <action name="InvChangeState-Create">
+		<shell xmlns="uri:oozie:shell-action:0.1">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<exec>${appPath}/hive.sh</exec>
+			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
 		</shell>
         <ok to="Ingest-Join"/>
         <error to="Ingest-Join"/>
@@ -1118,7 +1325,6 @@
             <name-node>${nameNode}</name-node>
 			<exec>${appPath}/hive.sh</exec>
 			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
-			<file>${appPath}/hive_pill</file>
 		</shell>
         <ok to="Ingest-Join"/>
         <error to="Ingest-Join"/>
@@ -1328,7 +1534,6 @@
             <name-node>${nameNode}</name-node>
 			<exec>${appPath}/hive.sh</exec>
 			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
-			<file>${appPath}/hive_pill</file>
 		</shell>
         <ok to="Ingest-Join"/>
         <error to="Ingest-Join"/>
@@ -1538,7 +1743,6 @@
             <name-node>${nameNode}</name-node>
 			<exec>${appPath}/hive.sh</exec>
 			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
-			<file>${appPath}/hive_pill</file>
 		</shell>
         <ok to="Ingest-Join"/>
         <error to="Ingest-Join"/>
@@ -1748,7 +1952,6 @@
             <name-node>${nameNode}</name-node>
 			<exec>${appPath}/hive.sh</exec>
 			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
-			<file>${appPath}/hive_pill</file>
 		</shell>
         <ok to="Ingest-Join"/>
         <error to="Ingest-Join"/>
@@ -1958,7 +2161,6 @@
             <name-node>${nameNode}</name-node>
 			<exec>${appPath}/hive.sh</exec>
 			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
-			<file>${appPath}/hive_pill</file>
 		</shell>
         <ok to="Ingest-Join"/>
         <error to="Ingest-Join"/>
@@ -2168,7 +2370,6 @@
             <name-node>${nameNode}</name-node>
 			<exec>${appPath}/hive.sh</exec>
 			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
-			<file>${appPath}/hive_pill</file>
 		</shell>
         <ok to="Ingest-Join"/>
         <error to="Ingest-Join"/>
@@ -2378,217 +2579,6 @@
             <name-node>${nameNode}</name-node>
 			<exec>${appPath}/hive.sh</exec>
 			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
-			<file>${appPath}/hive_pill</file>
-		</shell>
-        <ok to="Ingest-Join"/>
-        <error to="Ingest-Join"/>
-    </action>
-
-
-	<fork name="MachineStop-Fork">
-
-        <path start="MachineStop-SPMX-Ingest" />
-
-        <path start="MachineStop-SPMM-Ingest" />
-
-        <path start="MachineStop-SPDV-Ingest" />
-
-        <path start="MachineStop-SPTT-Ingest" />
-
-        <path start="MachineStop-SPTM-Ingest" />
-
-	</fork>
-
-
-    <action name="MachineStop-SPMX-Ingest">
-        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
-			<job-tracker>${jobTracker}</job-tracker>
-            <name-node>${nameNode}</name-node>
-			<configuration>
-				<property>
-					<name>oozie.hive.defaults</name>
-					<value>/etc/hive/conf/hive-default.xml.template</value>
-				</property>
-			</configuration>
-            <arg>--connect</arg>
-            <arg>jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER</arg>
-            <arg>--username</arg>
-            <arg>usrSqoop</arg>
-            <arg>--password</arg>
-            <arg>AXm6Sn6#o</arg>
-            <arg>--query</arg>
-            <arg>SELECT MachineStopID,MachineStopReasonID,FromDT,ToDT,MachineStageID,IsEdited,RevisionNo, 1 as "org_id"  FROM dbo.MachineStop WHERE $CONDITIONS</arg>
-
-            <arg>--num-mappers</arg>
-            <arg>1</arg>
-
-            <arg>--target-dir</arg>
-            <arg>/MEStwo/MachineStop/1</arg>
-            <arg>--direct</arg>
-            <arg>--</arg>
-            <arg>--schema</arg>
-            <arg>dbo</arg>
-            <arg>-validate</arg>
-        </sqoop>
-        <ok to="MachineStop-Join"/>
-        <error to="MachineStop-Join"/>
-    </action>
-
-
-
-    <action name="MachineStop-SPMM-Ingest">
-        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
-			<job-tracker>${jobTracker}</job-tracker>
-            <name-node>${nameNode}</name-node>
-			<configuration>
-				<property>
-					<name>oozie.hive.defaults</name>
-					<value>/etc/hive/conf/hive-default.xml.template</value>
-				</property>
-			</configuration>
-            <arg>--connect</arg>
-            <arg>jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER</arg>
-            <arg>--username</arg>
-            <arg>usrSqoop</arg>
-            <arg>--password</arg>
-            <arg>AXm6Sn6#o</arg>
-            <arg>--query</arg>
-            <arg>SELECT MachineStopID,MachineStopReasonID,FromDT,ToDT,MachineStageID,IsEdited,RevisionNo, 2 as "org_id"  FROM dbo.MachineStop WHERE $CONDITIONS</arg>
-
-            <arg>--num-mappers</arg>
-            <arg>1</arg>
-
-            <arg>--target-dir</arg>
-            <arg>/MEStwo/MachineStop/2</arg>
-            <arg>--direct</arg>
-            <arg>--</arg>
-            <arg>--schema</arg>
-            <arg>dbo</arg>
-            <arg>-validate</arg>
-        </sqoop>
-        <ok to="MachineStop-Join"/>
-        <error to="MachineStop-Join"/>
-    </action>
-
-
-
-    <action name="MachineStop-SPDV-Ingest">
-        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
-			<job-tracker>${jobTracker}</job-tracker>
-            <name-node>${nameNode}</name-node>
-			<configuration>
-				<property>
-					<name>oozie.hive.defaults</name>
-					<value>/etc/hive/conf/hive-default.xml.template</value>
-				</property>
-			</configuration>
-            <arg>--connect</arg>
-            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
-            <arg>--username</arg>
-            <arg>usrSqoop</arg>
-            <arg>--password</arg>
-            <arg>AXm6Sn6#o</arg>
-            <arg>--query</arg>
-            <arg>SELECT MachineStopID,MachineStopReasonID,FromDT,ToDT,MachineStageID,IsEdited,RevisionNo, 3 as "org_id"  FROM dbo.MachineStop WHERE $CONDITIONS</arg>
-
-            <arg>--num-mappers</arg>
-            <arg>1</arg>
-
-            <arg>--target-dir</arg>
-            <arg>/MEStwo/MachineStop/3</arg>
-            <arg>--direct</arg>
-            <arg>--</arg>
-            <arg>--schema</arg>
-            <arg>dbo</arg>
-            <arg>-validate</arg>
-        </sqoop>
-        <ok to="MachineStop-Join"/>
-        <error to="MachineStop-Join"/>
-    </action>
-
-
-
-    <action name="MachineStop-SPTT-Ingest">
-        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
-			<job-tracker>${jobTracker}</job-tracker>
-            <name-node>${nameNode}</name-node>
-			<configuration>
-				<property>
-					<name>oozie.hive.defaults</name>
-					<value>/etc/hive/conf/hive-default.xml.template</value>
-				</property>
-			</configuration>
-            <arg>--connect</arg>
-            <arg>jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER</arg>
-            <arg>--username</arg>
-            <arg>usrSqoop</arg>
-            <arg>--password</arg>
-            <arg>AXm6Sn6#o</arg>
-            <arg>--query</arg>
-            <arg>SELECT MachineStopID,MachineStopReasonID,FromDT,ToDT,MachineStageID,IsEdited,RevisionNo, 4 as "org_id"  FROM dbo.MachineStop WHERE $CONDITIONS</arg>
-
-            <arg>--num-mappers</arg>
-            <arg>1</arg>
-
-            <arg>--target-dir</arg>
-            <arg>/MEStwo/MachineStop/4</arg>
-            <arg>--direct</arg>
-            <arg>--</arg>
-            <arg>--schema</arg>
-            <arg>dbo</arg>
-            <arg>-validate</arg>
-        </sqoop>
-        <ok to="MachineStop-Join"/>
-        <error to="MachineStop-Join"/>
-    </action>
-
-
-
-    <action name="MachineStop-SPTM-Ingest">
-        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
-			<job-tracker>${jobTracker}</job-tracker>
-            <name-node>${nameNode}</name-node>
-			<configuration>
-				<property>
-					<name>oozie.hive.defaults</name>
-					<value>/etc/hive/conf/hive-default.xml.template</value>
-				</property>
-			</configuration>
-            <arg>--connect</arg>
-            <arg>jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER</arg>
-            <arg>--username</arg>
-            <arg>usrSqoop</arg>
-            <arg>--password</arg>
-            <arg>AXm6Sn6#o</arg>
-            <arg>--query</arg>
-            <arg>SELECT MachineStopID,MachineStopReasonID,FromDT,ToDT,MachineStageID,IsEdited,RevisionNo, 5 as "org_id"  FROM dbo.MachineStop WHERE $CONDITIONS</arg>
-
-            <arg>--num-mappers</arg>
-            <arg>1</arg>
-
-            <arg>--target-dir</arg>
-            <arg>/MEStwo/MachineStop/5</arg>
-            <arg>--direct</arg>
-            <arg>--</arg>
-            <arg>--schema</arg>
-            <arg>dbo</arg>
-            <arg>-validate</arg>
-        </sqoop>
-        <ok to="MachineStop-Join"/>
-        <error to="MachineStop-Join"/>
-    </action>
-
-
-
-    <join name="MachineStop-Join" to="MachineStop-Create" />
-
-    <action name="MachineStop-Create">
-		<shell xmlns="uri:oozie:shell-action:0.1">
-			<job-tracker>${jobTracker}</job-tracker>
-            <name-node>${nameNode}</name-node>
-			<exec>${appPath}/hive.sh</exec>
-			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
-			<file>${appPath}/hive_pill</file>
 		</shell>
         <ok to="Ingest-Join"/>
         <error to="Ingest-Join"/>
@@ -2798,7 +2788,6 @@
             <name-node>${nameNode}</name-node>
 			<exec>${appPath}/hive.sh</exec>
 			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
-			<file>${appPath}/hive_pill</file>
 		</shell>
         <ok to="Ingest-Join"/>
         <error to="Ingest-Join"/>
@@ -3008,7 +2997,6 @@
             <name-node>${nameNode}</name-node>
 			<exec>${appPath}/hive.sh</exec>
 			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
-			<file>${appPath}/hive_pill</file>
 		</shell>
         <ok to="Ingest-Join"/>
         <error to="Ingest-Join"/>
@@ -3218,7 +3206,6 @@
             <name-node>${nameNode}</name-node>
 			<exec>${appPath}/hive.sh</exec>
 			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
-			<file>${appPath}/hive_pill</file>
 		</shell>
         <ok to="Ingest-Join"/>
         <error to="Ingest-Join"/>
@@ -3428,7 +3415,6 @@
             <name-node>${nameNode}</name-node>
 			<exec>${appPath}/hive.sh</exec>
 			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
-			<file>${appPath}/hive_pill</file>
 		</shell>
         <ok to="Ingest-Join"/>
         <error to="Ingest-Join"/>
@@ -3638,7 +3624,6 @@
             <name-node>${nameNode}</name-node>
 			<exec>${appPath}/hive.sh</exec>
 			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
-			<file>${appPath}/hive_pill</file>
 		</shell>
         <ok to="Ingest-Join"/>
         <error to="Ingest-Join"/>
@@ -3848,7 +3833,6 @@
             <name-node>${nameNode}</name-node>
 			<exec>${appPath}/hive.sh</exec>
 			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
-			<file>${appPath}/hive_pill</file>
 		</shell>
         <ok to="Ingest-Join"/>
         <error to="Ingest-Join"/>
@@ -4058,7 +4042,215 @@
             <name-node>${nameNode}</name-node>
 			<exec>${appPath}/hive.sh</exec>
 			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
-			<file>${appPath}/hive_pill</file>
+		</shell>
+        <ok to="Ingest-Join"/>
+        <error to="Ingest-Join"/>
+    </action>
+
+
+	<fork name="ScrapReason-Fork">
+
+        <path start="ScrapReason-SPMX-Ingest" />
+
+        <path start="ScrapReason-SPMM-Ingest" />
+
+        <path start="ScrapReason-SPDV-Ingest" />
+
+        <path start="ScrapReason-SPTT-Ingest" />
+
+        <path start="ScrapReason-SPTM-Ingest" />
+
+	</fork>
+
+
+    <action name="ScrapReason-SPMX-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<configuration>
+				<property>
+					<name>oozie.hive.defaults</name>
+					<value>/etc/hive/conf/hive-default.xml.template</value>
+				</property>
+			</configuration>
+            <arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT ScrapReasonID,ScrapReason,Description,MachineStageTypeID,DefaultUnitID,IsRetired, 1 as "org_id"  FROM dbo.ScrapReason WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStwo/ScrapReason/1</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="ScrapReason-Join"/>
+        <error to="ScrapReason-Join"/>
+    </action>
+
+
+
+    <action name="ScrapReason-SPMM-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<configuration>
+				<property>
+					<name>oozie.hive.defaults</name>
+					<value>/etc/hive/conf/hive-default.xml.template</value>
+				</property>
+			</configuration>
+            <arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT ScrapReasonID,ScrapReason,Description,MachineStageTypeID,DefaultUnitID,IsRetired, 2 as "org_id"  FROM dbo.ScrapReason WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStwo/ScrapReason/2</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="ScrapReason-Join"/>
+        <error to="ScrapReason-Join"/>
+    </action>
+
+
+
+    <action name="ScrapReason-SPDV-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<configuration>
+				<property>
+					<name>oozie.hive.defaults</name>
+					<value>/etc/hive/conf/hive-default.xml.template</value>
+				</property>
+			</configuration>
+            <arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT ScrapReasonID,ScrapReason,Description,MachineStageTypeID,DefaultUnitID,IsRetired, 3 as "org_id"  FROM dbo.ScrapReason WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStwo/ScrapReason/3</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="ScrapReason-Join"/>
+        <error to="ScrapReason-Join"/>
+    </action>
+
+
+
+    <action name="ScrapReason-SPTT-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<configuration>
+				<property>
+					<name>oozie.hive.defaults</name>
+					<value>/etc/hive/conf/hive-default.xml.template</value>
+				</property>
+			</configuration>
+            <arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT ScrapReasonID,ScrapReason,Description,MachineStageTypeID,DefaultUnitID,IsRetired, 4 as "org_id"  FROM dbo.ScrapReason WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStwo/ScrapReason/4</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="ScrapReason-Join"/>
+        <error to="ScrapReason-Join"/>
+    </action>
+
+
+
+    <action name="ScrapReason-SPTM-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<configuration>
+				<property>
+					<name>oozie.hive.defaults</name>
+					<value>/etc/hive/conf/hive-default.xml.template</value>
+				</property>
+			</configuration>
+            <arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT ScrapReasonID,ScrapReason,Description,MachineStageTypeID,DefaultUnitID,IsRetired, 5 as "org_id"  FROM dbo.ScrapReason WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStwo/ScrapReason/5</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="ScrapReason-Join"/>
+        <error to="ScrapReason-Join"/>
+    </action>
+
+
+
+    <join name="ScrapReason-Join" to="ScrapReason-Create" />
+
+    <action name="ScrapReason-Create">
+		<shell xmlns="uri:oozie:shell-action:0.1">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<exec>${appPath}/hive.sh</exec>
+			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
 		</shell>
         <ok to="Ingest-Join"/>
         <error to="Ingest-Join"/>
@@ -4268,7 +4460,6 @@
             <name-node>${nameNode}</name-node>
 			<exec>${appPath}/hive.sh</exec>
 			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
-			<file>${appPath}/hive_pill</file>
 		</shell>
         <ok to="Ingest-Join"/>
         <error to="Ingest-Join"/>
@@ -4478,7 +4669,6 @@
             <name-node>${nameNode}</name-node>
 			<exec>${appPath}/hive.sh</exec>
 			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
-			<file>${appPath}/hive_pill</file>
 		</shell>
         <ok to="Ingest-Join"/>
         <error to="Ingest-Join"/>
@@ -4688,7 +4878,6 @@
             <name-node>${nameNode}</name-node>
 			<exec>${appPath}/hive.sh</exec>
 			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
-			<file>${appPath}/hive_pill</file>
 		</shell>
         <ok to="Ingest-Join"/>
         <error to="Ingest-Join"/>
@@ -4898,7 +5087,6 @@
             <name-node>${nameNode}</name-node>
 			<exec>${appPath}/hive.sh</exec>
 			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
-			<file>${appPath}/hive_pill</file>
 		</shell>
         <ok to="Ingest-Join"/>
         <error to="Ingest-Join"/>
@@ -5108,7 +5296,6 @@
             <name-node>${nameNode}</name-node>
 			<exec>${appPath}/hive.sh</exec>
 			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
-			<file>${appPath}/hive_pill</file>
 		</shell>
         <ok to="Ingest-Join"/>
         <error to="Ingest-Join"/>
@@ -5318,7 +5505,6 @@
             <name-node>${nameNode}</name-node>
 			<exec>${appPath}/hive.sh</exec>
 			<file>${appPath}/CreateSimple_{$table/@name}.sh</file> 
-			<file>${appPath}/hive_pill</file>
 		</shell>
         <ok to="Ingest-Join"/>
         <error to="Ingest-Join"/>

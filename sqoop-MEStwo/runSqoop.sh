@@ -26,6 +26,12 @@ hadoop fs -put IngestSimple_Department_SPMM.sh /YieldWorkflow/IngestSimple_Depar
 hadoop fs -put IngestSimple_Department_SPDV.sh /YieldWorkflow/IngestSimple_Department_SPDV.sh
 hadoop fs -put IngestSimple_Department_SPTT.sh /YieldWorkflow/IngestSimple_Department_SPTT.sh
 hadoop fs -put IngestSimple_Department_SPTM.sh /YieldWorkflow/IngestSimple_Department_SPTM.sh
+hadoop fs -put CreateSimple_InvChangeState.sh /YieldWorkflow/CreateSimple_InvChangeState.sh
+hadoop fs -put IngestSimple_InvChangeState_SPMX.sh /YieldWorkflow/IngestSimple_InvChangeState_SPMX.sh
+hadoop fs -put IngestSimple_InvChangeState_SPMM.sh /YieldWorkflow/IngestSimple_InvChangeState_SPMM.sh
+hadoop fs -put IngestSimple_InvChangeState_SPDV.sh /YieldWorkflow/IngestSimple_InvChangeState_SPDV.sh
+hadoop fs -put IngestSimple_InvChangeState_SPTT.sh /YieldWorkflow/IngestSimple_InvChangeState_SPTT.sh
+hadoop fs -put IngestSimple_InvChangeState_SPTM.sh /YieldWorkflow/IngestSimple_InvChangeState_SPTM.sh
 hadoop fs -put CreateSimple_InvIsolatedReason.sh /YieldWorkflow/CreateSimple_InvIsolatedReason.sh
 hadoop fs -put IngestSimple_InvIsolatedReason_SPMX.sh /YieldWorkflow/IngestSimple_InvIsolatedReason_SPMX.sh
 hadoop fs -put IngestSimple_InvIsolatedReason_SPMM.sh /YieldWorkflow/IngestSimple_InvIsolatedReason_SPMM.sh
@@ -68,12 +74,6 @@ hadoop fs -put IngestSimple_MachineStageType_SPMM.sh /YieldWorkflow/IngestSimple
 hadoop fs -put IngestSimple_MachineStageType_SPDV.sh /YieldWorkflow/IngestSimple_MachineStageType_SPDV.sh
 hadoop fs -put IngestSimple_MachineStageType_SPTT.sh /YieldWorkflow/IngestSimple_MachineStageType_SPTT.sh
 hadoop fs -put IngestSimple_MachineStageType_SPTM.sh /YieldWorkflow/IngestSimple_MachineStageType_SPTM.sh
-hadoop fs -put CreateSimple_MachineStop.sh /YieldWorkflow/CreateSimple_MachineStop.sh
-hadoop fs -put IngestSimple_MachineStop_SPMX.sh /YieldWorkflow/IngestSimple_MachineStop_SPMX.sh
-hadoop fs -put IngestSimple_MachineStop_SPMM.sh /YieldWorkflow/IngestSimple_MachineStop_SPMM.sh
-hadoop fs -put IngestSimple_MachineStop_SPDV.sh /YieldWorkflow/IngestSimple_MachineStop_SPDV.sh
-hadoop fs -put IngestSimple_MachineStop_SPTT.sh /YieldWorkflow/IngestSimple_MachineStop_SPTT.sh
-hadoop fs -put IngestSimple_MachineStop_SPTM.sh /YieldWorkflow/IngestSimple_MachineStop_SPTM.sh
 hadoop fs -put CreateSimple_MachineStopCategory.sh /YieldWorkflow/CreateSimple_MachineStopCategory.sh
 hadoop fs -put IngestSimple_MachineStopCategory_SPMX.sh /YieldWorkflow/IngestSimple_MachineStopCategory_SPMX.sh
 hadoop fs -put IngestSimple_MachineStopCategory_SPMM.sh /YieldWorkflow/IngestSimple_MachineStopCategory_SPMM.sh
@@ -116,6 +116,12 @@ hadoop fs -put IngestSimple_PartType_SPMM.sh /YieldWorkflow/IngestSimple_PartTyp
 hadoop fs -put IngestSimple_PartType_SPDV.sh /YieldWorkflow/IngestSimple_PartType_SPDV.sh
 hadoop fs -put IngestSimple_PartType_SPTT.sh /YieldWorkflow/IngestSimple_PartType_SPTT.sh
 hadoop fs -put IngestSimple_PartType_SPTM.sh /YieldWorkflow/IngestSimple_PartType_SPTM.sh
+hadoop fs -put CreateSimple_ScrapReason.sh /YieldWorkflow/CreateSimple_ScrapReason.sh
+hadoop fs -put IngestSimple_ScrapReason_SPMX.sh /YieldWorkflow/IngestSimple_ScrapReason_SPMX.sh
+hadoop fs -put IngestSimple_ScrapReason_SPMM.sh /YieldWorkflow/IngestSimple_ScrapReason_SPMM.sh
+hadoop fs -put IngestSimple_ScrapReason_SPDV.sh /YieldWorkflow/IngestSimple_ScrapReason_SPDV.sh
+hadoop fs -put IngestSimple_ScrapReason_SPTT.sh /YieldWorkflow/IngestSimple_ScrapReason_SPTT.sh
+hadoop fs -put IngestSimple_ScrapReason_SPTM.sh /YieldWorkflow/IngestSimple_ScrapReason_SPTM.sh
 hadoop fs -put CreateSimple_Shift.sh /YieldWorkflow/CreateSimple_Shift.sh
 hadoop fs -put IngestSimple_Shift_SPMX.sh /YieldWorkflow/IngestSimple_Shift_SPMX.sh
 hadoop fs -put IngestSimple_Shift_SPMM.sh /YieldWorkflow/IngestSimple_Shift_SPMM.sh
@@ -153,6 +159,12 @@ hadoop fs -put IngestSimple_Unit_SPDV.sh /YieldWorkflow/IngestSimple_Unit_SPDV.s
 hadoop fs -put IngestSimple_Unit_SPTT.sh /YieldWorkflow/IngestSimple_Unit_SPTT.sh
 hadoop fs -put IngestSimple_Unit_SPTM.sh /YieldWorkflow/IngestSimple_Unit_SPTM.sh
 
+hadoop fs -put CreateJoin_.sh /YieldWorkflow/CreateJoin_.sh
+hadoop fs -put IngestJoin__SPMX.sh /YieldWorkflow/IngestJoin__SPMX.sh
+hadoop fs -put IngestJoin__SPMM.sh /YieldWorkflow/IngestJoin__SPMM.sh
+hadoop fs -put IngestJoin__SPDV.sh /YieldWorkflow/IngestJoin__SPDV.sh
+hadoop fs -put IngestJoin__SPTT.sh /YieldWorkflow/IngestJoin__SPTT.sh
+hadoop fs -put IngestJoin__SPTM.sh /YieldWorkflow/IngestJoin__SPTM.sh
 hadoop fs -put CreateJoin_.sh /YieldWorkflow/CreateJoin_.sh
 hadoop fs -put IngestJoin__SPMX.sh /YieldWorkflow/IngestJoin__SPMX.sh
 hadoop fs -put IngestJoin__SPMM.sh /YieldWorkflow/IngestJoin__SPMM.sh

@@ -11,6 +11,7 @@ sudo cp ingest_SPML_ModuleInfo.sh  /home/hdfs/ingest_SPML_ModuleInfo.sh
 sudo cp ingestAddress.sh  /home/hdfs/ingestAddress.sh
 sudo cp ingestCustomer.sh  /home/hdfs/ingestCustomer.sh
 sudo cp ingestDepartment.sh  /home/hdfs/ingestDepartment.sh
+sudo cp ingestInvChangeState.sh  /home/hdfs/ingestInvChangeState.sh
 sudo cp ingestInvIsolatedReason.sh  /home/hdfs/ingestInvIsolatedReason.sh
 sudo cp ingestInvState.sh  /home/hdfs/ingestInvState.sh
 sudo cp ingestLineGroup.sh  /home/hdfs/ingestLineGroup.sh
@@ -18,7 +19,6 @@ sudo cp ingestLineInfo.sh  /home/hdfs/ingestLineInfo.sh
 sudo cp ingestLineSection.sh  /home/hdfs/ingestLineSection.sh
 sudo cp ingestLineType.sh  /home/hdfs/ingestLineType.sh
 sudo cp ingestMachineStageType.sh  /home/hdfs/ingestMachineStageType.sh
-sudo cp ingestMachineStop.sh  /home/hdfs/ingestMachineStop.sh
 sudo cp ingestMachineStopCategory.sh  /home/hdfs/ingestMachineStopCategory.sh
 sudo cp ingestMachineStopReason.sh  /home/hdfs/ingestMachineStopReason.sh
 sudo cp ingestOperation.sh  /home/hdfs/ingestOperation.sh
@@ -26,6 +26,7 @@ sudo cp ingestOperationType.sh  /home/hdfs/ingestOperationType.sh
 sudo cp ingestPartClassification.sh  /home/hdfs/ingestPartClassification.sh
 sudo cp ingestPartSubClassification.sh  /home/hdfs/ingestPartSubClassification.sh
 sudo cp ingestPartType.sh  /home/hdfs/ingestPartType.sh
+sudo cp ingestScrapReason.sh  /home/hdfs/ingestScrapReason.sh
 sudo cp ingestShift.sh  /home/hdfs/ingestShift.sh
 sudo cp ingestShiftPattern.sh  /home/hdfs/ingestShiftPattern.sh
 sudo cp ingestShiftType.sh  /home/hdfs/ingestShiftType.sh
@@ -46,6 +47,8 @@ sudo cp ingestLineALL.sh  /home/hdfs/ingestLineALL.sh
 sudo cp ingestLocationAll.sh  /home/hdfs/ingestLocationAll.sh
 
 sudo cp ingestMachineStageAll.sh  /home/hdfs/ingestMachineStageAll.sh
+
+sudo cp ingestMachineStopAll.sh  /home/hdfs/ingestMachineStopAll.sh
 
 sudo cp ingestPartALL.sh  /home/hdfs/ingestPartALL.sh
 

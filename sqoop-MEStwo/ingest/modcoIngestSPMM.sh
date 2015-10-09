@@ -80,6 +80,24 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest SPMM_C1_OWNER Depart
 
 echo " "
 echo "##################################################"
+echo "sqoop: InvChangeState "
+echo "##################################################"
+echo " "
+
+echo "      "
+echo "     ##################################################"
+echo "     InvChangeState "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER "
+echo "     ##################################################"
+echo "      "
+
+STARTTIME=$SECONDS
+sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT InvChangeStateID,InventoryPackID,FromDT,ToDT,InvIsolatedReasonID,Comments,LoginID,OpenedDT,SavedDT,IsEdited,RevisionNo,OriginalLoginID,EditedInvChangeStateID,InvStateID, 2 as \"org_id\"  FROM dbo.InvChangeState WHERE \$CONDITIONS" --num-mappers 1 --target-dir /MEStwo/InvChangeState/2 --direct  -- --schema dbo --validate
+ENDTIME=$SECONDS
+echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest SPMM_C1_OWNER InvChangeState" >> timings.txt
+
+echo " "
+echo "##################################################"
 echo "sqoop: InvIsolatedReason "
 echo "##################################################"
 echo " "
@@ -206,24 +224,6 @@ echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest SPMM_C1_OWNER Machin
 
 echo " "
 echo "##################################################"
-echo "sqoop: MachineStop "
-echo "##################################################"
-echo " "
-
-echo "      "
-echo "     ##################################################"
-echo "     MachineStop "
-echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER "
-echo "     ##################################################"
-echo "      "
-
-STARTTIME=$SECONDS
-sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT MachineStopID,MachineStopReasonID,FromDT,ToDT,MachineStageID,IsEdited,RevisionNo, 2 as \"org_id\"  FROM dbo.MachineStop WHERE \$CONDITIONS" --num-mappers 1 --target-dir /MEStwo/MachineStop/2 --direct  -- --schema dbo --validate
-ENDTIME=$SECONDS
-echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest SPMM_C1_OWNER MachineStop" >> timings.txt
-
-echo " "
-echo "##################################################"
 echo "sqoop: MachineStopCategory "
 echo "##################################################"
 echo " "
@@ -347,6 +347,24 @@ STARTTIME=$SECONDS
 sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT PartTypeID,PartType,Description,PartTypeCode,Variant1TagListID,Variant2TagListID,Variant3TagListID,Variant4TagListID,Variant5TagListID,Variant6TagListID,Variant7TagListID,Variant8TagListID,Variant9TagListID,Variant10TagListID,Variant11TagListID,Variant12TagListID,Variant13TagListID,Variant14TagListID,Variant15TagListID,Variant16TagListID,Variant17TagListID,Variant18TagListID,Variant19TagListID,Variant20TagListID,RfInventoryAccountingModeID, 2 as \"org_id\"  FROM dbo.PartType WHERE \$CONDITIONS" --num-mappers 1 --target-dir /MEStwo/PartType/2 --direct  -- --schema dbo --validate
 ENDTIME=$SECONDS
 echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest SPMM_C1_OWNER PartType" >> timings.txt
+
+echo " "
+echo "##################################################"
+echo "sqoop: ScrapReason "
+echo "##################################################"
+echo " "
+
+echo "      "
+echo "     ##################################################"
+echo "     ScrapReason "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER "
+echo "     ##################################################"
+echo "      "
+
+STARTTIME=$SECONDS
+sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT ScrapReasonID,ScrapReason,Description,MachineStageTypeID,DefaultUnitID,IsRetired, 2 as \"org_id\"  FROM dbo.ScrapReason WHERE \$CONDITIONS" --num-mappers 1 --target-dir /MEStwo/ScrapReason/2 --direct  -- --schema dbo --validate
+ENDTIME=$SECONDS
+echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest SPMM_C1_OWNER ScrapReason" >> timings.txt
 
 echo " "
 echo "##################################################"
@@ -587,6 +605,23 @@ STARTTIME=$SECONDS
 sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT MachineStage.MachineStageID, MachineStage.MachineStageTypeID, MachineStage.Name, MachineStage.IsRetired, MachineStage.DepartmentID, MachineStage.Description, MachineStage.CurrentShiftPatternID, MachineStage.NoHeads, MachineStage.IsOEEBottleNeck, MachineStage.IsProductionOutput, MachineStage.MachineStopID, MachineStage.StoppedScreenThreshold, MachineStage.LineSectionID, MachineStage.IsDiscrete, MachineStage.RfDowntimeCollectionModeID, MachineStage.RfSpoilageCollectionModeID, MachineStage.RfProductionCollectionModeID, MachineStage.LastBuildRecordID, MachineStage.CurrentJobID, MachineStage_Custom.ModuleDatabase, MachineStage_Custom.IntendedWOID, MachineStage_Custom.MachineStageCode,  2 as \"org_id\" FROM MachineStage FULL JOIN MachineStage_Custom ON (MachineStage.MachineStageID = MachineStage_Custom.MachineStageID)   WHERE \$CONDITIONS" --split-by MachineStage.MachineStageID --num-mappers 600  --target-dir /MEStwo/MachineStageAll/2 --direct  -- --schema dbo --validate
 ENDTIME=$SECONDS
 echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest Manila MachineStageAll" >> timings.txt
+echo " "
+echo "##################################################"
+echo "sqoop: MachineStopAll " from MachineStop, MachineStop_
+echo "##################################################"
+echo " "
+
+echo "      "
+echo "     ##################################################"
+echo "     MachineStopAll " from MachineStop, MachineStop_"
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER "
+echo "     ##################################################"
+echo "      "
+
+STARTTIME=$SECONDS
+sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT MachineStop.MachineStopID, MachineStop.MachineStopReasonID, MachineStop.FromDT, MachineStop.ToDT, MachineStop.MachineStageID, MachineStop.IsEdited, MachineStop.RevisionNo, MachineStop_.StopComments, MachineStop_.StartComments, MachineStop_.StartLoginID, MachineStop_.StopLoginID, MachineStop_.OpenedStopDT, MachineStop_.SavedStopDT, MachineStop_.OpenedStartDT, MachineStop_.SavedStartDT, MachineStop_.OriginalLoginID, MachineStop_.EditedMachineStopID,  2 as \"org_id\" FROM MachineStop FULL JOIN MachineStop_ ON (MachineStop.MachineStopID = MachineStop_.MachineStopID)   WHERE \$CONDITIONS" --split-by MachineStop.MachineStopID --num-mappers 600  --target-dir /MEStwo/MachineStopAll/2 --direct  -- --schema dbo --validate
+ENDTIME=$SECONDS
+echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest Manila MachineStopAll" >> timings.txt
 echo " "
 echo "##################################################"
 echo "sqoop: PartALL " from Part, Part_, Part_custom

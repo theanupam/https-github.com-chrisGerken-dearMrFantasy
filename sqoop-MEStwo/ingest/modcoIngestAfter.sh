@@ -43,6 +43,14 @@ hive -e "Create External table IF NOT EXISTS MEStwo.Department (DepartmentID sma
 
 echo " "
 echo "##################################################"
+echo "Hive: Conditionally create table InvChangeState"
+echo "##################################################"
+echo " "
+
+hive -e "Create External table IF NOT EXISTS MEStwo.InvChangeState (InvChangeStateID int, InventoryPackID int, FromDT timestamp, ToDT timestamp, InvIsolatedReasonID smallint, Comments varchar(508), LoginID smallint, OpenedDT timestamp, SavedDT timestamp, IsEdited tinyint, RevisionNo tinyint, OriginalLoginID smallint, EditedInvChangeStateID int, InvStateID smallint,  org_id int) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile location '/MEStwo/InvChangeState'"
+
+echo " "
+echo "##################################################"
 echo "Hive: Conditionally create table InvIsolatedReason"
 echo "##################################################"
 echo " "
@@ -99,14 +107,6 @@ hive -e "Create External table IF NOT EXISTS MEStwo.MachineStageType (MachineSta
 
 echo " "
 echo "##################################################"
-echo "Hive: Conditionally create table MachineStop"
-echo "##################################################"
-echo " "
-
-hive -e "Create External table IF NOT EXISTS MEStwo.MachineStop (MachineStopID int, MachineStopReasonID smallint, FromDT timestamp, ToDT timestamp, MachineStageID smallint, IsEdited tinyint, RevisionNo tinyint,  org_id int) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile location '/MEStwo/MachineStop'"
-
-echo " "
-echo "##################################################"
 echo "Hive: Conditionally create table MachineStopCategory"
 echo "##################################################"
 echo " "
@@ -160,6 +160,14 @@ echo "##################################################"
 echo " "
 
 hive -e "Create External table IF NOT EXISTS MEStwo.PartType (PartTypeID smallint, PartType varchar(508), Description varchar(508), PartTypeCode varchar(100), Variant1TagListID smallint, Variant2TagListID smallint, Variant3TagListID smallint, Variant4TagListID smallint, Variant5TagListID smallint, Variant6TagListID smallint, Variant7TagListID smallint, Variant8TagListID smallint, Variant9TagListID smallint, Variant10TagListID smallint, Variant11TagListID smallint, Variant12TagListID smallint, Variant13TagListID smallint, Variant14TagListID smallint, Variant15TagListID smallint, Variant16TagListID smallint, Variant17TagListID smallint, Variant18TagListID smallint, Variant19TagListID smallint, Variant20TagListID smallint, RfInventoryAccountingModeID tinyint,  org_id int) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile location '/MEStwo/PartType'"
+
+echo " "
+echo "##################################################"
+echo "Hive: Conditionally create table ScrapReason"
+echo "##################################################"
+echo " "
+
+hive -e "Create External table IF NOT EXISTS MEStwo.ScrapReason (ScrapReasonID smallint, ScrapReason varchar(100), Description varchar(508), MachineStageTypeID smallint, DefaultUnitID smallint, IsRetired tinyint,  org_id int) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile location '/MEStwo/ScrapReason'"
 
 echo " "
 echo "##################################################"
@@ -267,6 +275,14 @@ echo "##################################################"
 echo " "
 
 hive -e "Create External table IF NOT EXISTS MEStwo.MachineStageAll (MachineStageID smallint, MachineStageTypeID smallint, Name varchar(508), IsRetired tinyint, DepartmentID smallint, Description varchar(508), CurrentShiftPatternID smallint, NoHeads smallint, IsOEEBottleNeck tinyint, IsProductionOutput tinyint, MachineStopID int, StoppedScreenThreshold smallint, LineSectionID smallint, IsDiscrete tinyint, RfDowntimeCollectionModeID tinyint, RfSpoilageCollectionModeID tinyint, RfProductionCollectionModeID tinyint, LastBuildRecordID int, CurrentJobID int, ModuleDatabase varchar(100), IntendedWOID int, MachineStageCode varchar(100),  org_id int) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile location '/MEStwo/MachineStageAll'"
+
+echo " "
+echo "##################################################"
+echo "Hive: Conditionally create table MachineStopAll"
+echo "##################################################"
+echo " "
+
+hive -e "Create External table IF NOT EXISTS MEStwo.MachineStopAll (MachineStopID int, MachineStopReasonID smallint, FromDT timestamp, ToDT timestamp, MachineStageID smallint, IsEdited tinyint, RevisionNo tinyint, StopComments varchar(2048), StartComments varchar(2048), StartLoginID smallint, StopLoginID smallint, OpenedStopDT timestamp, SavedStopDT timestamp, OpenedStartDT timestamp, SavedStartDT timestamp, OriginalLoginID smallint, EditedMachineStopID int,  org_id int) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile location '/MEStwo/MachineStopAll'"
 
 echo " "
 echo "##################################################"

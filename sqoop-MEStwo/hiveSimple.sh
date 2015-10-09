@@ -466,6 +466,117 @@ hadoop fs -test -d /MEStwo/Department/5
 
 echo " "
 echo "##################################################"
+echo "sqoop: InvChangeState "
+echo "##################################################"
+echo " "
+
+echo "      "
+echo "     ##################################################"
+echo "     InvChangeState "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER "
+echo "     ##################################################"
+echo "      "
+
+hadoop fs -test -d /MEStwo/InvChangeState/1
+    if [ $? = 0 ]
+        then
+ 			echo " "
+ 			echo "/MEStwo/InvChangeState already ingested for 1"
+ 			echo " "
+        else
+			STARTTIME=$SECONDS
+			sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT InvChangeStateID,InventoryPackID,FromDT,ToDT,InvIsolatedReasonID,Comments,LoginID,OpenedDT,SavedDT,IsEdited,RevisionNo,OriginalLoginID,EditedInvChangeStateID,InvStateID, 1 as \"org_id\"  FROM dbo.InvChangeState WHERE \$CONDITIONS" --num-mappers 1 --target-dir /MEStwo/InvChangeState/1 --direct  -- --schema dbo --validate
+			ENDTIME=$SECONDS
+			echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest MEXICALI_OWNER InvChangeState" >> timings.txt
+    fi
+
+
+echo "      "
+echo "     ##################################################"
+echo "     InvChangeState "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER "
+echo "     ##################################################"
+echo "      "
+
+hadoop fs -test -d /MEStwo/InvChangeState/2
+    if [ $? = 0 ]
+        then
+ 			echo " "
+ 			echo "/MEStwo/InvChangeState already ingested for 2"
+ 			echo " "
+        else
+			STARTTIME=$SECONDS
+			sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT InvChangeStateID,InventoryPackID,FromDT,ToDT,InvIsolatedReasonID,Comments,LoginID,OpenedDT,SavedDT,IsEdited,RevisionNo,OriginalLoginID,EditedInvChangeStateID,InvStateID, 2 as \"org_id\"  FROM dbo.InvChangeState WHERE \$CONDITIONS" --num-mappers 1 --target-dir /MEStwo/InvChangeState/2 --direct  -- --schema dbo --validate
+			ENDTIME=$SECONDS
+			echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest SPMM_C1_OWNER InvChangeState" >> timings.txt
+    fi
+
+
+echo "      "
+echo "     ##################################################"
+echo "     InvChangeState "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER "
+echo "     ##################################################"
+echo "      "
+
+hadoop fs -test -d /MEStwo/InvChangeState/3
+    if [ $? = 0 ]
+        then
+ 			echo " "
+ 			echo "/MEStwo/InvChangeState already ingested for 3"
+ 			echo " "
+        else
+			STARTTIME=$SECONDS
+			sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT InvChangeStateID,InventoryPackID,FromDT,ToDT,InvIsolatedReasonID,Comments,LoginID,OpenedDT,SavedDT,IsEdited,RevisionNo,OriginalLoginID,EditedInvChangeStateID,InvStateID, 3 as \"org_id\"  FROM dbo.InvChangeState WHERE \$CONDITIONS" --num-mappers 1 --target-dir /MEStwo/InvChangeState/3 --direct  -- --schema dbo --validate
+			ENDTIME=$SECONDS
+			echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest DEVERN_OWNER InvChangeState" >> timings.txt
+    fi
+
+
+echo "      "
+echo "     ##################################################"
+echo "     InvChangeState "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER "
+echo "     ##################################################"
+echo "      "
+
+hadoop fs -test -d /MEStwo/InvChangeState/4
+    if [ $? = 0 ]
+        then
+ 			echo " "
+ 			echo "/MEStwo/InvChangeState already ingested for 4"
+ 			echo " "
+        else
+			STARTTIME=$SECONDS
+			sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT InvChangeStateID,InventoryPackID,FromDT,ToDT,InvIsolatedReasonID,Comments,LoginID,OpenedDT,SavedDT,IsEdited,RevisionNo,OriginalLoginID,EditedInvChangeStateID,InvStateID, 4 as \"org_id\"  FROM dbo.InvChangeState WHERE \$CONDITIONS" --num-mappers 1 --target-dir /MEStwo/InvChangeState/4 --direct  -- --schema dbo --validate
+			ENDTIME=$SECONDS
+			echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest TOULOUSE_OWNER InvChangeState" >> timings.txt
+    fi
+
+
+echo "      "
+echo "     ##################################################"
+echo "     InvChangeState "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER "
+echo "     ##################################################"
+echo "      "
+
+hadoop fs -test -d /MEStwo/InvChangeState/5
+    if [ $? = 0 ]
+        then
+ 			echo " "
+ 			echo "/MEStwo/InvChangeState already ingested for 5"
+ 			echo " "
+        else
+			STARTTIME=$SECONDS
+			sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT InvChangeStateID,InventoryPackID,FromDT,ToDT,InvIsolatedReasonID,Comments,LoginID,OpenedDT,SavedDT,IsEdited,RevisionNo,OriginalLoginID,EditedInvChangeStateID,InvStateID, 5 as \"org_id\"  FROM dbo.InvChangeState WHERE \$CONDITIONS" --num-mappers 1 --target-dir /MEStwo/InvChangeState/5 --direct  -- --schema dbo --validate
+			ENDTIME=$SECONDS
+			echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest CAPETOWN_OWNER InvChangeState" >> timings.txt
+    fi
+
+
+echo " "
+echo "##################################################"
 echo "sqoop: InvIsolatedReason "
 echo "##################################################"
 echo " "
@@ -1238,117 +1349,6 @@ hadoop fs -test -d /MEStwo/MachineStageType/5
 			sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT MachineStageTypeID,Name,Description,MachineStageTypeCode, 5 as \"org_id\"  FROM dbo.MachineStageType WHERE \$CONDITIONS" --num-mappers 1 --target-dir /MEStwo/MachineStageType/5 --direct  -- --schema dbo --validate
 			ENDTIME=$SECONDS
 			echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest CAPETOWN_OWNER MachineStageType" >> timings.txt
-    fi
-
-
-echo " "
-echo "##################################################"
-echo "sqoop: MachineStop "
-echo "##################################################"
-echo " "
-
-echo "      "
-echo "     ##################################################"
-echo "     MachineStop "
-echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER "
-echo "     ##################################################"
-echo "      "
-
-hadoop fs -test -d /MEStwo/MachineStop/1
-    if [ $? = 0 ]
-        then
- 			echo " "
- 			echo "/MEStwo/MachineStop already ingested for 1"
- 			echo " "
-        else
-			STARTTIME=$SECONDS
-			sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT MachineStopID,MachineStopReasonID,FromDT,ToDT,MachineStageID,IsEdited,RevisionNo, 1 as \"org_id\"  FROM dbo.MachineStop WHERE \$CONDITIONS" --num-mappers 1 --target-dir /MEStwo/MachineStop/1 --direct  -- --schema dbo --validate
-			ENDTIME=$SECONDS
-			echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest MEXICALI_OWNER MachineStop" >> timings.txt
-    fi
-
-
-echo "      "
-echo "     ##################################################"
-echo "     MachineStop "
-echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER "
-echo "     ##################################################"
-echo "      "
-
-hadoop fs -test -d /MEStwo/MachineStop/2
-    if [ $? = 0 ]
-        then
- 			echo " "
- 			echo "/MEStwo/MachineStop already ingested for 2"
- 			echo " "
-        else
-			STARTTIME=$SECONDS
-			sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT MachineStopID,MachineStopReasonID,FromDT,ToDT,MachineStageID,IsEdited,RevisionNo, 2 as \"org_id\"  FROM dbo.MachineStop WHERE \$CONDITIONS" --num-mappers 1 --target-dir /MEStwo/MachineStop/2 --direct  -- --schema dbo --validate
-			ENDTIME=$SECONDS
-			echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest SPMM_C1_OWNER MachineStop" >> timings.txt
-    fi
-
-
-echo "      "
-echo "     ##################################################"
-echo "     MachineStop "
-echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER "
-echo "     ##################################################"
-echo "      "
-
-hadoop fs -test -d /MEStwo/MachineStop/3
-    if [ $? = 0 ]
-        then
- 			echo " "
- 			echo "/MEStwo/MachineStop already ingested for 3"
- 			echo " "
-        else
-			STARTTIME=$SECONDS
-			sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT MachineStopID,MachineStopReasonID,FromDT,ToDT,MachineStageID,IsEdited,RevisionNo, 3 as \"org_id\"  FROM dbo.MachineStop WHERE \$CONDITIONS" --num-mappers 1 --target-dir /MEStwo/MachineStop/3 --direct  -- --schema dbo --validate
-			ENDTIME=$SECONDS
-			echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest DEVERN_OWNER MachineStop" >> timings.txt
-    fi
-
-
-echo "      "
-echo "     ##################################################"
-echo "     MachineStop "
-echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER "
-echo "     ##################################################"
-echo "      "
-
-hadoop fs -test -d /MEStwo/MachineStop/4
-    if [ $? = 0 ]
-        then
- 			echo " "
- 			echo "/MEStwo/MachineStop already ingested for 4"
- 			echo " "
-        else
-			STARTTIME=$SECONDS
-			sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT MachineStopID,MachineStopReasonID,FromDT,ToDT,MachineStageID,IsEdited,RevisionNo, 4 as \"org_id\"  FROM dbo.MachineStop WHERE \$CONDITIONS" --num-mappers 1 --target-dir /MEStwo/MachineStop/4 --direct  -- --schema dbo --validate
-			ENDTIME=$SECONDS
-			echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest TOULOUSE_OWNER MachineStop" >> timings.txt
-    fi
-
-
-echo "      "
-echo "     ##################################################"
-echo "     MachineStop "
-echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER "
-echo "     ##################################################"
-echo "      "
-
-hadoop fs -test -d /MEStwo/MachineStop/5
-    if [ $? = 0 ]
-        then
- 			echo " "
- 			echo "/MEStwo/MachineStop already ingested for 5"
- 			echo " "
-        else
-			STARTTIME=$SECONDS
-			sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT MachineStopID,MachineStopReasonID,FromDT,ToDT,MachineStageID,IsEdited,RevisionNo, 5 as \"org_id\"  FROM dbo.MachineStop WHERE \$CONDITIONS" --num-mappers 1 --target-dir /MEStwo/MachineStop/5 --direct  -- --schema dbo --validate
-			ENDTIME=$SECONDS
-			echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest CAPETOWN_OWNER MachineStop" >> timings.txt
     fi
 
 
@@ -2131,6 +2131,117 @@ hadoop fs -test -d /MEStwo/PartType/5
 
 echo " "
 echo "##################################################"
+echo "sqoop: ScrapReason "
+echo "##################################################"
+echo " "
+
+echo "      "
+echo "     ##################################################"
+echo "     ScrapReason "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER "
+echo "     ##################################################"
+echo "      "
+
+hadoop fs -test -d /MEStwo/ScrapReason/1
+    if [ $? = 0 ]
+        then
+ 			echo " "
+ 			echo "/MEStwo/ScrapReason already ingested for 1"
+ 			echo " "
+        else
+			STARTTIME=$SECONDS
+			sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT ScrapReasonID,ScrapReason,Description,MachineStageTypeID,DefaultUnitID,IsRetired, 1 as \"org_id\"  FROM dbo.ScrapReason WHERE \$CONDITIONS" --num-mappers 1 --target-dir /MEStwo/ScrapReason/1 --direct  -- --schema dbo --validate
+			ENDTIME=$SECONDS
+			echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest MEXICALI_OWNER ScrapReason" >> timings.txt
+    fi
+
+
+echo "      "
+echo "     ##################################################"
+echo "     ScrapReason "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER "
+echo "     ##################################################"
+echo "      "
+
+hadoop fs -test -d /MEStwo/ScrapReason/2
+    if [ $? = 0 ]
+        then
+ 			echo " "
+ 			echo "/MEStwo/ScrapReason already ingested for 2"
+ 			echo " "
+        else
+			STARTTIME=$SECONDS
+			sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT ScrapReasonID,ScrapReason,Description,MachineStageTypeID,DefaultUnitID,IsRetired, 2 as \"org_id\"  FROM dbo.ScrapReason WHERE \$CONDITIONS" --num-mappers 1 --target-dir /MEStwo/ScrapReason/2 --direct  -- --schema dbo --validate
+			ENDTIME=$SECONDS
+			echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest SPMM_C1_OWNER ScrapReason" >> timings.txt
+    fi
+
+
+echo "      "
+echo "     ##################################################"
+echo "     ScrapReason "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER "
+echo "     ##################################################"
+echo "      "
+
+hadoop fs -test -d /MEStwo/ScrapReason/3
+    if [ $? = 0 ]
+        then
+ 			echo " "
+ 			echo "/MEStwo/ScrapReason already ingested for 3"
+ 			echo " "
+        else
+			STARTTIME=$SECONDS
+			sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT ScrapReasonID,ScrapReason,Description,MachineStageTypeID,DefaultUnitID,IsRetired, 3 as \"org_id\"  FROM dbo.ScrapReason WHERE \$CONDITIONS" --num-mappers 1 --target-dir /MEStwo/ScrapReason/3 --direct  -- --schema dbo --validate
+			ENDTIME=$SECONDS
+			echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest DEVERN_OWNER ScrapReason" >> timings.txt
+    fi
+
+
+echo "      "
+echo "     ##################################################"
+echo "     ScrapReason "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER "
+echo "     ##################################################"
+echo "      "
+
+hadoop fs -test -d /MEStwo/ScrapReason/4
+    if [ $? = 0 ]
+        then
+ 			echo " "
+ 			echo "/MEStwo/ScrapReason already ingested for 4"
+ 			echo " "
+        else
+			STARTTIME=$SECONDS
+			sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT ScrapReasonID,ScrapReason,Description,MachineStageTypeID,DefaultUnitID,IsRetired, 4 as \"org_id\"  FROM dbo.ScrapReason WHERE \$CONDITIONS" --num-mappers 1 --target-dir /MEStwo/ScrapReason/4 --direct  -- --schema dbo --validate
+			ENDTIME=$SECONDS
+			echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest TOULOUSE_OWNER ScrapReason" >> timings.txt
+    fi
+
+
+echo "      "
+echo "     ##################################################"
+echo "     ScrapReason "
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER "
+echo "     ##################################################"
+echo "      "
+
+hadoop fs -test -d /MEStwo/ScrapReason/5
+    if [ $? = 0 ]
+        then
+ 			echo " "
+ 			echo "/MEStwo/ScrapReason already ingested for 5"
+ 			echo " "
+        else
+			STARTTIME=$SECONDS
+			sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT ScrapReasonID,ScrapReason,Description,MachineStageTypeID,DefaultUnitID,IsRetired, 5 as \"org_id\"  FROM dbo.ScrapReason WHERE \$CONDITIONS" --num-mappers 1 --target-dir /MEStwo/ScrapReason/5 --direct  -- --schema dbo --validate
+			ENDTIME=$SECONDS
+			echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest CAPETOWN_OWNER ScrapReason" >> timings.txt
+    fi
+
+
+echo " "
+echo "##################################################"
 echo "sqoop: Shift "
 echo "##################################################"
 echo " "
@@ -2841,6 +2952,14 @@ hive -e "Create External table IF NOT EXISTS MEStwo.Department (DepartmentID sma
 
 echo " "
 echo "##################################################"
+echo "Hive: Conditionally create table InvChangeState"
+echo "##################################################"
+echo " "
+
+hive -e "Create External table IF NOT EXISTS MEStwo.InvChangeState (InvChangeStateID int, InventoryPackID int, FromDT timestamp, ToDT timestamp, InvIsolatedReasonID smallint, Comments varchar(508), LoginID smallint, OpenedDT timestamp, SavedDT timestamp, IsEdited tinyint, RevisionNo tinyint, OriginalLoginID smallint, EditedInvChangeStateID int, InvStateID smallint,  org_id int) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile location '/MEStwo/InvChangeState'"
+
+echo " "
+echo "##################################################"
 echo "Hive: Conditionally create table InvIsolatedReason"
 echo "##################################################"
 echo " "
@@ -2897,14 +3016,6 @@ hive -e "Create External table IF NOT EXISTS MEStwo.MachineStageType (MachineSta
 
 echo " "
 echo "##################################################"
-echo "Hive: Conditionally create table MachineStop"
-echo "##################################################"
-echo " "
-
-hive -e "Create External table IF NOT EXISTS MEStwo.MachineStop (MachineStopID int, MachineStopReasonID smallint, FromDT timestamp, ToDT timestamp, MachineStageID smallint, IsEdited tinyint, RevisionNo tinyint,  org_id int) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile location '/MEStwo/MachineStop'"
-
-echo " "
-echo "##################################################"
 echo "Hive: Conditionally create table MachineStopCategory"
 echo "##################################################"
 echo " "
@@ -2958,6 +3069,14 @@ echo "##################################################"
 echo " "
 
 hive -e "Create External table IF NOT EXISTS MEStwo.PartType (PartTypeID smallint, PartType varchar(508), Description varchar(508), PartTypeCode varchar(100), Variant1TagListID smallint, Variant2TagListID smallint, Variant3TagListID smallint, Variant4TagListID smallint, Variant5TagListID smallint, Variant6TagListID smallint, Variant7TagListID smallint, Variant8TagListID smallint, Variant9TagListID smallint, Variant10TagListID smallint, Variant11TagListID smallint, Variant12TagListID smallint, Variant13TagListID smallint, Variant14TagListID smallint, Variant15TagListID smallint, Variant16TagListID smallint, Variant17TagListID smallint, Variant18TagListID smallint, Variant19TagListID smallint, Variant20TagListID smallint, RfInventoryAccountingModeID tinyint,  org_id int) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile location '/MEStwo/PartType'"
+
+echo " "
+echo "##################################################"
+echo "Hive: Conditionally create table ScrapReason"
+echo "##################################################"
+echo " "
+
+hive -e "Create External table IF NOT EXISTS MEStwo.ScrapReason (ScrapReasonID smallint, ScrapReason varchar(100), Description varchar(508), MachineStageTypeID smallint, DefaultUnitID smallint, IsRetired tinyint,  org_id int) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile location '/MEStwo/ScrapReason'"
 
 echo " "
 echo "##################################################"
@@ -3824,6 +3943,122 @@ hadoop fs -test -d /MEStwo/MachineStageAll/5
 
 echo " "
 echo "##################################################"
+echo "sqoop: MachineStopAll from MachineStop, MachineStop_"
+echo "##################################################"
+echo " "
+
+
+echo "      "
+echo "     ##################################################"
+echo "     MachineStopAll from MachineStop, MachineStop_"
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER "
+echo "     ##################################################"
+echo "      "
+
+
+hadoop fs -test -d /MEStwo/MachineStopAll/1
+    if [ $? = 0 ]
+        then
+ 			echo " "
+ 			echo "/MEStwo/MachineStopAll already ingested for 1"
+ 			echo " "
+        else
+			STARTTIME=$SECONDS
+			sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT MachineStop.MachineStopID, MachineStop.MachineStopReasonID, MachineStop.FromDT, MachineStop.ToDT, MachineStop.MachineStageID, MachineStop.IsEdited, MachineStop.RevisionNo, MachineStop_.StopComments, MachineStop_.StartComments, MachineStop_.StartLoginID, MachineStop_.StopLoginID, MachineStop_.OpenedStopDT, MachineStop_.SavedStopDT, MachineStop_.OpenedStartDT, MachineStop_.SavedStartDT, MachineStop_.OriginalLoginID, MachineStop_.EditedMachineStopID,  1 as \"org_id\" FROM MachineStop FULL JOIN MachineStop_ ON (MachineStop.MachineStopID = MachineStop_.MachineStopID)   WHERE \$CONDITIONS" --split-by MachineStop.MachineStopID --num-mappers 600  --target-dir /MEStwo/MachineStopAll/1 --direct  -- --schema dbo --validate
+			ENDTIME=$SECONDS
+			echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest Mexicali MachineStopAll" >> timings.txt
+    fi
+
+
+echo "      "
+echo "     ##################################################"
+echo "     MachineStopAll from MachineStop, MachineStop_"
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER "
+echo "     ##################################################"
+echo "      "
+
+
+hadoop fs -test -d /MEStwo/MachineStopAll/2
+    if [ $? = 0 ]
+        then
+ 			echo " "
+ 			echo "/MEStwo/MachineStopAll already ingested for 2"
+ 			echo " "
+        else
+			STARTTIME=$SECONDS
+			sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT MachineStop.MachineStopID, MachineStop.MachineStopReasonID, MachineStop.FromDT, MachineStop.ToDT, MachineStop.MachineStageID, MachineStop.IsEdited, MachineStop.RevisionNo, MachineStop_.StopComments, MachineStop_.StartComments, MachineStop_.StartLoginID, MachineStop_.StopLoginID, MachineStop_.OpenedStopDT, MachineStop_.SavedStopDT, MachineStop_.OpenedStartDT, MachineStop_.SavedStartDT, MachineStop_.OriginalLoginID, MachineStop_.EditedMachineStopID,  2 as \"org_id\" FROM MachineStop FULL JOIN MachineStop_ ON (MachineStop.MachineStopID = MachineStop_.MachineStopID)   WHERE \$CONDITIONS" --split-by MachineStop.MachineStopID --num-mappers 600  --target-dir /MEStwo/MachineStopAll/2 --direct  -- --schema dbo --validate
+			ENDTIME=$SECONDS
+			echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest Manila MachineStopAll" >> timings.txt
+    fi
+
+
+echo "      "
+echo "     ##################################################"
+echo "     MachineStopAll from MachineStop, MachineStop_"
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER "
+echo "     ##################################################"
+echo "      "
+
+
+hadoop fs -test -d /MEStwo/MachineStopAll/3
+    if [ $? = 0 ]
+        then
+ 			echo " "
+ 			echo "/MEStwo/MachineStopAll already ingested for 3"
+ 			echo " "
+        else
+			STARTTIME=$SECONDS
+			sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT MachineStop.MachineStopID, MachineStop.MachineStopReasonID, MachineStop.FromDT, MachineStop.ToDT, MachineStop.MachineStageID, MachineStop.IsEdited, MachineStop.RevisionNo, MachineStop_.StopComments, MachineStop_.StartComments, MachineStop_.StartLoginID, MachineStop_.StopLoginID, MachineStop_.OpenedStopDT, MachineStop_.SavedStopDT, MachineStop_.OpenedStartDT, MachineStop_.SavedStartDT, MachineStop_.OriginalLoginID, MachineStop_.EditedMachineStopID,  3 as \"org_id\" FROM MachineStop FULL JOIN MachineStop_ ON (MachineStop.MachineStopID = MachineStop_.MachineStopID)   WHERE \$CONDITIONS" --split-by MachineStop.MachineStopID --num-mappers 600  --target-dir /MEStwo/MachineStopAll/3 --direct  -- --schema dbo --validate
+			ENDTIME=$SECONDS
+			echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest France - Devernajoule MachineStopAll" >> timings.txt
+    fi
+
+
+echo "      "
+echo "     ##################################################"
+echo "     MachineStopAll from MachineStop, MachineStop_"
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER "
+echo "     ##################################################"
+echo "      "
+
+
+hadoop fs -test -d /MEStwo/MachineStopAll/4
+    if [ $? = 0 ]
+        then
+ 			echo " "
+ 			echo "/MEStwo/MachineStopAll already ingested for 4"
+ 			echo " "
+        else
+			STARTTIME=$SECONDS
+			sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT MachineStop.MachineStopID, MachineStop.MachineStopReasonID, MachineStop.FromDT, MachineStop.ToDT, MachineStop.MachineStageID, MachineStop.IsEdited, MachineStop.RevisionNo, MachineStop_.StopComments, MachineStop_.StartComments, MachineStop_.StartLoginID, MachineStop_.StopLoginID, MachineStop_.OpenedStopDT, MachineStop_.SavedStopDT, MachineStop_.OpenedStartDT, MachineStop_.SavedStartDT, MachineStop_.OriginalLoginID, MachineStop_.EditedMachineStopID,  4 as \"org_id\" FROM MachineStop FULL JOIN MachineStop_ ON (MachineStop.MachineStopID = MachineStop_.MachineStopID)   WHERE \$CONDITIONS" --split-by MachineStop.MachineStopID --num-mappers 600  --target-dir /MEStwo/MachineStopAll/4 --direct  -- --schema dbo --validate
+			ENDTIME=$SECONDS
+			echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest France - Toullouse MachineStopAll" >> timings.txt
+    fi
+
+
+echo "      "
+echo "     ##################################################"
+echo "     MachineStopAll from MachineStop, MachineStop_"
+echo "     sqoop: jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER "
+echo "     ##################################################"
+echo "      "
+
+
+hadoop fs -test -d /MEStwo/MachineStopAll/5
+    if [ $? = 0 ]
+        then
+ 			echo " "
+ 			echo "/MEStwo/MachineStopAll already ingested for 5"
+ 			echo " "
+        else
+			STARTTIME=$SECONDS
+			sqoop import --connect 'jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER' --username usrSqoop --password AXm6Sn6#o --query "SELECT MachineStop.MachineStopID, MachineStop.MachineStopReasonID, MachineStop.FromDT, MachineStop.ToDT, MachineStop.MachineStageID, MachineStop.IsEdited, MachineStop.RevisionNo, MachineStop_.StopComments, MachineStop_.StartComments, MachineStop_.StartLoginID, MachineStop_.StopLoginID, MachineStop_.OpenedStopDT, MachineStop_.SavedStopDT, MachineStop_.OpenedStartDT, MachineStop_.SavedStartDT, MachineStop_.OriginalLoginID, MachineStop_.EditedMachineStopID,  5 as \"org_id\" FROM MachineStop FULL JOIN MachineStop_ ON (MachineStop.MachineStopID = MachineStop_.MachineStopID)   WHERE \$CONDITIONS" --split-by MachineStop.MachineStopID --num-mappers 600  --target-dir /MEStwo/MachineStopAll/5 --direct  -- --schema dbo --validate
+			ENDTIME=$SECONDS
+			echo "It takes $(($ENDTIME - $STARTTIME)) seconds to ingest South Africa MachineStopAll" >> timings.txt
+    fi
+
+echo " "
+echo "##################################################"
 echo "sqoop: PartALL from Part, Part_, Part_custom"
 echo "##################################################"
 echo " "
@@ -4114,6 +4349,14 @@ echo "##################################################"
 echo " "
 
 hive -e "Create External table IF NOT EXISTS MEStwo.MachineStageAll (MachineStageID smallint, MachineStageTypeID smallint, Name varchar(508), IsRetired tinyint, DepartmentID smallint, Description varchar(508), CurrentShiftPatternID smallint, NoHeads smallint, IsOEEBottleNeck tinyint, IsProductionOutput tinyint, MachineStopID int, StoppedScreenThreshold smallint, LineSectionID smallint, IsDiscrete tinyint, RfDowntimeCollectionModeID tinyint, RfSpoilageCollectionModeID tinyint, RfProductionCollectionModeID tinyint, LastBuildRecordID int, CurrentJobID int, ModuleDatabase varchar(100), IntendedWOID int, MachineStageCode varchar(100),  org_id int) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile location '/MEStwo/MachineStageAll'"
+
+echo " "
+echo "##################################################"
+echo "Hive: Conditionally create table MachineStopAll"
+echo "##################################################"
+echo " "
+
+hive -e "Create External table IF NOT EXISTS MEStwo.MachineStopAll (MachineStopID int, MachineStopReasonID smallint, FromDT timestamp, ToDT timestamp, MachineStageID smallint, IsEdited tinyint, RevisionNo tinyint, StopComments varchar(2048), StartComments varchar(2048), StartLoginID smallint, StopLoginID smallint, OpenedStopDT timestamp, SavedStopDT timestamp, OpenedStartDT timestamp, SavedStartDT timestamp, OriginalLoginID smallint, EditedMachineStopID int,  org_id int) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile location '/MEStwo/MachineStopAll'"
 
 echo " "
 echo "##################################################"
