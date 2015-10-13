@@ -1,4 +1,4 @@
-sudo cp runScoop.sh  /home/hdfs/runScoop.sh
+sudo cp runSqoop.sh  /home/hdfs/runSqoop.sh
 sudo cp hiveSimple.sh  /home/hdfs/HiveSimple.sh
 
 sudo cp yieldIngestWorkflow.xml  /home/hdfs/yieldIngestWorkflow.xml

@@ -1,4 +1,4 @@
-pscp  -pw d4e30f24   runSqoop.sh        appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/runScoop.sh
+pscp  -pw d4e30f24   runSqoop.sh        appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/runSqoop.sh
 pscp  -pw d4e30f24   stage2.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/stage2.sh
 pscp  -pw d4e30f24   hiveSimple.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/hiveSimple.sh
 
