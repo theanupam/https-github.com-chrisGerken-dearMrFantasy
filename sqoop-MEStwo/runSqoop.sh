@@ -1,4 +1,5 @@
 hdfs dfs -rm -r -skipTrash /YieldWorkflow
+hdfs dfs -mkdir /YieldWorkflow
 
 hadoop fs -put yieldIngestWorkflow.xml /YieldWorkflow/yieldIngestWorkflow.xml 
 hadoop fs -put yieldIngestWorkflow-SPMX.xml /YieldWorkflow/yieldIngestWorkflow-SPMX.xml
