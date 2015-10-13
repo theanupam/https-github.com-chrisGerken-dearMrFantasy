@@ -1,0 +1,895 @@
+<workflow-app name="ModcoIngest-SPDV" xmlns="uri:oozie:workflow:0.1">
+ 	<start to="Fork-Ingest"/>
+	<fork name="Fork-Ingest">
+
+        <path start="_SPML_ModuleInfo-Ingest" />
+
+        <path start="Address-Ingest" />
+
+        <path start="Customer-Ingest" />
+
+        <path start="Department-Ingest" />
+
+        <path start="InvChangeState-Ingest" />
+
+        <path start="InvIsolatedReason-Ingest" />
+
+        <path start="InvState-Ingest" />
+
+        <path start="LineGroup-Ingest" />
+
+        <path start="LineInfo-Ingest" />
+
+        <path start="LineSection-Ingest" />
+
+        <path start="LineType-Ingest" />
+
+        <path start="MachineStageType-Ingest" />
+
+        <path start="MachineStopCategory-Ingest" />
+
+        <path start="MachineStopReason-Ingest" />
+
+        <path start="Operation-Ingest" />
+
+        <path start="OperationType-Ingest" />
+
+        <path start="PartClassification-Ingest" />
+
+        <path start="PartSubClassification-Ingest" />
+
+        <path start="PartType-Ingest" />
+
+        <path start="ScrapReason-Ingest" />
+
+        <path start="Shift-Ingest" />
+
+        <path start="ShiftPattern-Ingest" />
+
+        <path start="ShiftType-Ingest" />
+
+        <path start="Supplier-Ingest" />
+
+        <path start="TagList-Ingest" />
+
+        <path start="Unit-Ingest" />
+
+	</fork>
+
+    <action name="_SPML_ModuleInfo-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="/MEStwo/_SPML_ModuleInfo/3"/>
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT ModuleInfoID,SerialNo,LaminateID,LaminateCreatedDT,LaminateOrderNo,LaminatePartNo,BINNo,CktFormBuildPart,CktFormBuildMachine,CktFormBuildDT,GlassBuildPart,GlassBuildDate,LaminationBuildMachine,LaminationBuildDT,ModuleID,ModuleCreatedDT,ModuleOrderNo,IntendedModulePartNo,IntendedModulePartDesc,FramingBuildPart,FramingBuildMachine,FramingBuildDT,JboxBuildPart,JboxBuildDT,FlashtestClassifiedDT,FinalModulePartNo,FinalModulePartDesc,ActualPower,ActualVocMod,ActualFF,PackedDT,InventoryState,JboxBuildMachine,ActualIsc,FlashtestBuildMachine,Komax1,Komax2,Komax3,GlassID,CellType,StringerOperator,CircuitOperator1,CircuitOperator2,TrimChangeReason,PowerChartGenerated,LaminateWoId,ModuleWoId,VisualStateId,RfInvStateId,ElTestDate,ElBuildMachine,ActualVmpMod,ActualImpMod,TrimBuildMachine,TrimBuildDT,CellThickness,PalletID,FlashTestID,PadLock,BtoCtoSerialNo,EvaUseByDT, 3 as "org_id"  FROM dbo._SPML_ModuleInfo WHERE $CONDITIONS</arg>
+
+            <arg>--split-by</arg>
+            <arg>ModuleInfoID</arg>
+            <arg>--num-mappers</arg>
+            <arg>600</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStwo/_SPML_ModuleInfo/3</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="Ingest-Join"/>
+        <error to="Ingest-Join"/>
+    </action>
+
+    <action name="Address-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="/MEStwo/Address/3"/>
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT AddressID,Address1,Address2,City,County,PostCode,Country, 3 as "org_id"  FROM dbo.Address WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStwo/Address/3</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="Ingest-Join"/>
+        <error to="Ingest-Join"/>
+    </action>
+
+    <action name="Customer-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="/MEStwo/Customer/3"/>
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT CustomerID,Customer,CustomerCode,AddressID,RfLanguageID, 3 as "org_id"  FROM dbo.Customer WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStwo/Customer/3</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="Ingest-Join"/>
+        <error to="Ingest-Join"/>
+    </action>
+
+    <action name="Department-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="/MEStwo/Department/3"/>
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT DepartmentID,Name,DepartmentGroup,Classification1,PlantID,DepartmentCode,Description, 3 as "org_id"  FROM dbo.Department WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStwo/Department/3</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="Ingest-Join"/>
+        <error to="Ingest-Join"/>
+    </action>
+
+    <action name="InvChangeState-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="/MEStwo/InvChangeState/3"/>
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT InvChangeStateID,InventoryPackID,FromDT,ToDT,InvIsolatedReasonID,Comments,LoginID,OpenedDT,SavedDT,IsEdited,RevisionNo,OriginalLoginID,EditedInvChangeStateID,InvStateID, 3 as "org_id"  FROM dbo.InvChangeState WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStwo/InvChangeState/3</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="Ingest-Join"/>
+        <error to="Ingest-Join"/>
+    </action>
+
+    <action name="InvIsolatedReason-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="/MEStwo/InvIsolatedReason/3"/>
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT InvIsolatedReasonID,PartTypeID,IsolatedReason,InvStateID, 3 as "org_id"  FROM dbo.InvIsolatedReason WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStwo/InvIsolatedReason/3</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="Ingest-Join"/>
+        <error to="Ingest-Join"/>
+    </action>
+
+    <action name="InvState-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="/MEStwo/InvState/3"/>
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT InvStateID,InvState,Description,RfInvStateID,InvStateCode,IsAddToProduction,IsAddToHFI,IsDefault, 3 as "org_id"  FROM dbo.InvState WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStwo/InvState/3</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="Ingest-Join"/>
+        <error to="Ingest-Join"/>
+    </action>
+
+    <action name="LineGroup-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="/MEStwo/LineGroup/3"/>
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT LineGroupID,LineGroup,LineGroupCode,Description,OEETarget,WasteTarget,Reference1,Reference2,Reference3,Reference4,Reference5, 3 as "org_id"  FROM dbo.LineGroup WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStwo/LineGroup/3</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="Ingest-Join"/>
+        <error to="Ingest-Join"/>
+    </action>
+
+    <action name="LineInfo-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="/MEStwo/LineInfo/3"/>
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT LineInfoID,RfLineInfoEventID,LineID,ShiftID,WOID,FromDT,ToDT,rfDayHourPeriodID,TotalTime,ExcludedTime,ScheduledTime,STOperations,STInduced,DTTechnical,DTOperations,DTQuality,DownTime,StopTime,RunTime,NotRunTime,TheoreticalCycleTime,QuantityScrap,QuantityGood,ModifiedDT,LoginID,QuantityIn,TotalInventoryProduced,TotalInventoryReintroduced,NetQuantityProduced,QuantityInLineSpoilage,TotalSpoilage,AccountedSpoilage,TotalInventoryIsolated,ProductionStopJobID,TotalUnitsProduced,BottleNeckMachineStageID,InventoryIn,InterProdStopTime,InProdStopTime,QuantityUnitsIn,QuantityInventoryIn,TotalQuantityProduced,TotalPacksProduced,TotalPacksIsolated,TotalPacksReintroduced,TotalPacksMade,ValidState,LineGroupID,LineGroupShiftID,LineGroupBottleneckID, 3 as "org_id"  FROM dbo.LineInfo WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStwo/LineInfo/3</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="Ingest-Join"/>
+        <error to="Ingest-Join"/>
+    </action>
+
+    <action name="LineSection-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="/MEStwo/LineSection/3"/>
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT LineSectionID,LineSection,Description,IsRetired, 3 as "org_id"  FROM dbo.LineSection WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStwo/LineSection/3</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="Ingest-Join"/>
+        <error to="Ingest-Join"/>
+    </action>
+
+    <action name="LineType-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="/MEStwo/LineType/3"/>
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT LineTypeID,LineType,Description,IsRetired,LineInfoPrecedence,BudgetChangeOver,BudgetEfficiency, 3 as "org_id"  FROM dbo.LineType WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStwo/LineType/3</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="Ingest-Join"/>
+        <error to="Ingest-Join"/>
+    </action>
+
+    <action name="MachineStageType-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="/MEStwo/MachineStageType/3"/>
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT MachineStageTypeID,Name,Description,MachineStageTypeCode, 3 as "org_id"  FROM dbo.MachineStageType WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStwo/MachineStageType/3</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="Ingest-Join"/>
+        <error to="Ingest-Join"/>
+    </action>
+
+    <action name="MachineStopCategory-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="/MEStwo/MachineStopCategory/3"/>
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT MachineStopCategoryID,MachineStopCategory,Description,MachineStageTypeID,StopCategoryCode,DisplayOrder, 3 as "org_id"  FROM dbo.MachineStopCategory WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStwo/MachineStopCategory/3</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="Ingest-Join"/>
+        <error to="Ingest-Join"/>
+    </action>
+
+    <action name="MachineStopReason-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="/MEStwo/MachineStopReason/3"/>
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT MachineStopReasonID,StopReason,Description,MachineStageTypeID,IsPlanned,StopCode,RfMachineStopClassID,RfLineStopReasonTypeID,MachineStopCategoryID,IsRetired, 3 as "org_id"  FROM dbo.MachineStopReason WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStwo/MachineStopReason/3</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="Ingest-Join"/>
+        <error to="Ingest-Join"/>
+    </action>
+
+    <action name="Operation-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="/MEStwo/Operation/3"/>
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT OperationID,OperationTypeID,MachineStageID,JobID, 3 as "org_id"  FROM dbo.Operation WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStwo/Operation/3</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="Ingest-Join"/>
+        <error to="Ingest-Join"/>
+    </action>
+
+    <action name="OperationType-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="/MEStwo/OperationType/3"/>
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT OperationTypeID,OperationType,OperationTypeCode,Description,PartTypeID,Sequence,IsOptional, 3 as "org_id"  FROM dbo.OperationType WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStwo/OperationType/3</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="Ingest-Join"/>
+        <error to="Ingest-Join"/>
+    </action>
+
+    <action name="PartClassification-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="/MEStwo/PartClassification/3"/>
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT PartClassificationID,PartClassification,RfPartClassificationID, 3 as "org_id"  FROM dbo.PartClassification WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStwo/PartClassification/3</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="Ingest-Join"/>
+        <error to="Ingest-Join"/>
+    </action>
+
+    <action name="PartSubClassification-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="/MEStwo/PartSubClassification/3"/>
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT PartSubClassificationID,PartSubClassification,PartClassificationID, 3 as "org_id"  FROM dbo.PartSubClassification WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStwo/PartSubClassification/3</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="Ingest-Join"/>
+        <error to="Ingest-Join"/>
+    </action>
+
+    <action name="PartType-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="/MEStwo/PartType/3"/>
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT PartTypeID,PartType,Description,PartTypeCode,Variant1TagListID,Variant2TagListID,Variant3TagListID,Variant4TagListID,Variant5TagListID,Variant6TagListID,Variant7TagListID,Variant8TagListID,Variant9TagListID,Variant10TagListID,Variant11TagListID,Variant12TagListID,Variant13TagListID,Variant14TagListID,Variant15TagListID,Variant16TagListID,Variant17TagListID,Variant18TagListID,Variant19TagListID,Variant20TagListID,RfInventoryAccountingModeID, 3 as "org_id"  FROM dbo.PartType WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStwo/PartType/3</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="Ingest-Join"/>
+        <error to="Ingest-Join"/>
+    </action>
+
+    <action name="ScrapReason-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="/MEStwo/ScrapReason/3"/>
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT ScrapReasonID,ScrapReason,Description,MachineStageTypeID,DefaultUnitID,IsRetired, 3 as "org_id"  FROM dbo.ScrapReason WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStwo/ScrapReason/3</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="Ingest-Join"/>
+        <error to="Ingest-Join"/>
+    </action>
+
+    <action name="Shift-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="/MEStwo/Shift/3"/>
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT ShiftID,ShiftTypeID,ShiftPatternID,FromDT,ToDT,Sequence, 3 as "org_id"  FROM dbo.Shift WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStwo/Shift/3</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="Ingest-Join"/>
+        <error to="Ingest-Join"/>
+    </action>
+
+    <action name="ShiftPattern-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="/MEStwo/ShiftPattern/3"/>
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT ShiftPatternID,ShiftPattern,PatternDuration,IsPatternDirty,IsCustomPeriod, 3 as "org_id"  FROM dbo.ShiftPattern WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStwo/ShiftPattern/3</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="Ingest-Join"/>
+        <error to="Ingest-Join"/>
+    </action>
+
+    <action name="ShiftType-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="/MEStwo/ShiftType/3"/>
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT ShiftTypeID,Name,Description,IsNonWorking, 3 as "org_id"  FROM dbo.ShiftType WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStwo/ShiftType/3</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="Ingest-Join"/>
+        <error to="Ingest-Join"/>
+    </action>
+
+    <action name="Supplier-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="/MEStwo/Supplier/3"/>
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT SupplierID,Supplier,SupplierCode,AddressID, 3 as "org_id"  FROM dbo.Supplier WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStwo/Supplier/3</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="Ingest-Join"/>
+        <error to="Ingest-Join"/>
+    </action>
+
+    <action name="TagList-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="/MEStwo/TagList/3"/>
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT TagListID,ListName,VariantNo, 3 as "org_id"  FROM dbo.TagList WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStwo/TagList/3</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="Ingest-Join"/>
+        <error to="Ingest-Join"/>
+    </action>
+
+    <action name="Unit-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="/MEStwo/Unit/3"/>
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT UnitID,Unit,Description, 3 as "org_id"  FROM dbo.Unit WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+
+            <arg>--target-dir</arg>
+            <arg>/MEStwo/Unit/3</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="Ingest-Join"/>
+        <error to="Ingest-Join"/>
+    </action>
+
+    <join name="Ingest-Join" to="end" />
+	<end name="end"/>
+</workflow-app>
