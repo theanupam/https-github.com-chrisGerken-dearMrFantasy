@@ -46,11 +46,11 @@ exec ./ingestJobALL.sh &
 
 exec ./ingestLineALL.sh & 
 
-exec ./ingestLocationAll.sh & 
+exec ./ingestLocationALL.sh & 
 
-exec ./ingestMachineStageAll.sh & 
+exec ./ingestMachineStageALL.sh & 
 
-exec ./ingestMachineStopAll.sh & 
+exec ./ingestMachineStopALL.sh & 
 
 exec ./ingestPartALL.sh & 
 

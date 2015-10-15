@@ -42,9 +42,9 @@ The MES ingestion is as follows:
         InventoryPackALL from InventoryPack, InventoryPack_, InventoryPack_Custom
         JobALL from Job, Job_, Job_Custom
         LineALL from Line, Line_
-        LocationAll from Location, LocationType
-        MachineStageAll from MachineStage, MachineStage_Custom
-        MachineStopAll from MachineStop, MachineStop_
+        LocationALL from Location, LocationType
+        MachineStageALL from MachineStage, MachineStage_Custom
+        MachineStopALL from MachineStop, MachineStop_
         PartALL from Part, Part_, Part_custom
         WOALL from WO, WO_
  
