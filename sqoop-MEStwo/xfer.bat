@@ -1,6 +1,5 @@
 pscp  -pw d4e30f24   runSqoop.sh        appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/runSqoop.sh
 pscp  -pw d4e30f24   stage2.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/stage2.sh
-pscp  -pw d4e30f24   hiveSimple.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/hiveSimple.sh
 
 pscp  -pw d4e30f24   yieldIngestWorkflow.xml  appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow.xml
 pscp  -pw d4e30f24   yieldIngestProperties.properties  appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestProperties.properties 

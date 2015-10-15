@@ -1,5 +1,4 @@
 sudo cp runSqoop.sh  /home/hdfs/runSqoop.sh
-sudo cp hiveSimple.sh  /home/hdfs/HiveSimple.sh
 
 sudo cp yieldIngestWorkflow.xml  /home/hdfs/yieldIngestWorkflow.xml
 sudo cp yieldIngestProperties.properties  /home/hdfs/yieldIngestProperties.properties
