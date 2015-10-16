@@ -20,6 +20,9 @@
             <arg>--query</arg>
             <arg>SELECT <c:iterate select="$table/column" var="column"><c:get select="$column/@name"/>,</c:iterate> <c:get select="$modco/@id" /> as "org_id"  FROM dbo.<c:get select="$table/@name"/> WHERE $CONDITIONS</arg>
 <c:setVariable select=" ceiling(number($table/@slices) * number($modco/@weight))" var="slices" />
+<c:if test=" $slices > number($ingest/@maxSlices)" >
+    <c:setVariable select=" number($ingest/@maxSlices) " var="slices"/>
+</c:if>
 <c:if test="$slices > 1">
             <arg>--split-by</arg>
             <arg><c:get select="$table/column/@name"/></arg>
@@ -56,6 +59,9 @@
             <arg>--query</arg>
             <arg>SELECT <c:iterate select="c:unique($join/table/column,'@name')" var="col"><c:get select="$col/../@name"/>.<c:get select="$col/@name"/>, </c:iterate> <c:get select="$modco/@id" /> as "org_id" FROM <c:get select="$join/table/@name"/> <c:iterate select="$join/table[@first='false']" var="table" >FULL JOIN <c:get select="$table/@name"/> ON (<c:get select="$join/table/@name"/>.<c:get select="$join/table/@id"/> = <c:get select="$table/@name"/>.<c:get select="$table/@id"/>) </c:iterate>  WHERE $CONDITIONS</arg>
 <c:setVariable select=" ceiling(number($join/@slices) * number($modco/@weight))" var="slices" />
+<c:if test=" $slices > number($ingest/@maxSlices)" >
+    <c:setVariable select=" number($ingest/@maxSlices) " var="slices"/>
+</c:if>
 <c:if test="$slices > 1">
             <arg>--split-by</arg>
             <arg><c:get select="$join/table/@name"/>.<c:get select="$join/table/@id"/></arg>
