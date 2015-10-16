@@ -1,0 +1,53 @@
+<workflow-app name="<c:get select="$tables/@sqoopAppName"/>" xmlns="uri:oozie:workflow:0.1">
+ 	<start to="Fork-Ingest"/>
+	<fork name="Fork-Ingest">
+<c:iterate select="$tables/table[@enabled='true']" var="table">
+        <path start="<c:get select="$table/@name" />-Fork" />
+</c:iterate>
+	</fork>
+<c:iterate select="$tables/table[@enabled='true']" var="table">
+	<fork name="<c:get select="$table/@name" />-Fork">
+<c:iterate select="$modcos/modco" var="modco">
+        <path start="<c:get select="$table/@name" />-<c:get select="$modco/@name" />-Ingest" />
+</c:iterate>
+	</fork>
+<c:iterate select="$modcos/modco" var="modco">
+    <action name="<c:get select="$table/@name"/>-<c:get select="$modco/@name" />-Ingest">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="/<c:get select="$tables/@database"/>/<c:get select="$table/@name"/>/<c:get select="$modco/@id" />"/>
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg><c:get select="$modco/@connect" /></arg>
+            <arg>--username</arg>
+            <arg><c:get select="$modco/@user" /></arg>
+            <arg>--password</arg>
+            <arg><c:get select="$modco/@pass" /></arg>
+            <arg>--query</arg>
+            <arg>SELECT <c:iterate select="$table/column" var="column"><c:get select="$column/@name"/>,</c:iterate> <c:get select="$modco/@id" /> as "org_id"  FROM dbo.<c:get select="$table/@name"/> WHERE $CONDITIONS</arg>
+<c:if test="$ingest/table[@name=$table/@name]/@slices!='1'">
+            <arg>--split-by</arg>
+            <arg><c:get select="$table/column/@name"/></arg>
+</c:if>
+            <arg>--num-mappers</arg>
+            <arg><c:get select="$table/@slices" /></arg>
+            <arg>--target-dir</arg>
+            <arg>/<c:get select="$tables/@database"/>/<c:get select="$table/@name"/>/<c:get select="$modco/@id" /></arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="<c:get select="$table/@name" />-Join"/>
+        <error to="<c:get select="$table/@name" />-Join"/>
+    </action>
+</c:iterate>
+    <join name="<c:get select="$table/@name" />-Join" to="Ingest-Join" />
+</c:iterate>
+    <join name="Ingest-Join" to="end" />
+	<end name="end"/>
+</workflow-app>

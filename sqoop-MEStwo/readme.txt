@@ -30,9 +30,6 @@ The MES ingestion is as follows:
         PartSubClassification 
         PartType 
         ScrapReason 
-        Shift 
-        ShiftPattern 
-        ShiftType 
         Supplier 
         TagList 
         Unit 

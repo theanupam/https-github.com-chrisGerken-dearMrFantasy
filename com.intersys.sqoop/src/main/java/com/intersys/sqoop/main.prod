@@ -1,0 +1,96 @@
+
+<c:setVariable select="/tables" var="tables" />
+<c:set select="$tables" name="project">sqoop-<c:get select="$tables/@database" /></c:set>
+<c:set select="$tables" name="sqoopAppName"><c:get select="$tables/@database" />-Ingest</c:set>
+<c:set select="$tables" name="shCreate">CreateSimple_{$table/@name}.sh</c:set>
+<c:set select="$tables" name="shCreate">CreateSimple_{$table/@name}.sh</c:set>
+<c:load url="/Sandbox/modco.xml" urlContext="workspace" var="modcos" type="xml" />
+<c:setVariable select="$modcos/*" var="modcos" />
+
+<c:iterate select="$modcos/modco" var="modco">
+	<c:set select="$modco" name="connect"><c:get select="$modco/@server"/>;database=<c:get select="$modco/@db"/></c:set>
+</c:iterate>
+
+
+<c:load url="/Sandbox/ingest.xml" urlContext="workspace" var="ingest" type="xml" />
+<c:setVariable select="$ingest/*" var="ingest" />
+
+<c:iterate select="$ingest/join" var="join" >
+	<c:iterate select="$join/table" var="table" >
+		<c:set select="$table" name="id"><c:get select="$tables/table[@name=$table/@name]/column/@name" /></c:set>
+		<c:set select="$table" name="first">false</c:set>
+		<c:iterate select="$tables/table[@name=$table/@name]/column" var="column">
+			<c:copyElement select="$column" toSelect="$table" name="column" />
+		</c:iterate>
+	</c:iterate>
+	<c:set select="$join/table" name="first">true</c:set>
+	<c:iterate select="$join/table" var="table" >
+		<c:if test="$table/@first='false'" >
+			<c:removeElement select="$table/column" />
+		</c:if>
+	</c:iterate>
+</c:iterate>
+
+<c:iterate select="$tables/table" var="table">
+	<c:set select="$table" name="enabled">false</c:set>
+	<c:if test="$ingest/table[@name=$table/@name]">
+		<c:set select="$table" name="enabled">true</c:set>
+		<c:set select="$table" name="slices"><c:get select="$ingest/table[@name=$table/@name]/@slices"/></c:set>
+	</c:if>
+</c:iterate>
+
+<c:iterate select="$tables/table" var="table" >
+	<c:set select="$table" name="mappers">--num-mappers 1</c:set>
+	<c:if test="$table/@slices!='1'">
+		<c:set select="$table" name="mappers">--split-by <c:get select="$table/column/@name"/>  --num-mappers <c:get select="$table/@slices" /></c:set>
+	</c:if>
+</c:iterate>
+
+<c:iterate select="$ingest/join" var="join" >
+	<c:set select="$join" name="mappers">--num-mappers 1</c:set>
+	<c:if test="$join/@slices!='1'">
+		<c:set select="$join" name="mappers">--split-by <c:get select="$join/table/@name"/>.<c:get select="$join/table/@id"/>  --num-mappers <c:get select="$join/@slices" /></c:set>
+	</c:if>
+</c:iterate>
+
+
+<c:setVariable select=" 'true' " var="first" />
+<c:iterate select="$tables/table[@enabled='true']" var="table" >
+	<c:if test="$first='false'"  >
+		<c:set select="$prev" name="nextTable"><c:get select="$table/@name"/></c:set>
+	</c:if>
+	<c:if test="$first='true'"  >
+		<c:setVariable select="$table" var="firstTable"/>
+	</c:if>
+	<c:setVariable select=" $table " var="prev" />
+	<c:setVariable select=" 'false' " var="first" />
+</c:iterate>
+
+<c:iterate select="$ingest/join" var="join" >
+	<c:set select="$prev" name="nextTable"><c:get select="$join/@name"/></c:set>
+	<c:setVariable select=" $join " var="prev" />
+	<c:setVariable select=" 'false' " var="first" />
+</c:iterate>
+<c:setVariable select="$prev" var="lastTable"/>
+<c:set select="$prev" name="nextTable">EndOf</c:set>
+
+
+<c:set select="$prev" name="nextNode">end</c:set>
+
+<c:project  name="{$tables/@project}"  />
+
+<c:file    path="{$tables/@project}/xfer.bat"  					template="bat.prod" />
+<c:file    path="{$tables/@project}/runSqoop.sh"  				template="run.sqoop.prod" />
+<c:file    path="{$tables/@project}/stage2.sh"  				template="stage2.sh.prod" />
+<c:file    path="{$tables/@project}/readme.txt"  				template="ingest.description.prod" />
+<c:file    path="{$tables/@project}/yieldIngestProperties.properties"  template="job.properties.prod" />
+<c:file    path="{$tables/@project}/yieldIngestWorkflow.xml"  	template="oozie.main.workflow.prod" />
+<c:iterate select="$modcos/modco" var="modco">
+<c:file    path="{$tables/@project}/yieldIngestWorkflow-{$modco/@name}.xml"  	template="oozie.modco.workflow.prod" />
+</c:iterate>
+
+<c:file    path="{$tables/@project}/ingest/ingest.sh"  			template="ingest.sh.prod" />
+<c:file    path="{$tables/@project}/dump.xml"  					template="dump.prod" />
+<c:file    path="{$tables/@project}/dumpIngest.xml"  			template="dump.ingest.prod" />
+
+

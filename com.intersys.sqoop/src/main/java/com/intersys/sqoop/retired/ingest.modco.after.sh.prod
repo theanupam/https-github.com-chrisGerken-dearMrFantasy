@@ -1,0 +1,36 @@
+#!/bin/bash
+
+set hive.execution.engine=tez;
+echo " "
+echo "##################################################"
+echo "Hive: Conditionally create data base <c:get select="$tables/@database"/>"
+echo "##################################################"
+echo " "
+
+hive -e "CREATE DATABASE IF NOT EXISTS <c:get select="$tables/@database"/>"
+
+<c:iterate select="$tables/table[@enabled='true']" var="table">
+echo " "
+echo "##################################################"
+echo "Hive: Conditionally create table <c:get select="$table/@hive_name"/>"
+echo "##################################################"
+echo " "
+
+hive -e "Create External table IF NOT EXISTS <c:get select="$tables/@database"/>.<c:get select="$table/@hive_name"/> (<c:iterate select="$table/column" var="column"><c:get select="$column/@hive_name"/> <c:get select="$column/@type"/>, </c:iterate> org_id int) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile location '/<c:get select="$tables/@database"/>/<c:get select="$table/@hive_name"/>'"
+
+</c:iterate>
+
+
+<c:iterate select="$ingest/join" var="join">
+
+echo " "
+echo "##################################################"
+echo "Hive: Conditionally create table <c:get select="$join/@name"/>"
+echo "##################################################"
+echo " "
+
+hive -e "Create External table IF NOT EXISTS <c:get select="$tables/@database"/>.<c:get select="$join/@name"/> (<c:iterate select="c:unique($join/table/column,'@name')" var="column"><c:get select="$column/@name"/> <c:get select="$column/@type"/>, </c:iterate> org_id int) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile location '/<c:get select="$tables/@database"/>/<c:get select="$join/@name"/>'"
+</c:iterate>
+
+
+

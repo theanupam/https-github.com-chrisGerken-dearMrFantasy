@@ -1,0 +1,109 @@
+
+
+
+
+<row column_name="Quantity" is_ansi_padded="0" is_nullable="0" max_length="8" precision="53" scale="0" system_type_id="62" table_name="_SP_Crate" user_type_id="62"/>
+
+
+< c:loadContent var="$content" >
+<tables/>
+< /c:loadContent>
+< c:setVariable select="$content/tables" var="tables"  />
+
+<c:addElement select="/root"  name="tables"  var="tables" />
+
+    <c:addTextElement select="$tables">
+</c:addTextElement>
+
+<c:iterate select="/root/row" var="row" >
+
+<c:if test="not($tables/table[@name=$row/@table_name])">
+    <c:addElement select="$tables" name="table" var="table" />
+    <c:set select="$table" name="name"><c:get select="$row/@table_name"/></c:set>
+    <c:set select="$table" name="hive_name"><c:get select="$row/@table_name"/></c:set>
+    <c:addTextElement select="$tables">
+</c:addTextElement>
+</c:if>
+<c:setVariable select="$tables/table[@name=$row/@table_name]" var="table"  />
+
+<c:addElement select="$table" name="column" var="column" />
+<c:set select="$column" name="name"><c:get select="$row/@column_name"/></c:set>
+<c:set select="$column" name="hive_name"><c:get select="$row/@column_name"/></c:set>
+<c:if test="$row/@max_length = '-1'">
+    <c:set select="$row"  name="max_length">8000</c:set>
+</c:if>
+<c:choose select="$row/@system_type_id" >
+<c:when test=" '34' " >
+	<c:set select="$column" name="type">int</c:set>
+    </c:when>
+<c:when test=" '36' " >
+	<c:set select="$column" name="type">varchar(36)</c:set>  - uniqueidentifier
+    </c:when>
+<c:when test=" '42' " >
+	<c:set select="$column" name="type">datetime2(<c:get select="$row/@scale"/>)</c:set>
+    </c:when>
+<c:when test=" '48' " >
+	<c:set select="$column" name="type">tinyint</c:set>
+    </c:when>
+<c:when test=" '52' " >
+	<c:set select="$column" name="type">smallint</c:set>
+    </c:when>
+<c:when test=" '56' " >
+	<c:set select="$column" name="type">int</c:set>
+    </c:when>
+<c:when test=" '61' " >
+	<c:set select="$column" name="type">timestamp</c:set>  - datetime
+    </c:when>
+<c:when test=" '62' " >
+	<c:set select="$column" name="type">float</c:set>
+    </c:when>
+<c:when test=" '106' " >
+	<c:set select="$column" name="type">decimal(<c:get select="$row/@precision"/>,<c:get select="$row/@scale"/>)</c:set>
+    </c:when>
+<c:when test=" '127' " >
+	<c:set select="$column" name="type">bigint</c:set>
+    </c:when>
+<c:when test=" '165' " >
+	<c:set select="$column" name="type">varbinary(<c:get select="$row/@max_length"/>)</c:set>
+    </c:when>
+<c:when test=" '167' " >
+	<c:set select="$column" name="type">varchar(<c:get select="$row/@max_length"/>)</c:set>
+    </c:when>
+<c:when test=" '175' " >
+	<c:set select="$column" name="type">char(<c:get select="$row/@max_length"/>)</c:set>
+    </c:when>
+<c:when test=" '231' " >
+	<c:set select="$column" name="type">varchar(<c:get select="$row/@max_length"/>)</c:set> - nvarchar
+    </c:when>
+<c:when test=" '239' " >
+	<c:set select="$column" name="type">char(<c:get select="$row/@max_length"/>)</c:set> - nchar
+    </c:when>
+
+<c:otherwise>
+<c:set select="$column" name="type"><c:get select="$row/@system_type_id"/></c:set>
+<c:log severity="error">Unknown type <c:get select="$row/@system_type_id"/></c:log>
+</c:otherwise>
+</c:choose>
+
+<c:set select="$column" name="nullable"></c:set>
+<c:if test="$row/@is_nullable = '0'" > 
+    <c:set select="$column" name="nullable"> NOT NULL</c:set>
+</c:if>
+</c:iterate>
+
+    <c:addTextElement select="$tables">
+</c:addTextElement>
+
+<c:iterate select="$tables/table[starts-with(@name,'_')]" var="table" >
+    <c:set select="$table"  name="hive_name">Underscore<c:get select="$table/@name"/></c:set>
+</c:iterate>
+
+<c:iterate select="$tables/table/column[starts-with(@name,'_')]" var="column" >
+    <c:set select="$column"  name="hive_name">Underscore<c:get select="$column/@name"/></c:set>
+</c:iterate>
+
+<c:file  template="dump.prod"  path="Sandbox/tables.xml"   />
+
+
+
+

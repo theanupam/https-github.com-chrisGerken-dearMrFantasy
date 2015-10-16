@@ -1,0 +1,56 @@
+<workflow-app name="MES" xmlns="uri:oozie:workflow:0.1">
+<start to="ParseMESData-BuildTables"/>
+<end name="end"/>
+</workflow-app>
+
+
+<action name="ParseMESData-BuildTables">
+<hive xmlns="uri:oozie:hive-action:0.2">
+<job-tracker>localhost:8021</job-tracker>
+<name-node>localhost:8020</name-node>
+<configuration>
+<property>
+<name>oozie.hive.defaults</name>
+<value>/etc/hive/conf/hive-default.xml.template</value>
+</property>
+</configuration>
+<script>OneTable.hql</script>
+</hive>
+<ok to="MES"/>
+<error to="end"/>
+</action>
+
+
+<workflow-app name="[WF-DEF-NAME]" xmlns="uri:oozie:workflow:0.1">
+    ...
+    <action name="[NODE-NAME]">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+            <job-tracker>[JOB-TRACKER]</job-tracker>
+            <name-node>[NAME-NODE]</name-node>
+            <prepare>
+               <delete path="[PATH]"/>
+               ...
+               <mkdir path="[PATH]"/>
+               ...
+            </prepare>
+            <configuration>
+                <property>
+                    <name>[PROPERTY-NAME]</name>
+                    <value>[PROPERTY-VALUE]</value>
+                </property>
+                ...
+            </configuration>
+            <command>[SQOOP-COMMAND]</command>
+            <arg>[SQOOP-ARGUMENT]</arg>
+            ...
+            <file>[FILE-PATH]</file>
+            ...
+            <archive>[FILE-PATH]</archive>
+            ...
+        </sqoop>
+        <ok to="[NODE-NAME]"/>
+        <error to="[NODE-NAME]"/>
+    </action>
+    ...
+</workflow-app>
+

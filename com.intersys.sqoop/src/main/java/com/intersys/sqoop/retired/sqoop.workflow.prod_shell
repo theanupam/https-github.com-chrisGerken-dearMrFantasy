@@ -1,0 +1,58 @@
+<workflow-app name="<c:get select="$tables/@sqoopAppName"/>" xmlns="uri:oozie:workflow:0.1">
+ 
+ 	<start to="Delete-Lake"/>
+ 
+ 	<action name="Delete-Lake">
+        <fs>
+            <delete path='hdfs://prod-hubnamedaws01.sunpowercorp.com:8020/<c:get select="$tables/@database"/>'/>
+        </fs>
+        <ok to="Fork-Ingest"/>
+        <error to="end"/>
+    </action>
+
+	<fork name="Fork-Ingest">
+<c:iterate select="$tables/table[@enabled='true']" var="table">
+        <path start="<c:get select="$table/@name" />-Fork" />
+</c:iterate>
+	</fork>
+
+<c:iterate select="$tables/table[@enabled='true']" var="table">
+	<fork name="<c:get select="$table/@name" />-Fork">
+<c:iterate select="$modcos/modco" var="modco">
+        <path start="<c:get select="$table/@name" />-<c:get select="$modco/@name" />-Ingest" />
+</c:iterate>
+	</fork>
+<c:iterate select="$modcos/modco" var="modco">
+    
+    <action name="<c:get select="$table/@name"/>-<c:get select="$modco/@name" />-Ingest">
+		<shell xmlns="uri:oozie:shell-action:0.1">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<exec>IngestSimple_<c:get select="$table/@name" />_<c:get select="$modco/@name" />.sh</exec> 
+    		<file>IngestSimple_<c:get select="$table/@name" />_<c:get select="$modco/@name" />.sh</file>
+		</shell>
+        <ok to="<c:get select="$table/@name" />-Join"/>
+        <error to="<c:get select="$table/@name" />-Join"/>
+    </action>
+
+</c:iterate>
+
+    <join name="<c:get select="$table/@name" />-Join" to="<c:get select="$table/@name" />-Create" />
+
+    <action name="<c:get select="$table/@name"/>-Create">
+		<shell xmlns="uri:oozie:shell-action:0.1">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<exec>CreateSimple_<c:get select="$table/@name" />.sh</exec> 
+    		<file>CreateSimple_<c:get select="$table/@name" />.sh</file>
+		</shell>
+        <ok to="Ingest-Join"/>
+        <error to="Ingest-Join"/>
+    </action>
+
+</c:iterate>
+    <join name="Ingest-Join" to="end" />
+
+	<end name="end"/>
+
+</workflow-app>
