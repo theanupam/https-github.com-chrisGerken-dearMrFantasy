@@ -1,0 +1,1 @@
+create table MEStwo.Haddress as select AddressID, org_id from MEStwo.Address;

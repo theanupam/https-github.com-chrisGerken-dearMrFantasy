@@ -11,3 +11,7 @@ pscp  -pw d4e30f24   yieldIngestWorkflow-SPDV.xml    appladm@prod-hubnamedaws01.
 pscp  -pw d4e30f24   yieldIngestWorkflow-SPTT.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-SPTT.xml
 pscp  -pw d4e30f24   yieldIngestWorkflow-SPTM.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-SPTM.xml
 
+pscp  -pw d4e30f24   runHiveTest.sh        appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/runHiveTest.sh
+pscp  -pw d4e30f24   hiveTest.xml        appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/hiveTest.xml
+pscp  -pw d4e30f24   hiveTest.sql        appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/hiveTest.sql
+pscp  -pw d4e30f24   hiveTest.properties        appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/hiveTest.properties
