@@ -11,8 +11,6 @@ The MES ingestion is as follows:
 2. Tables ingested:
 
         _SPML_ModuleInfo 
-        Address 
-        Customer 
         Department 
         InvChangeState 
         InvIsolatedReason 

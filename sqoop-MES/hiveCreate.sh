@@ -20,22 +20,6 @@ hive -e "Create External table IF NOT EXISTS MES.U_SPML_ModuleInfo (ModuleInfoID
 
 echo " "
 echo "##################################################"
-echo "Hive: Conditionally create table Address"
-echo "##################################################"
-echo " "
-
-hive -e "Create External table IF NOT EXISTS MES.Address (AddressID smallint, Address1 varchar(508), Address2 varchar(508), City varchar(100), County varchar(100), PostCode varchar(100), Country varchar(100),  org_id int) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile location '/MES/Address'"
-
-echo " "
-echo "##################################################"
-echo "Hive: Conditionally create table Customer"
-echo "##################################################"
-echo " "
-
-hive -e "Create External table IF NOT EXISTS MES.Customer (CustomerID smallint, Customer varchar(508), CustomerCode varchar(508), AddressID smallint, RfLanguageID smallint,  org_id int) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile location '/MES/Customer'"
-
-echo " "
-echo "##################################################"
 echo "Hive: Conditionally create table Department"
 echo "##################################################"
 echo " "
