@@ -9,9 +9,20 @@ The MES ingestion is as follows:
 2. Tables ingested:
 
 <c:iterate select="$tables/table[@enabled='true']" var="table">
-        <c:get select="$table/@name"/> 
+        <c:get select="$table/@name"/> (<c:get select="$table/@slices" />)  
 </c:iterate>
 
 <c:iterate select="$ingest/join" var="join">
-        <c:get select="$join/@name"/> from <c:iterate select="$join/table" var="table" delimiter=", "><c:get select="$table/@name"/></c:iterate>
+        <c:get select="$join/@name"/> (<c:get select="$join/@slices" />) from <c:iterate select="$join/table" var="table" delimiter=", "><c:get select="$table/@name"/></c:iterate>
+</c:iterate> 
+
+3. Timestamps:
+
+<c:iterate select="$tables/table[@enabled='true']" var="table">
+        <c:get select="$table/@name"/> :  <c:iterate select="$table/column[@type='timestamp']" var="col" delimiter=", "><c:get select="$col/@name"/></c:iterate>
+</c:iterate>
+
+<c:iterate select="$ingest/join/table" var="tab">
+        <c:setVariable select="$tables/table[@name=$tab/@name]" var="table" />
+        <c:get select="$table/@name"/> :  <c:iterate select="$table/column[@type='timestamp']" var="col" delimiter=", "><c:get select="$col/@name"/></c:iterate>
 </c:iterate> 
