@@ -76,8 +76,33 @@
 <c:setVariable select="$prev" var="lastTable"/>
 <c:set select="$prev" name="nextTable">EndOf</c:set>
 
-
 <c:set select="$prev" name="nextNode">end</c:set>
+
+<c:loadContent type="xml" var="jobs">
+<jobs>
+<c:iterate select="$tables/table[@enabled='true']" var="table" >
+	<job name="<c:get select="$table/@name" />" slices="<c:get select="$table/@slices" />"  hive_name="<c:get select="$table/@hive_name" />">
+<c:iterate select="$table/column" var="column" >
+    	<c:dump select="$column"/>
+</c:iterate>	
+	</job>
+</c:iterate>
+
+<c:iterate select="$ingest/join" var="join" >
+	<job name="<c:get select="$join/@name" />" slices="<c:get select="$join/@slices" />">
+<c:iterate select="$join/table" var="tab" >
+<c:setVariable select="$tables/table[@name=$tab/@name]" var="table" />
+<c:iterate select="$table/column" var="column" >
+    	<c:dump select="$column"/>
+</c:iterate>	
+</c:iterate>	
+	</job>
+</c:iterate>
+</jobs>
+</c:loadContent>
+
+<c:setVariable select="$jobs/jobs" var="jobs" />
+
 
 <c:project  name="{$tables/@project}"  />
 
@@ -95,6 +120,7 @@
 < c:file    path="{$tables/@project}/ingest/ingest.sh"  			template="ingest.sh.prod" />
 <c:file    path="{$tables/@project}/dump.xml"  					template="dump.prod" />
 <c:file    path="{$tables/@project}/dumpIngest.xml"  			template="dump.ingest.prod" />
+<c:file    path="{$tables/@project}/dumpJobs.xml"  			template="dump.jobs.prod" />
 
 
 
