@@ -7,9 +7,8 @@ sudo cp yieldIngestProperties.properties  /home/hdfs/yieldIngestProperties.prope
 
 sudo cp yieldIngestWorkflow-SPMX.xml  /home/hdfs/yieldIngestWorkflow-SPMX.xml
 sudo cp yieldIngestWorkflow-SPMM.xml  /home/hdfs/yieldIngestWorkflow-SPMM.xml
-sudo cp yieldIngestWorkflow-SPDV.xml  /home/hdfs/yieldIngestWorkflow-SPDV.xml
 sudo cp yieldIngestWorkflow-SPTT.xml  /home/hdfs/yieldIngestWorkflow-SPTT.xml
 sudo cp yieldIngestWorkflow-SPTM.xml  /home/hdfs/yieldIngestWorkflow-SPTM.xml
-
+sudo cp yieldIngestWorkflow-SPDV.xml  /home/hdfs/yieldIngestWorkflow-SPDV.xml
 
 

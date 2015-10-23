@@ -7,7 +7,8 @@ pscp  -pw d4e30f24   yieldIngestProperties.properties  appladm@prod-hubnamedaws0
 
 pscp  -pw d4e30f24   yieldIngestWorkflow-SPMX.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-SPMX.xml
 pscp  -pw d4e30f24   yieldIngestWorkflow-SPMM.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-SPMM.xml
-pscp  -pw d4e30f24   yieldIngestWorkflow-SPDV.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-SPDV.xml
 pscp  -pw d4e30f24   yieldIngestWorkflow-SPTT.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-SPTT.xml
 pscp  -pw d4e30f24   yieldIngestWorkflow-SPTM.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-SPTM.xml
+pscp  -pw d4e30f24   yieldIngestWorkflow-SPDV.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-SPDV.xml
+
 

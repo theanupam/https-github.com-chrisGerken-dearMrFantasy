@@ -1,11 +1,10 @@
-hdfs dfs -rm -r -skipTrash /YieldWorkflow
-hdfs dfs -mkdir /YieldWorkflow
+hdfs dfs -rm -r -skipTrash <c:get select="$workflow/@hdfsDir" />
+hdfs dfs -mkdir <c:get select="$workflow/@hdfsDir" />
 
-hadoop fs -put yieldIngestWorkflow.xml /YieldWorkflow/yieldIngestWorkflow.xml 
-<c:iterate select="$modcos/modco" var="modco">
-hadoop fs -put yieldIngestWorkflow-<c:get select="$modco/@name" />.xml /YieldWorkflow/yieldIngestWorkflow-<c:get select="$modco/@name" />.xml
+hadoop fs -put yieldIngestWorkflow.xml <c:get select="$workflow/@hdfsDir" />/yieldIngestWorkflow.xml 
+<c:iterate select="$workflow/subflow" var="subflow">
+hadoop fs -put <c:get select="$subflow/@workflowXml" />.xml <c:get select="$workflow/@hdfsDir" />/<c:get select="$subflow/@workflowXml" />.xml
 </c:iterate>
 
 oozie  job  -oozie  http://prod-hubnamedaws01.sunpowercorp.com:11000/oozie  -config  yieldIngestProperties.properties  -run
- 
  
