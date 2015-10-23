@@ -12,7 +12,7 @@ hive -e "CREATE DATABASE IF NOT EXISTS MES"
 
 echo " "
 echo "##################################################"
-echo "Hive: Conditionally create table U_SPML_ModuleInfo"
+echo "Hive: Drop and Create table U_SPML_ModuleInfo"
 echo "##################################################"
 echo " "
 
@@ -22,7 +22,7 @@ hive -e "Create External table IF NOT EXISTS MES.U_SPML_ModuleInfo (ModuleInfoID
 
 echo " "
 echo "##################################################"
-echo "Hive: Conditionally create table InvChangeState"
+echo "Hive: Drop and Create table InvChangeState"
 echo "##################################################"
 echo " "
 
@@ -32,7 +32,7 @@ hive -e "Create External table IF NOT EXISTS MES.InvChangeState (InvChangeStateI
 
 echo " "
 echo "##################################################"
-echo "Hive: Conditionally create table InvIsolatedReason"
+echo "Hive: Drop and Create table InvIsolatedReason"
 echo "##################################################"
 echo " "
 
@@ -42,7 +42,7 @@ hive -e "Create External table IF NOT EXISTS MES.InvIsolatedReason (InvIsolatedR
 
 echo " "
 echo "##################################################"
-echo "Hive: Conditionally create table InvState"
+echo "Hive: Drop and Create table InvState"
 echo "##################################################"
 echo " "
 
@@ -52,7 +52,7 @@ hive -e "Create External table IF NOT EXISTS MES.InvState (InvStateID smallint, 
 
 echo " "
 echo "##################################################"
-echo "Hive: Conditionally create table MachineStageType"
+echo "Hive: Drop and Create table MachineStageType"
 echo "##################################################"
 echo " "
 
@@ -62,7 +62,7 @@ hive -e "Create External table IF NOT EXISTS MES.MachineStageType (MachineStageT
 
 echo " "
 echo "##################################################"
-echo "Hive: Conditionally create table PartType"
+echo "Hive: Drop and Create table PartType"
 echo "##################################################"
 echo " "
 
@@ -72,7 +72,7 @@ hive -e "Create External table IF NOT EXISTS MES.PartType (PartTypeID smallint, 
 
 echo " "
 echo "##################################################"
-echo "Hive: Conditionally create table ScrapReason"
+echo "Hive: Drop and Create table ScrapReason"
 echo "##################################################"
 echo " "
 
@@ -82,7 +82,7 @@ hive -e "Create External table IF NOT EXISTS MES.ScrapReason (ScrapReasonID smal
 
 echo " "
 echo "##################################################"
-echo "Hive: Conditionally create table Supplier"
+echo "Hive: Drop and Create table Supplier"
 echo "##################################################"
 echo " "
 
@@ -92,7 +92,7 @@ hive -e "Create External table IF NOT EXISTS MES.Supplier (SupplierID smallint, 
 
 echo " "
 echo "##################################################"
-echo "Hive: Conditionally create table Unit"
+echo "Hive: Drop and Create table Unit"
 echo "##################################################"
 echo " "
 
@@ -100,10 +100,9 @@ hive -e "Drop table MES.Unit"
 
 hive -e "Create External table IF NOT EXISTS MES.Unit (UnitID smallint, Unit varchar(40), Description varchar(508),  org_id int, org_name varchar(10)) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile location '/MES/Unit'"
 
-
 echo " "
 echo "##################################################"
-echo "Hive: Conditionally create table BuildRecord"
+echo "Hive: Drop and Create table BuildRecord"
 echo "##################################################"
 echo " "
 
@@ -111,10 +110,9 @@ hive -e "Drop table MES.BuildRecord"
 
 hive -e "Create External table IF NOT EXISTS MES.BuildRecord (BuildRecordID int, InvPackCreatedID int, InvPackConsumedID int, QuantityUsed float, UnitID smallint, BuildDT timestamp, IsEdited tinyint, RevisionNo smallint, BuildMachineStageID smallint, Comments varchar(508), LoginID smallint, OpenedDT timestamp, SavedDT timestamp, EditedBuildRecordID int, OriginalLoginID smallint, Reference1 varchar(508), Reference2 varchar(508), Reference3 varchar(508), Reference4 varchar(508), Reference5 varchar(508),  org_id int, org_name varchar(10)) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile location '/MES/BuildRecord'"
 
-
 echo " "
 echo "##################################################"
-echo "Hive: Conditionally create table InventoryPack"
+echo "Hive: Drop and Create table InventoryPack"
 echo "##################################################"
 echo " "
 
@@ -122,10 +120,9 @@ hive -e "Drop table MES.InventoryPack"
 
 hive -e "Create External table IF NOT EXISTS MES.InventoryPack (InventoryPackID int, InventoryPackNo varchar(508), WOID int, JobID int, CreatedFromDT timestamp, CreatedToDT timestamp, CreatedOnMachineStageID smallint, IsEdited tinyint, RevisionNo tinyint, PartID int, Quantity float, UnitID smallint, Ignored tinyint, InventoryPackIndex int, CustomerUniqueKey varchar(508), ReceivedDT timestamp, BirthDT timestamp, LastBuildRecordID int, msrepl_tran_version varchar(36), CurrentQuantity float, QuantityAdjustment float, PositionNumber tinyint, LocationID int, InvStateID int, LocationFromDT timestamp, Comments varchar(508), LoginID smallint, OpenedDT timestamp, SavedDT timestamp, OriginalLoginID smallint, EditedInventoryPackID int, Reference1 varchar(508), Reference2 varchar(508), Reference3 varchar(508), Reference4 varchar(508), Reference5 varchar(508), Reference6 varchar(508), Reference7 varchar(508), Reference8 varchar(508), Reference9 varchar(508), Reference10 varchar(508), SupplierID smallint, SupplierReference varchar(508), UseByDT timestamp, UseAfterDT timestamp, Txn_date timestamp, OracleStatus tinyint, IntendedWOID int, FinalWOID int, OriginalQty float, Seq_Id int, From_Subinventory char(20), From_Locator char(80), To_Subinventory char(20), To_Locator char(80), ScrappedShiftID int, LastInventoryLabelID int, ScrapLocationID int, MachineLocationID int, ScrapReasonID smallint, ModuleInfoID int, ResealedDT timestamp,  org_id int, org_name varchar(10)) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile location '/MES/InventoryPack'"
 
-
 echo " "
 echo "##################################################"
-echo "Hive: Conditionally create table Location"
+echo "Hive: Drop and Create table Location"
 echo "##################################################"
 echo " "
 
@@ -133,21 +130,19 @@ hive -e "Drop table MES.Location"
 
 hive -e "Create External table IF NOT EXISTS MES.Location (LocationID int, Location varchar(508), LocationTypeID smallint, IsRetired tinyint, MaxQuantity float, LocationCode varchar(100), Description varchar(508), LocationType varchar(100), LocationTypeCode varchar(100),  org_id int, org_name varchar(10)) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile location '/MES/Location'"
 
-
 echo " "
 echo "##################################################"
-echo "Hive: Conditionally create table Part"
+echo "Hive: Drop and Create table Part"
 echo "##################################################"
 echo " "
 
 hive -e "Drop table MES.Part"
 
-hive -e "Create External table IF NOT EXISTS MES.Part (PartID int, PartNumber varchar(508), Description varchar(508), IsRetired tinyint, BaseUnitID smallint, PartTypeID smallint, Reference1 varchar(508), Reference2 varchar(508), Reference3 varchar(508), Reference4 varchar(508), Reference5 varchar(508), Variant1 varchar(200), Variant2 varchar(200), Variant3 varchar(200), Variant4 varchar(200), Variant5 varchar(200), Variant6 varchar(200), Variant7 varchar(200), Variant8 varchar(200), Variant9 varchar(200), Variant10 varchar(200), Variant11 varchar(200), Variant12 varchar(200), Variant13 varchar(200), Variant14 varchar(200), Variant15 varchar(200), Variant16 varchar(200), Variant17 varchar(200), Variant18 varchar(200), Variant19 varchar(200), Variant20 varchar(200), TheoreticalSpeed float, LabelsPerInventoryPack smallint, ItemsPerInventoryPack float, ItemsPerLayer float, LayersPerInventoryPack int, PackingCode varchar(100), LabelTemplate varchar(508), ProductionInstructions varchar(2000), QualityInstructions varchar(2000), CustomerPartNo varchar(508), CustomerPartDescription varchar(508), LabelText1 varchar(508), LabelText2 varchar(508), LabelText3 varchar(508), UnitPrice1 float, UnitPrice2 float, LegacyPartNo varchar(508), CreateDT timestamp, ModifiedDT timestamp, LoginID smallint, PartRevisionNo varchar(100), PartClassificationID smallint, LastPurchaseCost float, AveragePurchaseCost float, StandardPurchaseCost float, StandardManufactureCost float, StandardSaleCost float, PartSubClassificationID smallint, CreatedInvUseByPeriod int, CreatedInvUseAfterPeriod int, Txn_date timestamp, Inventory_Item_Id int, Item_Type_Description varchar(508),  org_id int, org_name varchar(10)) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile location '/MES/Part'"
-
+hive -e "Create External table IF NOT EXISTS MES.Part (PartID int, PartNumber varchar(508), Description varchar(508), IsRetired tinyint, BaseUnitID smallint, PartTypeID smallint, Reference1 varchar(508), Reference2 varchar(508), Reference3 varchar(508), Reference4 varchar(508), Reference5 varchar(508), Variant1 varchar(200), Variant2 varchar(200), Variant3 varchar(200), Variant4 varchar(200), Variant5 varchar(200), Variant6 varchar(200), Variant7 varchar(200), Variant8 varchar(200), Variant9 varchar(200), Variant10 varchar(200), Variant11 varchar(200), Variant12 varchar(200), Variant13 varchar(200), Variant14 varchar(200), Variant15 varchar(200), Variant16 varchar(200), Variant17 varchar(200), Variant18 varchar(200), Variant19 varchar(200), Variant20 varchar(200), TheoreticalSpeed float, LabelsPerInventoryPack smallint, ItemsPerInventoryPack float, ItemsPerLayer float, LayersPerInventoryPack int, PackingCode varchar(100), LabelTemplate varchar(508), ProductionInstructions varchar(2000), QualityInstructions varchar(2000), CustomerPartNo varchar(508), CustomerPartDescription varchar(508), LabelText1 varchar(508), LabelText2 varchar(508), LabelText3 varchar(508), UnitPrice1 float, UnitPrice2 float, LegacyPartNo varchar(508), CreateDT timestamp, ModifiedDT timestamp, LoginID smallint, PartRevisionNo varchar(100), PartClassificationID smallint, LastPurchaseCost float, AveragePurchaseCost float, StandardPurchaseCost float, StandardManufactureCost float, StandardSaleCost float, PartSubClassificationID smallint, CreatedInvUseByPeriod int, CreatedInvUseAfterPeriod int, Txn_date timestamp, Inventory_Item_Id int, Item_Type_Description varchar(508),  org_id int, org_name varchar(10), Cell_Count varchar(200) , Demand_Category varchar(200) , Series varchar(200) ) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile location '/MES/Part'"
 
 echo " "
 echo "##################################################"
-echo "Hive: Conditionally create table WO"
+echo "Hive: Drop and Create table WO"
 echo "##################################################"
 echo " "
 
