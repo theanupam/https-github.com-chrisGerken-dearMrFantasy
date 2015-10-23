@@ -82,7 +82,7 @@
     	<c:setVariable select=" number($ingest/@padSlices) " var="slices"/>
 	</c:if>
 </c:if>
-	<job name="<c:get select="$join/@name" />-Ingest-<c:get select="$modco/@name" />" slices="<c:get select="$slices" />"  splitBy="<c:get select="$join/table/column/@name"/>"   source="<c:get select="$modco/@name" />"  targetTable="<c:get select="$join/@name"/>">
+	<job name="<c:get select="$join/@name" />-Ingest-<c:get select="$modco/@name" />" slices="<c:get select="$slices" />"  splitBy="<c:get select="$join/table/@name"/>.<c:get select="$join/table/column/@name"/>"   source="<c:get select="$modco/@name" />"  targetTable="<c:get select="$join/@name"/>">
 		<targetDir>/<c:get select="$tables/@database"/>/<c:get select="$join/@name"/>/<c:get select="$modco/@name" /></targetDir>
 		<query>SELECT <c:iterate select="c:unique($join/table/column,'@name')" var="col"><c:get select="$col/../@name"/>.<c:get select="$col/@name"/>, </c:iterate> <c:get select="$modco/@id" /> as "org_id",  '<c:get select="$modco/@name" />' as "org_name" <c:iterate select="$join/update" var="update">, (<c:get select="$update/calc" />) as "<c:get select="$update/@name"/>" </c:iterate> FROM <c:get select="$join/table/@name"/> <c:iterate select="$join/table[@first='false']" var="table" >FULL JOIN <c:get select="$table/@name"/> ON (<c:get select="$join/table/@name"/>.<c:get select="$join/table/@id"/> = <c:get select="$table/@name"/>.<c:get select="$table/@id"/>) </c:iterate>  WHERE $CONDITIONS</query>
 	</job>
