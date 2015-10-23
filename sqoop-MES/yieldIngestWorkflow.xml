@@ -1,22 +1,36 @@
 <workflow-app name="ModcoIngest" xmlns="uri:oozie:workflow:0.1">
- 	<start to="Fork-Ingest"/>
-	<fork name="Fork-Ingest">
+ 	<start to="Fork-One"/>
+
+
+	<fork name="Fork-One">
 
         <path start="Do-SPMX-Subflow" />
+
+        <path start="Do-SPMM-Subflow" />
+
+	</fork>
+
+    <join name="Join-One" to="Fork-Two" />
+
+
+	<fork name="Fork-Two">
+
+        <path start="Do-SPTM-Subflow" />
 
         <path start="Do-SPDV-Subflow" />
 
 	</fork>
+
+    <join name="Join-Two" to="End-Ingest" />
+
 
     <action name="Do-SPMX-Subflow">
     	<sub-workflow>
         	<app-path>/YieldWorkflow/yieldIngestWorkflow-SPMX.xml</app-path>
             <propagate-configuration/>
         </sub-workflow>
-
-        <ok to="Do-SPTT-Subflow"/>
-        <error to="Do-SPTT-Subflow"/>
-        
+        <ok to="Join-One"/>
+        <error to="Join-One"/>
     </action>
 
     <action name="Do-SPMM-Subflow">
@@ -24,21 +38,8 @@
         	<app-path>/YieldWorkflow/yieldIngestWorkflow-SPMM.xml</app-path>
             <propagate-configuration/>
         </sub-workflow>
-
-        <ok to="Do-SPTM-Subflow"/>
-        <error to="Do-SPTM-Subflow"/>
-        
-    </action>
-
-    <action name="Do-SPDV-Subflow">
-    	<sub-workflow>
-        	<app-path>/YieldWorkflow/yieldIngestWorkflow-SPDV.xml</app-path>
-            <propagate-configuration/>
-        </sub-workflow>
-
-        <ok to="Do-SPMM-Subflow"/>
-        <error to="Do-SPMM-Subflow"/>
-        
+        <ok to="Do-SPTT-Subflow"/>
+        <error to="Do-SPTT-Subflow"/>
     </action>
 
     <action name="Do-SPTT-Subflow">
@@ -46,10 +47,8 @@
         	<app-path>/YieldWorkflow/yieldIngestWorkflow-SPTT.xml</app-path>
             <propagate-configuration/>
         </sub-workflow>
-
-        <ok to="Modco-Join"/>
-        <error to="Modco-Join"/>
-        
+        <ok to="Join-One"/>
+        <error to="Join-One"/>
     </action>
 
     <action name="Do-SPTM-Subflow">
@@ -57,12 +56,19 @@
         	<app-path>/YieldWorkflow/yieldIngestWorkflow-SPTM.xml</app-path>
             <propagate-configuration/>
         </sub-workflow>
-
-        <ok to="Modco-Join"/>
-        <error to="Modco-Join"/>
-        
+        <ok to="Join-Two"/>
+        <error to="Join-Two"/>
     </action>
 
-    <join name="Modco-Join" to="end" />
-	<end name="end"/>
+    <action name="Do-SPDV-Subflow">
+    	<sub-workflow>
+        	<app-path>/YieldWorkflow/yieldIngestWorkflow-SPDV.xml</app-path>
+            <propagate-configuration/>
+        </sub-workflow>
+        <ok to="Join-Two"/>
+        <error to="Join-Two"/>
+    </action>
+
+
+	<end name="End-Ingest"/>
 </workflow-app>

@@ -1,0 +1,98 @@
+<workflow-app name="ModcoIngest-<c:get select="$modco/@name" />" xmlns="uri:oozie:workflow:0.1">
+
+ 	<start to="<c:get select="$firstTable/@name"/>-Ingest-<c:get select="$modco/@name" />"/>
+
+<c:iterate select="$tables/table[@enabled='true']" var="table">
+    <action name="<c:get select="$table/@name"/>-Ingest-<c:get select="$modco/@name" />">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="/<c:get select="$tables/@database"/>/<c:get select="$table/@hive_name"/>/<c:get select="$modco/@name" />"/>
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg><c:get select="$modco/@connect" /></arg>
+            <arg>--username</arg>
+            <arg><c:get select="$modco/@user" /></arg>
+            <arg>--password</arg>
+            <arg><c:get select="$modco/@pass" /></arg>
+            <arg>--query</arg>
+            <arg>SELECT <c:iterate select="$table/column" var="column"><c:get select="$column/@name"/>,</c:iterate> <c:get select="$modco/@id" /> as "org_id",  '<c:get select="$modco/@name" />' as "org_name"  FROM dbo.<c:get select="$table/@name"/> WHERE $CONDITIONS</arg>
+<c:setVariable select=" ceiling(number($table/@slices) * number($modco/@weight))" var="slices" />
+<c:if test=" c:lessThan(number($ingest/@maxSlices),$slices) " >
+    <c:log severity="error">[<c:get select="$table/@name"/>:<c:get select="$modco/@id" />]  Slices: <c:get select="$slices"/> V-> <c:get select="number($ingest/@maxSlices)"/></c:log>
+    <c:setVariable select=" number($ingest/@maxSlices) " var="slices"/>
+</c:if>
+<c:if test=" c:lessThan(1,$slices)" >
+	<c:if test=" c:lessThan($slices, number($ingest/@padSlices))" >
+	    <c:log severity="error">[<c:get select="$table/@name"/>:<c:get select="$modco/@id" />]  Slices: <c:get select="$slices"/> A-> <c:get select="number($ingest/@padSlices)"/></c:log>
+    	<c:setVariable select=" number($ingest/@padSlices) " var="slices"/>
+	</c:if>
+</c:if>
+<c:if test=" c:lessThan(1,$slices)">
+            <arg>--split-by</arg>
+            <arg><c:get select="$table/column/@name"/></arg>
+</c:if>
+            <arg>--num-mappers</arg>
+            <arg><c:get select="$slices" /></arg>
+            <arg>--target-dir</arg>
+            <arg>/<c:get select="$tables/@database"/>/<c:get select="$table/@hive_name"/>/<c:get select="$modco/@name" /></arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="<c:get select="$table/@nextTable"/>-Ingest-<c:get select="$modco/@name" />"/>
+        <error to="<c:get select="$table/@nextTable"/>-Ingest-<c:get select="$modco/@name" />"/>
+    </action>
+</c:iterate>
+<c:iterate select="$ingest/join" var="join">
+    <action name="<c:get select="$join/@name"/>-Ingest-<c:get select="$modco/@name" />">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="/<c:get select="$tables/@database"/>/<c:get select="$join/@name"/>/<c:get select="$modco/@name" />"/>
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg><c:get select="$modco/@connect" /></arg>
+            <arg>--username</arg>
+            <arg><c:get select="$modco/@user" /></arg>
+            <arg>--password</arg>
+            <arg><c:get select="$modco/@pass" /></arg>
+            <arg>--query</arg>
+            <arg>SELECT <c:iterate select="c:unique($join/table/column,'@name')" var="col"><c:get select="$col/../@name"/>.<c:get select="$col/@name"/>, </c:iterate> <c:get select="$modco/@id" /> as "org_id",  '<c:get select="$modco/@name" />' as "org_name" FROM <c:get select="$join/table/@name"/> <c:iterate select="$join/table[@first='false']" var="table" >FULL JOIN <c:get select="$table/@name"/> ON (<c:get select="$join/table/@name"/>.<c:get select="$join/table/@id"/> = <c:get select="$table/@name"/>.<c:get select="$table/@id"/>) </c:iterate>  WHERE $CONDITIONS</arg>
+<c:setVariable select=" ceiling(number($join/@slices) * number($modco/@weight))" var="slices" />
+<c:if test=" c:lessThan( number($ingest/@maxSlices) , $slices) " >
+    <c:log severity="error">[<c:get select="$join/@name"/>:<c:get select="$modco/@id" />]  Slices: <c:get select="$slices"/> V-> <c:get select="number($ingest/@maxSlices)"/></c:log>
+    <c:setVariable select=" number($ingest/@maxSlices) " var="slices"/>
+</c:if>
+<c:if test=" c:lessThan(1, $slices) " >
+	<c:if test=" c:lessThan($slices , number($ingest/@padSlices))" >
+	    <c:log severity="error">[<c:get select="$join/@name"/>:<c:get select="$modco/@id" />]  Slices: <c:get select="$slices"/> A-> <c:get select="number($ingest/@padSlices)"/></c:log>
+    	<c:setVariable select=" number($ingest/@padSlices) " var="slices"/>
+	</c:if>
+</c:if>
+<c:if test=" c:lessThan(1 , $slices ) ">
+            <arg>--split-by</arg>
+            <arg><c:get select="$join/table/@name"/>.<c:get select="$join/table/@id"/></arg>
+</c:if>
+            <arg>--num-mappers</arg>
+            <arg><c:get select="$slices" /></arg>
+            <arg>--target-dir</arg>
+            <arg>/<c:get select="$tables/@database"/>/<c:get select="$join/@name"/>/<c:get select="$modco/@name" /></arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="<c:get select="$join/@nextTable"/>-Ingest-<c:get select="$modco/@name" />"/>
+        <error to="<c:get select="$join/@nextTable"/>-Ingest-<c:get select="$modco/@name" />"/>
+    </action>
+</c:iterate>
+	<end name="EndOf-Ingest-<c:get select="$modco/@name" />"/>
+</workflow-app>

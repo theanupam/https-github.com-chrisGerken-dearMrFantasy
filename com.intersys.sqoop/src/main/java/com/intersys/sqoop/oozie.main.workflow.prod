@@ -1,26 +1,26 @@
-<workflow-app name="ModcoIngest" xmlns="uri:oozie:workflow:0.1">
- 	<start to="Fork-Ingest"/>
-	<fork name="Fork-Ingest">
-<c:iterate select="$modcos/modco[not(@after)]" var="modco">
-        <path start="Do-<c:get select="$modco/@name" />-Subflow" />
+<workflow-app name="<c:get select="$workflow/@name" />" xmlns="uri:oozie:workflow:0.1">
+ 	<start to="<c:get select="$workflow/@start" />"/>
+<c:iterate select="$workflow/fork" var="fork" >
+
+	<fork name="<c:get select="$fork/@name" />">
+<c:iterate select="$fork/path" var="path">
+        <path start="<c:get select="$path/@name" />" />
 </c:iterate>
 	</fork>
-<c:iterate select="$modcos/modco" var="modco">
-    <action name="Do-<c:get select="$modco/@name" />-Subflow">
+
+    <join name="<c:get select="$fork/@join" />" to="<c:get select="$fork/@next" />" />
+</c:iterate>
+
+<c:iterate select="$workflow/subflow" var="subflow">
+    <action name="<c:get select="$subflow/@name" />">
     	<sub-workflow>
-        	<app-path>/YieldWorkflow/yieldIngestWorkflow-<c:get select="$modco/@name" />.xml</app-path>
+        	<app-path><c:get select="$workflow/@hdfsDir" />/<c:get select="$subflow/@workflowXml" />.xml</app-path>
             <propagate-configuration/>
         </sub-workflow>
-<c:if test="$modcos/modco[$modco/@name=@after]" var="next">
-        <ok to="Do-<c:get select="$next/@name" />-Subflow"/>
-        <error to="Do-<c:get select="$next/@name" />-Subflow"/>
-</c:if>        
-<c:if test="not($modcos/modco[$modco/@name=@after])" >
-        <ok to="Modco-Join"/>
-        <error to="Modco-Join"/>
-</c:if>        
+        <ok to="<c:get select="$subflow/@next" />"/>
+        <error to="<c:get select="$subflow/@next" />"/>
     </action>
 </c:iterate>
-    <join name="Modco-Join" to="end" />
-	<end name="end"/>
+
+	<end name="<c:get select="$workflow/@end" />"/>
 </workflow-app>

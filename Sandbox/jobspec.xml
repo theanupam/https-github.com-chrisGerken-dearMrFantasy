@@ -1,0 +1,35 @@
+<jobspec>
+	<modcos>
+		<modco id="1" name="SPMX"  label="Mexicali" 							  weight="1.00"	server="jdbc:sqlserver://172.23.236.90:1433" db="MEXICALI_OWNER" user="usrSqoop" pass="AXm6Sn6#o"  />
+		
+		<modco id="2" name="SPMM"  label="Manila"   				after="SPDV"  weight="0.20"	server="jdbc:sqlserver://172.23.236.90:1433" db="SPMM_C1_OWNER" user="usrSqoop" pass="AXm6Sn6#o"  />
+		
+		<modco id="3" name="SPDV"  label="France - Devernajoule" 				  weight="0.05"	server="jdbc:sqlserver://172.23.236.90:1433" db="DEVERN_OWNER" user="usrSqoop" pass="AXm6Sn6#o"  />
+		
+		<modco id="4" name="SPTT"  label="France - Toullouse" 		after="SPMX"  weight="0.10"	server="jdbc:sqlserver://172.23.236.90:1433" db="TOULOUSE_OWNER" user="usrSqoop" pass="AXm6Sn6#o"  />
+		
+		<modco id="5" name="SPTM"  label="South Africa" 			after="SPMM"  weight="0.01"	server="jdbc:sqlserver://172.23.236.90:1433" db="CAPETOWN_OWNER" user="usrSqoop" pass="AXm6Sn6#o"  />
+		
+	</modcos> 
+	
+	<workflow name="ModcoIngest"  start="Fork-One"  end="End-Ingest"  hdfsDir="/YieldWorkflow" >
+	
+		<fork name="Fork-One" join="Join-One" next="Fork-Two" >
+			<path name="Do-SPMX-Subflow"/>
+			<path name="Do-SPMM-Subflow"/>
+		</fork>
+	
+		<fork name="Fork-Two" join="Join-Two" next="End-Ingest" >
+			<path name="Do-SPTM-Subflow"/>
+			<path name="Do-SPDV-Subflow"/>
+		</fork>
+	
+		<subflow name="Do-SPMX-Subflow" next="Join-One" 		key="SPMX" />
+		<subflow name="Do-SPMM-Subflow" next="Do-SPTT-Subflow" 	key="SPMM" />
+		<subflow name="Do-SPTT-Subflow" next="Join-One" 		key="SPTT" />
+		<subflow name="Do-SPTM-Subflow" next="Join-Two" 		key="SPTM" />
+		<subflow name="Do-SPDV-Subflow" next="Join-Two" 		key="SPDV" />
+	
+	</workflow>
+	
+</jobspec>

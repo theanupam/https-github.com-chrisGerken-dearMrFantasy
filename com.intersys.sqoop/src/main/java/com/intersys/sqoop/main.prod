@@ -2,20 +2,24 @@
 <c:setVariable select="/tables" var="tables" />
 <c:set select="$tables" name="project">sqoop-<c:get select="$tables/@database" /></c:set>
 <c:set select="$tables" name="sqoopAppName"><c:get select="$tables/@database" />-Ingest</c:set>
-<c:set select="$tables" name="shCreate">CreateSimple_{$table/@name}.sh</c:set>
-<c:set select="$tables" name="shCreate">CreateSimple_{$table/@name}.sh</c:set>
-<c:load url="/Sandbox/modco.xml" urlContext="workspace" var="modcos" type="xml" />
-<c:setVariable select="$modcos/*" var="modcos" />
+
+<c:load url="/Sandbox/jobspec.xml" urlContext="workspace" var="jobspec" type="xml" />
+<c:setVariable select="$jobspec/jobspec/modcos" var="modcos" />
+<c:setVariable select="$jobspec/jobspec/workflow" var="workflow" />
 
 <c:iterate select="$modcos/modco" var="modco">
 	<c:set select="$modco" name="connect"><c:get select="$modco/@server"/>;database=<c:get select="$modco/@db"/></c:set>
 </c:iterate>
 
+<c:iterate select="$workflow/subflow" var="subflow">
+	<c:set select="$subflow" name="workflowXml">yieldIngestWorkflow-<c:get select="$subflow/@key"/></c:set>
+	<c:set select="$subflow" name="workflowName">Ingest-<c:get select="$subflow/@key"/></c:set>
+	<c:set select="$subflow" name="end">End-<c:get select="$subflow/@key"/>-Ingest</c:set>
+</c:iterate>
+
 
 <c:load url="/Sandbox/ingest.xml" urlContext="workspace" var="ingest" type="xml" />
 <c:setVariable select="$ingest/*" var="ingest" />
-
-<c:setVariable select=" number($ingest/@maxSlices) " var="maxSlices" />
 
 <c:iterate select="$ingest/join" var="join" >
 	<c:iterate select="$join/table" var="table" >
@@ -41,68 +45,78 @@
 	</c:if>
 </c:iterate>
 
-<c:iterate select="$tables/table" var="table" >
-	<c:set select="$table" name="mappers">--num-mappers 1</c:set>
-	<c:if test="$table/@slices!='1'">
-		<c:set select="$table" name="mappers">--split-by <c:get select="$table/column/@name"/>  --num-mappers <c:get select="$table/@slices" /></c:set>
-	</c:if>
-</c:iterate>
-
-<c:iterate select="$ingest/join" var="join" >
-	<c:set select="$join" name="mappers">--num-mappers 1</c:set>
-	<c:if test="$join/@slices!='1'">
-		<c:set select="$join" name="mappers">--split-by <c:get select="$join/table/@name"/>.<c:get select="$join/table/@id"/>  --num-mappers <c:get select="$join/@slices" /></c:set>
-	</c:if>
-</c:iterate>
-
-
-<c:setVariable select=" 'true' " var="first" />
-<c:iterate select="$tables/table[@enabled='true']" var="table" >
-	<c:if test="$first='false'"  >
-		<c:set select="$prev" name="nextTable"><c:get select="$table/@name"/></c:set>
-	</c:if>
-	<c:if test="$first='true'"  >
-		<c:setVariable select="$table" var="firstTable"/>
-	</c:if>
-	<c:setVariable select=" $table " var="prev" />
-	<c:setVariable select=" 'false' " var="first" />
-</c:iterate>
-
-<c:iterate select="$ingest/join" var="join" >
-	<c:set select="$prev" name="nextTable"><c:get select="$join/@name"/></c:set>
-	<c:setVariable select=" $join " var="prev" />
-	<c:setVariable select=" 'false' " var="first" />
-</c:iterate>
-<c:setVariable select="$prev" var="lastTable"/>
-<c:set select="$prev" name="nextTable">EndOf</c:set>
-
-<c:set select="$prev" name="nextNode">end</c:set>
 
 <c:loadContent type="xml" var="jobs">
 <jobs>
 <c:iterate select="$tables/table[@enabled='true']" var="table" >
-	<job name="<c:get select="$table/@name" />" slices="<c:get select="$table/@slices" />"  hive_name="<c:get select="$table/@hive_name" />">
-<c:iterate select="$table/column" var="column" >
-    	<column name="<c:get select="$column/@name" />" nullable="<c:get select="$column/@nullable" />" type="<c:get select="$column/@type" />" hive_name="<c:get select="$column/@hive_name" />" srcTable="<c:get select="$table/@name" />" />
-</c:iterate>	
+	<hive table="<c:get select="$table/@hive_name"/>">Create External table IF NOT EXISTS <c:get select="$tables/@database"/>.<c:get select="$table/@hive_name"/> (<c:iterate select="$table/column" var="column"><c:get select="$column/@hive_name"/> <c:get select="$column/@type"/>, </c:iterate> org_id int, org_name varchar(10)) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile location '/<c:get select="$tables/@database"/>/<c:get select="$table/@hive_name"/>'</hive>
+<c:iterate select="$modcos/modco" var="modco" >
+<c:setVariable select=" ceiling(number($table/@slices) * number($modco/@weight))" var="slices" />
+<c:if test=" c:lessThan(number($ingest/@maxSlices),$slices) " >
+    <c:log severity="error">[<c:get select="$table/@name"/>:<c:get select="$modco/@id" />]  Slices: <c:get select="$slices"/> V-> <c:get select="number($ingest/@maxSlices)"/></c:log>
+    <c:setVariable select=" number($ingest/@maxSlices) " var="slices"/>
+</c:if>
+<c:if test=" c:lessThan(1,$slices)" >
+	<c:if test=" c:lessThan($slices, number($ingest/@padSlices))" >
+	    <c:log severity="error">[<c:get select="$table/@name"/>:<c:get select="$modco/@id" />]  Slices: <c:get select="$slices"/> A-> <c:get select="number($ingest/@padSlices)"/></c:log>
+    	<c:setVariable select=" number($ingest/@padSlices) " var="slices"/>
+	</c:if>
+</c:if>
+	<job name="<c:get select="$table/@name" />-Ingest-<c:get select="$modco/@name" />" slices="<c:get select="$slices" />" splitBy="<c:get select="$table/column/@name"/>"  source="<c:get select="$modco/@name" />"  targetTable="<c:get select="$table/@hive_name"/>" >
+		<targetDir>/<c:get select="$tables/@database"/>/<c:get select="$table/@hive_name"/>/<c:get select="$modco/@name" /></targetDir>
+		<query>SELECT <c:iterate select="$table/column" var="column"><c:get select="$column/@name"/>,</c:iterate> <c:get select="$modco/@id" /> as "org_id",  '<c:get select="$modco/@name" />' as "org_name"  FROM dbo.<c:get select="$table/@name"/> WHERE $CONDITIONS</query>
 	</job>
 </c:iterate>
-
+</c:iterate>
 <c:iterate select="$ingest/join" var="join" >
-	<job name="<c:get select="$join/@name" />" slices="<c:get select="$join/@slices" />">
-<c:iterate select="$join/table" var="tab" >
-<c:setVariable select="$tables/table[@name=$tab/@name]" var="table" />
-<c:iterate select="$table/column" var="column" >
-    	<column name="<c:get select="$column/@name" />" nullable="<c:get select="$column/@nullable" />" type="<c:get select="$column/@type" />" hive_name="<c:get select="$column/@hive_name" />" srcTable="<c:get select="$table/@name" />" />
-</c:iterate>	
-</c:iterate>	
+	<hive table="<c:get select="$join/@name"/>">Create External table IF NOT EXISTS <c:get select="$tables/@database"/>.<c:get select="$join/@name"/> (<c:iterate select="c:unique($join/table/column,'@name')" var="column"><c:get select="$column/@name"/> <c:get select="$column/@type"/>, </c:iterate> org_id int, org_name varchar(10)<c:iterate select="$join/update" var="update">, <c:get select="$update/@name"/> <c:get select="$update/@type"/> </c:iterate>) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile location '/<c:get select="$tables/@database"/>/<c:get select="$join/@name"/>'</hive>
+<c:iterate select="$modcos/modco" var="modco" >
+<c:setVariable select=" ceiling(number($join/@slices) * number($modco/@weight))" var="slices" />
+<c:if test=" c:lessThan(number($ingest/@maxSlices),$slices) " >
+    <c:log severity="error">[<c:get select="$join/@name"/>:<c:get select="$modco/@id" />]  Slices: <c:get select="$slices"/> V-> <c:get select="number($ingest/@maxSlices)"/></c:log>
+    <c:setVariable select=" number($ingest/@maxSlices) " var="slices"/>
+</c:if>
+<c:if test=" c:lessThan(1,$slices)" >
+	<c:if test=" c:lessThan($slices, number($ingest/@padSlices))" >
+	    <c:log severity="error">[<c:get select="$join/@name"/>:<c:get select="$modco/@id" />]  Slices: <c:get select="$slices"/> A-> <c:get select="number($ingest/@padSlices)"/></c:log>
+    	<c:setVariable select=" number($ingest/@padSlices) " var="slices"/>
+	</c:if>
+</c:if>
+	<job name="<c:get select="$join/@name" />-Ingest-<c:get select="$modco/@name" />" slices="<c:get select="$slices" />"  splitBy="<c:get select="$join/table/column/@name"/>"   source="<c:get select="$modco/@name" />"  targetTable="<c:get select="$join/@name"/>">
+		<targetDir>/<c:get select="$tables/@database"/>/<c:get select="$join/@name"/>/<c:get select="$modco/@name" /></targetDir>
+		<query>SELECT <c:iterate select="c:unique($join/table/column,'@name')" var="col"><c:get select="$col/../@name"/>.<c:get select="$col/@name"/>, </c:iterate> <c:get select="$modco/@id" /> as "org_id",  '<c:get select="$modco/@name" />' as "org_name" <c:iterate select="$join/update" var="update">, (<c:get select="$update/calc" />) as "<c:get select="$update/@name"/>" </c:iterate> FROM <c:get select="$join/table/@name"/> <c:iterate select="$join/table[@first='false']" var="table" >FULL JOIN <c:get select="$table/@name"/> ON (<c:get select="$join/table/@name"/>.<c:get select="$join/table/@id"/> = <c:get select="$table/@name"/>.<c:get select="$table/@id"/>) </c:iterate>  WHERE $CONDITIONS</query>
 	</job>
+</c:iterate>
 </c:iterate>
 </jobs>
 </c:loadContent>
 
 <c:setVariable select="$jobs/jobs" var="jobs" />
 
+*
+*  Assign each job to a flow
+*
+
+<c:iterate select="$jobs/job" var="job" >
+	<c:set select="$job" name="flow"><c:get select="$job/@source" /></c:set>
+</c:iterate>
+
+
+<c:iterate select="$workflow/subflow" var="subflow">
+<c:setVariable select=" 'true' " var="first" />
+<c:iterate select="$jobs/job[@flow=$subflow/@key]" var="job" >
+	<c:if test="$first='false'"  >
+		<c:set select="$prev" name="nextJob"><c:get select="$job/@name"/></c:set>
+	</c:if>
+	<c:if test="$first='true'"  >
+		<c:set select="$subflow" name="first"><c:get select="$job/@name"/></c:set>
+	</c:if>
+	<c:setVariable select=" $job " var="prev" />
+	<c:setVariable select=" 'false' " var="first" />
+</c:iterate>
+<c:setVariable select="$prev" var="lastJob"/>
+<c:set select="$prev" name="nextJob"><c:get select="$subflow/@end"/></c:set>
+</c:iterate>
 
 <c:project  name="{$tables/@project}"  />
 
@@ -113,14 +127,15 @@
 <c:file    path="{$tables/@project}/hiveCreate.sh"  			template="hive.sh.prod" />
 <c:file    path="{$tables/@project}/yieldIngestProperties.properties"  template="job.properties.prod" />
 <c:file    path="{$tables/@project}/yieldIngestWorkflow.xml"  	template="oozie.main.workflow.prod" />
-<c:iterate select="$modcos/modco" var="modco">
-<c:file    path="{$tables/@project}/yieldIngestWorkflow-{$modco/@name}.xml"  	template="oozie.modco.workflow.prod" />
+<c:iterate select="$workflow/subflow" var="subflow">
+<c:setVariable select="$modcos/modco[@name=$subflow/@key]" var="modco" />
+<c:file    path="{$tables/@project}/{$subflow/@workflowXml}.xml"  	template="oozie.modco.workflow.prod" />
 </c:iterate>
 
 < c:file    path="{$tables/@project}/ingest/ingest.sh"  			template="ingest.sh.prod" />
 <c:file    path="{$tables/@project}/dump.xml"  					template="dump.prod" />
 <c:file    path="{$tables/@project}/dumpIngest.xml"  			template="dump.ingest.prod" />
 <c:file    path="{$tables/@project}/dumpJobs.xml"  			template="dump.jobs.prod" />
-
-
-
+	
+	
+	

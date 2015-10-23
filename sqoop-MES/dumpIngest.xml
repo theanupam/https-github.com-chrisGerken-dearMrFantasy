@@ -38,7 +38,7 @@
 	<xtable name="BOMVariant" slices="1"/> 
 	<xtable name="BuildRecord" slices="1"/> 
 	<xtable name="BuildRecord_" slices="1"/> 
-	<join mappers="--split-by BuildRecord.BuildRecordID  --num-mappers 100" name="BuildRecord" nextTable="InventoryPack" slices="100">100
+	<join name="BuildRecord" slices="100">100
 	    <table first="true" id="BuildRecordID" name="BuildRecord">
             <column hive_name="BuildRecordID" name="BuildRecordID" nullable=" NOT NULL" type="int"/>
             <column hive_name="InvPackCreatedID" name="InvPackCreatedID" nullable=" NOT NULL" type="int"/>
@@ -105,7 +105,7 @@
 	<xtable name="InventoryPack" slices="1"/> 
 	<xtable name="InventoryPack_" slices="1"/> 
 	<xtable name="InventoryPack_Custom" slices="1"/> 
-	<join mappers="--split-by InventoryPack.InventoryPackID  --num-mappers 50" name="InventoryPack" nextTable="Location" slices="50">50
+	<join name="InventoryPack" slices="50">50
 	    <table first="true" id="InventoryPackID" name="InventoryPack">
             <column hive_name="InventoryPackID" name="InventoryPackID" nullable=" NOT NULL" type="int"/>
             <column hive_name="InventoryPackNo" name="InventoryPackNo" nullable=" NOT NULL" type="varchar(508)"/>
@@ -247,7 +247,7 @@
 	<xtable name="LkVTVTG" slices="1"/> 
 	<xtable name="LkWIRBuildRecord" slices="1"/> 
 	<xtable name="LkWIRMSetReq" slices="1"/> 
-	<join mappers="--num-mappers 1" name="Location" nextTable="Part" slices="1">
+	<join name="Location" slices="1">
 	    <table first="true" id="LocationID" name="Location">
             <column hive_name="LocationID" name="LocationID" nullable=" NOT NULL" type="int"/>
             <column hive_name="Location" name="Location" nullable=" NOT NULL" type="varchar(508)"/>
@@ -321,7 +321,7 @@
 	<xtable name="OPCText" slices="1"/> 
 	<xtable name="Operation" slices="1"/> 
 	<xtable name="OperationType" slices="1"/> 
-	<join mappers="--num-mappers 1" name="Part" nextTable="WO" slices="1">
+	<join name="Part" slices="1">
 	    <table first="true" id="PartID" name="Part">
             <column hive_name="PartID" name="PartID" nullable=" NOT NULL" type="int"/>
             <column hive_name="PartNumber" name="PartNumber" nullable=" NOT NULL" type="varchar(508)"/>
@@ -392,6 +392,15 @@
             <column hive_name="Inventory_Item_Id" name="Inventory_Item_Id" nullable="" type="int"/>
             <column hive_name="Item_Type_Description" name="Item_Type_Description" nullable="" type="varchar(508)"/>
         </table>
+	    <update formula="/Sandbox/UpdateCellCount.txt" name="Cell_Count" type="varchar(200)">
+	    	<calc>CASE WHEN Part.PartTypeID = 58 then '1' WHEN Part.parttypeid in (39, 63) and (Part.Description like '%T5%' COLLATE Latin1_General_BIN or variant1 = 'T5') THEN '96' WHEN Part.PartTypeID = 40 THEN SUBSTRING(SUBSTRING(Description,(PATINDEX('%[ "-][0-9]%[BW][ "-]%',Part.Description)+1), (len(Part.description)-PATINDEX('%[ "-][0-9]%[BW][ "-]%',Part.Description)) ) , 1,(PATINDEX('%[WB]%',SUBSTRING(Part.Description,(PATINDEX('%[ "-][0-9]%[BW][ "-]%',Part.Description)+1), (len(Part.description)-PATINDEX('%[ "-][0-9]%[BW][ "-]%',Part.Description)) ))) -1 ) ELSE Part.variant1 END</calc>
+	    </update>
+	    <update formula="/Sandbox/UpdateDemandCategory.txt" name="Demand_Category" type="varchar(200)">
+	    	<calc>CASE WHEN Part.parttypeid in (39, 63) then case when Part.description like '%COM%' COLLATE Latin1_General_BIN THEN 'Commercial' ELSE 'Residential' END else 'NA' end</calc>
+	    </update>
+	    <update formula="/Sandbox/UpdateSeries.txt" name="Series" type="varchar(200)">
+	    	<calc>CASE WHEN Part.Parttypeid = 58 then variant8 when Part.parttypeid in (39, 40, 63) then case when Part.description like '%E60%' COLLATE Latin1_General_BIN or Part.Description like '%X20%' COLLATE Latin1_General_BIN or Part.description like '%X21%' COLLATE Latin1_General_BIN then 'GEN E160' else 'GEN C160' end else 'NA' end</calc>
+	    </update>
 	</join>
 	<xtable name="Part" slices="1"/> 
 	<xtable name="Part_" slices="1"/> 
@@ -486,7 +495,7 @@
 	<xtable name="WO" slices="1"/> 
 	<xtable name="WO_" slices="1"/> 
 	<xtable name="WO_custom" slices="1"/> 
-	<join mappers="--split-by WO.WOID  --num-mappers 3" name="WO" nextNode="end" nextTable="EndOf" slices="3">
+	<join name="WO" slices="3">
 	    <table first="true" id="WOID" name="WO">
             <column hive_name="WOID" name="WOID" nullable=" NOT NULL" type="int"/>
             <column hive_name="WONumber" name="WONumber" nullable=" NOT NULL" type="varchar(508)"/>
