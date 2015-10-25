@@ -61,6 +61,7 @@
 	    <c:log severity="error">[<c:get select="$table/@name"/>:<c:get select="$modco/@id" />]  Slices: <c:get select="$slices"/> A-> <c:get select="number($ingest/@padSlices)"/></c:log>
     	<c:setVariable select=" number($ingest/@padSlices) " var="slices"/>
 	</c:if>
+    <c:log severity="error">[<c:get select="$table/@name"/>:<c:get select="$modco/@id" />]  Slices: <c:get select="$slices"/></c:log>
 </c:if>
 	<job name="<c:get select="$table/@name" />-Ingest-<c:get select="$modco/@name" />" slices="<c:get select="$slices" />" splitBy="<c:get select="$table/column/@name"/>"  source="<c:get select="$modco/@name" />"  targetTable="<c:get select="$table/@hive_name"/>"  connect="<c:get select="$modco/@connect"/>"  user="<c:get select="$modco/@user"/>"  pass="<c:get select="$modco/@pass"/>"    >
 		<targetDir>/<c:get select="$tables/@database"/>/<c:get select="$table/@hive_name"/>/<c:get select="$modco/@name" /></targetDir>
@@ -81,6 +82,7 @@
 	    <c:log severity="error">[<c:get select="$join/@name"/>:<c:get select="$modco/@id" />]  Slices: <c:get select="$slices"/> A-> <c:get select="number($ingest/@padSlices)"/></c:log>
     	<c:setVariable select=" number($ingest/@padSlices) " var="slices"/>
 	</c:if>
+    <c:log severity="error">[<c:get select="$join/@name"/>:<c:get select="$modco/@id" />]  Slices: <c:get select="$slices"/> </c:log>
 </c:if>
 	<job name="<c:get select="$join/@name" />-Ingest-<c:get select="$modco/@name" />" slices="<c:get select="$slices" />"  splitBy="<c:get select="$join/table/@name"/>.<c:get select="$join/table/column/@name"/>"   source="<c:get select="$modco/@name" />"  targetTable="<c:get select="$join/@name"/>"  connect="<c:get select="$modco/@connect"/>"  user="<c:get select="$modco/@user"/>"  pass="<c:get select="$modco/@pass"/>"   >
 		<targetDir>/<c:get select="$tables/@database"/>/<c:get select="$join/@name"/>/<c:get select="$modco/@name" /></targetDir>
@@ -98,9 +100,11 @@
 *
 
 <c:iterate select="$jobs/job" var="job" >
-	<c:set select="$job" name="flow">Long</c:set>
-	<c:if test=" c: lessThan( number($job/@slices) , 2)" >
+	<c:if test=" c:lessThan( number($job/@slices) , 2)" >
 		<c:set select="$job" name="flow">Short-<c:get select=" c:moduloCounter('mcount',3)" /></c:set>
+	</c:if>
+	<c:if test=" c:lessThan( 1 , number($job/@slices))" >
+		<c:set select="$job" name="flow">Long-<c:get select=" c:moduloCounter('mcount',3)" /></c:set>
 	</c:if>
 </c:iterate>
 

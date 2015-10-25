@@ -1,5 +1,18 @@
 <workflow-app name="ModcoIngest" xmlns="uri:oozie:workflow:0.1">
- 	<start to="Do-Long-Subflow"/>
+ 	<start to="Fork-Long"/>
+
+
+	<fork name="Fork-Long">
+
+        <path start="Do-Long-0-Subflow" />
+
+        <path start="Do-Long-1-Subflow" />
+
+        <path start="Do-Long-2-Subflow" />
+
+	</fork>
+
+    <join name="Join-Long" to="Fork-Short" />
 
 
 	<fork name="Fork-Short">
@@ -15,13 +28,31 @@
     <join name="Join-Short" to="End-Ingest" />
 
 
-    <action name="Do-Long-Subflow">
+    <action name="Do-Long-0-Subflow">
     	<sub-workflow>
-        	<app-path>/YieldWorkflow/yieldIngestWorkflow-Long.xml</app-path>
+        	<app-path>/YieldWorkflow/yieldIngestWorkflow-Long-0.xml</app-path>
             <propagate-configuration/>
         </sub-workflow>
-        <ok to="Fork-Short"/>
-        <error to="Fork-Short"/>
+        <ok to="Join-Long"/>
+        <error to="Join-Long"/>
+    </action>
+
+    <action name="Do-Long-1-Subflow">
+    	<sub-workflow>
+        	<app-path>/YieldWorkflow/yieldIngestWorkflow-Long-1.xml</app-path>
+            <propagate-configuration/>
+        </sub-workflow>
+        <ok to="Join-Long"/>
+        <error to="Join-Long"/>
+    </action>
+
+    <action name="Do-Long-2-Subflow">
+    	<sub-workflow>
+        	<app-path>/YieldWorkflow/yieldIngestWorkflow-Long-2.xml</app-path>
+            <propagate-configuration/>
+        </sub-workflow>
+        <ok to="Join-Long"/>
+        <error to="Join-Long"/>
     </action>
 
     <action name="Do-Short-0-Subflow">
