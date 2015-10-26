@@ -1,45 +1,14 @@
 <workflow-app name="Ingest-Short-0" xmlns="uri:oozie:workflow:0.1">
 
- 	<start to="InvChangeState-Ingest-SPTM"/>
+ 	<start to="_SPML_ModuleInfo-Ingest-SPDV"/>
 
 
-    <action name="InvChangeState-Ingest-SPTM">
+    <action name="_SPML_ModuleInfo-Ingest-SPDV">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="/MES/InvChangeState/SPTM" />
-            </prepare>         	
-            <arg>import</arg>
-         	<arg>--connect</arg>
-            <arg>jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER</arg>
-            <arg>--username</arg>
-            <arg>usrSqoop</arg>
-            <arg>--password</arg>
-            <arg>AXm6Sn6#o</arg>
-            <arg>--query</arg>
-            <arg>SELECT InvChangeStateID,InventoryPackID,FromDT,ToDT,InvIsolatedReasonID,Comments,LoginID,OpenedDT,SavedDT,IsEdited,RevisionNo,OriginalLoginID,EditedInvChangeStateID,InvStateID, 5 as "org_id",  'SPTM' as "org_name"  FROM dbo.InvChangeState WHERE $CONDITIONS</arg>
-
-            <arg>--num-mappers</arg>
-            <arg>1</arg>
-            <arg>--target-dir</arg>
-            <arg>/MES/InvChangeState/SPTM</arg>
-            <arg>--direct</arg>
-            <arg>--</arg>
-            <arg>--schema</arg>
-            <arg>dbo</arg>
-            <arg>-validate</arg>
-        </sqoop>
-        <ok to="InvIsolatedReason-Ingest-SPDV"/>
-        <error to="InvIsolatedReason-Ingest-SPDV"/>
-    </action>
-
-    <action name="InvIsolatedReason-Ingest-SPDV">
-        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
-			<job-tracker>${jobTracker}</job-tracker>
-            <name-node>${nameNode}</name-node>
-			<prepare>
-            	<delete path="/MES/InvIsolatedReason/SPDV" />
+            	<delete path="/MES/U_SPML_ModuleInfo/SPDV" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -49,28 +18,28 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT InvIsolatedReasonID,PartTypeID,IsolatedReason,InvStateID, 3 as "org_id",  'SPDV' as "org_name"  FROM dbo.InvIsolatedReason WHERE $CONDITIONS</arg>
+            <arg>SELECT ModuleInfoID,SerialNo,LaminateID,LaminateCreatedDT,LaminateOrderNo,LaminatePartNo,BINNo,CktFormBuildPart,CktFormBuildMachine,CktFormBuildDT,GlassBuildPart,GlassBuildDate,LaminationBuildMachine,LaminationBuildDT,ModuleID,ModuleCreatedDT,ModuleOrderNo,IntendedModulePartNo,IntendedModulePartDesc,FramingBuildPart,FramingBuildMachine,FramingBuildDT,JboxBuildPart,JboxBuildDT,FlashtestClassifiedDT,FinalModulePartNo,FinalModulePartDesc,ActualPower,ActualVocMod,ActualFF,PackedDT,InventoryState,JboxBuildMachine,ActualIsc,FlashtestBuildMachine,Komax1,Komax2,Komax3,GlassID,CellType,StringerOperator,CircuitOperator1,CircuitOperator2,TrimChangeReason,PowerChartGenerated,LaminateWoId,ModuleWoId,VisualStateId,RfInvStateId,ElTestDate,ElBuildMachine,ActualVmpMod,ActualImpMod,TrimBuildMachine,TrimBuildDT,CellThickness,PalletID,FlashTestID,PadLock,BtoCtoSerialNo,EvaUseByDT, 3 as "org_id",  'SPDV' as "org_name"  FROM dbo._SPML_ModuleInfo WHERE $CONDITIONS</arg>
 
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>/MES/InvIsolatedReason/SPDV</arg>
+            <arg>/MES/U_SPML_ModuleInfo/SPDV</arg>
             <arg>--direct</arg>
             <arg>--</arg>
             <arg>--schema</arg>
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="InvState-Ingest-SPMX"/>
-        <error to="InvState-Ingest-SPMX"/>
+        <ok to="InvIsolatedReason-Ingest-SPMX"/>
+        <error to="InvIsolatedReason-Ingest-SPMX"/>
     </action>
 
-    <action name="InvState-Ingest-SPMX">
+    <action name="InvIsolatedReason-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="/MES/InvState/SPMX" />
+            	<delete path="/MES/InvIsolatedReason/SPMX" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -80,28 +49,28 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT InvStateID,InvState,Description,RfInvStateID,InvStateCode,IsAddToProduction,IsAddToHFI,IsDefault, 1 as "org_id",  'SPMX' as "org_name"  FROM dbo.InvState WHERE $CONDITIONS</arg>
+            <arg>SELECT InvIsolatedReasonID,PartTypeID,IsolatedReason,InvStateID, 1 as "org_id",  'SPMX' as "org_name"  FROM dbo.InvIsolatedReason WHERE $CONDITIONS</arg>
 
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>/MES/InvState/SPMX</arg>
+            <arg>/MES/InvIsolatedReason/SPMX</arg>
             <arg>--direct</arg>
             <arg>--</arg>
             <arg>--schema</arg>
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="InvState-Ingest-SPTT"/>
-        <error to="InvState-Ingest-SPTT"/>
+        <ok to="InvIsolatedReason-Ingest-SPTT"/>
+        <error to="InvIsolatedReason-Ingest-SPTT"/>
     </action>
 
-    <action name="InvState-Ingest-SPTT">
+    <action name="InvIsolatedReason-Ingest-SPTT">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="/MES/InvState/SPTT" />
+            	<delete path="/MES/InvIsolatedReason/SPTT" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -111,28 +80,28 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT InvStateID,InvState,Description,RfInvStateID,InvStateCode,IsAddToProduction,IsAddToHFI,IsDefault, 4 as "org_id",  'SPTT' as "org_name"  FROM dbo.InvState WHERE $CONDITIONS</arg>
+            <arg>SELECT InvIsolatedReasonID,PartTypeID,IsolatedReason,InvStateID, 4 as "org_id",  'SPTT' as "org_name"  FROM dbo.InvIsolatedReason WHERE $CONDITIONS</arg>
 
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>/MES/InvState/SPTT</arg>
+            <arg>/MES/InvIsolatedReason/SPTT</arg>
             <arg>--direct</arg>
             <arg>--</arg>
             <arg>--schema</arg>
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="MachineStageType-Ingest-SPMM"/>
-        <error to="MachineStageType-Ingest-SPMM"/>
+        <ok to="InvState-Ingest-SPMM"/>
+        <error to="InvState-Ingest-SPMM"/>
     </action>
 
-    <action name="MachineStageType-Ingest-SPMM">
+    <action name="InvState-Ingest-SPMM">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="/MES/MachineStageType/SPMM" />
+            	<delete path="/MES/InvState/SPMM" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -142,28 +111,28 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT MachineStageTypeID,Name,Description,MachineStageTypeCode, 2 as "org_id",  'SPMM' as "org_name"  FROM dbo.MachineStageType WHERE $CONDITIONS</arg>
+            <arg>SELECT InvStateID,InvState,Description,RfInvStateID,InvStateCode,IsAddToProduction,IsAddToHFI,IsDefault, 2 as "org_id",  'SPMM' as "org_name"  FROM dbo.InvState WHERE $CONDITIONS</arg>
 
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>/MES/MachineStageType/SPMM</arg>
+            <arg>/MES/InvState/SPMM</arg>
             <arg>--direct</arg>
             <arg>--</arg>
             <arg>--schema</arg>
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="MachineStageType-Ingest-SPTM"/>
-        <error to="MachineStageType-Ingest-SPTM"/>
+        <ok to="InvState-Ingest-SPTM"/>
+        <error to="InvState-Ingest-SPTM"/>
     </action>
 
-    <action name="MachineStageType-Ingest-SPTM">
+    <action name="InvState-Ingest-SPTM">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="/MES/MachineStageType/SPTM" />
+            	<delete path="/MES/InvState/SPTM" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -173,28 +142,28 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT MachineStageTypeID,Name,Description,MachineStageTypeCode, 5 as "org_id",  'SPTM' as "org_name"  FROM dbo.MachineStageType WHERE $CONDITIONS</arg>
+            <arg>SELECT InvStateID,InvState,Description,RfInvStateID,InvStateCode,IsAddToProduction,IsAddToHFI,IsDefault, 5 as "org_id",  'SPTM' as "org_name"  FROM dbo.InvState WHERE $CONDITIONS</arg>
 
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>/MES/MachineStageType/SPTM</arg>
+            <arg>/MES/InvState/SPTM</arg>
             <arg>--direct</arg>
             <arg>--</arg>
             <arg>--schema</arg>
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="PartType-Ingest-SPDV"/>
-        <error to="PartType-Ingest-SPDV"/>
+        <ok to="MachineStageType-Ingest-SPDV"/>
+        <error to="MachineStageType-Ingest-SPDV"/>
     </action>
 
-    <action name="PartType-Ingest-SPDV">
+    <action name="MachineStageType-Ingest-SPDV">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="/MES/PartType/SPDV" />
+            	<delete path="/MES/MachineStageType/SPDV" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -204,28 +173,28 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT PartTypeID,PartType,Description,PartTypeCode,Variant1TagListID,Variant2TagListID,Variant3TagListID,Variant4TagListID,Variant5TagListID,Variant6TagListID,Variant7TagListID,Variant8TagListID,Variant9TagListID,Variant10TagListID,Variant11TagListID,Variant12TagListID,Variant13TagListID,Variant14TagListID,Variant15TagListID,Variant16TagListID,Variant17TagListID,Variant18TagListID,Variant19TagListID,Variant20TagListID,RfInventoryAccountingModeID, 3 as "org_id",  'SPDV' as "org_name"  FROM dbo.PartType WHERE $CONDITIONS</arg>
+            <arg>SELECT MachineStageTypeID,Name,Description,MachineStageTypeCode, 3 as "org_id",  'SPDV' as "org_name"  FROM dbo.MachineStageType WHERE $CONDITIONS</arg>
 
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>/MES/PartType/SPDV</arg>
+            <arg>/MES/MachineStageType/SPDV</arg>
             <arg>--direct</arg>
             <arg>--</arg>
             <arg>--schema</arg>
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="ScrapReason-Ingest-SPMX"/>
-        <error to="ScrapReason-Ingest-SPMX"/>
+        <ok to="PartType-Ingest-SPMX"/>
+        <error to="PartType-Ingest-SPMX"/>
     </action>
 
-    <action name="ScrapReason-Ingest-SPMX">
+    <action name="PartType-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="/MES/ScrapReason/SPMX" />
+            	<delete path="/MES/PartType/SPMX" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -235,28 +204,28 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT ScrapReasonID,ScrapReason,Description,MachineStageTypeID,DefaultUnitID,IsRetired, 1 as "org_id",  'SPMX' as "org_name"  FROM dbo.ScrapReason WHERE $CONDITIONS</arg>
+            <arg>SELECT PartTypeID,PartType,Description,PartTypeCode,Variant1TagListID,Variant2TagListID,Variant3TagListID,Variant4TagListID,Variant5TagListID,Variant6TagListID,Variant7TagListID,Variant8TagListID,Variant9TagListID,Variant10TagListID,Variant11TagListID,Variant12TagListID,Variant13TagListID,Variant14TagListID,Variant15TagListID,Variant16TagListID,Variant17TagListID,Variant18TagListID,Variant19TagListID,Variant20TagListID,RfInventoryAccountingModeID, 1 as "org_id",  'SPMX' as "org_name"  FROM dbo.PartType WHERE $CONDITIONS</arg>
 
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>/MES/ScrapReason/SPMX</arg>
+            <arg>/MES/PartType/SPMX</arg>
             <arg>--direct</arg>
             <arg>--</arg>
             <arg>--schema</arg>
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="ScrapReason-Ingest-SPTT"/>
-        <error to="ScrapReason-Ingest-SPTT"/>
+        <ok to="PartType-Ingest-SPTT"/>
+        <error to="PartType-Ingest-SPTT"/>
     </action>
 
-    <action name="ScrapReason-Ingest-SPTT">
+    <action name="PartType-Ingest-SPTT">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="/MES/ScrapReason/SPTT" />
+            	<delete path="/MES/PartType/SPTT" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -266,28 +235,28 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT ScrapReasonID,ScrapReason,Description,MachineStageTypeID,DefaultUnitID,IsRetired, 4 as "org_id",  'SPTT' as "org_name"  FROM dbo.ScrapReason WHERE $CONDITIONS</arg>
+            <arg>SELECT PartTypeID,PartType,Description,PartTypeCode,Variant1TagListID,Variant2TagListID,Variant3TagListID,Variant4TagListID,Variant5TagListID,Variant6TagListID,Variant7TagListID,Variant8TagListID,Variant9TagListID,Variant10TagListID,Variant11TagListID,Variant12TagListID,Variant13TagListID,Variant14TagListID,Variant15TagListID,Variant16TagListID,Variant17TagListID,Variant18TagListID,Variant19TagListID,Variant20TagListID,RfInventoryAccountingModeID, 4 as "org_id",  'SPTT' as "org_name"  FROM dbo.PartType WHERE $CONDITIONS</arg>
 
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>/MES/ScrapReason/SPTT</arg>
+            <arg>/MES/PartType/SPTT</arg>
             <arg>--direct</arg>
             <arg>--</arg>
             <arg>--schema</arg>
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="Supplier-Ingest-SPMM"/>
-        <error to="Supplier-Ingest-SPMM"/>
+        <ok to="ScrapReason-Ingest-SPMM"/>
+        <error to="ScrapReason-Ingest-SPMM"/>
     </action>
 
-    <action name="Supplier-Ingest-SPMM">
+    <action name="ScrapReason-Ingest-SPMM">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="/MES/Supplier/SPMM" />
+            	<delete path="/MES/ScrapReason/SPMM" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -297,28 +266,28 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT SupplierID,Supplier,SupplierCode,AddressID, 2 as "org_id",  'SPMM' as "org_name"  FROM dbo.Supplier WHERE $CONDITIONS</arg>
+            <arg>SELECT ScrapReasonID,ScrapReason,Description,MachineStageTypeID,DefaultUnitID,IsRetired, 2 as "org_id",  'SPMM' as "org_name"  FROM dbo.ScrapReason WHERE $CONDITIONS</arg>
 
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>/MES/Supplier/SPMM</arg>
+            <arg>/MES/ScrapReason/SPMM</arg>
             <arg>--direct</arg>
             <arg>--</arg>
             <arg>--schema</arg>
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="Supplier-Ingest-SPTM"/>
-        <error to="Supplier-Ingest-SPTM"/>
+        <ok to="ScrapReason-Ingest-SPTM"/>
+        <error to="ScrapReason-Ingest-SPTM"/>
     </action>
 
-    <action name="Supplier-Ingest-SPTM">
+    <action name="ScrapReason-Ingest-SPTM">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="/MES/Supplier/SPTM" />
+            	<delete path="/MES/ScrapReason/SPTM" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -328,28 +297,28 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT SupplierID,Supplier,SupplierCode,AddressID, 5 as "org_id",  'SPTM' as "org_name"  FROM dbo.Supplier WHERE $CONDITIONS</arg>
+            <arg>SELECT ScrapReasonID,ScrapReason,Description,MachineStageTypeID,DefaultUnitID,IsRetired, 5 as "org_id",  'SPTM' as "org_name"  FROM dbo.ScrapReason WHERE $CONDITIONS</arg>
 
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>/MES/Supplier/SPTM</arg>
+            <arg>/MES/ScrapReason/SPTM</arg>
             <arg>--direct</arg>
             <arg>--</arg>
             <arg>--schema</arg>
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="Unit-Ingest-SPDV"/>
-        <error to="Unit-Ingest-SPDV"/>
+        <ok to="Supplier-Ingest-SPDV"/>
+        <error to="Supplier-Ingest-SPDV"/>
     </action>
 
-    <action name="Unit-Ingest-SPDV">
+    <action name="Supplier-Ingest-SPDV">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="/MES/Unit/SPDV" />
+            	<delete path="/MES/Supplier/SPDV" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -359,12 +328,74 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT UnitID,Unit,Description, 3 as "org_id",  'SPDV' as "org_name"  FROM dbo.Unit WHERE $CONDITIONS</arg>
+            <arg>SELECT SupplierID,Supplier,SupplierCode,AddressID, 3 as "org_id",  'SPDV' as "org_name"  FROM dbo.Supplier WHERE $CONDITIONS</arg>
 
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>/MES/Unit/SPDV</arg>
+            <arg>/MES/Supplier/SPDV</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="Unit-Ingest-SPMX"/>
+        <error to="Unit-Ingest-SPMX"/>
+    </action>
+
+    <action name="Unit-Ingest-SPMX">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="/MES/Unit/SPMX" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT UnitID,Unit,Description, 1 as "org_id",  'SPMX' as "org_name"  FROM dbo.Unit WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+            <arg>--target-dir</arg>
+            <arg>/MES/Unit/SPMX</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="Unit-Ingest-SPTT"/>
+        <error to="Unit-Ingest-SPTT"/>
+    </action>
+
+    <action name="Unit-Ingest-SPTT">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="/MES/Unit/SPTT" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT UnitID,Unit,Description, 4 as "org_id",  'SPTT' as "org_name"  FROM dbo.Unit WHERE $CONDITIONS</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+            <arg>--target-dir</arg>
+            <arg>/MES/Unit/SPTT</arg>
             <arg>--direct</arg>
             <arg>--</arg>
             <arg>--schema</arg>
@@ -495,62 +526,31 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="WO-Ingest-SPMM"/>
-        <error to="WO-Ingest-SPMM"/>
+        <ok to="WO-Ingest-SPDV"/>
+        <error to="WO-Ingest-SPDV"/>
     </action>
 
-    <action name="WO-Ingest-SPMM">
+    <action name="WO-Ingest-SPDV">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="/MES/WO/SPMM" />
+            	<delete path="/MES/WO/SPDV" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
-            <arg>jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
             <arg>--username</arg>
             <arg>usrSqoop</arg>
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT WO.WOID, WO.WONumber, WO.RunNo, WO.PartID, WO.QuantityOrdered, WO.RfJobStatusID, WO.DeadlineDT, WO.ActualStartDT, WO.ActualEndDT, WO.PlannedStartDT, WO.PlannedEndDT, WO.EstimatedStartDT, WO.EstimatedEndDT, WO.CustomerID, WO.IsDiscrete, WO.Reference1, WO.Reference2, WO.Reference3, WO.Reference4, WO.Reference5, WO.WORefID, WO_.CustomerOrderNo, WO_.LabelsPerInventoryPack, WO_.ItemsPerInventoryPack, WO_.ItemsPerLayer, WO_.LayersPerInventoryPack, WO_.PackingCode, WO_.LabelTemplate, WO_.LabelColour, WO_.EANCode, WO_.CusStartNum, WO_.CusEndNum, WO_.CustomerPartNo, WO_.CustomerPartDescription, WO_.LabelText1, WO_.LabelText2, WO_.LabelText3, WO_.PrinterURL, WO_.BOMVariantID,  2 as "org_id",  'SPMM' as "org_name"  FROM WO FULL JOIN WO_ ON (WO.WOID = WO_.WOID)   WHERE $CONDITIONS</arg>
+            <arg>SELECT WO.WOID, WO.WONumber, WO.RunNo, WO.PartID, WO.QuantityOrdered, WO.RfJobStatusID, WO.DeadlineDT, WO.ActualStartDT, WO.ActualEndDT, WO.PlannedStartDT, WO.PlannedEndDT, WO.EstimatedStartDT, WO.EstimatedEndDT, WO.CustomerID, WO.IsDiscrete, WO.Reference1, WO.Reference2, WO.Reference3, WO.Reference4, WO.Reference5, WO.WORefID, WO_.CustomerOrderNo, WO_.LabelsPerInventoryPack, WO_.ItemsPerInventoryPack, WO_.ItemsPerLayer, WO_.LayersPerInventoryPack, WO_.PackingCode, WO_.LabelTemplate, WO_.LabelColour, WO_.EANCode, WO_.CusStartNum, WO_.CusEndNum, WO_.CustomerPartNo, WO_.CustomerPartDescription, WO_.LabelText1, WO_.LabelText2, WO_.LabelText3, WO_.PrinterURL, WO_.BOMVariantID,  3 as "org_id",  'SPDV' as "org_name"  FROM WO FULL JOIN WO_ ON (WO.WOID = WO_.WOID)   WHERE $CONDITIONS</arg>
 
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>/MES/WO/SPMM</arg>
-            <arg>--direct</arg>
-            <arg>--</arg>
-            <arg>--schema</arg>
-            <arg>dbo</arg>
-            <arg>-validate</arg>
-        </sqoop>
-        <ok to="WO-Ingest-SPTM"/>
-        <error to="WO-Ingest-SPTM"/>
-    </action>
-
-    <action name="WO-Ingest-SPTM">
-        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
-			<job-tracker>${jobTracker}</job-tracker>
-            <name-node>${nameNode}</name-node>
-			<prepare>
-            	<delete path="/MES/WO/SPTM" />
-            </prepare>         	
-            <arg>import</arg>
-         	<arg>--connect</arg>
-            <arg>jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER</arg>
-            <arg>--username</arg>
-            <arg>usrSqoop</arg>
-            <arg>--password</arg>
-            <arg>AXm6Sn6#o</arg>
-            <arg>--query</arg>
-            <arg>SELECT WO.WOID, WO.WONumber, WO.RunNo, WO.PartID, WO.QuantityOrdered, WO.RfJobStatusID, WO.DeadlineDT, WO.ActualStartDT, WO.ActualEndDT, WO.PlannedStartDT, WO.PlannedEndDT, WO.EstimatedStartDT, WO.EstimatedEndDT, WO.CustomerID, WO.IsDiscrete, WO.Reference1, WO.Reference2, WO.Reference3, WO.Reference4, WO.Reference5, WO.WORefID, WO_.CustomerOrderNo, WO_.LabelsPerInventoryPack, WO_.ItemsPerInventoryPack, WO_.ItemsPerLayer, WO_.LayersPerInventoryPack, WO_.PackingCode, WO_.LabelTemplate, WO_.LabelColour, WO_.EANCode, WO_.CusStartNum, WO_.CusEndNum, WO_.CustomerPartNo, WO_.CustomerPartDescription, WO_.LabelText1, WO_.LabelText2, WO_.LabelText3, WO_.PrinterURL, WO_.BOMVariantID,  5 as "org_id",  'SPTM' as "org_name"  FROM WO FULL JOIN WO_ ON (WO.WOID = WO_.WOID)   WHERE $CONDITIONS</arg>
-
-            <arg>--num-mappers</arg>
-            <arg>1</arg>
-            <arg>--target-dir</arg>
-            <arg>/MES/WO/SPTM</arg>
+            <arg>/MES/WO/SPDV</arg>
             <arg>--direct</arg>
             <arg>--</arg>
             <arg>--schema</arg>

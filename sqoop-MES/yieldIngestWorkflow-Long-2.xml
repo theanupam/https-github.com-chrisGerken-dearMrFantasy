@@ -1,48 +1,14 @@
 <workflow-app name="Ingest-Long-2" xmlns="uri:oozie:workflow:0.1">
 
- 	<start to="InvChangeState-Ingest-SPMX"/>
+ 	<start to="_SPML_ModuleInfo-Ingest-SPTT"/>
 
 
-    <action name="InvChangeState-Ingest-SPMX">
+    <action name="_SPML_ModuleInfo-Ingest-SPTT">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="/MES/InvChangeState/SPMX" />
-            </prepare>         	
-            <arg>import</arg>
-         	<arg>--connect</arg>
-            <arg>jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER</arg>
-            <arg>--username</arg>
-            <arg>usrSqoop</arg>
-            <arg>--password</arg>
-            <arg>AXm6Sn6#o</arg>
-            <arg>--query</arg>
-            <arg>SELECT InvChangeStateID,InventoryPackID,FromDT,ToDT,InvIsolatedReasonID,Comments,LoginID,OpenedDT,SavedDT,IsEdited,RevisionNo,OriginalLoginID,EditedInvChangeStateID,InvStateID, 1 as "org_id",  'SPMX' as "org_name"  FROM dbo.InvChangeState WHERE $CONDITIONS</arg>
-
-            <arg>--split-by</arg>
-            <arg>InvChangeStateID</arg>
-
-            <arg>--num-mappers</arg>
-            <arg>8</arg>
-            <arg>--target-dir</arg>
-            <arg>/MES/InvChangeState/SPMX</arg>
-            <arg>--direct</arg>
-            <arg>--</arg>
-            <arg>--schema</arg>
-            <arg>dbo</arg>
-            <arg>-validate</arg>
-        </sqoop>
-        <ok to="InvChangeState-Ingest-SPTT"/>
-        <error to="InvChangeState-Ingest-SPTT"/>
-    </action>
-
-    <action name="InvChangeState-Ingest-SPTT">
-        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
-			<job-tracker>${jobTracker}</job-tracker>
-            <name-node>${nameNode}</name-node>
-			<prepare>
-            	<delete path="/MES/InvChangeState/SPTT" />
+            	<delete path="/MES/U_SPML_ModuleInfo/SPTT" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -52,31 +18,31 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT InvChangeStateID,InventoryPackID,FromDT,ToDT,InvIsolatedReasonID,Comments,LoginID,OpenedDT,SavedDT,IsEdited,RevisionNo,OriginalLoginID,EditedInvChangeStateID,InvStateID, 4 as "org_id",  'SPTT' as "org_name"  FROM dbo.InvChangeState WHERE $CONDITIONS</arg>
+            <arg>SELECT ModuleInfoID,SerialNo,LaminateID,LaminateCreatedDT,LaminateOrderNo,LaminatePartNo,BINNo,CktFormBuildPart,CktFormBuildMachine,CktFormBuildDT,GlassBuildPart,GlassBuildDate,LaminationBuildMachine,LaminationBuildDT,ModuleID,ModuleCreatedDT,ModuleOrderNo,IntendedModulePartNo,IntendedModulePartDesc,FramingBuildPart,FramingBuildMachine,FramingBuildDT,JboxBuildPart,JboxBuildDT,FlashtestClassifiedDT,FinalModulePartNo,FinalModulePartDesc,ActualPower,ActualVocMod,ActualFF,PackedDT,InventoryState,JboxBuildMachine,ActualIsc,FlashtestBuildMachine,Komax1,Komax2,Komax3,GlassID,CellType,StringerOperator,CircuitOperator1,CircuitOperator2,TrimChangeReason,PowerChartGenerated,LaminateWoId,ModuleWoId,VisualStateId,RfInvStateId,ElTestDate,ElBuildMachine,ActualVmpMod,ActualImpMod,TrimBuildMachine,TrimBuildDT,CellThickness,PalletID,FlashTestID,PadLock,BtoCtoSerialNo,EvaUseByDT, 4 as "org_id",  'SPTT' as "org_name"  FROM dbo._SPML_ModuleInfo WHERE $CONDITIONS</arg>
 
             <arg>--split-by</arg>
-            <arg>InvChangeStateID</arg>
+            <arg>ModuleInfoID</arg>
 
             <arg>--num-mappers</arg>
-            <arg>8</arg>
+            <arg>3</arg>
             <arg>--target-dir</arg>
-            <arg>/MES/InvChangeState/SPTT</arg>
+            <arg>/MES/U_SPML_ModuleInfo/SPTT</arg>
             <arg>--direct</arg>
             <arg>--</arg>
             <arg>--schema</arg>
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="BuildRecord-Ingest-SPDV"/>
-        <error to="BuildRecord-Ingest-SPDV"/>
+        <ok to="InvChangeState-Ingest-SPDV"/>
+        <error to="InvChangeState-Ingest-SPDV"/>
     </action>
 
-    <action name="BuildRecord-Ingest-SPDV">
+    <action name="InvChangeState-Ingest-SPDV">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="/MES/BuildRecord/SPDV" />
+            	<delete path="/MES/InvChangeState/SPDV" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -86,15 +52,49 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT BuildRecord.BuildRecordID, BuildRecord.InvPackCreatedID, BuildRecord.InvPackConsumedID, BuildRecord.QuantityUsed, BuildRecord.UnitID, BuildRecord.BuildDT, BuildRecord.IsEdited, BuildRecord.RevisionNo, BuildRecord.BuildMachineStageID, BuildRecord_.Comments, BuildRecord_.LoginID, BuildRecord_.OpenedDT, BuildRecord_.SavedDT, BuildRecord_.EditedBuildRecordID, BuildRecord_.OriginalLoginID, BuildRecord_.Reference1, BuildRecord_.Reference2, BuildRecord_.Reference3, BuildRecord_.Reference4, BuildRecord_.Reference5,  3 as "org_id",  'SPDV' as "org_name"  FROM BuildRecord FULL JOIN BuildRecord_ ON (BuildRecord.BuildRecordID = BuildRecord_.BuildRecordID)   WHERE $CONDITIONS</arg>
+            <arg>SELECT InvChangeStateID,InventoryPackID,FromDT,ToDT,InvIsolatedReasonID,Comments,LoginID,OpenedDT,SavedDT,IsEdited,RevisionNo,OriginalLoginID,EditedInvChangeStateID,InvStateID, 3 as "org_id",  'SPDV' as "org_name"  FROM dbo.InvChangeState WHERE $CONDITIONS</arg>
+
+            <arg>--split-by</arg>
+            <arg>InvChangeStateID</arg>
+
+            <arg>--num-mappers</arg>
+            <arg>3</arg>
+            <arg>--target-dir</arg>
+            <arg>/MES/InvChangeState/SPDV</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="BuildRecord-Ingest-SPMM"/>
+        <error to="BuildRecord-Ingest-SPMM"/>
+    </action>
+
+    <action name="BuildRecord-Ingest-SPMM">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="/MES/BuildRecord/SPMM" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT BuildRecord.BuildRecordID, BuildRecord.InvPackCreatedID, BuildRecord.InvPackConsumedID, BuildRecord.QuantityUsed, BuildRecord.UnitID, BuildRecord.BuildDT, BuildRecord.IsEdited, BuildRecord.RevisionNo, BuildRecord.BuildMachineStageID, BuildRecord_.Comments, BuildRecord_.LoginID, BuildRecord_.OpenedDT, BuildRecord_.SavedDT, BuildRecord_.EditedBuildRecordID, BuildRecord_.OriginalLoginID, BuildRecord_.Reference1, BuildRecord_.Reference2, BuildRecord_.Reference3, BuildRecord_.Reference4, BuildRecord_.Reference5,  2 as "org_id",  'SPMM' as "org_name"  FROM BuildRecord FULL JOIN BuildRecord_ ON (BuildRecord.BuildRecordID = BuildRecord_.BuildRecordID)   WHERE $CONDITIONS</arg>
 
             <arg>--split-by</arg>
             <arg>BuildRecord.BuildRecordID</arg>
 
             <arg>--num-mappers</arg>
-            <arg>8</arg>
+            <arg>6</arg>
             <arg>--target-dir</arg>
-            <arg>/MES/BuildRecord/SPDV</arg>
+            <arg>/MES/BuildRecord/SPMM</arg>
             <arg>--direct</arg>
             <arg>--</arg>
             <arg>--schema</arg>
@@ -126,7 +126,7 @@
             <arg>InventoryPack.InventoryPackID</arg>
 
             <arg>--num-mappers</arg>
-            <arg>8</arg>
+            <arg>6</arg>
             <arg>--target-dir</arg>
             <arg>/MES/InventoryPack/SPMX</arg>
             <arg>--direct</arg>
@@ -160,43 +160,9 @@
             <arg>InventoryPack.InventoryPackID</arg>
 
             <arg>--num-mappers</arg>
-            <arg>8</arg>
+            <arg>5</arg>
             <arg>--target-dir</arg>
             <arg>/MES/InventoryPack/SPTT</arg>
-            <arg>--direct</arg>
-            <arg>--</arg>
-            <arg>--schema</arg>
-            <arg>dbo</arg>
-            <arg>-validate</arg>
-        </sqoop>
-        <ok to="WO-Ingest-SPMX"/>
-        <error to="WO-Ingest-SPMX"/>
-    </action>
-
-    <action name="WO-Ingest-SPMX">
-        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
-			<job-tracker>${jobTracker}</job-tracker>
-            <name-node>${nameNode}</name-node>
-			<prepare>
-            	<delete path="/MES/WO/SPMX" />
-            </prepare>         	
-            <arg>import</arg>
-         	<arg>--connect</arg>
-            <arg>jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER</arg>
-            <arg>--username</arg>
-            <arg>usrSqoop</arg>
-            <arg>--password</arg>
-            <arg>AXm6Sn6#o</arg>
-            <arg>--query</arg>
-            <arg>SELECT WO.WOID, WO.WONumber, WO.RunNo, WO.PartID, WO.QuantityOrdered, WO.RfJobStatusID, WO.DeadlineDT, WO.ActualStartDT, WO.ActualEndDT, WO.PlannedStartDT, WO.PlannedEndDT, WO.EstimatedStartDT, WO.EstimatedEndDT, WO.CustomerID, WO.IsDiscrete, WO.Reference1, WO.Reference2, WO.Reference3, WO.Reference4, WO.Reference5, WO.WORefID, WO_.CustomerOrderNo, WO_.LabelsPerInventoryPack, WO_.ItemsPerInventoryPack, WO_.ItemsPerLayer, WO_.LayersPerInventoryPack, WO_.PackingCode, WO_.LabelTemplate, WO_.LabelColour, WO_.EANCode, WO_.CusStartNum, WO_.CusEndNum, WO_.CustomerPartNo, WO_.CustomerPartDescription, WO_.LabelText1, WO_.LabelText2, WO_.LabelText3, WO_.PrinterURL, WO_.BOMVariantID,  1 as "org_id",  'SPMX' as "org_name"  FROM WO FULL JOIN WO_ ON (WO.WOID = WO_.WOID)   WHERE $CONDITIONS</arg>
-
-            <arg>--split-by</arg>
-            <arg>WO.WOID</arg>
-
-            <arg>--num-mappers</arg>
-            <arg>8</arg>
-            <arg>--target-dir</arg>
-            <arg>/MES/WO/SPMX</arg>
             <arg>--direct</arg>
             <arg>--</arg>
             <arg>--schema</arg>
