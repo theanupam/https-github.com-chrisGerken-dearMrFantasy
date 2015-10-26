@@ -1,0 +1,29 @@
+
+<c:iterate select="$jobs/job" var="job" >
+	<c:set select="$job" name="flow"><c:get select="$job/@source" /></c:set>
+
+    <c:log severity="error"><c:get select="$job/targetDir"/> (<c:get select="$job/@slices"/>) in <c:get select="$job/@flow"/></c:log>
+</c:iterate>
+
+
+	
+	<workflow name="ModcoIngest"  start="Fork-Long"  end="End-Ingest"  hdfsDir="/YieldWorkflow"  maxSlices="5" padSlices="4"  database="MES" >
+	
+		<fork name="Fork-Long" join="Join-Long" next="Fork-Short" >
+			<path name="Do-SPMX-Subflow"/>
+			<path name="Do-SPMM-Subflow"/>
+		</fork>
+	
+		<fork name="Fork-Short" join="Join-Short" next="End-Ingest" >
+			<path name="Do-SPDV-Subflow"/>
+			<path name="Do-SPTM-Subflow"/>
+		</fork>
+	
+		<subflow name="Do-SPMX-Subflow" next="Join-Long" 	key="SPMX" />
+		<subflow name="Do-SPMM-Subflow" next="Do-SPTT-Subflow" 	key="SPMM" />
+		<subflow name="Do-SPDV-Subflow" next="Join-Short" 	key="SPDV" />
+		<subflow name="Do-SPTT-Subflow" next="Join-Long" 	key="SPTT" />
+		<subflow name="Do-SPTM-Subflow" next="Join-Short" 	key="SPTM" />
+	
+	</workflow>
+	
