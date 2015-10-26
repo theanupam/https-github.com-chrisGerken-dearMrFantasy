@@ -1,7 +1,5 @@
 
 <c:setVariable select="/tables" var="tables" />
-<c:set select="$tables" name="project">sqoop-<c:get select="$tables/@database" /></c:set>
-<c:set select="$tables" name="sqoopAppName"><c:get select="$tables/@database" />-Ingest</c:set>
 
 <c:load url="/Sandbox/jobspec.xml" urlContext="workspace" var="jobspec" type="xml" />
 <c:setVariable select="$jobspec/jobspec/modcos" var="modcos" />
@@ -49,43 +47,43 @@
 <c:loadContent type="xml" var="jobs">
 <jobs>
 <c:iterate select="$tables/table[@enabled='true']" var="table" >
-	<hive table="<c:get select="$table/@hive_name"/>">Create External table IF NOT EXISTS <c:get select="$tables/@database"/>.<c:get select="$table/@hive_name"/> (<c:iterate select="$table/column" var="column"><c:get select="$column/@hive_name"/> <c:get select="$column/@type"/>, </c:iterate> org_id int, org_name varchar(10)) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile location '/<c:get select="$tables/@database"/>/<c:get select="$table/@hive_name"/>'</hive>
+	<hive table="<c:get select="$table/@hive_name"/>">Create External table IF NOT EXISTS <c:get select="$workflow/@database"/>.<c:get select="$table/@hive_name"/> (<c:iterate select="$table/column" var="column"><c:get select="$column/@hive_name"/> <c:get select="$column/@type"/>, </c:iterate> org_id int, org_name varchar(10)) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile location '/<c:get select="$workflow/@database"/>/<c:get select="$table/@hive_name"/>'</hive>
 <c:iterate select="$modcos/modco" var="modco" >
 <c:setVariable select=" ceiling(number($table/@slices) * number($modco/@weight))" var="slices" />
 <c:if test=" c:lessThan(number($workflow/@maxSlices),$slices) " >
-    <c:log severity="error">[<c:get select="$table/@name"/>:<c:get select="$modco/@id" />]  Slices: <c:get select="$slices"/> V-> <c:get select="number($workflow/@maxSlices)"/></c:log>
+    <c:log severity="error">[<c:get select="$table/@name"/>:<c:get select="$modco/@name" />]  Slices: <c:get select="$slices"/> V-> <c:get select="number($workflow/@maxSlices)"/></c:log>
     <c:setVariable select=" number($workflow/@maxSlices) " var="slices"/>
 </c:if>
 <c:if test=" c:lessThan(1,$slices)" >
 	<c:if test=" c:lessThan($slices, number($workflow/@padSlices))" >
-	    <c:log severity="error">[<c:get select="$table/@name"/>:<c:get select="$modco/@id" />]  Slices: <c:get select="$slices"/> A-> <c:get select="number($workflow/@padSlices)"/></c:log>
+	    <c:log severity="error">[<c:get select="$table/@name"/>:<c:get select="$modco/@name" />]  Slices: <c:get select="$slices"/> A-> <c:get select="number($workflow/@padSlices)"/></c:log>
     	<c:setVariable select=" number($workflow/@padSlices) " var="slices"/>
 	</c:if>
-    <c:log severity="error">[<c:get select="$table/@name"/>:<c:get select="$modco/@id" />]  Slices: <c:get select="$slices"/></c:log>
+    <c:log severity="error">[<c:get select="$table/@name"/>:<c:get select="$modco/@name" />]  Slices: <c:get select="$slices"/></c:log>
 </c:if>
 	<job name="<c:get select="$table/@name" />-Ingest-<c:get select="$modco/@name" />" slices="<c:get select="$slices" />" splitBy="<c:get select="$table/column/@name"/>"  source="<c:get select="$modco/@name" />"  targetTable="<c:get select="$table/@hive_name"/>"  connect="<c:get select="$modco/@connect"/>"  user="<c:get select="$modco/@user"/>"  pass="<c:get select="$modco/@pass"/>"    >
-		<targetDir>/<c:get select="$tables/@database"/>/<c:get select="$table/@hive_name"/>/<c:get select="$modco/@name" /></targetDir>
+		<targetDir>/<c:get select="$workflow/@database"/>/<c:get select="$table/@hive_name"/>/<c:get select="$modco/@name" /></targetDir>
 		<query>SELECT <c:iterate select="$table/column" var="column"><c:get select="$column/@name"/>,</c:iterate> <c:get select="$modco/@id" /> as "org_id",  '<c:get select="$modco/@name" />' as "org_name"  FROM dbo.<c:get select="$table/@name"/> WHERE $CONDITIONS</query>
 	</job>
 </c:iterate>
 </c:iterate>
 <c:iterate select="$ingest/join" var="join" >
-	<hive table="<c:get select="$join/@name"/>">Create External table IF NOT EXISTS <c:get select="$tables/@database"/>.<c:get select="$join/@name"/> (<c:iterate select="c:unique($join/table/column,'@name')" var="column"><c:get select="$column/@name"/> <c:get select="$column/@type"/>, </c:iterate> org_id int, org_name varchar(10)<c:iterate select="$join/update" var="update">, <c:get select="$update/@name"/> <c:get select="$update/@type"/> </c:iterate>) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile location '/<c:get select="$tables/@database"/>/<c:get select="$join/@name"/>'</hive>
+	<hive table="<c:get select="$join/@name"/>">Create External table IF NOT EXISTS <c:get select="$workflow/@database"/>.<c:get select="$join/@name"/> (<c:iterate select="c:unique($join/table/column,'@name')" var="column"><c:get select="$column/@name"/> <c:get select="$column/@type"/>, </c:iterate> org_id int, org_name varchar(10)<c:iterate select="$join/update" var="update">, <c:get select="$update/@name"/> <c:get select="$update/@type"/> </c:iterate>) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile location '/<c:get select="$workflow/@database"/>/<c:get select="$join/@name"/>'</hive>
 <c:iterate select="$modcos/modco" var="modco" >
 <c:setVariable select=" ceiling(number($join/@slices) * number($modco/@weight))" var="slices" />
 <c:if test=" c:lessThan(number($workflow/@maxSlices),$slices) " >
-    <c:log severity="error">[<c:get select="$join/@name"/>:<c:get select="$modco/@id" />]  Slices: <c:get select="$slices"/> V-> <c:get select="number($workflow/@maxSlices)"/></c:log>
+    <c:log severity="error">[<c:get select="$join/@name"/>:<c:get select="$modco/@name" />]  Slices: <c:get select="$slices"/> V-> <c:get select="number($workflow/@maxSlices)"/></c:log>
     <c:setVariable select=" number($workflow/@maxSlices) " var="slices"/>
 </c:if>
 <c:if test=" c:lessThan(1,$slices)" >
 	<c:if test=" c:lessThan($slices, number($workflow/@padSlices))" >
-	    <c:log severity="error">[<c:get select="$join/@name"/>:<c:get select="$modco/@id" />]  Slices: <c:get select="$slices"/> A-> <c:get select="number($workflow/@padSlices)"/></c:log>
+	    <c:log severity="error">[<c:get select="$join/@name"/>:<c:get select="$modco/@name" />]  Slices: <c:get select="$slices"/> A-> <c:get select="number($workflow/@padSlices)"/></c:log>
     	<c:setVariable select=" number($workflow/@padSlices) " var="slices"/>
 	</c:if>
-    <c:log severity="error">[<c:get select="$join/@name"/>:<c:get select="$modco/@id" />]  Slices: <c:get select="$slices"/> </c:log>
+    <c:log severity="error">[<c:get select="$join/@name"/>:<c:get select="$modco/@name" />]  Slices: <c:get select="$slices"/> </c:log>
 </c:if>
 	<job name="<c:get select="$join/@name" />-Ingest-<c:get select="$modco/@name" />" slices="<c:get select="$slices" />"  splitBy="<c:get select="$join/table/@name"/>.<c:get select="$join/table/column/@name"/>"   source="<c:get select="$modco/@name" />"  targetTable="<c:get select="$join/@name"/>"  connect="<c:get select="$modco/@connect"/>"  user="<c:get select="$modco/@user"/>"  pass="<c:get select="$modco/@pass"/>"   >
-		<targetDir>/<c:get select="$tables/@database"/>/<c:get select="$join/@name"/>/<c:get select="$modco/@name" /></targetDir>
+		<targetDir>/<c:get select="$workflow/@database"/>/<c:get select="$join/@name"/>/<c:get select="$modco/@name" /></targetDir>
 		<query>SELECT <c:iterate select="c:unique($join/table/column,'@name')" var="col"><c:get select="$col/../@name"/>.<c:get select="$col/@name"/>, </c:iterate> <c:get select="$modco/@id" /> as "org_id",  '<c:get select="$modco/@name" />' as "org_name" <c:iterate select="$join/update" var="update">, (<c:get select="$update/calc" />) as "<c:get select="$update/@name"/>" </c:iterate> FROM <c:get select="$join/table/@name"/> <c:iterate select="$join/table[@first='false']" var="table" >FULL JOIN <c:get select="$table/@name"/> ON (<c:get select="$join/table/@name"/>.<c:get select="$join/table/@id"/> = <c:get select="$table/@name"/>.<c:get select="$table/@id"/>) </c:iterate>  WHERE $CONDITIONS</query>
 	</job>
 </c:iterate>
@@ -100,15 +98,17 @@
 *
 
 <c:iterate select="$jobs/job" var="job" >
-	<c:if test=" c:lessThan( number($job/@slices) , 2)" >
-		<c:set select="$job" name="flow">Short-<c:get select=" c:moduloCounter('lcount',3)" /></c:set>
-	</c:if>
-	<c:if test=" c:lessThan( 1 , number($job/@slices))" >
-		<c:set select="$job" name="flow">Long-<c:get select=" c:moduloCounter('scount',3)" /></c:set>
-	</c:if>
+	<c:set select="$job" name="flow"><c:get select="$job/@source" /></c:set>
+
     <c:log severity="error"><c:get select="$job/targetDir"/> (<c:get select="$job/@slices"/>) in <c:get select="$job/@flow"/></c:log>
 </c:iterate>
 
+
+*
+*  Write the files
+*
+
+<c:set select="$tables" name="project">sqoop-<c:get select="$workflow/@database" /></c:set>
 
 <c:iterate select="$workflow/subflow" var="subflow">
 <c:setVariable select=" 'true' " var="first" />

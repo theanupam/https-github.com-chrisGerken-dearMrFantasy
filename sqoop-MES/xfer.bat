@@ -5,11 +5,10 @@ pscp  -pw d4e30f24   hiveCreate.sh    appladm@prod-hubnamedaws01.sunpowercorp.co
 pscp  -pw d4e30f24   yieldIngestWorkflow.xml  appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow.xml
 pscp  -pw d4e30f24   yieldIngestProperties.properties  appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestProperties.properties 
 
-pscp  -pw d4e30f24   yieldIngestWorkflow-Long-0.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Long-0.xml
-pscp  -pw d4e30f24   yieldIngestWorkflow-Long-1.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Long-1.xml
-pscp  -pw d4e30f24   yieldIngestWorkflow-Long-2.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Long-2.xml
-pscp  -pw d4e30f24   yieldIngestWorkflow-Short-0.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Short-0.xml
-pscp  -pw d4e30f24   yieldIngestWorkflow-Short-1.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Short-1.xml
-pscp  -pw d4e30f24   yieldIngestWorkflow-Short-2.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Short-2.xml
+pscp  -pw d4e30f24   yieldIngestWorkflow-SPMX.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-SPMX.xml
+pscp  -pw d4e30f24   yieldIngestWorkflow-SPMM.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-SPMM.xml
+pscp  -pw d4e30f24   yieldIngestWorkflow-SPDV.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-SPDV.xml
+pscp  -pw d4e30f24   yieldIngestWorkflow-SPTT.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-SPTT.xml
+pscp  -pw d4e30f24   yieldIngestWorkflow-SPTM.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-SPTM.xml
 
 
