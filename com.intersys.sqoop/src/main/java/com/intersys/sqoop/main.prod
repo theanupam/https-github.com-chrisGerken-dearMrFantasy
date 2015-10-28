@@ -51,15 +51,15 @@
 <c:iterate select="$modcos/modco" var="modco" >
 <c:setVariable select=" ceiling(number($table/@slices) * number($modco/@weight))" var="slices" />
 <c:if test=" c:lessThan(number($workflow/@maxSlices),$slices) " >
-    <c:log severity="error">[<c:get select="$table/@name"/>:<c:get select="$modco/@name" />]  Slices: <c:get select="$slices"/> V-> <c:get select="number($workflow/@maxSlices)"/></c:log>
+    <c:log severity="warning">[<c:get select="$table/@name"/>:<c:get select="$modco/@name" />]  Slices: <c:get select="$slices"/> V-> <c:get select="number($workflow/@maxSlices)"/></c:log>
     <c:setVariable select=" number($workflow/@maxSlices) " var="slices"/>
 </c:if>
 <c:if test=" c:lessThan(1,$slices)" >
 	<c:if test=" c:lessThan($slices, number($workflow/@padSlices))" >
-	    <c:log severity="error">[<c:get select="$table/@name"/>:<c:get select="$modco/@name" />]  Slices: <c:get select="$slices"/> A-> <c:get select="number($workflow/@padSlices)"/></c:log>
+	    <c:log severity="warning">[<c:get select="$table/@name"/>:<c:get select="$modco/@name" />]  Slices: <c:get select="$slices"/> A-> <c:get select="number($workflow/@padSlices)"/></c:log>
     	<c:setVariable select=" number($workflow/@padSlices) " var="slices"/>
 	</c:if>
-    <c:log severity="error">[<c:get select="$table/@name"/>:<c:get select="$modco/@name" />]  Slices: <c:get select="$slices"/></c:log>
+    <c:log severity="info">[<c:get select="$table/@name"/>:<c:get select="$modco/@name" />]  Slices: <c:get select="$slices"/></c:log>
 </c:if>
 	<job name="<c:get select="$table/@name" />-Ingest-<c:get select="$modco/@name" />" slices="<c:get select="$slices" />" splitBy="<c:get select="$table/column/@name"/>"  source="<c:get select="$modco/@name" />"  targetTable="<c:get select="$table/@hive_name"/>"  connect="<c:get select="$modco/@connect"/>"  user="<c:get select="$modco/@user"/>"  pass="<c:get select="$modco/@pass"/>"    >
 		<targetDir>/<c:get select="$workflow/@database"/>/<c:get select="$table/@hive_name"/>/<c:get select="$modco/@name" /></targetDir>
@@ -72,15 +72,15 @@
 <c:iterate select="$modcos/modco" var="modco" >
 <c:setVariable select=" ceiling(number($join/@slices) * number($modco/@weight))" var="slices" />
 <c:if test=" c:lessThan(number($workflow/@maxSlices),$slices) " >
-    <c:log severity="error">[<c:get select="$join/@name"/>:<c:get select="$modco/@name" />]  Slices: <c:get select="$slices"/> V-> <c:get select="number($workflow/@maxSlices)"/></c:log>
+    <c:log severity="warning">[<c:get select="$join/@name"/>:<c:get select="$modco/@name" />]  Slices: <c:get select="$slices"/> V-> <c:get select="number($workflow/@maxSlices)"/></c:log>
     <c:setVariable select=" number($workflow/@maxSlices) " var="slices"/>
 </c:if>
 <c:if test=" c:lessThan(1,$slices)" >
 	<c:if test=" c:lessThan($slices, number($workflow/@padSlices))" >
-	    <c:log severity="error">[<c:get select="$join/@name"/>:<c:get select="$modco/@name" />]  Slices: <c:get select="$slices"/> A-> <c:get select="number($workflow/@padSlices)"/></c:log>
+	    <c:log severity="warning">[<c:get select="$join/@name"/>:<c:get select="$modco/@name" />]  Slices: <c:get select="$slices"/> A-> <c:get select="number($workflow/@padSlices)"/></c:log>
     	<c:setVariable select=" number($workflow/@padSlices) " var="slices"/>
 	</c:if>
-    <c:log severity="error">[<c:get select="$join/@name"/>:<c:get select="$modco/@name" />]  Slices: <c:get select="$slices"/> </c:log>
+    <c:log severity="info">[<c:get select="$join/@name"/>:<c:get select="$modco/@name" />]  Slices: <c:get select="$slices"/> </c:log>
 </c:if>
 	<job name="<c:get select="$join/@name" />-Ingest-<c:get select="$modco/@name" />" slices="<c:get select="$slices" />"  splitBy="<c:get select="$join/table/@name"/>.<c:get select="$join/table/column/@name"/>"   source="<c:get select="$modco/@name" />"  targetTable="<c:get select="$join/@name"/>"  connect="<c:get select="$modco/@connect"/>"  user="<c:get select="$modco/@user"/>"  pass="<c:get select="$modco/@pass"/>"   >
 		<targetDir>/<c:get select="$workflow/@database"/>/<c:get select="$join/@name"/>/<c:get select="$modco/@name" /></targetDir>
@@ -99,12 +99,12 @@
 
 <c:iterate select="$jobs/job" var="job" >
 	<c:if test=" c:lessThan( number($job/@slices) , 2)" >
-		<c:set select="$job" name="flow">Short-<c:get select=" c:moduloCounter('lcount',3)" /></c:set>
+		<c:set select="$job" name="flow">Short-<c:get select=" c:moduloCounter('scount',4)" /></c:set>
 	</c:if>
 	<c:if test=" c:lessThan( 1 , number($job/@slices))" >
-		<c:set select="$job" name="flow">Long-<c:get select=" c:moduloCounter('scount',3)" /></c:set>
+		<c:set select="$job" name="flow">Long-<c:get select=" c:moduloCounter('lcount',2)" /></c:set>
 	</c:if>
-    <c:log severity="error"><c:get select="$job/targetDir"/> (<c:get select="$job/@slices"/>) in <c:get select="$job/@flow"/></c:log>
+    <c:log severity="info"><c:get select="$job/targetDir"/> (<c:get select="$job/@slices"/>) in <c:get select="$job/@flow"/></c:log>
 </c:iterate>
 
 *
