@@ -197,8 +197,8 @@ public class IngestionState implements Comparable {
 	public Properties configureIncrement() throws SQLException, NoSuchDatabaseException, NoDataException, JSONException {
 		Properties newProps = new Properties();
 		for (LoadState ls : LoadState.sort(getLoads())) {
-			ls.increment();
-			ls.addProperties(newProps);
+			Properties props = ls.increment();
+			newProps.putAll(props);
 		}
 		return newProps;
 	}

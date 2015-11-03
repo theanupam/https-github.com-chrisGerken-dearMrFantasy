@@ -13,6 +13,7 @@ import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
+import com.intersys.sqoop.driver.SqoopDriver;
 import com.intersys.sqoop.driver.exception.NoDataException;
 import com.intersys.sqoop.driver.exception.NoSuchDatabaseException;
 import com.intersys.sqoop.driver.model.key.BookMarkKey;
@@ -158,20 +159,41 @@ public class LoadState implements Comparable {
 	
 	// Begin custom logic
 
-	public void increment() throws SQLException, NoSuchDatabaseException, NoDataException, JSONException {
+	public Properties increment() throws SQLException, NoSuchDatabaseException, NoDataException, JSONException {
 
+		String doFull = "false";
+		String doBase = "false";
+		String doInterval = "false";
+		String doDelta = "false";
+		
 		if (!getIncremental()) {
+
 			System.out.println(getTable()+" in "+getDatabase()+" is a full load");
-			return;
+			
+			doFull = "true";
+		
+		} else {
+
+			BookMark bookmark = BookMark.getBookmark(getTable(), getIdColumn(), getDatabase());
+			System.out.println("Bookmark for "+getTable()+" in "+getDatabase()+": "+bookmark.asJson().toString());
+			
+			addBookmarks(bookmark);
+		
+			List<BookMark> list = BookMark.sort(getBookmarks());
+			if (list.size() == 1) {
+				doBase = "true";
+			} else {
+				doDelta = "true";
+			}
 		}
 		
-		BookMark bookmark = BookMark.getBookmark(getTable(), getIdColumn(), getDatabase());
-		System.out.println("Bookmark for "+getTable()+" in "+getDatabase()+": "+bookmark.asJson().toString());
+		Properties props = new Properties();
+		props.setProperty(SqoopDriver.PROPERTY_PREFIX + getDatabase() + "_" + getTable() + "_DoFull", doFull);
+		props.setProperty(SqoopDriver.PROPERTY_PREFIX + getDatabase() + "_" + getTable() +"_DoBase", doBase);
+		props.setProperty(SqoopDriver.PROPERTY_PREFIX + getDatabase() + "_" + getTable() +"_DoInterval", doInterval);
+		props.setProperty(SqoopDriver.PROPERTY_PREFIX + getDatabase() + "_" + getTable() +"_DoDelta", doDelta);
 		
-	}
-
-	public void addProperties(Properties newProps) {
-		
+		return props;
 	}
 
 	// End custom logic 

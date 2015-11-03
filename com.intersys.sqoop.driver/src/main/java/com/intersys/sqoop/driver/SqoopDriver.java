@@ -1,8 +1,10 @@
 package com.intersys.sqoop.driver;
 
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -23,7 +25,7 @@ public class SqoopDriver {
 	
 	private IngestionState state;
 	
-	private static final String PROPERTY_PREFIX = "job";
+	public static final String PROPERTY_PREFIX = "job_";
 	
 	private SqoopDriver() {
 
@@ -81,6 +83,11 @@ public class SqoopDriver {
 				newProps.setProperty(key, value);
 			}
 		}
+		
+		
+		OutputStream fos = new FileOutputStream(ooziePropsFile);
+		newProps.store(fos, "comments...");
+		fos.close();
 	}
 
 	public Connection getConnection(String database) throws SQLException, NoSuchDatabaseException {
