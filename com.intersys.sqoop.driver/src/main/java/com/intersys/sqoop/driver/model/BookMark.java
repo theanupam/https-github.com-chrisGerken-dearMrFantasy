@@ -1,13 +1,22 @@
 package com.intersys.sqoop.driver.model;
 
-import java.util.HashMap;
-import java.util.List;
+	// Begin imports
 
-import com.intersys.sqoop.driver.model.key.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+
+import com.intersys.sqoop.driver.SqoopDriver;
+import com.intersys.sqoop.driver.exception.NoDataException;
+import com.intersys.sqoop.driver.exception.NoSuchDatabaseException;
+import com.intersys.sqoop.driver.model.key.BookMarkKey;
+
+	// End imports 
 
 public class BookMark {
 
@@ -111,6 +120,33 @@ public class BookMark {
 	
 	// Begin custom logic
 
+
+	public static BookMark getBookmark(String table, String column, String database) throws SQLException, NoSuchDatabaseException, NoDataException {
+
+		Connection connection = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+	    try {
+			connection = SqoopDriver.getDefault().getConnection(database);
+			String query = "select min("+column+") as 'MIN', max("+column+") as 'MAX' from "+table;
+			stmt = connection.createStatement();
+			rs = stmt.executeQuery(query);
+			if (rs.next()) {
+			    Integer min = rs.getInt("MIN");
+			    Integer max = rs.getInt("MAX");
+			    System.out.println("ID range in "+table+" is "+min+" -> "+max);
+			    return new BookMark(System.currentTimeMillis(), min, max, false, false, 0);
+			} else {
+				throw new NoDataException("No data for table "+table+" in data base "+database);
+			}
+		} catch (SQLException e) {
+			throw e;
+		} finally {
+			try { stmt.close(); } catch (Throwable t) {  }
+			try { connection.close(); } catch (Throwable t) {  }
+		}
+
+	}	
 
 
 	// End custom logic 

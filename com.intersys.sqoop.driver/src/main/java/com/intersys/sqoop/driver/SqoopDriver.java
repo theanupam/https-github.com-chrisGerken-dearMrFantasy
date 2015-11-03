@@ -9,15 +9,13 @@ import com.intersys.sqoop.driver.exception.IngestionStateLoadException;
 import com.intersys.sqoop.driver.exception.NoSuchDatabaseException;
 import com.intersys.sqoop.driver.model.DatabaseSpec;
 import com.intersys.sqoop.driver.model.IngestionState;
+import com.intersys.sqoop.driver.model.key.DatabaseSpecKey;
 
 public class SqoopDriver {
 
 	private static SqoopDriver instance = new SqoopDriver();
 	
 	private IngestionState state;
-	
-	private String ooziePropsFile;
-	private String ingestionStateFile;
 	
 	private SqoopDriver() {
 
@@ -47,11 +45,10 @@ public class SqoopDriver {
 	}
 
 	private void increment(String ingestionStateFile, String ooziePropsFile) throws IngestionStateLoadException {
-		this.ooziePropsFile = ooziePropsFile;
-		this.ingestionStateFile = ingestionStateFile;
 		state = IngestionState.loadFrom(ingestionStateFile);
 		Properties newProps = IngestionState.configureIncrement();
-		updateProperties(newProps);
+		updateProperties(newProps, ooziePropsFile);
+		state.persistTo(ingestionStateFile);
 	}
 
 	private void updateProperties(Properties newProps) {
@@ -61,7 +58,7 @@ public class SqoopDriver {
 
 	public Connection getConnection(String database) throws SQLException, NoSuchDatabaseException {
 
-		DatabaseSpec spec = state.getDatabase(database);
+		DatabaseSpec spec = state.getDatabases(new DatabaseSpecKey(database));
 		
 		Properties properties = new Properties();
 	    properties.put("user", spec.getUserid());

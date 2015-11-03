@@ -30,36 +30,12 @@ public class Helper {
 	}
 
 	
-	public void writeString(String content, String filename) throws IOException {
+	public static void writeString(String content, String filename) throws IOException {
 		
 		FileWriter fw = new FileWriter(filename);
 		fw.append(content);
 		fw.close();
 		
 	}
-
-	private static void getIdRange() throws SQLException, NoSuchDatabaseException {
-
-		String table = incTable.getTable();
-		String column = incTable.getIdColumn();
-		Connection connection = SqoopDriver.getDefault().getConnection(incTable.getDatabase());
-		
-		Statement stmt = null;
-	    try {
-			String query = "select min("+column+") as 'MIN', max("+column+") as 'MAX' from "+table;
-			stmt = connection.createStatement();
-			ResultSet rs = stmt.executeQuery(query);
-			if (rs.next()) {
-			    int min = rs.getInt("MIN");
-			    int max = rs.getInt("MAX");
-			    System.out.println("ID range in "+table+" is "+min+" -> "+max);
-			}
-		} catch (SQLException e) {
-			throw e;
-		} finally {
-			stmt.close();
-		}
-
-	}	
 
 }

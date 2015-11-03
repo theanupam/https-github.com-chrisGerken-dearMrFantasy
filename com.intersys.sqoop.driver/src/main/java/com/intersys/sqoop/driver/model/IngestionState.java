@@ -1,19 +1,25 @@
 package com.intersys.sqoop.driver.model;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
+	// Begin imports
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import com.intersys.sqoop.driver.Helper;
-import com.intersys.sqoop.driver.exception.IngestionStateLoadException;
-import com.intersys.sqoop.driver.model.key.*;
 
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+
+import com.intersys.sqoop.driver.Helper;
+import com.intersys.sqoop.driver.exception.IngestionStateLoadException;
+import com.intersys.sqoop.driver.model.key.DatabaseSpecKey;
+import com.intersys.sqoop.driver.model.key.IngestionStateKey;
+import com.intersys.sqoop.driver.model.key.LoadStateKey;
+import com.intersys.sqoop.driver.model.key.TableSpecKey;
+
+	// End imports 
 
 public class IngestionState {
 
@@ -23,7 +29,7 @@ public class IngestionState {
 
 	private HashMap<DatabaseSpecKey,DatabaseSpec> _databases;
 
-	private HashMap<IncrementalLoadKey,IncrementalLoad> _incrementals;
+	private HashMap<LoadStateKey,LoadState> _loads;
 
 	public IngestionState(JSONObject jobj) throws JSONException {
 		super();
@@ -45,10 +51,10 @@ public class IngestionState {
 		}
 
 
-		jarr = jobj.getJSONArray("incrementals");
-		_incrementals = new HashMap<IncrementalLoadKey,IncrementalLoad>();
+		jarr = jobj.getJSONArray("loads");
+		_loads = new HashMap<LoadStateKey,LoadState>();
 		for (int i = 0; i < jarr.length(); i++) {
-			addIncrementals(new IncrementalLoad(jarr.getJSONObject(i)));
+			addLoads(new LoadState(jarr.getJSONObject(i)));
 		}
 	}
 
@@ -59,7 +65,7 @@ public class IngestionState {
  
 		_databases = new HashMap<DatabaseSpecKey,DatabaseSpec>();
  
-		_incrementals = new HashMap<IncrementalLoadKey,IncrementalLoad>();
+		_loads = new HashMap<LoadStateKey,LoadState>();
 
 	}
 	
@@ -70,25 +76,25 @@ public class IngestionState {
 		JSONArray jarr;
 
 
-		jarr = jobj.getJSONArray("tables");
-		_tables = new HashMap<TableSpecKey,TableSpec>();
-		for (int i = 0; i < jarr.length(); i++) {
-			addTables(new TableSpec(jarr.getJSONObject(i)));
+		jarr = new JSONArray();
+		for (TableSpec obj: getTables()) {
+			jarr.put(obj.asJson());
 		}
+		jobj.put("tables", jarr);
 
 
-		jarr = jobj.getJSONArray("databases");
-		_databases = new HashMap<DatabaseSpecKey,DatabaseSpec>();
-		for (int i = 0; i < jarr.length(); i++) {
-			addDatabases(new DatabaseSpec(jarr.getJSONObject(i)));
+		jarr = new JSONArray();
+		for (DatabaseSpec obj: getDatabases()) {
+			jarr.put(obj.asJson());
 		}
+		jobj.put("databases", jarr);
 
 
-		jarr = jobj.getJSONArray("incrementals");
-		_incrementals = new HashMap<IncrementalLoadKey,IncrementalLoad>();
-		for (int i = 0; i < jarr.length(); i++) {
-			addIncrementals(new IncrementalLoad(jarr.getJSONObject(i)));
+		jarr = new JSONArray();
+		for (LoadState obj: getLoads()) {
+			jarr.put(obj.asJson());
 		}
+		jobj.put("loads", jarr);
 		
 		return jobj;
 	}
@@ -103,7 +109,7 @@ public class IngestionState {
 	}
 	
 	public List<TableSpec> getTables() {
-		return (List)_tables.values();
+		return new ArrayList<TableSpec>(_tables.values());
 	}
  
 
@@ -116,20 +122,20 @@ public class IngestionState {
 	}
 	
 	public List<DatabaseSpec> getDatabases() {
-		return (List)_databases.values();
+		return new ArrayList<DatabaseSpec>(_databases.values());
 	}
  
 
-	public void addIncrementals(IncrementalLoad bean) {
-		_incrementals.put(bean.key(), bean);
+	public void addLoads(LoadState bean) {
+		_loads.put(bean.key(), bean);
 	}
 	
-	public IncrementalLoad getIncrementals(IncrementalLoadKey key) {
-		return _incrementals.get(key);
+	public LoadState getLoads(LoadStateKey key) {
+		return _loads.get(key);
 	}
 	
-	public List<IncrementalLoad> getIncrementals() {
-		return (List)_incrementals.values();
+	public List<LoadState> getLoads() {
+		return new ArrayList<LoadState>(_loads.values());
 	}
 
 	public IngestionStateKey key() {
@@ -155,6 +161,29 @@ public class IngestionState {
 		
 	}
 
+	public void persistTo(String ingestionStateFile) throws IOException, JSONException {
+		String content = asJson().toString(4);
+		Helper.writeString(content, ingestionStateFile);
+		
+	}
+
+	public static void main(String[] args) {
+		
+		try {
+			IngestionState state = new IngestionState();
+			state.addDatabases(new DatabaseSpec("name1", "userid", "password", "label", "url"));
+			state.addDatabases(new DatabaseSpec("name2", "userid", "password", "label", "url"));
+			state.addTables(new TableSpec("table1", "idColumn"));
+			state.addTables(new TableSpec("table2", "idColumn"));
+			state.addLoads(new LoadState("table1", "database", true, "ooziePrefix"));
+			state.addLoads(new LoadState("table2", "database", true, "ooziePrefix"));
+			
+			System.out.println(state.asJson().toString(4));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+	}
 
 	// End custom logic 
 	

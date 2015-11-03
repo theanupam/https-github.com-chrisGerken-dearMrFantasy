@@ -1,5 +1,7 @@
 package com.intersys.sqoop.driver.model;
 
+	// Begin imports
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -8,6 +10,8 @@ import com.intersys.sqoop.driver.model.key.*;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+
+	// End imports 
 
 public class DatabaseSpec {
 
