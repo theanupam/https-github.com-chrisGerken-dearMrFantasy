@@ -6,6 +6,9 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
@@ -18,7 +21,7 @@ import com.intersys.sqoop.driver.model.key.BookMarkKey;
 
 	// End imports 
 
-public class BookMark {
+public class BookMark implements Comparable {
 
 	private Long _timestamp;
 	private Integer _minId;
@@ -118,6 +121,17 @@ public class BookMark {
 		return new BookMarkKey(_timestamp);
 	}
 	
+	public static List<BookMark> sort(List<BookMark> unsorted) {
+		BookMark[] a = new BookMark[unsorted.size()];
+		unsorted.toArray(a);
+		Arrays.sort(a);
+		List<BookMark> result = new ArrayList<BookMark>();
+		for (BookMark el : a) {
+			result.add(el);
+		}
+		return result;
+	}
+	
 	// Begin custom logic
 
 
@@ -142,10 +156,17 @@ public class BookMark {
 		} catch (SQLException e) {
 			throw e;
 		} finally {
+			try { rs.close(); } catch (Throwable t) {  }
 			try { stmt.close(); } catch (Throwable t) {  }
 			try { connection.close(); } catch (Throwable t) {  }
 		}
 
+	}
+
+	@Override
+	public int compareTo(Object o) {
+		BookMark other = (BookMark) o;
+		return key().compareTo(other.key());
 	}	
 
 

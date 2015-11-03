@@ -4,9 +4,12 @@ package com.intersys.sqoop.driver.model;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Properties;
 
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
@@ -14,6 +17,8 @@ import org.codehaus.jettison.json.JSONObject;
 
 import com.intersys.sqoop.driver.Helper;
 import com.intersys.sqoop.driver.exception.IngestionStateLoadException;
+import com.intersys.sqoop.driver.exception.NoDataException;
+import com.intersys.sqoop.driver.exception.NoSuchDatabaseException;
 import com.intersys.sqoop.driver.model.key.DatabaseSpecKey;
 import com.intersys.sqoop.driver.model.key.IngestionStateKey;
 import com.intersys.sqoop.driver.model.key.LoadStateKey;
@@ -21,7 +26,7 @@ import com.intersys.sqoop.driver.model.key.TableSpecKey;
 
 	// End imports 
 
-public class IngestionState {
+public class IngestionState implements Comparable {
 
 
 
@@ -142,6 +147,23 @@ public class IngestionState {
 		return new IngestionStateKey();
 	}
 	
+	public static List<IngestionState> sort(List<IngestionState> unsorted) {
+		IngestionState[] a = new IngestionState[unsorted.size()];
+		unsorted.toArray(a);
+		Arrays.sort(a);
+		List<IngestionState> result = new ArrayList<IngestionState>();
+		for (IngestionState el : a) {
+			result.add(el);
+		}
+		return result;
+	}
+
+	@Override
+	public int compareTo(Object o) {
+		IngestionState other = (IngestionState) o;
+		return key().compareTo(other.key());
+	}	
+	
 	// Begin custom logic
 
 
@@ -169,20 +191,16 @@ public class IngestionState {
 
 	public static void main(String[] args) {
 		
-		try {
-			IngestionState state = new IngestionState();
-			state.addDatabases(new DatabaseSpec("name1", "userid", "password", "label", "url"));
-			state.addDatabases(new DatabaseSpec("name2", "userid", "password", "label", "url"));
-			state.addTables(new TableSpec("table1", "idColumn"));
-			state.addTables(new TableSpec("table2", "idColumn"));
-			state.addLoads(new LoadState("table1", "database", true, "ooziePrefix"));
-			state.addLoads(new LoadState("table2", "database", true, "ooziePrefix"));
-			
-			System.out.println(state.asJson().toString(4));
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
 		
+	}
+
+	public Properties configureIncrement() throws SQLException, NoSuchDatabaseException, NoDataException, JSONException {
+		Properties newProps = new Properties();
+		for (LoadState ls : LoadState.sort(getLoads())) {
+			ls.increment();
+			ls.addProperties(newProps);
+		}
+		return newProps;
 	}
 
 	// End custom logic 

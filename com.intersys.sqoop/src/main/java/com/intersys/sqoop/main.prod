@@ -61,7 +61,7 @@
 	</c:if>
     <c:log severity="info">[<c:get select="$table/@name"/>:<c:get select="$modco/@name" />]  Slices: <c:get select="$slices"/></c:log>
 </c:if>
-	<job name="<c:get select="$table/@name" />-Ingest-<c:get select="$modco/@name" />" slices="<c:get select="$slices" />" splitBy="<c:get select="$table/column/@name"/>"  source="<c:get select="$modco/@name" />"  targetTable="<c:get select="$table/@hive_name"/>"  connect="<c:get select="$modco/@connect"/>"  user="<c:get select="$modco/@user"/>"  pass="<c:get select="$modco/@pass"/>"    >
+	<job name="<c:get select="$table/@name" />-Ingest-<c:get select="$modco/@name" />" slices="<c:get select="$slices" />" splitBy="<c:get select="$table/column/@name"/>"  source="<c:get select="$modco/@name" />"  sourceDB="<c:get select="$modco/@db" />"  sourceTable="<c:get select="$table/@name"/>"  targetTable="<c:get select="$table/@hive_name"/>"  connect="<c:get select="$modco/@connect"/>"  user="<c:get select="$modco/@user"/>"  pass="<c:get select="$modco/@pass"/>"  prefix="job<c:get select="$table/@name" />_<c:get select="$modco/@name" />"  >
 		<targetDir>/<c:get select="$workflow/@database"/>/<c:get select="$table/@hive_name"/>/<c:get select="$modco/@name" /></targetDir>
 		<query>SELECT <c:iterate select="$table/column" var="column"><c:get select="$column/@name"/>,</c:iterate> <c:get select="$modco/@id" /> as "org_id",  '<c:get select="$modco/@name" />' as "org_name"  FROM dbo.<c:get select="$table/@name"/> WHERE $CONDITIONS</query>
 	</job>
@@ -82,7 +82,7 @@
 	</c:if>
     <c:log severity="info">[<c:get select="$join/@name"/>:<c:get select="$modco/@name" />]  Slices: <c:get select="$slices"/> </c:log>
 </c:if>
-	<job name="<c:get select="$join/@name" />-Ingest-<c:get select="$modco/@name" />" slices="<c:get select="$slices" />"  splitBy="<c:get select="$join/table/@name"/>.<c:get select="$join/table/column/@name"/>"   source="<c:get select="$modco/@name" />"  targetTable="<c:get select="$join/@name"/>"  connect="<c:get select="$modco/@connect"/>"  user="<c:get select="$modco/@user"/>"  pass="<c:get select="$modco/@pass"/>"   >
+	<job name="<c:get select="$join/@name" />-Ingest-<c:get select="$modco/@name" />" slices="<c:get select="$slices" />"  splitBy="<c:get select="$join/table/@name"/>.<c:get select="$join/table/column/@name"/>"   source="<c:get select="$modco/@name" />"  sourceDB="<c:get select="$modco/@db" />"  sourceTable="<c:get select="$join/@name"/>"  targetTable="<c:get select="$join/@name"/>"  connect="<c:get select="$modco/@connect"/>"  user="<c:get select="$modco/@user"/>"  pass="<c:get select="$modco/@pass"/>"  prefix="job<c:get select="$join/@name" />_<c:get select="$modco/@name" />"   >
 		<targetDir>/<c:get select="$workflow/@database"/>/<c:get select="$join/@name"/>/<c:get select="$modco/@name" /></targetDir>
 		<query>SELECT <c:iterate select="c:unique($join/table/column,'@name')" var="col"><c:get select="$col/../@name"/>.<c:get select="$col/@name"/>, </c:iterate> <c:get select="$modco/@id" /> as "org_id",  '<c:get select="$modco/@name" />' as "org_name" <c:iterate select="$join/update" var="update">, (<c:get select="$update/calc" />) as "<c:get select="$update/@name"/>" </c:iterate> FROM <c:get select="$join/table/@name"/> <c:iterate select="$join/table[@first='false']" var="table" >FULL JOIN <c:get select="$table/@name"/> ON (<c:get select="$join/table/@name"/>.<c:get select="$join/table/@id"/> = <c:get select="$table/@name"/>.<c:get select="$table/@id"/>) </c:iterate>  WHERE $CONDITIONS</query>
 	</job>
@@ -136,6 +136,7 @@
 <c:file    path="{$tables/@project}/stage2.sh"  				template="stage2.sh.prod" />
 <c:file    path="{$tables/@project}/readme.txt"  				template="ingest.description.prod" />
 <c:file    path="{$tables/@project}/hiveCreate.sh"  			template="hive.sh.prod" />
+<c:file    path="{$tables/@project}/ingestionState.json"  		template="ingestionState.json.prod" />
 <c:file    path="{$tables/@project}/yieldIngestProperties.properties"  template="job.properties.prod" />
 <c:file    path="{$tables/@project}/yieldIngestWorkflow.xml"  	template="oozie.main.workflow.prod" />
 <c:iterate select="$workflow/subflow" var="subflow">

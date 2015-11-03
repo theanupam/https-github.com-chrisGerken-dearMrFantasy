@@ -1,11 +1,17 @@
 package com.intersys.sqoop.driver;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import org.codehaus.jettison.json.JSONException;
+
 import com.intersys.sqoop.driver.exception.IngestionStateLoadException;
+import com.intersys.sqoop.driver.exception.NoDataException;
 import com.intersys.sqoop.driver.exception.NoSuchDatabaseException;
 import com.intersys.sqoop.driver.model.DatabaseSpec;
 import com.intersys.sqoop.driver.model.IngestionState;
@@ -16,6 +22,8 @@ public class SqoopDriver {
 	private static SqoopDriver instance = new SqoopDriver();
 	
 	private IngestionState state;
+	
+	private static final String PROPERTY_PREFIX = "job";
 	
 	private SqoopDriver() {
 
@@ -40,20 +48,39 @@ public class SqoopDriver {
 			getDefault().increment(ingestionStateFile, ooziePropsFile);
 		} catch (IngestionStateLoadException e) {
 			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (JSONException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NoSuchDatabaseException e) {
+			e.printStackTrace();
+		} catch (NoDataException e) {
+			e.printStackTrace();
 		}
 		
 	}
 
-	private void increment(String ingestionStateFile, String ooziePropsFile) throws IngestionStateLoadException {
+	private void increment(String ingestionStateFile, String ooziePropsFile) throws IngestionStateLoadException, IOException, JSONException, SQLException, NoSuchDatabaseException, NoDataException {
 		state = IngestionState.loadFrom(ingestionStateFile);
-		Properties newProps = IngestionState.configureIncrement();
+		Properties newProps = state.configureIncrement();
 		updateProperties(newProps, ooziePropsFile);
 		state.persistTo(ingestionStateFile);
 	}
 
-	private void updateProperties(Properties newProps) {
-
+	private void updateProperties(Properties newProps, String ooziePropsFile) throws IOException {
+		Properties oldProps = new Properties();
+		InputStream fis = new FileInputStream(ooziePropsFile);
+		oldProps.load(fis);
+		fis.close();
 		
+		for (String key: oldProps.stringPropertyNames()) {
+			String value = oldProps.getProperty(key); 
+			if (!key.startsWith(PROPERTY_PREFIX)) {
+				newProps.setProperty(key, value);
+			}
+		}
 	}
 
 	public Connection getConnection(String database) throws SQLException, NoSuchDatabaseException {

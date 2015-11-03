@@ -2,6 +2,8 @@ package com.intersys.sqoop.driver.model;
 
 	// Begin imports
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -13,7 +15,7 @@ import org.codehaus.jettison.json.JSONObject;
 
 	// End imports 
 
-public class DatabaseSpec {
+public class DatabaseSpec implements Comparable {
 
 	private String _name;
 	private String _userid;
@@ -100,6 +102,23 @@ public class DatabaseSpec {
 	public DatabaseSpecKey key() {
 		return new DatabaseSpecKey(_name);
 	}
+	
+	public static List<DatabaseSpec> sort(List<DatabaseSpec> unsorted) {
+		DatabaseSpec[] a = new DatabaseSpec[unsorted.size()];
+		unsorted.toArray(a);
+		Arrays.sort(a);
+		List<DatabaseSpec> result = new ArrayList<DatabaseSpec>();
+		for (DatabaseSpec el : a) {
+			result.add(el);
+		}
+		return result;
+	}
+
+	@Override
+	public int compareTo(Object o) {
+		DatabaseSpec other = (DatabaseSpec) o;
+		return key().compareTo(other.key());
+	}	
 	
 	// Begin custom logic
 
