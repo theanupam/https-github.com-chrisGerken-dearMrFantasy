@@ -42,12 +42,20 @@ public class SqoopDriver {
 			System.out.println("options:  <ingestion-state-file>  <oozie-properties-file> ");
 			return;
 		}
-		
+
 		String ingestionStateFile = args[0];
 		String ooziePropsFile = args[1];
 		
 		try {
+
+			if (ingestionStateFile.equalsIgnoreCase("-r")) {
+				ingestionStateFile = ooziePropsFile;
+				getDefault().reset(ingestionStateFile);
+				return;
+			}
+
 			getDefault().increment(ingestionStateFile, ooziePropsFile);
+		
 		} catch (IngestionStateLoadException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -62,6 +70,12 @@ public class SqoopDriver {
 			e.printStackTrace();
 		}
 		
+	}
+
+	private void reset(String ingestionStateFile) throws IOException, JSONException, IngestionStateLoadException {
+		state = IngestionState.loadFrom(ingestionStateFile);
+		state.reset();
+		state.persistTo(ingestionStateFile);
 	}
 
 	private void increment(String ingestionStateFile, String ooziePropsFile) throws IngestionStateLoadException, IOException, JSONException, SQLException, NoSuchDatabaseException, NoDataException {

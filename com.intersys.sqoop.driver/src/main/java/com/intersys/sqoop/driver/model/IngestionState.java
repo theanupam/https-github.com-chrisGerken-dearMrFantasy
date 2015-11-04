@@ -203,6 +203,13 @@ public class IngestionState implements Comparable {
 		return newProps;
 	}
 
+	public void reset() {
+
+		for (LoadState ls: getLoads()) {
+			ls.reset();
+		}
+	}
+
 	// End custom logic 
 	
 }

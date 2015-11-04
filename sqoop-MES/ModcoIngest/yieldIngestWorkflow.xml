@@ -1,0 +1,76 @@
+<workflow-app name="ModcoIngest" xmlns="uri:oozie:workflow:0.1">
+ 	<start to="Fork-Incr"/>
+
+
+	<fork name="Fork-Incr">
+
+        <path start="Do-Incr-0-Subflow" />
+
+        <path start="Do-Incr-1-Subflow" />
+
+	</fork>
+
+    <join name="Join-Short" to="Fork-Full" />
+
+
+	<fork name="Fork-Full">
+
+        <path start="Do-Full-0-Subflow" />
+
+        <path start="Do-Full-1-Subflow" />
+
+        <path start="Do-Full-2-Subflow" />
+
+	</fork>
+
+    <join name="Join-Short" to="End-Ingest" />
+
+
+    <action name="Do-Full-0-Subflow">
+    	<sub-workflow>
+        	<app-path>/IncrementalYield/yieldIngestWorkflow-Full-0.xml</app-path>
+            <propagate-configuration/>
+        </sub-workflow>
+        <ok to="Fork-Short"/>
+        <error to="Fork-Short"/>
+    </action>
+
+    <action name="Do-Full-1-Subflow">
+    	<sub-workflow>
+        	<app-path>/IncrementalYield/yieldIngestWorkflow-Full-1.xml</app-path>
+            <propagate-configuration/>
+        </sub-workflow>
+        <ok to="Fork-Short"/>
+        <error to="Fork-Short"/>
+    </action>
+
+    <action name="Do-Full-2-Subflow">
+    	<sub-workflow>
+        	<app-path>/IncrementalYield/yieldIngestWorkflow-Full-2.xml</app-path>
+            <propagate-configuration/>
+        </sub-workflow>
+        <ok to="Fork-Short"/>
+        <error to="Fork-Short"/>
+    </action>
+
+    <action name="Do-Incr-0-Subflow">
+    	<sub-workflow>
+        	<app-path>/IncrementalYield/yieldIngestWorkflow-Incr-0.xml</app-path>
+            <propagate-configuration/>
+        </sub-workflow>
+        <ok to="Join-Short"/>
+        <error to="Join-Short"/>
+    </action>
+
+    <action name="Do-Incr-1-Subflow">
+    	<sub-workflow>
+        	<app-path>/IncrementalYield/yieldIngestWorkflow-Incr-1.xml</app-path>
+            <propagate-configuration/>
+        </sub-workflow>
+        <ok to="Join-Short"/>
+        <error to="Join-Short"/>
+    </action>
+
+
+	<end name="End-Ingest"/>
+</workflow-app>

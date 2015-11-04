@@ -161,39 +161,55 @@ public class LoadState implements Comparable {
 
 	public Properties increment() throws SQLException, NoSuchDatabaseException, NoDataException, JSONException {
 
-		String doFull = "false";
-		String doBase = "false";
-		String doInterval = "false";
-		String doDelta = "false";
-		
+		HashMap<String, String> parms = new HashMap<String, String>();
+		parms.put("_DoFull", "false");
+		parms.put("_DoBase", "false");
+		parms.put("_DoInterval", "false");
+		parms.put("_DoDelta", "false");
+
+		BookMark bookmark = BookMark.getBookmark(getTable(), getIdColumn(), getDatabase());
+
 		if (!getIncremental()) {
 
-			System.out.println(getTable()+" in "+getDatabase()+" is a full load");
+			System.out.println(getTable()+" in "+getDatabase()+" is a full load ("+(bookmark.getMaxId()-bookmark.getMinId()+1)+")");
 			
-			doFull = "true";
+			parms.put("_DoFull", "true");
 		
 		} else {
 
-			BookMark bookmark = BookMark.getBookmark(getTable(), getIdColumn(), getDatabase());
-			System.out.println("Bookmark for "+getTable()+" in "+getDatabase()+": "+bookmark.asJson().toString());
+			System.out.println("Bookmark for "+getTable()+" in "+getDatabase()+" ("+(bookmark.getMaxId()-bookmark.getMinId()+1)+") : "+bookmark.asJson().toString());
 			
 			addBookmarks(bookmark);
-		
+			
 			List<BookMark> list = BookMark.sort(getBookmarks());
+			
+			BookMark first = list.get(0);
+			BookMark last = list.get(list.size()-1);
+
 			if (list.size() == 1) {
-				doBase = "true";
+				parms.put("_DoBase", "true");
+				parms.put("_MaxBaseID", String.valueOf(first.getMaxId()));
 			} else {
-				doDelta = "true";
+				parms.put("_DoDelta", "true");
+				parms.put("_MinDeltaID", String.valueOf(first.getMaxId()+1));
 			}
+
+//			parms.put("_MinIncrementID", String.valueOf(first.getMaxId()+1));
+//			parms.put("_MaxIncrementID", String.valueOf(last.getMaxId()));
+
 		}
 		
 		Properties props = new Properties();
-		props.setProperty(SqoopDriver.PROPERTY_PREFIX + getDatabase() + "_" + getTable() + "_DoFull", doFull);
-		props.setProperty(SqoopDriver.PROPERTY_PREFIX + getDatabase() + "_" + getTable() +"_DoBase", doBase);
-		props.setProperty(SqoopDriver.PROPERTY_PREFIX + getDatabase() + "_" + getTable() +"_DoInterval", doInterval);
-		props.setProperty(SqoopDriver.PROPERTY_PREFIX + getDatabase() + "_" + getTable() +"_DoDelta", doDelta);
+		for (String key: parms.keySet()) {
+			String value = parms.get(key);
+			props.setProperty(SqoopDriver.PROPERTY_PREFIX + getDatabase() + "_" + getTable() + key, value);
+		}
 		
 		return props;
+	}
+
+	public void reset() {
+		_bookmarks = new HashMap<BookMarkKey, BookMark>();
 	}
 
 	// End custom logic 
