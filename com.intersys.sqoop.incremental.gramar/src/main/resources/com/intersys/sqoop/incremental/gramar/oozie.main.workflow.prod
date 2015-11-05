@@ -1,0 +1,26 @@
+<workflow-app name="<c:get select="$workflow/@name" />" xmlns="uri:oozie:workflow:0.1">
+ 	<start to="<c:get select="$workflow/@start" />"/>
+<c:iterate select="$workflow/fork" var="fork" >
+
+	<fork name="<c:get select="$fork/@name" />">
+<c:iterate select="$fork/path" var="path">
+        <path start="<c:get select="$path/@name" />" />
+</c:iterate>
+	</fork>
+
+    <join name="<c:get select="$fork/@join" />" to="<c:get select="$fork/@next" />" />
+</c:iterate>
+
+<c:iterate select="$workflow/subflow" var="subflow">
+    <action name="<c:get select="$subflow/@name" />">
+    	<sub-workflow>
+        	<app-path><c:get select="$workflow/@hdfsDir" />/<c:get select="$subflow/@workflowXml" />.xml</app-path>
+            <propagate-configuration/>
+        </sub-workflow>
+        <ok to="<c:get select="$subflow/@next" />"/>
+        <error to="<c:get select="$subflow/@next" />"/>
+    </action>
+</c:iterate>
+
+	<end name="<c:get select="$workflow/@end" />"/>
+</workflow-app>

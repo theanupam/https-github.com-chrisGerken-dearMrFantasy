@@ -1,0 +1,1 @@
+java -jar ./target/com.intersys.sqoop.incremental.gramar.jar $@

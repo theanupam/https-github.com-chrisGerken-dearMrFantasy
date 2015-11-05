@@ -1,0 +1,28 @@
+#!/bin/bash
+
+
+set hive.execution.engine=tez;
+echo " "
+echo "##################################################"
+echo "Hive: Conditionally create data base <c:get select="$workflow/@database"/>"
+echo "##################################################"
+echo " "
+
+hive -e "CREATE DATABASE IF NOT EXISTS <c:get select="$workflow/@database"/>"
+
+<c:iterate select="$jobs/hive" var="hive">
+echo " "
+echo "##################################################"
+echo "Hive: Drop and Create table <c:get select="$hive/@table"/>"
+echo "##################################################"
+echo " "
+
+hive -e "Drop table <c:get select="$workflow/@database"/>.<c:get select="$hive/@table"/>"
+
+hive -e "<c:get select="$hive"/>"
+
+</c:iterate>
+
+echo "Complete"
+
+

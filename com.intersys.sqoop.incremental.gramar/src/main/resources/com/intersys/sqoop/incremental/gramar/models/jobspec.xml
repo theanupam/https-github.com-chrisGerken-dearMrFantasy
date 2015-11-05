@@ -1,0 +1,36 @@
+<jobspec>
+	<modcos>
+		<modco id="1" name="SPMX"  label="Mexicali" 							  weight="1.00"	server="jdbc:sqlserver://172.23.236.90:1433" db="MEXICALI_OWNER" user="usrSqoop" pass="AXm6Sn6#o"  />
+		
+		<modco id="2" name="SPMM"  label="Manila"   				after="SPDV"  weight="0.20"	server="jdbc:sqlserver://172.23.236.90:1433" db="SPMM_C1_OWNER" user="usrSqoop" pass="AXm6Sn6#o"  />
+		
+		<modco id="3" name="SPDV"  label="France - Devernajoule" 				  weight="0.05"	server="jdbc:sqlserver://172.23.236.90:1433" db="DEVERN_OWNER" user="usrSqoop" pass="AXm6Sn6#o"  />
+		
+		<modco id="4" name="SPTT"  label="France - Toullouse" 		after="SPMX"  weight="0.10"	server="jdbc:sqlserver://172.23.236.90:1433" db="TOULOUSE_OWNER" user="usrSqoop" pass="AXm6Sn6#o"  />
+		
+		<modco id="5" name="SPTM"  label="South Africa" 			after="SPMM"  weight="0.01"	server="jdbc:sqlserver://172.23.236.90:1433" db="CAPETOWN_OWNER" user="usrSqoop" pass="AXm6Sn6#o"  />
+		
+	</modcos> 
+	
+	<workflow name="ModcoIngest"  start="Fork-Incr"  end="End-Ingest"  hdfsDir="/IncrementalYield"  maxSlices="8" padSlices="4"  database="MES" >
+	
+		<fork name="Fork-Incr" join="Join-Incr" next="Fork-Full" >
+			<path name="Do-Incr-0-Subflow"/>
+			<path name="Do-Incr-1-Subflow"/>
+		</fork>
+	
+		<fork name="Fork-Full" join="Join-Full" next="End-Ingest" >
+			<path name="Do-Full-0-Subflow"/>
+			<path name="Do-Full-1-Subflow"/>
+			<path name="Do-Full-2-Subflow"/>
+		</fork>
+	
+		<subflow name="Do-Full-0-Subflow" next="Join-Full" 	key="Full-0" />
+		<subflow name="Do-Full-1-Subflow" next="Join-Full" 	key="Full-1" />
+		<subflow name="Do-Full-2-Subflow" next="Join-Full" 	key="Full-2" />
+		<subflow name="Do-Incr-0-Subflow" next="Join-Incr" 	key="Incr-0" />
+		<subflow name="Do-Incr-1-Subflow" next="Join-Incr" 	key="Incr-1" />
+	
+	</workflow>
+	
+</jobspec>

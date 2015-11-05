@@ -1,0 +1,120 @@
+<workflow-app name="<c:get select="$subflow/@workflowName" />" xmlns="uri:oozie:workflow:0.1">
+
+ 	<start to="<c:get select="$subflow/@first"/>"/>
+
+<c:iterate select="$jobs/job[@flow=$subflow/@key]" var="job">
+	<decision name="<c:get select="$job/@name"/>">
+    	<switch>
+			<case to="<c:get select="$job/@name"/>-DoBase">${ wf:conf('<c:get select="$job/@prefix"/>_DoBase') eq 'true'}</case>
+            <default to="<c:get select="$job/@name"/>-IsDelta"/>
+        </switch>
+    </decision>
+
+	<decision name="<c:get select="$job/@name"/>-IsDelta">
+    	<switch>
+			<case to="<c:get select="$job/@name"/>-DoDelta">${ wf:conf('<c:get select="$job/@prefix"/>_DoDelta') eq 'true'}</case>
+            <default to="<c:get select="$job/@name"/>-IsIncrement"/>
+        </switch>
+    </decision>
+
+	<decision name="<c:get select="$job/@name"/>-IsIncrement">
+    	<switch>
+			<case to="<c:get select="$job/@name"/>-DoIncrement">${ wf:conf('<c:get select="$job/@prefix"/>_DoIncrement') eq 'true'}</case>
+            <default to="<c:get select="$job/@nextJob"/>"/>
+        </switch>
+    </decision>
+
+    <action name="<c:get select="$job/@name"/>-DoBase">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="<c:get select="$job/targetDir" />/Base" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg><c:get select="$job/@connect" /></arg>
+            <arg>--username</arg>
+            <arg><c:get select="$job/@user" /></arg>
+            <arg>--password</arg>
+            <arg><c:get select="$job/@pass" /></arg>
+            <arg>--query</arg>
+            <arg><c:get select="$job/query" /> AND ( <c:get select="$job/@splitBy"/> < ${<c:get select="$job/@prefix"/>_MaxBaseID} )</arg>
+            <arg>--split-by</arg>
+            <arg><c:get select="$job/@splitBy"/></arg>
+            <arg>--num-mappers</arg>
+            <arg><c:get select="$job/@slices" /></arg>
+            <arg>--target-dir</arg>
+            <arg><c:get select="$job/targetDir" />/Base</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="<c:get select="$job/@name"/>-IsDelta"/>
+        <error to="<c:get select="$job/@name"/>-IsDelta"/>
+    </action>
+    <action name="<c:get select="$job/@name"/>-DoDelta">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="<c:get select="$job/targetDir" />/Delta" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg><c:get select="$job/@connect" /></arg>
+            <arg>--username</arg>
+            <arg><c:get select="$job/@user" /></arg>
+            <arg>--password</arg>
+            <arg><c:get select="$job/@pass" /></arg>
+            <arg>--query</arg>
+            <arg><c:get select="$job/query" /> AND ( <c:get select="$job/@splitBy"/> ${lessThanEqual} ${<c:get select="$job/@prefix"/>_MinDeltaID} )</arg>
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+            <arg>--target-dir</arg>
+            <arg><c:get select="$job/targetDir" />/Delta</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="<c:get select="$job/@name"/>-IsIncrement"/>
+        <error to="<c:get select="$job/@name"/>-IsIncrement"/>
+    </action>
+
+    <action name="<c:get select="$job/@name"/>-DoIncrement">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="<c:get select="$job/targetDir" />/Incr_${<c:get select="$job/@prefix"/>_MinIncrementID}_${<c:get select="$job/@prefix"/>_MaxIncrementID}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg><c:get select="$job/@connect" /></arg>
+            <arg>--username</arg>
+            <arg><c:get select="$job/@user" /></arg>
+            <arg>--password</arg>
+            <arg><c:get select="$job/@pass" /></arg>
+            <arg>--query</arg>
+            <arg><c:get select="$job/query" /> AND (  <c:get select="$job/@splitBy"/> ${greaterThanEqual} ${<c:get select="$job/@prefix"/>_MinIncrementID} ) AND ( ${<c:get select="$job/@prefix"/>_MaxIncrementID} ${greaterThanEqual} <c:get select="$job/@splitBy"/> )</arg>
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+            <arg>--target-dir</arg>
+            <arg><c:get select="$job/targetDir" /><c:get select="$job/targetDir" />/Incr_${<c:get select="$job/@prefix"/>_MinIncrementID}_${<c:get select="$job/@prefix"/>_MaxIncrementID}</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="<c:get select="$job/@nextJob"/>"/>
+        <error to="<c:get select="$job/@nextJob"/>"/>
+    </action>
+
+</c:iterate>
+	<end name="<c:get select="$subflow/@end" />"/>
+</workflow-app>

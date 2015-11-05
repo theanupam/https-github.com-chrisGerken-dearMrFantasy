@@ -1,0 +1,30 @@
+{
+    "tables": [
+ <c:iterate select="c:unique($jobs/job,'@targetTable')" var="job" delimiter=",{$newline}">        
+ 		{  
+            "table": "<c:get select="$job/@targetTable"/>",
+            "idColumn": "<c:get select="$job/@splitBy"/>"
+        }</c:iterate>
+    ],
+    "databases": [
+<c:iterate select="$modcos/modco" var="modco" delimiter=",{$newline}">        
+        {
+            "name": "<c:get select="$modco/@db"/>",
+            "userid": "<c:get select="$modco/@user"/>",
+            "password": "<c:get select="$modco/@pass"/>",
+            "label": "<c:get select="$modco/@label"/>",
+            "url": "<c:get select="$modco/@server"/>;databaseName=<c:get select="$modco/@db"/>"
+        }</c:iterate>
+    ],
+    "loads": [
+<c:iterate select="$jobs/job" var="job" delimiter=",{$newline}">        
+        {
+            "table": "<c:get select="$job/@sourceTable"/>",
+            "idColumn": "<c:get select="$job/@splitBy"/>",
+            "database": "<c:get select="$job/@sourceDB"/>",
+            "incremental": <c:choose select="$job/@slices"><c:when test="'1'">false,</c:when><c:otherwise>true,</c:otherwise></c:choose>
+            "ooziePrefix": "<c:get select="$job/@prefix"/>",
+            "bookmarks": []
+        }</c:iterate>
+    ]
+}

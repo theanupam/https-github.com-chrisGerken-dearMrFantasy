@@ -1,0 +1,37 @@
+<workflow-app name="<c:get select="$subflow/@workflowName" />" xmlns="uri:oozie:workflow:0.1">
+
+ 	<start to="<c:get select="$subflow/@first"/>"/>
+
+<c:iterate select="$jobs/job[@flow=$subflow/@key]" var="job">
+    <action name="<c:get select="$job/@name"/>">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="<c:get select="$job/targetDir" />" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg><c:get select="$job/@connect" /></arg>
+            <arg>--username</arg>
+            <arg><c:get select="$job/@user" /></arg>
+            <arg>--password</arg>
+            <arg><c:get select="$job/@pass" /></arg>
+            <arg>--query</arg>
+            <arg><c:get select="$job/query" /></arg>
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+            <arg>--target-dir</arg>
+            <arg><c:get select="$job/targetDir" /></arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="<c:get select="$job/@nextJob"/>"/>
+        <error to="<c:get select="$job/@nextJob"/>"/>
+    </action>
+</c:iterate>
+	<end name="<c:get select="$subflow/@end" />"/>
+</workflow-app>
