@@ -2,12 +2,14 @@ package com.intersys.sqoop.driver;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.Properties;
 
 import org.codehaus.jettison.json.JSONException;
@@ -91,17 +93,28 @@ public class SqoopDriver {
 		oldProps.load(fis);
 		fis.close();
 		
+		Properties merged = new Properties();
 		for (String key: oldProps.stringPropertyNames()) {
 			String value = oldProps.getProperty(key); 
 			if (!key.startsWith(PROPERTY_PREFIX)) {
-				newProps.setProperty(key, value);
+				merged.setProperty(key, value);
 			}
 		}
 		
-		
 		OutputStream fos = new FileOutputStream(ooziePropsFile);
-		newProps.store(fos, "comments...");
+		merged.store(fos, "comments...");
 		fos.close();
+		
+		String key[] = new String[newProps.stringPropertyNames().size()];
+		newProps.stringPropertyNames().toArray(key);
+		Arrays.sort(key);
+		
+		FileWriter fw = new FileWriter(ooziePropsFile, true);
+		for (String k: key) {
+			fw.append(k+"="+newProps.getProperty(k)+"\n");
+		}
+		fw.close();
+		
 	}
 
 	public Connection getConnection(String database) throws SQLException, NoSuchDatabaseException {

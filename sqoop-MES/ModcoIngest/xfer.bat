@@ -4,6 +4,7 @@ pscp  -pw d4e30f24   hiveCreate.sh    appladm@prod-hubnamedaws01.sunpowercorp.co
 
 pscp  -pw d4e30f24   yieldIngestWorkflow.xml  appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow.xml
 pscp  -pw d4e30f24   yieldIngestProperties.properties  appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestProperties.properties 
+pscp  -pw d4e30f24   com.intersys.sqoop.driver.jar  appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/com.intersys.sqoop.driver.jar 
 
 pscp  -pw d4e30f24   yieldIngestWorkflow-Full-0.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Full-0.xml
 pscp  -pw d4e30f24   yieldIngestWorkflow-Full-1.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Full-1.xml
