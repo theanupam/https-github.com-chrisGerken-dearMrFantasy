@@ -199,6 +199,7 @@ public class LoadState implements Comparable {
 			if (runJob) {
 				
 				addBookmarks(bookmark);
+				list = BookMark.sort(getBookmarks());
 				
 				first = list.get(0);
 				last = list.get(list.size()-1);
