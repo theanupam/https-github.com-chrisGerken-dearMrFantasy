@@ -179,23 +179,42 @@ public class LoadState implements Comparable {
 
 			System.out.println("Bookmark for "+getTable()+" in "+getDatabase()+" ("+(bookmark.getMaxId()-bookmark.getMinId()+1)+") : "+bookmark.asJson().toString());
 			
-			addBookmarks(bookmark);
+			BookMark first;
+			BookMark last;
 			
 			List<BookMark> list = BookMark.sort(getBookmarks());
 			
-			BookMark first = list.get(0);
-			BookMark last = list.get(list.size()-1);
-
-			if (list.size() == 1) {
-				parms.put("_DoBase", "true");
-				parms.put("_MaxBaseID", String.valueOf(first.getMaxId()));
-			} else {
-				parms.put("_DoDelta", "true");
-				parms.put("_MinDeltaID", String.valueOf(first.getMaxId()+1));
+			boolean runJob = true;
+			
+			if (!getBookmarks().isEmpty()) {
+				last = list.get(list.size()-1);
+				if (last.getMaxId() == bookmark.getMaxId()) {
+					// No new data
+					runJob = false;
+				} else {
+					
+				}
 			}
+			
+			if (runJob) {
+				
+				addBookmarks(bookmark);
+				
+				first = list.get(0);
+				last = list.get(list.size()-1);
 
-//			parms.put("_MinIncrementID", String.valueOf(first.getMaxId()+1));
-//			parms.put("_MaxIncrementID", String.valueOf(last.getMaxId()));
+				if (list.size() == 1) {
+					parms.put("_DoBase", "true");
+					parms.put("_MaxBaseID", String.valueOf(first.getMaxId()));
+				} else {
+					parms.put("_DoDelta", "true");
+					parms.put("_MinDeltaID", String.valueOf(first.getMaxId()+1));
+				}
+
+//				parms.put("_MinIncrementID", String.valueOf(first.getMaxId()+1));
+//				parms.put("_MaxIncrementID", String.valueOf(last.getMaxId()));
+				
+			}
 
 		}
 		

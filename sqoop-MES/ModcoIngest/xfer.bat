@@ -2,6 +2,7 @@ pscp  -pw d4e30f24   runSqoop.sh        appladm@prod-hubnamedaws01.sunpowercorp.
 pscp  -pw d4e30f24   stage2.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/stage2.sh
 pscp  -pw d4e30f24   hiveCreate.sh    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/hiveCreate.sh
 
+pscp  -pw d4e30f24   ingestionState.json  appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/ingestionState.json
 pscp  -pw d4e30f24   yieldIngestWorkflow.xml  appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow.xml
 pscp  -pw d4e30f24   yieldIngestProperties.properties  appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestProperties.properties 
 pscp  -pw d4e30f24   com.intersys.sqoop.driver.jar  appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/com.intersys.sqoop.driver.jar 
