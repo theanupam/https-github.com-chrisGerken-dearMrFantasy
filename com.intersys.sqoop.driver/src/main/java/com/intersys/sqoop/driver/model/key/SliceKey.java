@@ -1,10 +1,10 @@
 package com.intersys.sqoop.driver.model.key;
 
-public class BookMarkKey implements Comparable<BookMarkKey> {
+public class SliceKey implements Comparable<SliceKey> {
 
 	private Long _timestamp;
 
-	public BookMarkKey(Long timestamp) {
+	public SliceKey(Long timestamp) {
 		super();
 		this._timestamp = timestamp;
 	}
@@ -14,7 +14,7 @@ public class BookMarkKey implements Comparable<BookMarkKey> {
 	}
 
 	@Override
-	public int compareTo(BookMarkKey other) {
+	public int compareTo(SliceKey other) {
 		if (this == other) 
 			return 0;
 		if (other == null) 
@@ -55,7 +55,7 @@ public class BookMarkKey implements Comparable<BookMarkKey> {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		BookMarkKey other = (BookMarkKey) obj;
+		SliceKey other = (SliceKey) obj;
 
 		if (_timestamp == null) {
 			if (other._timestamp != null)

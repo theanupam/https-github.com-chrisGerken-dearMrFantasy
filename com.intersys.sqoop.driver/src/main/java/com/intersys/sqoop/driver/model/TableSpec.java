@@ -16,6 +16,10 @@ import com.intersys.sqoop.driver.model.key.TableSpecKey;
 
 public class TableSpec implements Comparable {
 
+	// Begin custom declarations
+
+	// End custom declarations 
+
 	private String _table;
 	private String _idColumn;
 

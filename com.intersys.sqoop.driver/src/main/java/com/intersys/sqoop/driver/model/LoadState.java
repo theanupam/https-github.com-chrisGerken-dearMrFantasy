@@ -16,12 +16,16 @@ import org.codehaus.jettison.json.JSONObject;
 import com.intersys.sqoop.driver.SqoopDriver;
 import com.intersys.sqoop.driver.exception.NoDataException;
 import com.intersys.sqoop.driver.exception.NoSuchDatabaseException;
-import com.intersys.sqoop.driver.model.key.BookMarkKey;
 import com.intersys.sqoop.driver.model.key.LoadStateKey;
+import com.intersys.sqoop.driver.model.key.SliceKey;
 
 	// End imports 
 
 public class LoadState implements Comparable {
+
+	// Begin custom declarations
+
+	// End custom declarations 
 
 	private String _table;
 	private String _idColumn;
@@ -30,7 +34,7 @@ public class LoadState implements Comparable {
 	private String _ooziePrefix;
 
 
-	private HashMap<BookMarkKey,BookMark> _bookmarks;
+	private HashMap<SliceKey,Slice> _slices;
 
 	public LoadState(JSONObject jobj) throws JSONException {
 		super();
@@ -43,10 +47,10 @@ public class LoadState implements Comparable {
 		JSONArray jarr;
 
 
-		jarr = jobj.getJSONArray("bookmarks");
-		_bookmarks = new HashMap<BookMarkKey,BookMark>();
+		jarr = jobj.getJSONArray("slices");
+		_slices = new HashMap<SliceKey,Slice>();
 		for (int i = 0; i < jarr.length(); i++) {
-			addBookmarks(new BookMark(jarr.getJSONObject(i)));
+			addSlices(new Slice(jarr.getJSONObject(i)));
 		}
 	}
 
@@ -58,7 +62,7 @@ public class LoadState implements Comparable {
 		this._incremental = incremental;
 		this._ooziePrefix = ooziePrefix;
  
-		_bookmarks = new HashMap<BookMarkKey,BookMark>();
+		_slices = new HashMap<SliceKey,Slice>();
 
 	}
 	
@@ -75,10 +79,10 @@ public class LoadState implements Comparable {
 
 
 		jarr = new JSONArray();
-		for (BookMark obj: getBookmarks()) {
+		for (Slice obj: getSlices()) {
 			jarr.put(obj.asJson());
 		}
-		jobj.put("bookmarks", jarr);
+		jobj.put("slices", jarr);
 		
 		return jobj;
 	}
@@ -124,16 +128,16 @@ public class LoadState implements Comparable {
 	}
  
 
-	public void addBookmarks(BookMark bean) {
-		_bookmarks.put(bean.key(), bean);
+	public void addSlices(Slice bean) {
+		_slices.put(bean.key(), bean);
 	}
 	
-	public BookMark getBookmarks(BookMarkKey key) {
-		return _bookmarks.get(key);
+	public Slice getSlices(SliceKey key) {
+		return _slices.get(key);
 	}
 	
-	public List<BookMark> getBookmarks() {
-		return new ArrayList<BookMark>(_bookmarks.values());
+	public List<Slice> getSlices() {
+		return new ArrayList<Slice>(_slices.values());
 	}
 
 	public LoadStateKey key() {
@@ -167,28 +171,28 @@ public class LoadState implements Comparable {
 		parms.put("_DoInterval", "false");
 		parms.put("_DoDelta", "false");
 
-		BookMark bookmark = BookMark.getBookmark(getTable(), getIdColumn(), getDatabase());
+		Slice slice = Slice.getSlice(getTable(), getIdColumn(), getDatabase());
 
 		if (!getIncremental()) {
 
-			System.out.println(getTable()+" in "+getDatabase()+" is a full load ("+(bookmark.getMaxId()-bookmark.getMinId()+1)+")");
+			System.out.println(getTable()+" in "+getDatabase()+" is a full load ("+(slice.getMaxId()-slice.getMinId()+1)+"; "+slice.getRows()+")");
 			
 			parms.put("_DoFull", "true");
 		
 		} else {
 
-			System.out.println("Bookmark for "+getTable()+" in "+getDatabase()+" ("+(bookmark.getMaxId()-bookmark.getMinId()+1)+") : "+bookmark.asJson().toString());
+			System.out.println("Bookmark for "+getTable()+" in "+getDatabase()+" ("+(slice.getMaxId()-slice.getMinId()+1)+"; "+slice.getRows()+") : "+slice.asJson().toString());
 			
-			BookMark first;
-			BookMark last;
+			Slice first;
+			Slice last;
 			
-			List<BookMark> list = BookMark.sort(getBookmarks());
+			List<Slice> list = Slice.sort(getSlices());
 			
 			boolean runJob = true;
 			
-			if (!getBookmarks().isEmpty()) {
+			if (!getSlices().isEmpty()) {
 				last = list.get(list.size()-1);
-				if (last.getMaxId() == bookmark.getMaxId()) {
+				if (last.getMaxId() == slice.getMaxId()) {
 					// No new data
 					runJob = false;
 				} else {
@@ -198,8 +202,8 @@ public class LoadState implements Comparable {
 			
 			if (runJob) {
 				
-				addBookmarks(bookmark);
-				list = BookMark.sort(getBookmarks());
+				addSlices(slice);
+				list = Slice.sort(getSlices());
 				
 				first = list.get(0);
 				last = list.get(list.size()-1);
@@ -229,7 +233,7 @@ public class LoadState implements Comparable {
 	}
 
 	public void reset() {
-		_bookmarks = new HashMap<BookMarkKey, BookMark>();
+		_slices = new HashMap<SliceKey, Slice>();
 	}
 
 	// End custom logic 

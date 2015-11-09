@@ -28,6 +28,10 @@ import com.intersys.sqoop.driver.model.key.TableSpecKey;
 
 public class IngestionState implements Comparable {
 
+	// Begin custom declarations
+
+	// End custom declarations 
+
 
 
 	private HashMap<TableSpecKey,TableSpec> _tables;

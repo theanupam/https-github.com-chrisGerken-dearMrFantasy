@@ -17,6 +17,10 @@ import org.codehaus.jettison.json.JSONObject;
 
 public class DatabaseSpec implements Comparable {
 
+	// Begin custom declarations
+
+	// End custom declarations 
+
 	private String _name;
 	private String _userid;
 	private String _password;
