@@ -42,6 +42,10 @@ public class SqoopDriver {
 
 		if (args.length < 2) {
 			System.out.println("options:  <ingestion-state-file>  <oozie-properties-file> ");
+			System.out.println("");
+			System.out.println("          -r  <oozie-properties-file> ");
+			System.out.println("");
+			System.out.println("          -v  <oozie-properties-file> ");
 			return;
 		}
 
@@ -53,6 +57,12 @@ public class SqoopDriver {
 			if (ingestionStateFile.equalsIgnoreCase("-r")) {
 				ingestionStateFile = ooziePropsFile;
 				getDefault().reset(ingestionStateFile);
+				return;
+			}
+
+			if (ingestionStateFile.equalsIgnoreCase("-v")) {
+				ingestionStateFile = ooziePropsFile;
+				getDefault().validate(ingestionStateFile);
 				return;
 			}
 
@@ -72,6 +82,11 @@ public class SqoopDriver {
 			e.printStackTrace();
 		}
 		
+	}
+
+	private void validate(String ingestionStateFile) {
+
+
 	}
 
 	private void reset(String ingestionStateFile) throws IOException, JSONException, IngestionStateLoadException {

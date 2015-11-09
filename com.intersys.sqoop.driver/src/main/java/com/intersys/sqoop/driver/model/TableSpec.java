@@ -22,20 +22,23 @@ public class TableSpec implements Comparable {
 
 	private String _table;
 	private String _idColumn;
+	private String _hiveTable;
 
 
 	public TableSpec(JSONObject jobj) throws JSONException {
 		super();
 		_table = jobj.getString("table");
 		_idColumn = jobj.getString("idColumn");
+		_hiveTable = jobj.getString("hiveTable");
 
 		JSONArray jarr;
 	}
 
-	public TableSpec(String table, String idColumn) {
+	public TableSpec(String table, String idColumn, String hiveTable) {
 		super();
 		this._table = table;
 		this._idColumn = idColumn;
+		this._hiveTable = hiveTable;
 
 	}
 	
@@ -44,6 +47,7 @@ public class TableSpec implements Comparable {
 
 		jobj.put("table", _table);
 		jobj.put("idColumn", _idColumn);
+		jobj.put("hiveTable", _hiveTable);
 
 		JSONArray jarr;
 		
@@ -64,6 +68,14 @@ public class TableSpec implements Comparable {
 
 	public void setIdColumn(String idColumn) {
 		this._idColumn = idColumn;
+	}
+
+	public String getHiveTable() {
+		return _hiveTable;
+	}
+
+	public void setHiveTable(String hiveTable) {
+		this._hiveTable = hiveTable;
 	}
 
 	public TableSpecKey key() {

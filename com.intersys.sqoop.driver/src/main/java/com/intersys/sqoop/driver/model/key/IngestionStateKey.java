@@ -2,9 +2,15 @@ package com.intersys.sqoop.driver.model.key;
 
 public class IngestionStateKey implements Comparable<IngestionStateKey> {
 
+	private String _name;
 
-	public IngestionStateKey() {
+	public IngestionStateKey(String name) {
 		super();
+		this._name = name;
+	}
+
+	public String getName() {
+		return _name;
 	}
 
 	@Override
@@ -17,6 +23,19 @@ public class IngestionStateKey implements Comparable<IngestionStateKey> {
 			return -1;
 		int result;
 
+		if ((_name == null) && (other._name == null)) {
+			return 0;
+		} else if (_name == null) {
+			return -1;
+		} else if (other._name == null) {
+			return 1;
+		} else {
+			result = _name.compareTo(other._name);
+			if (result != 0) {
+				return result;
+			}
+		}
+
 		return 0;
 	}
 
@@ -24,6 +43,7 @@ public class IngestionStateKey implements Comparable<IngestionStateKey> {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((_name == null) ? 0 : _name.hashCode());
 		return result;
 	}
 
@@ -36,6 +56,12 @@ public class IngestionStateKey implements Comparable<IngestionStateKey> {
 		if (getClass() != obj.getClass())
 			return false;
 		IngestionStateKey other = (IngestionStateKey) obj;
+
+		if (_name == null) {
+			if (other._name != null)
+				return false;
+		} else if (!_name.equals(other._name))
+			return false;
 
 
 		return true;

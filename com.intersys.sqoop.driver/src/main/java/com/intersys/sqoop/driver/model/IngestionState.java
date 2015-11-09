@@ -32,6 +32,9 @@ public class IngestionState implements Comparable {
 
 	// End custom declarations 
 
+	private String _name;
+	private String _hdfsUrl;
+	private String _hdfsDir;
 
 
 	private HashMap<TableSpecKey,TableSpec> _tables;
@@ -42,6 +45,9 @@ public class IngestionState implements Comparable {
 
 	public IngestionState(JSONObject jobj) throws JSONException {
 		super();
+		_name = jobj.getString("name");
+		_hdfsUrl = jobj.getString("hdfsUrl");
+		_hdfsDir = jobj.getString("hdfsDir");
 
 		JSONArray jarr;
 
@@ -67,8 +73,11 @@ public class IngestionState implements Comparable {
 		}
 	}
 
-	public IngestionState() {
+	public IngestionState(String name, String hdfsUrl, String hdfsDir) {
 		super();
+		this._name = name;
+		this._hdfsUrl = hdfsUrl;
+		this._hdfsDir = hdfsDir;
  
 		_tables = new HashMap<TableSpecKey,TableSpec>();
  
@@ -81,6 +90,9 @@ public class IngestionState implements Comparable {
 	public JSONObject asJson() throws JSONException {
 		JSONObject jobj = new JSONObject();
 
+		jobj.put("name", _name);
+		jobj.put("hdfsUrl", _hdfsUrl);
+		jobj.put("hdfsDir", _hdfsDir);
 
 		JSONArray jarr;
 
@@ -106,6 +118,30 @@ public class IngestionState implements Comparable {
 		jobj.put("loads", jarr);
 		
 		return jobj;
+	}
+
+	public String getName() {
+		return _name;
+	}
+
+	public void setName(String name) {
+		this._name = name;
+	}
+
+	public String getHdfsUrl() {
+		return _hdfsUrl;
+	}
+
+	public void setHdfsUrl(String hdfsUrl) {
+		this._hdfsUrl = hdfsUrl;
+	}
+
+	public String getHdfsDir() {
+		return _hdfsDir;
+	}
+
+	public void setHdfsDir(String hdfsDir) {
+		this._hdfsDir = hdfsDir;
 	}
  
 
@@ -148,7 +184,7 @@ public class IngestionState implements Comparable {
 	}
 
 	public IngestionStateKey key() {
-		return new IngestionStateKey();
+		return new IngestionStateKey(_name);
 	}
 	
 	public static List<IngestionState> sort(List<IngestionState> unsorted) {
