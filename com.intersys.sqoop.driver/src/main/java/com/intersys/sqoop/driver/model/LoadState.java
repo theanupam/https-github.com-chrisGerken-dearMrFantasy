@@ -31,6 +31,7 @@ public class LoadState implements Comparable {
 	private String _idColumn;
 	private String _database;
 	private Boolean _incremental;
+	private String _hdfsBaseDir;
 	private String _ooziePrefix;
 
 
@@ -38,28 +39,65 @@ public class LoadState implements Comparable {
 
 	public LoadState(JSONObject jobj) throws JSONException {
 		super();
-		_table = jobj.getString("table");
-		_idColumn = jobj.getString("idColumn");
-		_database = jobj.getString("database");
-		_incremental = jobj.getBoolean("incremental");
-		_ooziePrefix = jobj.getString("ooziePrefix");
+
+		_table = null;
+		try { _table = jobj.getString("table"); } catch (Throwable t) { }
+		if (_table == null) {
+			_table = "";
+		}
+
+		_idColumn = null;
+		try { _idColumn = jobj.getString("idColumn"); } catch (Throwable t) { }
+		if (_idColumn == null) {
+			_idColumn = "";
+		}
+
+		_database = null;
+		try { _database = jobj.getString("database"); } catch (Throwable t) { }
+		if (_database == null) {
+			_database = "";
+		}
+
+		_incremental = null;
+		try { _incremental = jobj.getBoolean("incremental"); } catch (Throwable t) { }
+		if (_incremental == null) {
+			_incremental = false;
+		}
+
+		_hdfsBaseDir = null;
+		try { _hdfsBaseDir = jobj.getString("hdfsBaseDir"); } catch (Throwable t) { }
+		if (_hdfsBaseDir == null) {
+			_hdfsBaseDir = "";
+		}
+
+		_ooziePrefix = null;
+		try { _ooziePrefix = jobj.getString("ooziePrefix"); } catch (Throwable t) { }
+		if (_ooziePrefix == null) {
+			_ooziePrefix = "";
+		}
 
 		JSONArray jarr;
 
 
-		jarr = jobj.getJSONArray("slices");
 		_slices = new HashMap<SliceKey,Slice>();
-		for (int i = 0; i < jarr.length(); i++) {
-			addSlices(new Slice(jarr.getJSONObject(i)));
+		try {
+			jarr = jobj.getJSONArray("slices");
+			_slices = new HashMap<SliceKey,Slice>();
+			for (int i = 0; i < jarr.length(); i++) {
+				addSlices(new Slice(jarr.getJSONObject(i)));
+			}
+		} catch (Throwable t) {
+			// Do nothing		
 		}
 	}
 
-	public LoadState(String table, String idColumn, String database, Boolean incremental, String ooziePrefix) {
+	public LoadState(String table, String idColumn, String database, Boolean incremental, String hdfsBaseDir, String ooziePrefix) {
 		super();
 		this._table = table;
 		this._idColumn = idColumn;
 		this._database = database;
 		this._incremental = incremental;
+		this._hdfsBaseDir = hdfsBaseDir;
 		this._ooziePrefix = ooziePrefix;
  
 		_slices = new HashMap<SliceKey,Slice>();
@@ -69,11 +107,17 @@ public class LoadState implements Comparable {
 	public JSONObject asJson() throws JSONException {
 		JSONObject jobj = new JSONObject();
 
-		jobj.put("table", _table);
-		jobj.put("idColumn", _idColumn);
-		jobj.put("database", _database);
-		jobj.put("incremental", _incremental);
-		jobj.put("ooziePrefix", _ooziePrefix);
+		if (_table != null) { jobj.put("table", _table); }
+
+		if (_idColumn != null) { jobj.put("idColumn", _idColumn); }
+
+		if (_database != null) { jobj.put("database", _database); }
+
+		if (_incremental != null) { jobj.put("incremental", _incremental); }
+
+		if (_hdfsBaseDir != null) { jobj.put("hdfsBaseDir", _hdfsBaseDir); }
+
+		if (_ooziePrefix != null) { jobj.put("ooziePrefix", _ooziePrefix); }
 
 		JSONArray jarr;
 
@@ -119,6 +163,14 @@ public class LoadState implements Comparable {
 		this._incremental = incremental;
 	}
 
+	public String getHdfsBaseDir() {
+		return _hdfsBaseDir;
+	}
+
+	public void setHdfsBaseDir(String hdfsBaseDir) {
+		this._hdfsBaseDir = hdfsBaseDir;
+	}
+
 	public String getOoziePrefix() {
 		return _ooziePrefix;
 	}
@@ -130,6 +182,10 @@ public class LoadState implements Comparable {
 
 	public void addSlices(Slice bean) {
 		_slices.put(bean.key(), bean);
+	}
+
+	public void removeSlices(Slice bean) {
+		_slices.remove(bean.key());
 	}
 	
 	public Slice getSlices(SliceKey key) {
@@ -177,11 +233,17 @@ public class LoadState implements Comparable {
 
 			System.out.println(getTable()+" in "+getDatabase()+" is a full load ("+(slice.getMaxId()-slice.getMinId()+1)+"; "+slice.getRows()+")");
 			
+			_slices = new HashMap<SliceKey, Slice>();
+			addSlices(slice);
+			
+			slice.setHdfsDir(getHdfsBaseDir());
+			slice.setType(Slice.TYPE_FULL);
 			parms.put("_DoFull", "true");
+			parms.put("_DoFullTarget", getHdfsBaseDir());
 		
 		} else {
 
-			System.out.println("Bookmark for "+getTable()+" in "+getDatabase()+" ("+(slice.getMaxId()-slice.getMinId()+1)+"; "+slice.getRows()+") : "+slice.asJson().toString());
+			System.out.println("Slice for "+getTable()+" in "+getDatabase()+" ("+(slice.getMaxId()-slice.getMinId()+1)+"; "+slice.getRows()+") : "+slice.asJson().toString());
 			
 			Slice first;
 			Slice last;
@@ -211,15 +273,24 @@ public class LoadState implements Comparable {
 				if (list.size() == 1) {
 					parms.put("_DoBase", "true");
 					parms.put("_MaxBaseID", String.valueOf(first.getMaxId()));
+					slice.setHdfsDir(getHdfsBaseDir()+"/Base");
+					slice.setType(Slice.TYPE_BASE);
+					parms.put("_DoBaseTarget", slice.getHdfsDir());
 				} else {
 					parms.put("_DoDelta", "true");
 					parms.put("_MinDeltaID", String.valueOf(first.getMaxId()+1));
+					slice.setHdfsDir(getHdfsBaseDir()+"/Delta");
+					slice.setType(Slice.TYPE_DELTA);
+					parms.put("_DoDeltaTarget", slice.getHdfsDir());
 				}
 
 //				parms.put("_MinIncrementID", String.valueOf(first.getMaxId()+1));
 //				parms.put("_MaxIncrementID", String.valueOf(last.getMaxId()));
 				
 			}
+			
+			// Increment target def for property _DoIncrementTarget
+//			slice.setHdfsDir(getHdfsBaseDir()+"/Incr_"+slice.getMinId()+"_"+slice.getMaxId());
 
 		}
 		

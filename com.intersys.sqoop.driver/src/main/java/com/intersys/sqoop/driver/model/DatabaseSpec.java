@@ -31,12 +31,42 @@ public class DatabaseSpec implements Comparable {
 
 	public DatabaseSpec(JSONObject jobj) throws JSONException {
 		super();
-		_name = jobj.getString("name");
-		_userid = jobj.getString("userid");
-		_password = jobj.getString("password");
-		_label = jobj.getString("label");
-		_url = jobj.getString("url");
-		_orgName = jobj.getString("orgName");
+
+		_name = null;
+		try { _name = jobj.getString("name"); } catch (Throwable t) { }
+		if (_name == null) {
+			_name = "";
+		}
+
+		_userid = null;
+		try { _userid = jobj.getString("userid"); } catch (Throwable t) { }
+		if (_userid == null) {
+			_userid = "";
+		}
+
+		_password = null;
+		try { _password = jobj.getString("password"); } catch (Throwable t) { }
+		if (_password == null) {
+			_password = "";
+		}
+
+		_label = null;
+		try { _label = jobj.getString("label"); } catch (Throwable t) { }
+		if (_label == null) {
+			_label = "";
+		}
+
+		_url = null;
+		try { _url = jobj.getString("url"); } catch (Throwable t) { }
+		if (_url == null) {
+			_url = "";
+		}
+
+		_orgName = null;
+		try { _orgName = jobj.getString("orgName"); } catch (Throwable t) { }
+		if (_orgName == null) {
+			_orgName = "";
+		}
 
 		JSONArray jarr;
 	}
@@ -55,12 +85,17 @@ public class DatabaseSpec implements Comparable {
 	public JSONObject asJson() throws JSONException {
 		JSONObject jobj = new JSONObject();
 
-		jobj.put("name", _name);
-		jobj.put("userid", _userid);
-		jobj.put("password", _password);
-		jobj.put("label", _label);
-		jobj.put("url", _url);
-		jobj.put("orgName", _orgName);
+		if (_name != null) { jobj.put("name", _name); }
+
+		if (_userid != null) { jobj.put("userid", _userid); }
+
+		if (_password != null) { jobj.put("password", _password); }
+
+		if (_label != null) { jobj.put("label", _label); }
+
+		if (_url != null) { jobj.put("url", _url); }
+
+		if (_orgName != null) { jobj.put("orgName", _orgName); }
 
 		JSONArray jarr;
 		

@@ -45,31 +45,61 @@ public class IngestionState implements Comparable {
 
 	public IngestionState(JSONObject jobj) throws JSONException {
 		super();
-		_name = jobj.getString("name");
-		_hdfsUrl = jobj.getString("hdfsUrl");
-		_hdfsDir = jobj.getString("hdfsDir");
+
+		_name = null;
+		try { _name = jobj.getString("name"); } catch (Throwable t) { }
+		if (_name == null) {
+			_name = "";
+		}
+
+		_hdfsUrl = null;
+		try { _hdfsUrl = jobj.getString("hdfsUrl"); } catch (Throwable t) { }
+		if (_hdfsUrl == null) {
+			_hdfsUrl = "";
+		}
+
+		_hdfsDir = null;
+		try { _hdfsDir = jobj.getString("hdfsDir"); } catch (Throwable t) { }
+		if (_hdfsDir == null) {
+			_hdfsDir = "";
+		}
 
 		JSONArray jarr;
 
 
-		jarr = jobj.getJSONArray("tables");
 		_tables = new HashMap<TableSpecKey,TableSpec>();
-		for (int i = 0; i < jarr.length(); i++) {
-			addTables(new TableSpec(jarr.getJSONObject(i)));
+		try {
+			jarr = jobj.getJSONArray("tables");
+			_tables = new HashMap<TableSpecKey,TableSpec>();
+			for (int i = 0; i < jarr.length(); i++) {
+				addTables(new TableSpec(jarr.getJSONObject(i)));
+			}
+		} catch (Throwable t) {
+			// Do nothing		
 		}
 
 
-		jarr = jobj.getJSONArray("databases");
 		_databases = new HashMap<DatabaseSpecKey,DatabaseSpec>();
-		for (int i = 0; i < jarr.length(); i++) {
-			addDatabases(new DatabaseSpec(jarr.getJSONObject(i)));
+		try {
+			jarr = jobj.getJSONArray("databases");
+			_databases = new HashMap<DatabaseSpecKey,DatabaseSpec>();
+			for (int i = 0; i < jarr.length(); i++) {
+				addDatabases(new DatabaseSpec(jarr.getJSONObject(i)));
+			}
+		} catch (Throwable t) {
+			// Do nothing		
 		}
 
 
-		jarr = jobj.getJSONArray("loads");
 		_loads = new HashMap<LoadStateKey,LoadState>();
-		for (int i = 0; i < jarr.length(); i++) {
-			addLoads(new LoadState(jarr.getJSONObject(i)));
+		try {
+			jarr = jobj.getJSONArray("loads");
+			_loads = new HashMap<LoadStateKey,LoadState>();
+			for (int i = 0; i < jarr.length(); i++) {
+				addLoads(new LoadState(jarr.getJSONObject(i)));
+			}
+		} catch (Throwable t) {
+			// Do nothing		
 		}
 	}
 
@@ -90,9 +120,11 @@ public class IngestionState implements Comparable {
 	public JSONObject asJson() throws JSONException {
 		JSONObject jobj = new JSONObject();
 
-		jobj.put("name", _name);
-		jobj.put("hdfsUrl", _hdfsUrl);
-		jobj.put("hdfsDir", _hdfsDir);
+		if (_name != null) { jobj.put("name", _name); }
+
+		if (_hdfsUrl != null) { jobj.put("hdfsUrl", _hdfsUrl); }
+
+		if (_hdfsDir != null) { jobj.put("hdfsDir", _hdfsDir); }
 
 		JSONArray jarr;
 
@@ -148,6 +180,10 @@ public class IngestionState implements Comparable {
 	public void addTables(TableSpec bean) {
 		_tables.put(bean.key(), bean);
 	}
+
+	public void removeTables(TableSpec bean) {
+		_tables.remove(bean.key());
+	}
 	
 	public TableSpec getTables(TableSpecKey key) {
 		return _tables.get(key);
@@ -161,6 +197,10 @@ public class IngestionState implements Comparable {
 	public void addDatabases(DatabaseSpec bean) {
 		_databases.put(bean.key(), bean);
 	}
+
+	public void removeDatabases(DatabaseSpec bean) {
+		_databases.remove(bean.key());
+	}
 	
 	public DatabaseSpec getDatabases(DatabaseSpecKey key) {
 		return _databases.get(key);
@@ -173,6 +213,10 @@ public class IngestionState implements Comparable {
 
 	public void addLoads(LoadState bean) {
 		_loads.put(bean.key(), bean);
+	}
+
+	public void removeLoads(LoadState bean) {
+		_loads.remove(bean.key());
 	}
 	
 	public LoadState getLoads(LoadStateKey key) {

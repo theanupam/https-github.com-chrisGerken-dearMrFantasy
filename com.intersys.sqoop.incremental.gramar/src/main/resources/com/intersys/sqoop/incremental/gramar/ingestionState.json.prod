@@ -1,12 +1,13 @@
 {
     "name" : "Modco Yield Ingestion",
-    "hdfsUrl" : "hdfs://prod-hubnamedaws01.sunpowercorp.com:8020",
+    "hdfsUrl" : "<c:get select="c:escapeJson('hdfs://prod-hubnamedaws01.sunpowercorp.com:8020')" />",
     "hdfsDir" : "<c:get select="$workflow/@hdfsDir" />",
     "tables": [
  <c:iterate select="c:unique($jobs/job,'@targetTable')" var="job" delimiter=",{$newline}">        
  		{  
-            "table": "<c:get select="$job/@targetTable"/>",
-            "idColumn": "<c:get select="$job/@splitBy"/>"
+            "table": "<c:get select="$job/@sourceTable"/>",
+            "idColumn": "<c:get select="$job/@splitBy"/>",
+            "hiveTable": "<c:get select="$job/@targetTable"/>"
         }</c:iterate>
     ],
     "databases": [
@@ -16,7 +17,7 @@
             "userid": "<c:get select="$modco/@user"/>",
             "password": "<c:get select="$modco/@pass"/>",
             "label": "<c:get select="$modco/@label"/>",
-            "url": "<c:get select="$modco/@server"/>;databaseName=<c:get select="$modco/@db"/>",
+            "url": "<c:get select="c:escapeJson($modco/@server)"/>;databaseName=<c:get select="$modco/@db"/>",
             "orgName": "<c:get select="$modco/@name"/>"
         }</c:iterate>
     ],
@@ -28,7 +29,8 @@
             "database": "<c:get select="$job/@sourceDB"/>",
             "incremental": <c:choose select="$job/@slices"><c:when test="'1'">false,</c:when><c:otherwise>true,</c:otherwise></c:choose>
             "ooziePrefix": "<c:get select="$job/@prefix"/>",
-            "bookmarks": []
+            "hdfsBaseDir": "<c:get select="c:escapeJson($job/targetDir)"/>",
+            "slices": []
         }</c:iterate>
     ]
 }

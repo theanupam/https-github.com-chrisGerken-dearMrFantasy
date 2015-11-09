@@ -27,9 +27,24 @@ public class TableSpec implements Comparable {
 
 	public TableSpec(JSONObject jobj) throws JSONException {
 		super();
-		_table = jobj.getString("table");
-		_idColumn = jobj.getString("idColumn");
-		_hiveTable = jobj.getString("hiveTable");
+
+		_table = null;
+		try { _table = jobj.getString("table"); } catch (Throwable t) { }
+		if (_table == null) {
+			_table = "";
+		}
+
+		_idColumn = null;
+		try { _idColumn = jobj.getString("idColumn"); } catch (Throwable t) { }
+		if (_idColumn == null) {
+			_idColumn = "";
+		}
+
+		_hiveTable = null;
+		try { _hiveTable = jobj.getString("hiveTable"); } catch (Throwable t) { }
+		if (_hiveTable == null) {
+			_hiveTable = "";
+		}
 
 		JSONArray jarr;
 	}
@@ -45,9 +60,11 @@ public class TableSpec implements Comparable {
 	public JSONObject asJson() throws JSONException {
 		JSONObject jobj = new JSONObject();
 
-		jobj.put("table", _table);
-		jobj.put("idColumn", _idColumn);
-		jobj.put("hiveTable", _hiveTable);
+		if (_table != null) { jobj.put("table", _table); }
+
+		if (_idColumn != null) { jobj.put("idColumn", _idColumn); }
+
+		if (_hiveTable != null) { jobj.put("hiveTable", _hiveTable); }
 
 		JSONArray jarr;
 		

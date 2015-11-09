@@ -30,6 +30,7 @@ public class Slice implements Comparable {
 	public static int TYPE_BASE = 1;
 	public static int TYPE_INTERVAL = 2;
 	public static int TYPE_DELTA = 3;
+	public static int TYPE_FULL = 4;
 	
 	// End custom declarations 
 
@@ -42,24 +43,76 @@ public class Slice implements Comparable {
 	private Boolean _mutable;
 	private Boolean _validated;
 	private Boolean _error;
+	private Integer _retries;
 
 
 	public Slice(JSONObject jobj) throws JSONException {
 		super();
-		_timestamp = jobj.getLong("timestamp");
-		_minId = jobj.getInt("minId");
-		_maxId = jobj.getInt("maxId");
-		_rows = jobj.getInt("rows");
-		_type = jobj.getInt("type");
-		_hdfsDir = jobj.getString("hdfsDir");
-		_mutable = jobj.getBoolean("mutable");
-		_validated = jobj.getBoolean("validated");
-		_error = jobj.getBoolean("error");
+
+		_timestamp = null;
+		try { _timestamp = jobj.getLong("timestamp"); } catch (Throwable t) { }
+		if (_timestamp == null) {
+			_timestamp = 0L;
+		}
+
+		_minId = null;
+		try { _minId = jobj.getInt("minId"); } catch (Throwable t) { }
+		if (_minId == null) {
+			_minId = 0;
+		}
+
+		_maxId = null;
+		try { _maxId = jobj.getInt("maxId"); } catch (Throwable t) { }
+		if (_maxId == null) {
+			_maxId = 0;
+		}
+
+		_rows = null;
+		try { _rows = jobj.getInt("rows"); } catch (Throwable t) { }
+		if (_rows == null) {
+			_rows = 0;
+		}
+
+		_type = null;
+		try { _type = jobj.getInt("type"); } catch (Throwable t) { }
+		if (_type == null) {
+			_type = 0;
+		}
+
+		_hdfsDir = null;
+		try { _hdfsDir = jobj.getString("hdfsDir"); } catch (Throwable t) { }
+		if (_hdfsDir == null) {
+			_hdfsDir = "";
+		}
+
+		_mutable = null;
+		try { _mutable = jobj.getBoolean("mutable"); } catch (Throwable t) { }
+		if (_mutable == null) {
+			_mutable = false;
+		}
+
+		_validated = null;
+		try { _validated = jobj.getBoolean("validated"); } catch (Throwable t) { }
+		if (_validated == null) {
+			_validated = false;
+		}
+
+		_error = null;
+		try { _error = jobj.getBoolean("error"); } catch (Throwable t) { }
+		if (_error == null) {
+			_error = false;
+		}
+
+		_retries = null;
+		try { _retries = jobj.getInt("retries"); } catch (Throwable t) { }
+		if (_retries == null) {
+			_retries = 0;
+		}
 
 		JSONArray jarr;
 	}
 
-	public Slice(Long timestamp, Integer minId, Integer maxId, Integer rows, Integer type, String hdfsDir, Boolean mutable, Boolean validated, Boolean error) {
+	public Slice(Long timestamp, Integer minId, Integer maxId, Integer rows, Integer type, String hdfsDir, Boolean mutable, Boolean validated, Boolean error, Integer retries) {
 		super();
 		this._timestamp = timestamp;
 		this._minId = minId;
@@ -70,21 +123,32 @@ public class Slice implements Comparable {
 		this._mutable = mutable;
 		this._validated = validated;
 		this._error = error;
+		this._retries = retries;
 
 	}
 	
 	public JSONObject asJson() throws JSONException {
 		JSONObject jobj = new JSONObject();
 
-		jobj.put("timestamp", _timestamp);
-		jobj.put("minId", _minId);
-		jobj.put("maxId", _maxId);
-		jobj.put("rows", _rows);
-		jobj.put("type", _type);
-		jobj.put("hdfsDir", _hdfsDir);
-		jobj.put("mutable", _mutable);
-		jobj.put("validated", _validated);
-		jobj.put("error", _error);
+		if (_timestamp != null) { jobj.put("timestamp", _timestamp); }
+
+		if (_minId != null) { jobj.put("minId", _minId); }
+
+		if (_maxId != null) { jobj.put("maxId", _maxId); }
+
+		if (_rows != null) { jobj.put("rows", _rows); }
+
+		if (_type != null) { jobj.put("type", _type); }
+
+		if (_hdfsDir != null) { jobj.put("hdfsDir", _hdfsDir); }
+
+		if (_mutable != null) { jobj.put("mutable", _mutable); }
+
+		if (_validated != null) { jobj.put("validated", _validated); }
+
+		if (_error != null) { jobj.put("error", _error); }
+
+		if (_retries != null) { jobj.put("retries", _retries); }
 
 		JSONArray jarr;
 		
@@ -163,6 +227,14 @@ public class Slice implements Comparable {
 		this._error = error;
 	}
 
+	public Integer getRetries() {
+		return _retries;
+	}
+
+	public void setRetries(Integer retries) {
+		this._retries = retries;
+	}
+
 	public SliceKey key() {
 		return new SliceKey(_timestamp);
 	}
@@ -219,7 +291,7 @@ public class Slice implements Comparable {
 				throw new NoDataException("No data for table "+table+" in data base "+database);
 			}
 
-		    return new Slice(System.currentTimeMillis(), min, max, rows, TYPE_UNDECIDED, "", false, false, false);
+		    return new Slice(System.currentTimeMillis(), min, max, rows, TYPE_UNDECIDED, "", true, false, false, 0);
 	    
 	    } catch (SQLException e) {
 			throw e;
