@@ -38,6 +38,7 @@ public class Slice implements Comparable {
 	private Integer _maxId;
 	private Integer _rows;
 	private Integer _type;
+	private String _hdfsDir;
 	private Boolean _mutable;
 	private Boolean _validated;
 	private Boolean _error;
@@ -50,6 +51,7 @@ public class Slice implements Comparable {
 		_maxId = jobj.getInt("maxId");
 		_rows = jobj.getInt("rows");
 		_type = jobj.getInt("type");
+		_hdfsDir = jobj.getString("hdfsDir");
 		_mutable = jobj.getBoolean("mutable");
 		_validated = jobj.getBoolean("validated");
 		_error = jobj.getBoolean("error");
@@ -57,13 +59,14 @@ public class Slice implements Comparable {
 		JSONArray jarr;
 	}
 
-	public Slice(Long timestamp, Integer minId, Integer maxId, Integer rows, Integer type, Boolean mutable, Boolean validated, Boolean error) {
+	public Slice(Long timestamp, Integer minId, Integer maxId, Integer rows, Integer type, String hdfsDir, Boolean mutable, Boolean validated, Boolean error) {
 		super();
 		this._timestamp = timestamp;
 		this._minId = minId;
 		this._maxId = maxId;
 		this._rows = rows;
 		this._type = type;
+		this._hdfsDir = hdfsDir;
 		this._mutable = mutable;
 		this._validated = validated;
 		this._error = error;
@@ -78,6 +81,7 @@ public class Slice implements Comparable {
 		jobj.put("maxId", _maxId);
 		jobj.put("rows", _rows);
 		jobj.put("type", _type);
+		jobj.put("hdfsDir", _hdfsDir);
 		jobj.put("mutable", _mutable);
 		jobj.put("validated", _validated);
 		jobj.put("error", _error);
@@ -125,6 +129,14 @@ public class Slice implements Comparable {
 
 	public void setType(Integer type) {
 		this._type = type;
+	}
+
+	public String getHdfsDir() {
+		return _hdfsDir;
+	}
+
+	public void setHdfsDir(String hdfsDir) {
+		this._hdfsDir = hdfsDir;
 	}
 
 	public Boolean getMutable() {
@@ -207,7 +219,7 @@ public class Slice implements Comparable {
 				throw new NoDataException("No data for table "+table+" in data base "+database);
 			}
 
-		    return new Slice(System.currentTimeMillis(), min, max, rows, TYPE_UNDECIDED, false, false, false);
+		    return new Slice(System.currentTimeMillis(), min, max, rows, TYPE_UNDECIDED, "", false, false, false);
 	    
 	    } catch (SQLException e) {
 			throw e;

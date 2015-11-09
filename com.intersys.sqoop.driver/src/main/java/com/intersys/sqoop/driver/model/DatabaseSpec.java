@@ -26,6 +26,7 @@ public class DatabaseSpec implements Comparable {
 	private String _password;
 	private String _label;
 	private String _url;
+	private String _orgName;
 
 
 	public DatabaseSpec(JSONObject jobj) throws JSONException {
@@ -35,17 +36,19 @@ public class DatabaseSpec implements Comparable {
 		_password = jobj.getString("password");
 		_label = jobj.getString("label");
 		_url = jobj.getString("url");
+		_orgName = jobj.getString("orgName");
 
 		JSONArray jarr;
 	}
 
-	public DatabaseSpec(String name, String userid, String password, String label, String url) {
+	public DatabaseSpec(String name, String userid, String password, String label, String url, String orgName) {
 		super();
 		this._name = name;
 		this._userid = userid;
 		this._password = password;
 		this._label = label;
 		this._url = url;
+		this._orgName = orgName;
 
 	}
 	
@@ -57,6 +60,7 @@ public class DatabaseSpec implements Comparable {
 		jobj.put("password", _password);
 		jobj.put("label", _label);
 		jobj.put("url", _url);
+		jobj.put("orgName", _orgName);
 
 		JSONArray jarr;
 		
@@ -101,6 +105,14 @@ public class DatabaseSpec implements Comparable {
 
 	public void setUrl(String url) {
 		this._url = url;
+	}
+
+	public String getOrgName() {
+		return _orgName;
+	}
+
+	public void setOrgName(String orgName) {
+		this._orgName = orgName;
 	}
 
 	public DatabaseSpecKey key() {
