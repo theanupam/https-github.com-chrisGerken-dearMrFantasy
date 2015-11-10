@@ -28,7 +28,7 @@ echo " "
 
 hive -e "Drop table MES.InvChangeState"
 
-hive -e "Create External table IF NOT EXISTS MES.InvChangeState (InvChangeStateID int, InventoryPackID int, FromDT timestamp, ToDT timestamp, InvIsolatedReasonID smallint, Comments varchar(508), LoginID smallint, OpenedDT timestamp, SavedDT timestamp, IsEdited tinyint, RevisionNo tinyint, OriginalLoginID smallint, EditedInvChangeStateID int, InvStateID smallint,  org_id int, org_name varchar(10)) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile location '/MES/InvChangeState'"
+hive -e "Create External table IF NOT EXISTS MES.InvChangeState (InvChangeStateID int, InventoryPackID int, FromDT timestamp, ToDT timestamp, InvIsolatedReasonID smallint, Comments varchar(508), LoginID smallint, OpenedDT timestamp, SavedDT timestamp, IsEdited tinyint, RevisionNo tinyint, OriginalLoginID smallint, EditedInvChangeStateID int, InvStateID smallint,  org_id int, org_name varchar(10), Trans_Hours int , ShiftStart_DateTime timestamp ) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile location '/MES/InvChangeState'"
 
 echo " "
 echo "##################################################"

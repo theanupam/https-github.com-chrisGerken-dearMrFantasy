@@ -43,11 +43,12 @@
 	</c:if>
 </c:iterate>
 
-
-<c:loadContent type="xml" var="jobs">
+<c:loadContent var="sandbox"><sandbox/></c:loadContent>
+<c:setVariable select="$sandbox/sandbox" var="sandbox" />
+<c:set select="$sandbox" name="jobsSource">
 <jobs>
 <c:iterate select="$tables/table[@enabled='true']" var="table" >
-	<hive table="<c:get select="$table/@hive_name"/>">Create External table IF NOT EXISTS <c:get select="$workflow/@database"/>.<c:get select="$table/@hive_name"/> (<c:iterate select="$table/column" var="column"><c:get select="$column/@hive_name"/> <c:get select="$column/@type"/>, </c:iterate> org_id int, org_name varchar(10)) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile location '/<c:get select="$workflow/@database"/>/<c:get select="$table/@hive_name"/>'</hive>
+	<hive table="<c:get select="$table/@hive_name"/>">Create External table IF NOT EXISTS <c:get select="$workflow/@database"/>.<c:get select="$table/@hive_name"/> (<c:iterate select="$table/column" var="column"><c:get select="$column/@hive_name"/> <c:get select="$column/@type"/>, </c:iterate> org_id int, org_name varchar(10)<c:iterate select="$ingest/table[@name=$table/@name]/update" var="update">, <c:get select="$update/@name"/> <c:get select="$update/@type"/> </c:iterate>) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile location '/<c:get select="$workflow/@database"/>/<c:get select="$table/@hive_name"/>'</hive>
 <c:iterate select="$modcos/modco" var="modco" >
 <c:setVariable select=" ceiling(number($table/@slices) * number($modco/@weight))" var="slices" />
 <c:if test=" c:lessThan(number($workflow/@maxSlices),$slices) " >
@@ -63,7 +64,7 @@
 </c:if>
 	<job name="<c:get select="$table/@name" />-Ingest-<c:get select="$modco/@name" />" slices="<c:get select="$slices" />" splitBy="<c:get select="$table/column/@name"/>"  source="<c:get select="$modco/@name" />"  sourceDB="<c:get select="$modco/@db" />"  sourceTable="<c:get select="$table/@name"/>"  targetTable="<c:get select="$table/@hive_name"/>"  connect="<c:get select="$modco/@connect"/>"  user="<c:get select="$modco/@user"/>"  pass="<c:get select="$modco/@pass"/>"  prefix="job_<c:get select="$modco/@db" />_<c:get select="$table/@name" />"  >
 		<targetDir>/<c:get select="$workflow/@database"/>/<c:get select="$table/@hive_name"/>/<c:get select="$modco/@name" /></targetDir>
-		<query>SELECT <c:iterate select="$table/column" var="column"><c:get select="$column/@name"/>,</c:iterate> <c:get select="$modco/@id" /> as "org_id",  '<c:get select="$modco/@name" />' as "org_name"  FROM dbo.<c:get select="$table/@name"/> WHERE ( $CONDITIONS ) </query>
+		<query><![CDATA[SELECT <c:iterate select="$table/column" var="column"><c:get select="$column/@name"/>,</c:iterate> <c:get select="$modco/@id" /> as "org_id",  '<c:get select="$modco/@name" />' as "org_name" <c:iterate select="$ingest/table[@name=$table/@name]/update" var="update">, (<c:get select="$update/calc" />) as "<c:get select="$update/@name"/>" </c:iterate>  FROM dbo.<c:get select="$table/@name"/> WHERE ( $CONDITIONS ) ]]></query>
 	</job>
 </c:iterate>
 </c:iterate>
@@ -84,11 +85,14 @@
 </c:if>
 	<job name="<c:get select="$join/@name" />-Ingest-<c:get select="$modco/@name" />" slices="<c:get select="$slices" />"  splitBy="<c:get select="$join/table/@name"/>.<c:get select="$join/table/column/@name"/>"   source="<c:get select="$modco/@name" />"  sourceDB="<c:get select="$modco/@db" />"  sourceTable="<c:get select="$join/@name"/>"  targetTable="<c:get select="$join/@name"/>"  connect="<c:get select="$modco/@connect"/>"  user="<c:get select="$modco/@user"/>"  pass="<c:get select="$modco/@pass"/>"  prefix="job_<c:get select="$modco/@db" />_<c:get select="$join/@name" />"   >
 		<targetDir>/<c:get select="$workflow/@database"/>/<c:get select="$join/@name"/>/<c:get select="$modco/@name" /></targetDir>
-		<query>SELECT <c:iterate select="c:unique($join/table/column,'@name')" var="col"><c:get select="$col/../@name"/>.<c:get select="$col/@name"/>, </c:iterate> <c:get select="$modco/@id" /> as "org_id",  '<c:get select="$modco/@name" />' as "org_name" <c:iterate select="$join/update" var="update">, (<c:get select="$update/calc" />) as "<c:get select="$update/@name"/>" </c:iterate> FROM <c:get select="$join/table/@name"/> <c:iterate select="$join/table[@first='false']" var="table" >FULL JOIN <c:get select="$table/@name"/> ON (<c:get select="$join/table/@name"/>.<c:get select="$join/table/@id"/> = <c:get select="$table/@name"/>.<c:get select="$table/@id"/>) </c:iterate>  WHERE ( $CONDITIONS ) </query>
+		<query><![CDATA[SELECT <c:iterate select="c:unique($join/table/column,'@name')" var="col"><c:get select="$col/../@name"/>.<c:get select="$col/@name"/>, </c:iterate> <c:get select="$modco/@id" /> as "org_id",  '<c:get select="$modco/@name" />' as "org_name" <c:iterate select="$join/update" var="update">, (<c:get select="$update/calc" />) as "<c:get select="$update/@name"/>" </c:iterate> FROM <c:get select="$join/table/@name"/> <c:iterate select="$join/table[@first='false']" var="table" >FULL JOIN <c:get select="$table/@name"/> ON (<c:get select="$join/table/@name"/>.<c:get select="$join/table/@id"/> = <c:get select="$table/@name"/>.<c:get select="$table/@id"/>) </c:iterate>  WHERE ( $CONDITIONS ) ]]></query>
 	</job>
 </c:iterate>
 </c:iterate>
 </jobs>
+</c:set>
+<c:loadContent type="xml" var="jobs">
+<c:get select="$sandbox/@jobsSource" />
 </c:loadContent>
 
 <c:setVariable select="$jobs/jobs" var="jobs" />
@@ -155,6 +159,7 @@
 <c:file    path="{$tables/@project}/{$workflow/@name}/dump.xml"  					template="dump.prod" />
 <c:file    path="{$tables/@project}/{$workflow/@name}/dumpIngest.xml"  			template="dump.ingest.prod" />
 <c:file    path="{$tables/@project}/{$workflow/@name}/dumpJobs.xml"  			template="dump.jobs.prod" />
+<c:file    path="{$tables/@project}/{$workflow/@name}/dumpJobsSource.xml"  			template="dump.jobssource.prod" />
 	
 	
 	
