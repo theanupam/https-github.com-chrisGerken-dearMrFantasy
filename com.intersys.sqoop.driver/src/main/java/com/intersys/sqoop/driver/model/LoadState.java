@@ -2,6 +2,7 @@ package com.intersys.sqoop.driver.model;
 
 	// Begin imports
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 
+import org.apache.hadoop.fs.FileSystem;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -305,6 +307,14 @@ public class LoadState implements Comparable {
 
 	public void reset() {
 		_slices = new HashMap<SliceKey, Slice>();
+	}
+
+	public void validate(FileSystem hdfs) throws IllegalArgumentException, IOException {
+		
+		for (Slice slice: getSlices()) {
+			slice.validate(hdfs);
+		}
+		
 	}
 
 	// End custom logic 

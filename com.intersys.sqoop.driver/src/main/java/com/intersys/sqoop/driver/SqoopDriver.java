@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -17,6 +18,7 @@ import org.codehaus.jettison.json.JSONException;
 import com.intersys.sqoop.driver.exception.IngestionStateLoadException;
 import com.intersys.sqoop.driver.exception.NoDataException;
 import com.intersys.sqoop.driver.exception.NoSuchDatabaseException;
+import com.intersys.sqoop.driver.exception.SqoopDriverException;
 import com.intersys.sqoop.driver.model.DatabaseSpec;
 import com.intersys.sqoop.driver.model.IngestionState;
 import com.intersys.sqoop.driver.model.key.DatabaseSpecKey;
@@ -68,17 +70,11 @@ public class SqoopDriver {
 
 			getDefault().increment(ingestionStateFile, ooziePropsFile);
 		
-		} catch (IngestionStateLoadException e) {
+		} catch (SqoopDriverException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (JSONException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (NoSuchDatabaseException e) {
-			e.printStackTrace();
-		} catch (NoDataException e) {
 			e.printStackTrace();
 		}
 		
@@ -95,11 +91,22 @@ public class SqoopDriver {
 		state.persistTo(ingestionStateFile);
 	}
 
-	private void increment(String ingestionStateFile, String ooziePropsFile) throws IngestionStateLoadException, IOException, JSONException, SQLException, NoSuchDatabaseException, NoDataException {
-		state = IngestionState.loadFrom(ingestionStateFile);
-		Properties newProps = state.configureIncrement();
-		updateProperties(newProps, ooziePropsFile);
-		state.persistTo(ingestionStateFile);
+	private void increment(String ingestionStateFile, String ooziePropsFile) throws SqoopDriverException {
+		try {
+			state = IngestionState.loadFrom(ingestionStateFile);
+			state.validate();
+			Properties newProps = state.configureIncrement();
+			updateProperties(newProps, ooziePropsFile);
+			state.persistTo(ingestionStateFile);
+		} catch (IOException e) {
+			throw new SqoopDriverException(e);
+		} catch (URISyntaxException e) {
+			throw new SqoopDriverException(e);
+		} catch (SQLException e) {
+			throw new SqoopDriverException(e);
+		} catch (JSONException e) {
+			throw new SqoopDriverException(e);
+		}
 	}
 
 	private void updateProperties(Properties newProps, String ooziePropsFile) throws IOException {

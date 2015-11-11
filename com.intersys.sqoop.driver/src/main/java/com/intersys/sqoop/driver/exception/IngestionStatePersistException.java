@@ -1,6 +1,6 @@
 package com.intersys.sqoop.driver.exception;
 
-public class IngestionStatePersistException extends Exception {
+public class IngestionStatePersistException extends SqoopDriverException {
 
 	private static final long serialVersionUID = 1L;
 

@@ -2,6 +2,7 @@ package com.intersys.sqoop.driver.model;
 
 	// Begin imports
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,6 +17,8 @@ import com.intersys.sqoop.driver.exception.NoDataException;
 import com.intersys.sqoop.driver.exception.NoSuchDatabaseException;
 import com.intersys.sqoop.driver.model.key.*;
 
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -301,6 +304,17 @@ public class Slice implements Comparable {
 			try { connection.close(); } catch (Throwable t) {  }
 		}
 
+	}
+
+	public void validate(FileSystem hdfs) throws IllegalArgumentException, IOException {
+
+		String dir = getHdfsDir();
+		if (hdfs.exists(new Path(dir))) {
+			
+		} else {
+			System.out.println("Slice validation: Directory "+dir+" missing");
+		}
+		
 	}
 
 	// End custom logic 

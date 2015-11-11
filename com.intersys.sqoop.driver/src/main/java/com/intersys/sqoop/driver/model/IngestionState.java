@@ -4,6 +4,8 @@ package com.intersys.sqoop.driver.model;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,6 +13,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileSystem;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -292,6 +296,15 @@ public class IngestionState implements Comparable {
 		for (LoadState ls: getLoads()) {
 			ls.reset();
 		}
+	}
+
+	public void validate() throws IOException, URISyntaxException {
+		
+		FileSystem hdfs = FileSystem.get( new URI(getHdfsUrl() ), new Configuration() );
+		for (LoadState ls: getLoads()) {
+			ls.validate(hdfs);
+		}
+		
 	}
 
 	// End custom logic 
