@@ -15,6 +15,7 @@ import java.util.Properties;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -301,6 +302,13 @@ public class IngestionState implements Comparable {
 	public void validate() throws IOException, URISyntaxException {
 		
 		FileSystem hdfs = FileSystem.get( new URI(getHdfsUrl() ), new Configuration() );
+		try {
+			boolean exists = hdfs.exists(new Path("\\MES"));
+			System.out.println("MES exists? "+exists);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		for (LoadState ls: getLoads()) {
 			ls.validate(hdfs);
 		}

@@ -310,7 +310,7 @@ public class Slice implements Comparable {
 
 		String dir = getHdfsDir();
 		if (hdfs.exists(new Path(dir))) {
-			
+			System.out.println("HDFS: "+dir+" exists");
 		} else {
 			System.out.println("Slice validation: Directory "+dir+" missing");
 		}
