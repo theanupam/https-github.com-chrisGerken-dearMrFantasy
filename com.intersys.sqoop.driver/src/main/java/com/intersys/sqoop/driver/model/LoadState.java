@@ -201,6 +201,12 @@ public class LoadState implements Comparable {
 	public LoadStateKey key() {
 		return new LoadStateKey(_table, _database);
 	}
+
+	public String toString() {
+		String result = super.toString();
+		try { result = asJson().toString(); } catch (Throwable t) {  }
+		return result;
+	}
 	
 	public static List<LoadState> sort(List<LoadState> unsorted) {
 		LoadState[] a = new LoadState[unsorted.size()];
@@ -310,8 +316,11 @@ public class LoadState implements Comparable {
 	}
 
 	public void validate(FileSystem hdfs) throws IllegalArgumentException, IOException {
-		
+
+		System.out.println("<--"+toString());
+
 		for (Slice slice: getSlices()) {
+			System.out.println("---->"+slice.toString());
 			slice.validate(hdfs);
 		}
 		

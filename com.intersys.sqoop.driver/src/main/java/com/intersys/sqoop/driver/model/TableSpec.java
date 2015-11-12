@@ -98,6 +98,12 @@ public class TableSpec implements Comparable {
 	public TableSpecKey key() {
 		return new TableSpecKey(_table);
 	}
+
+	public String toString() {
+		String result = super.toString();
+		try { result = asJson().toString(); } catch (Throwable t) {  }
+		return result;
+	}
 	
 	public static List<TableSpec> sort(List<TableSpec> unsorted) {
 		TableSpec[] a = new TableSpec[unsorted.size()];

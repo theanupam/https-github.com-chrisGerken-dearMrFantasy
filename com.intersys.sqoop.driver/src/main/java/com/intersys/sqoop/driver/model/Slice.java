@@ -241,6 +241,12 @@ public class Slice implements Comparable {
 	public SliceKey key() {
 		return new SliceKey(_timestamp);
 	}
+
+	public String toString() {
+		String result = super.toString();
+		try { result = asJson().toString(); } catch (Throwable t) {  }
+		return result;
+	}
 	
 	public static List<Slice> sort(List<Slice> unsorted) {
 		Slice[] a = new Slice[unsorted.size()];
@@ -307,6 +313,8 @@ public class Slice implements Comparable {
 	}
 
 	public void validate(FileSystem hdfs) throws IllegalArgumentException, IOException {
+
+		System.out.println("<----"+toString());
 
 		try {
 			String dir = getHdfsDir();

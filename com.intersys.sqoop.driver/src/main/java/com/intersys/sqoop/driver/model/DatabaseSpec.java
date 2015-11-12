@@ -153,6 +153,12 @@ public class DatabaseSpec implements Comparable {
 	public DatabaseSpecKey key() {
 		return new DatabaseSpecKey(_name);
 	}
+
+	public String toString() {
+		String result = super.toString();
+		try { result = asJson().toString(); } catch (Throwable t) {  }
+		return result;
+	}
 	
 	public static List<DatabaseSpec> sort(List<DatabaseSpec> unsorted) {
 		DatabaseSpec[] a = new DatabaseSpec[unsorted.size()];

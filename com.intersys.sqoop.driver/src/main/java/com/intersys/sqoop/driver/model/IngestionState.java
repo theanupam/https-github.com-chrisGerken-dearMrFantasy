@@ -235,6 +235,12 @@ public class IngestionState implements Comparable {
 	public IngestionStateKey key() {
 		return new IngestionStateKey(_name);
 	}
+
+	public String toString() {
+		String result = super.toString();
+		try { result = asJson().toString(); } catch (Throwable t) {  }
+		return result;
+	}
 	
 	public static List<IngestionState> sort(List<IngestionState> unsorted) {
 		IngestionState[] a = new IngestionState[unsorted.size()];
@@ -310,6 +316,7 @@ public class IngestionState implements Comparable {
 			e.printStackTrace();
 		}
 		for (LoadState ls: getLoads()) {
+			System.out.println("-->"+ls.toString());
 			ls.validate(hdfs);
 		}
 		
