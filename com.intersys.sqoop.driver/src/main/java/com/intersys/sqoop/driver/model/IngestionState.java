@@ -303,7 +303,7 @@ public class IngestionState implements Comparable {
 		
 		FileSystem hdfs = FileSystem.get( new URI(getHdfsUrl() ), new Configuration() );
 		try {
-			boolean exists = hdfs.exists(new Path("\\MES"));
+			boolean exists = hdfs.exists(new Path("/MES"));
 			System.out.println("MES exists? "+exists);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
