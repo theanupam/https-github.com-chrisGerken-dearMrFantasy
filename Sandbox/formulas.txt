@@ -1,0 +1,149 @@
+InvChangeState
+==============
+
+ShiftStart_DateTime		case when DatePart(HOUR,InvChangeState.FromDT) < 7 then cast(convert(char(11), InvChangeState.FromDT, 113) as datetime) -1 else cast(convert(char(11), InvChangeState.FromDT, 113) as datetime) end
+
+
+Trans_DateTime_qtr      DatePart(QUARTER,ShiftStart_DateTime) 
+
+
+Trans_DateTime_year     DatePart(YEAR,ShiftStart_DateTime)        
+
+
+Trans_shift_type		case when (DatePart(WEEKDAY,ShiftStart_DateTime) in (1,2,3)   and DatePart(WEEK,ShiftStart_DateTime) % 2 = 1 or  DatePart(WEEKDAY,ShiftStart_DateTime) in (4,5,6,7) and DatePart(WEEK,ShiftStart_DateTime) % 2 = 0 ) and  Trans_Hours between 7 and 19 then 'A' when (DatePart(WEEKDAY,ShiftStart_DateTime) in (1,2,3)   and DatePart(WEEK,ShiftStart_DateTime) % 2 = 1 or  DatePart(WEEKDAY,ShiftStart_DateTime) in (4,5,6,7) and DatePart(WEEK,ShiftStart_DateTime) % 2 = 0 ) and  Trans_Hours not between 7 and 19 then 'B' when (DatePart(WEEKDAY,ShiftStart_DateTime) in (1,2,3)   and DatePart(WEEK,ShiftStart_DateTime) % 2 = 0 or  DatePart(WEEKDAY,ShiftStart_DateTime) in (4,5,6,7) and DatePart(WEEK,ShiftStart_DateTime) % 2 = 1 ) and  Trans_Hours between 7 and 19 then 'C' when (DatePart(WEEKDAY,ShiftStart_DateTime) in (1,2,3)   and DatePart(WEEK,ShiftStart_DateTime) % 2 = 0 or  DatePart(WEEKDAY,ShiftStart_DateTime) in (4,5,6,7) and DatePart(WEEK,ShiftStart_DateTime) % 2 = 1 ) and  Trans_Hours not between 7 and 19 then 'D' else null end                        
+
+
+ShiftStart_Week			case when DatePart(WEEKDAY,ShiftStart_DateTime) = 1 then DatePart(WEEK,ShiftStart_DateTime) - 1 else DatePart(WEEK,ShiftStart_DateTime) end
+
+
+Trans_Hours				DatePart(HOUR,InvChangeState.FromDT)
+
+
+Trans_DateTime			FromDT
+
+
+
+
+
+
+                                dbo.GREATEST(InvChangeState.FromDT, InventoryPack.BirthDT)              as Trans_DateTime
+
+
+
+
+
+/***************************************************************************************************
+#
+# Scriptname :
+#
+#
+# Purpose : contains query and transformation logic to load the EL Out fact table N_SPWR_CELL_LOSS
+#           sourced from the query used to load "Cell Loss" Xls Sheet
+#
+#           N_SPWR_CELL_LOSS (11035736 row(s) affected)
+#
+#
+# Called by :
+#
+# Amendment History :
+#
+#    Ver        Date        Author           Description
+#  ---------  ----------  ---------------  ---------------------------------------------------
+#   1.0        10/10/2015   Guna           Initial version - SPMX
+#
+***************************************************************************************************/
+
+--
+-- Loaded records in N_SPWR_CELL_LOSS_UAT_1 (1304491 row(s) affected)
+
+SELECT T2.*,
+       case
+       when (DatePart(WEEKDAY,ShiftStart_DateTime) in (1,2,3)   and DatePart(WEEK,ShiftStart_DateTime) % 2 = 1
+         or  DatePart(WEEKDAY,ShiftStart_DateTime) in (4,5,6,7) and DatePart(WEEK,ShiftStart_DateTime) % 2 = 0 )
+        and  Trans_Hours between 7 and 19
+       then 'A'
+       when (DatePart(WEEKDAY,ShiftStart_DateTime) in (1,2,3)   and DatePart(WEEK,ShiftStart_DateTime) % 2 = 1
+         or  DatePart(WEEKDAY,ShiftStart_DateTime) in (4,5,6,7) and DatePart(WEEK,ShiftStart_DateTime) % 2 = 0 )
+        and  Trans_Hours not between 7 and 19
+       then 'B'
+       when (DatePart(WEEKDAY,ShiftStart_DateTime) in (1,2,3)   and DatePart(WEEK,ShiftStart_DateTime) % 2 = 0
+         or  DatePart(WEEKDAY,ShiftStart_DateTime) in (4,5,6,7) and DatePart(WEEK,ShiftStart_DateTime) % 2 = 1 )
+        and  Trans_Hours between 7 and 19
+       then 'C'
+       when (DatePart(WEEKDAY,ShiftStart_DateTime) in (1,2,3)   and DatePart(WEEK,ShiftStart_DateTime) % 2 = 0
+         or  DatePart(WEEKDAY,ShiftStart_DateTime) in (4,5,6,7) and DatePart(WEEK,ShiftStart_DateTime) % 2 = 1 )
+        and  Trans_Hours not between 7 and 19
+       then 'D'
+       else null end                                             as Trans_shift_type,
+       DatePart(QUARTER,ShiftStart_DateTime)                     as Trans_DateTime_qtr,
+       DatePart(YEAR,ShiftStart_DateTime)                        as Trans_DateTime_year
+  INTO N_SPWR_CELL_LOSS_UAT_1
+  FROM (
+        SELECT  T1.* ,
+                case
+                when DatePart(WEEKDAY,ShiftStart_DateTime) = 1
+                then DatePart(WEEK,ShiftStart_DateTime) - 1
+                else DatePart(WEEK,ShiftStart_DateTime)
+                 end                                             as ShiftStart_Week
+          FROM  (
+                SELECT S1.*,
+                       RANK() OVER (PARTITION BY Inventory_Pack_No ORDER BY Trans_DateTime desc ) as rank_num,
+                       case
+                       when S1.MachineLocation like '%MX_Komax%'     COLLATE Latin1_General_BIN then 'KOMAX'
+                       when S1.MachineLocation like '%MX_CktForm%'   COLLATE Latin1_General_BIN then 'MCF'
+                       when S1.MachineLocation like '%FAB%'          COLLATE Latin1_General_BIN then 'FAB'
+                       when S1.MachineLocation like '%Materialista%' COLLATE Latin1_General_BIN then 'MATE'
+                       else S1.MachineLocation
+                        end                                                                             as Caused_By,
+                       DatePart(HOUR,Trans_DateTime)                                                    as Trans_Hours,
+                       case
+                       when DatePart(HOUR,Trans_DateTime) < 7
+                       then cast(convert(char(11), Trans_DateTime, 113) as datetime) -1
+                       else cast(convert(char(11), Trans_DateTime, 113) as datetime)
+                        end                                                                             as ShiftStart_DateTime
+                  FROM
+                       ( SELECT
+                                'SPMX'                                                                  as Org_Id,
+                                InventoryPack.InventoryPackNo                                           as Inventory_Pack_No,
+                                ISNULL(InventoryPack.SupplierReference, InventoryPack.InventoryPackNo)  as SupplierReference,
+                                Part.PartNumber                                                         as Part_Number,
+                                Part.Cell_Count                                                         as Cells_Module_Type,
+                                Part.Demand_Category                                                    as Demand_Category,
+                                Part.Series                                                             as Series,
+                                case when Part.PartTypeID = 58 then 'Cells'
+                                     when Part.PartTypeID = 40 then 'Strings'
+                                     when Part.PartTypeID = 39 then 'Modules'
+                                 end                                                                    as Part_Type,
+                                Part.Variant3                                                           as Billable_Watt,
+                                Unit.Unit                                                               as Unit,
+                                InventoryPack.CurrentQuantity                                           as Quantity,
+                                ISNULL(InvChangeState.Comments, InventoryPack.Comments)                 as Comments,
+                                InvState.InvState                                                       as Scrap_MRB,
+                                InvIsolatedReason.IsolatedReason                                        as Isolated_Reason,
+                                Supplier.Supplier                                                       as Supplier,
+                                dbo.[get_LocationName](InventoryPack.ScrapLocationID)                   as ScarpLocation,
+                                dbo.[get_LocationName](InventoryPack.MachineLocationID)                 as MachineLocation,
+                                dbo.[get_ScrapReason](InventoryPack.ScrapReasonID)                      as ScrapReason,
+                                dbo.GREATEST(InvChangeState.FromDT, InventoryPack.BirthDT)              as Trans_DateTime
+                         FROM   InvChangeState_UAT_1                    as InvChangeState,
+                                InvIsolatedReason,
+                                InvState,
+                                InventoryPack_UAT_1                     as InventoryPack,
+                                Part,
+                                Supplier,
+                                Unit
+                          WHERE InvChangeState.IsEdited = 0
+                            AND InventoryPack.IsEdited = 0
+                            AND Part.PartTypeID in (39,40, 58)
+                            AND InvState not in ('Valid MRB', 'Replacement')
+                            AND InvChangeState.InvIsolatedReasonID = InvIsolatedReason.InvIsolatedReasonID
+                            AND InvChangeState.InvStateID = InvState.InvStateID
+                            AND InvChangeState.InventoryPackID = InventoryPack.InventoryPackID
+                            AND InventoryPack.PartID = Part.PartID
+                            AND InventoryPack.SupplierID = Supplier.SupplierID
+                            AND Unit.UnitID = InventoryPack.UnitID
+                       ) S1
+                 WHERE MachineLocation not in ( 'PM', 'COV', 'Engineering')
+                ) T1
+        where rank_num = 1
+      ) T2

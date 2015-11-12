@@ -45,9 +45,9 @@ public class SqoopDriver {
 		if (args.length < 2) {
 			System.out.println("options:  <ingestion-state-file>  <oozie-properties-file> ");
 			System.out.println("");
-			System.out.println("          -r  <oozie-properties-file> ");
+			System.out.println("          -r  <ingestion-state-file> ");
 			System.out.println("");
-			System.out.println("          -v  <oozie-properties-file> ");
+			System.out.println("          -v  <ingestion-state-file> ");
 			return;
 		}
 
@@ -80,9 +80,15 @@ public class SqoopDriver {
 		
 	}
 
-	private void validate(String ingestionStateFile) {
-
-
+	private void validate(String ingestionStateFile) throws SqoopDriverException {
+		try {
+			state = IngestionState.loadFrom(ingestionStateFile);
+			state.validate();
+		} catch (IOException e) {
+			throw new SqoopDriverException(e);
+		} catch (URISyntaxException e) {
+			throw new SqoopDriverException(e);
+		}
 	}
 
 	private void reset(String ingestionStateFile) throws IOException, JSONException, IngestionStateLoadException {
