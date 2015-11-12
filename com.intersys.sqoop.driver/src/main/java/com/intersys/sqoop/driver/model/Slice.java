@@ -308,11 +308,16 @@ public class Slice implements Comparable {
 
 	public void validate(FileSystem hdfs) throws IllegalArgumentException, IOException {
 
-		String dir = getHdfsDir();
-		if (hdfs.exists(new Path(dir))) {
-			System.out.println("HDFS: "+dir+" exists");
-		} else {
-			System.out.println("Slice validation: Directory "+dir+" missing");
+		try {
+			String dir = getHdfsDir();
+			System.out.println("Validating: "+asJson().toString());
+			if (hdfs.exists(new Path(dir))) {
+				System.out.println("HDFS: "+dir+" exists");
+			} else {
+				System.out.println("Slice validation: Directory "+dir+" missing");
+			}
+		} catch (Throwable e) {
+			e.printStackTrace();
 		}
 		
 	}
