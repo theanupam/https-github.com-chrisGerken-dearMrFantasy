@@ -308,15 +308,7 @@ public class IngestionState implements Comparable {
 	public void validate() throws IOException, URISyntaxException {
 		
 		FileSystem hdfs = FileSystem.get( new URI(getHdfsUrl() ), new Configuration() );
-		try {
-			boolean exists = hdfs.exists(new Path("/MES"));
-			System.out.println("MES exists? "+exists);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		for (LoadState ls: getLoads()) {
-			System.out.println("-->"+ls.toString());
 			ls.validate(hdfs);
 		}
 		

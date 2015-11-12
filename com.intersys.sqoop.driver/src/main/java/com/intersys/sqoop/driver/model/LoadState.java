@@ -317,10 +317,7 @@ public class LoadState implements Comparable {
 
 	public void validate(FileSystem hdfs) throws IllegalArgumentException, IOException {
 
-		System.out.println("<--"+toString());
-
 		for (Slice slice: getSlices()) {
-			System.out.println("---->"+slice.toString());
 			slice.validate(hdfs);
 		}
 		
