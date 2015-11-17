@@ -1,0 +1,1 @@
+drop table mes.table01;

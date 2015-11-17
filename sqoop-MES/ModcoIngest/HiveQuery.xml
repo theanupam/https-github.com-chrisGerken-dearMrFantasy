@@ -1,0 +1,25 @@
+<workflow-app name="HiveFlow" xmlns="uri:oozie:workflow:0.4">
+    <start to="Drop01"/>
+    <action name="Drop01">
+        <hive xmlns="uri:oozie:hive-action:0.2">
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <script>/IncrementalYield/drop_01.q</script>
+        </hive>
+        <ok to="Create01"/>
+        <error to="kill"/>
+    </action>
+    <action name="Create01">
+        <hive xmlns="uri:oozie:hive-action:0.2">
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <script>/IncrementalYield/create_01.q</script>
+        </hive>
+        <ok to="end"/>
+        <error to="kill"/>
+    </action>
+    <kill name="kill">
+        <message>Action failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+    <end name="end"/>
+</workflow-app>
