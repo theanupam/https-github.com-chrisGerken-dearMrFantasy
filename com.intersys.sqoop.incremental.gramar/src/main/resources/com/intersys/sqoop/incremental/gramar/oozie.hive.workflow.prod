@@ -1,0 +1,18 @@
+<workflow-app name="<c:get select="$subflow/@workflowName" />" xmlns="uri:oozie:workflow:0.4">
+ 	<start to="<c:get select="$subflow/@start" />"/>
+
+<c:iterate select="$subflow/script" var="script">
+    <action name="<c:get select="$script/@name" />">
+        <hive xmlns="uri:oozie:hive-action:0.2">
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <script><c:get select="$workflow/@hdfsDir" />/<c:get select="$script/@qName" /></script>
+        </hive>
+        <ok to="<c:get select="$script/@nextScript" />"/>
+        <error to="<c:get select="$script/@nextScript" />"/>
+    </action>
+</c:iterate>
+
+	<end name="End-Flow"/>
+
+</workflow-app>

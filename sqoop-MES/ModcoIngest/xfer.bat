@@ -15,5 +15,10 @@ pscp  -pw d4e30f24   yieldIngestWorkflow-Full-0.xml    appladm@prod-hubnamedaws0
 pscp  -pw d4e30f24   yieldIngestWorkflow-Full-1.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Full-1.xml
 pscp  -pw d4e30f24   yieldIngestWorkflow-Full-2.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Full-2.xml
 pscp  -pw d4e30f24   yieldIngestWorkflow-Full-3.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Full-3.xml
+pscp  -pw d4e30f24   yieldIngestWorkflow-Hive.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Hive.xml
 
+
+pscp  -pw d4e30f24   hs_01.q    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/hs_01.q
+pscp  -pw d4e30f24   hs_02.q    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/hs_02.q
+pscp  -pw d4e30f24   hs_03.q    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/hs_03.q
 

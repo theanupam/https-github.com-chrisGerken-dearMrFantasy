@@ -47,7 +47,7 @@
 <c:set select="$sandbox" name="jobsSource">
 <jobs>
 <c:iterate select="$tables/table[@enabled='true']" var="table" >
-	<hive table="<c:get select="$table/@hive_name"/>">Create External table IF NOT EXISTS <c:get select="$workflow/@database"/>.<c:get select="$table/@hive_name"/> (<c:iterate select="$table/column" var="column"><c:get select="$column/@hive_name"/> <c:get select="$column/@type"/>, </c:iterate> org_id int, org_name varchar(10)<c:iterate select="$ingest/table[@name=$table/@name]/update" var="update">, <c:get select="$update/@name"/> <c:get select="$update/@type"/> </c:iterate>) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile location '/<c:get select="$workflow/@database"/>/<c:get select="$table/@hive_name"/>'</hive>
+	<hive table="<c:get select="$table/@hive_name"/>">Create External table IF NOT EXISTS <c:get select="$workflow/@database"/>.<c:get select="$table/@hive_name"/> (<c:iterate select="$table/column" var="column"><c:get select="$column/@hive_name"/> <c:get select="$column/@type"/>, </c:iterate> org_id int, org_name varchar(10)<c:iterate select="$ingest/table[@name=$table/@name]/update" var="update">, <c:get select="$update/@name"/> <c:get select="$update/@type"/> </c:iterate>) row format delimited fields terminated by '\t' lines terminated by '\n' stored as textfile location '/<c:get select="$workflow/@database"/>/<c:get select="$table/@hive_name"/>'</hive>
 <c:iterate select="$modcos/modco" var="modco" >
 <c:setVariable select=" ceiling(number($table/@slices) * number($modco/@weight))" var="slices" />
 <c:if test=" c:lessThan(number($workflow/@maxSlices),$slices) " >
@@ -68,7 +68,7 @@
 </c:iterate>
 </c:iterate>
 <c:iterate select="$ingest/join" var="join" >
-	<hive table="<c:get select="$join/@name"/>">Create External table IF NOT EXISTS <c:get select="$workflow/@database"/>.<c:get select="$join/@name"/> (<c:iterate select="c:unique($join/table/column,'@name')" var="column"><c:get select="$column/@name"/> <c:get select="$column/@type"/>, </c:iterate> org_id int, org_name varchar(10)<c:iterate select="$join/update" var="update">, <c:get select="$update/@name"/> <c:get select="$update/@type"/> </c:iterate>) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile location '/<c:get select="$workflow/@database"/>/<c:get select="$join/@name"/>'</hive>
+	<hive table="<c:get select="$join/@name"/>">Create External table IF NOT EXISTS <c:get select="$workflow/@database"/>.<c:get select="$join/@name"/> (<c:iterate select="c:unique($join/table/column,'@name')" var="column"><c:get select="$column/@name"/> <c:get select="$column/@type"/>, </c:iterate> org_id int, org_name varchar(10)<c:iterate select="$join/update" var="update">, <c:get select="$update/@name"/> <c:get select="$update/@type"/> </c:iterate>) row format delimited fields terminated by '\t' lines terminated by '\n' stored as textfile location '/<c:get select="$workflow/@database"/>/<c:get select="$join/@name"/>'</hive>
 <c:iterate select="$modcos/modco" var="modco" >
 <c:setVariable select=" ceiling(number($join/@slices) * number($modco/@weight))" var="slices" />
 <c:if test=" c:lessThan(number($workflow/@maxSlices),$slices) " >
@@ -104,10 +104,12 @@
 	<c:if test=" c:lessThan( number($job/@slices) , 2)" >
 		<c:set select="$job" name="flow">Full-<c:get select=" c:moduloCounter('fcount',4)" /></c:set>
 		<c:set select="$job" name="kind">Full</c:set>
+		<c:set select="$workflow/subflow[@key=$job/@flow]" name="kind">Full</c:set>
 	</c:if>
 	<c:if test=" c:lessThan( 1 , number($job/@slices))" >
 		<c:set select="$job" name="flow">Incr-<c:get select=" c:moduloCounter('icount',4)" /></c:set>
 		<c:set select="$job" name="kind">Incr</c:set>
+		<c:set select="$workflow/subflow[@key=$job/@flow]" name="kind">Incr</c:set>
 	</c:if>
     <c:log severity="info"><c:get select="$job/targetDir"/> (<c:get select="$job/@slices"/>) in <c:get select="$job/@flow"/></c:log>
 </c:iterate>
@@ -118,7 +120,7 @@
 
 <c:set select="$tables" name="project">sqoop-<c:get select="$workflow/@database" /></c:set>
 
-<c:iterate select="$workflow/subflow" var="subflow">
+<c:iterate select="$workflow/subflow[@kind!='Hive']" var="subflow">
 <c:setVariable select=" 'true' " var="first" />
 <c:iterate select="$jobs/job[@flow=$subflow/@key]" var="job" >
 	<c:if test="$first='false'"  >
@@ -134,6 +136,22 @@
 <c:set select="$prev" name="nextJob"><c:get select="$subflow/@end"/></c:set>
 </c:iterate>
 
+<c:iterate select="$workflow/subflow[@kind='Hive']" var="subflow">
+<c:setVariable select=" 'true' " var="first" />
+<c:iterate select="$subflow/script" var="script" >
+	<c:set select="$script" name="qName"><c:get select="$script/@name"/>.q</c:set>
+	<c:if test="$first='false'"  >
+		<c:set select="$prev" name="nextScript"><c:get select="$script/@name"/></c:set>
+	</c:if>
+	<c:if test="$first='true'"  >
+		<c:set select="$subflow" name="start"><c:get select="$script/@name"/></c:set>
+	</c:if>
+	<c:setVariable select=" $script " var="prev" />
+	<c:setVariable select=" 'false' " var="first" />
+</c:iterate>
+<c:set select="$prev" name="nextScript">End-Flow</c:set>
+</c:iterate>
+
 <c:project  name="{$tables/@project}"  />
 
 <c:file    path="{$tables/@project}/{$workflow/@name}/xfer.bat"  					template="bat.prod" />
@@ -144,7 +162,10 @@
 <c:file    path="{$tables/@project}/{$workflow/@name}/yieldIngestProperties.propertiesx"  template="job.properties.prod" />
 <c:file    path="{$tables/@project}/{$workflow/@name}/yieldIngestWorkflow.xml"  	template="oozie.main.workflow.prod" />
 <c:iterate select="$workflow/subflow" var="subflow">
-<c:choose select="$jobs/job[@flow=$subflow/@key]/@kind">
+<c:choose select="$subflow/@kind">
+<c:when test=" 'Hive' ">
+<c:file    path="{$tables/@project}/{$workflow/@name}/{$subflow/@workflowXml}.xml"  	template="oozie.hive.workflow.prod" />
+</c:when>
 <c:when test=" 'Full' ">
 <c:file    path="{$tables/@project}/{$workflow/@name}/{$subflow/@workflowXml}.xml"  	template="oozie.full.workflow.prod" />
 </c:when>
@@ -153,6 +174,10 @@
 </c:otherwise>
 </c:choose>
 < c:setVariable select="$modcos/modco[@name=$subflow/@key]" var="modco" />
+</c:iterate>
+
+<c:iterate select="$workflow/subflow[@kind='Hive']/script" var="script">
+<c:file    path="{$tables/@project}/{$workflow/@name}/{$script/@qName}"  	template="q.prod"  replace="false" />
 </c:iterate>
 
 <c:file    path="{$tables/@project}/{$workflow/@name}/dump.xml"  					template="dump.prod" />
