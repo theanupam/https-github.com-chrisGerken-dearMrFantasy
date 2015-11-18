@@ -27,6 +27,7 @@ public class DatabaseSpec implements Comparable {
 	private String _label;
 	private String _url;
 	private String _orgName;
+	private Boolean _enabled;
 
 
 	public DatabaseSpec(JSONObject jobj) throws JSONException {
@@ -68,10 +69,16 @@ public class DatabaseSpec implements Comparable {
 			_orgName = "";
 		}
 
+		_enabled = null;
+		try { _enabled = jobj.getBoolean("enabled"); } catch (Throwable t) { }
+		if (_enabled == null) {
+			_enabled = true;
+		}
+
 		JSONArray jarr;
 	}
 
-	public DatabaseSpec(String name, String userid, String password, String label, String url, String orgName) {
+	public DatabaseSpec(String name, String userid, String password, String label, String url, String orgName, Boolean enabled) {
 		super();
 		this._name = name;
 		this._userid = userid;
@@ -79,6 +86,7 @@ public class DatabaseSpec implements Comparable {
 		this._label = label;
 		this._url = url;
 		this._orgName = orgName;
+		this._enabled = enabled;
 
 	}
 	
@@ -96,6 +104,8 @@ public class DatabaseSpec implements Comparable {
 		if (_url != null) { jobj.put("url", _url); }
 
 		if (_orgName != null) { jobj.put("orgName", _orgName); }
+
+		if (_enabled != null) { jobj.put("enabled", _enabled); }
 
 		JSONArray jarr;
 		
@@ -148,6 +158,14 @@ public class DatabaseSpec implements Comparable {
 
 	public void setOrgName(String orgName) {
 		this._orgName = orgName;
+	}
+
+	public Boolean getEnabled() {
+		return _enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this._enabled = enabled;
 	}
 
 	public DatabaseSpecKey key() {

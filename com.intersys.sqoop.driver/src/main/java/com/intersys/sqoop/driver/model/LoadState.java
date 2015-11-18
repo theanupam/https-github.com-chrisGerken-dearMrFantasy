@@ -63,7 +63,7 @@ public class LoadState implements Comparable {
 		_incremental = null;
 		try { _incremental = jobj.getBoolean("incremental"); } catch (Throwable t) { }
 		if (_incremental == null) {
-			_incremental = false;
+			_incremental = true;
 		}
 
 		_hdfsBaseDir = null;

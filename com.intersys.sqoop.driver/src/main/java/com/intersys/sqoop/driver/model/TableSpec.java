@@ -23,6 +23,7 @@ public class TableSpec implements Comparable {
 	private String _table;
 	private String _idColumn;
 	private String _hiveTable;
+	private Boolean _enabled;
 
 
 	public TableSpec(JSONObject jobj) throws JSONException {
@@ -46,14 +47,21 @@ public class TableSpec implements Comparable {
 			_hiveTable = "";
 		}
 
+		_enabled = null;
+		try { _enabled = jobj.getBoolean("enabled"); } catch (Throwable t) { }
+		if (_enabled == null) {
+			_enabled = true;
+		}
+
 		JSONArray jarr;
 	}
 
-	public TableSpec(String table, String idColumn, String hiveTable) {
+	public TableSpec(String table, String idColumn, String hiveTable, Boolean enabled) {
 		super();
 		this._table = table;
 		this._idColumn = idColumn;
 		this._hiveTable = hiveTable;
+		this._enabled = enabled;
 
 	}
 	
@@ -65,6 +73,8 @@ public class TableSpec implements Comparable {
 		if (_idColumn != null) { jobj.put("idColumn", _idColumn); }
 
 		if (_hiveTable != null) { jobj.put("hiveTable", _hiveTable); }
+
+		if (_enabled != null) { jobj.put("enabled", _enabled); }
 
 		JSONArray jarr;
 		
@@ -93,6 +103,14 @@ public class TableSpec implements Comparable {
 
 	public void setHiveTable(String hiveTable) {
 		this._hiveTable = hiveTable;
+	}
+
+	public Boolean getEnabled() {
+		return _enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this._enabled = enabled;
 	}
 
 	public TableSpecKey key() {

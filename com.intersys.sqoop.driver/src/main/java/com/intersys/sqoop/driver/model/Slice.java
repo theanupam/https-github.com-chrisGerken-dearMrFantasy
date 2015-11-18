@@ -49,6 +49,8 @@ public class Slice implements Comparable {
 	private Integer _retries;
 
 
+	private HashMap<SliceKey,Slice> _subSlices;
+
 	public Slice(JSONObject jobj) throws JSONException {
 		super();
 
@@ -91,19 +93,19 @@ public class Slice implements Comparable {
 		_mutable = null;
 		try { _mutable = jobj.getBoolean("mutable"); } catch (Throwable t) { }
 		if (_mutable == null) {
-			_mutable = false;
+			_mutable = true;
 		}
 
 		_validated = null;
 		try { _validated = jobj.getBoolean("validated"); } catch (Throwable t) { }
 		if (_validated == null) {
-			_validated = false;
+			_validated = true;
 		}
 
 		_error = null;
 		try { _error = jobj.getBoolean("error"); } catch (Throwable t) { }
 		if (_error == null) {
-			_error = false;
+			_error = true;
 		}
 
 		_retries = null;
@@ -113,6 +115,18 @@ public class Slice implements Comparable {
 		}
 
 		JSONArray jarr;
+
+
+		_subSlices = new HashMap<SliceKey,Slice>();
+		try {
+			jarr = jobj.getJSONArray("subSlices");
+			_subSlices = new HashMap<SliceKey,Slice>();
+			for (int i = 0; i < jarr.length(); i++) {
+				addSubSlices(new Slice(jarr.getJSONObject(i)));
+			}
+		} catch (Throwable t) {
+			// Do nothing		
+		}
 	}
 
 	public Slice(Long timestamp, Integer minId, Integer maxId, Integer rows, Integer type, String hdfsDir, Boolean mutable, Boolean validated, Boolean error, Integer retries) {
@@ -127,6 +141,8 @@ public class Slice implements Comparable {
 		this._validated = validated;
 		this._error = error;
 		this._retries = retries;
+ 
+		_subSlices = new HashMap<SliceKey,Slice>();
 
 	}
 	
@@ -154,6 +170,13 @@ public class Slice implements Comparable {
 		if (_retries != null) { jobj.put("retries", _retries); }
 
 		JSONArray jarr;
+
+
+		jarr = new JSONArray();
+		for (Slice obj: getSubSlices()) {
+			jarr.put(obj.asJson());
+		}
+		jobj.put("subSlices", jarr);
 		
 		return jobj;
 	}
@@ -236,6 +259,23 @@ public class Slice implements Comparable {
 
 	public void setRetries(Integer retries) {
 		this._retries = retries;
+	}
+ 
+
+	public void addSubSlices(Slice bean) {
+		_subSlices.put(bean.key(), bean);
+	}
+
+	public void removeSubSlices(Slice bean) {
+		_subSlices.remove(bean.key());
+	}
+	
+	public Slice getSubSlices(SliceKey key) {
+		return _subSlices.get(key);
+	}
+	
+	public List<Slice> getSubSlices() {
+		return new ArrayList<Slice>(_subSlices.values());
 	}
 
 	public SliceKey key() {
