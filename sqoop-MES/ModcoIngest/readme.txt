@@ -183,7 +183,6 @@ The MES ingestion is as follows:
         ProductionStop_ (1)  
         ProductionStopReason (1)  
         ProductType (1)  
-        Query (1)  
         RootCause (1)  
         RootCauseType (1)  
         Scrap (1)  
@@ -461,7 +460,6 @@ The MES ingestion is as follows:
         ProductionStop_ :  OpenedStopDT, SavedStopDT
         ProductionStopReason :  
         ProductType :  
-        Query :  
         RootCause :  
         RootCauseType :  
         Scrap :  DT

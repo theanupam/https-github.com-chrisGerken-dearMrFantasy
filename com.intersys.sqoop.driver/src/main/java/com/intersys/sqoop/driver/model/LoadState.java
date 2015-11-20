@@ -240,14 +240,18 @@ public class LoadState implements Comparable {
 		if (!getIncremental()) {
 
 			System.out.println(getTable()+" in "+getDatabase()+" is a full load ("+(slice.getMaxId()-slice.getMinId()+1)+"; "+slice.getRows()+")");
-			
 			_slices = new HashMap<SliceKey, Slice>();
-			addSlices(slice);
 			
-			slice.setHdfsDir(getHdfsBaseDir());
-			slice.setType(Slice.TYPE_FULL);
-			parms.put("_DoFull", "true");
-			parms.put("_DoFullTarget", getHdfsBaseDir());
+			if (slice.getRows() > 0) {
+				addSlices(slice);
+				
+				slice.setHdfsDir(getHdfsBaseDir());
+				slice.setType(Slice.TYPE_FULL);
+				parms.put("_DoFull", "true");
+				parms.put("_DoFullTarget", getHdfsBaseDir());
+			} else {
+				System.out.println(" - No data => No import for now");
+			}
 		
 		} else {
 

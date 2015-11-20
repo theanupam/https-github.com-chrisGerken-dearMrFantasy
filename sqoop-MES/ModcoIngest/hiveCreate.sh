@@ -1742,16 +1742,6 @@ hive -e "Create External table IF NOT EXISTS MES.ProductType (ProductTypeID smal
 
 echo " "
 echo "##################################################"
-echo "Hive: Drop and Create table Query"
-echo "##################################################"
-echo " "
-
-hive -e "Drop table MES.Query"
-
-hive -e "Create External table IF NOT EXISTS MES.Query (MeasurementSetID int, SerialNo varchar(508), BinNo varchar(508), Komax1 varchar(508), CktFormBuildMachine varchar(508), ElBuildMachine varchar(508), Comments varchar(4000), DT datetime2(3), NumCells int, CellHole int, LiftedTab int, MultipleCrack int, DiagonalCrack int, ReversePolarity int, ShatteredCell int, ShortedPasteBusbar int, ShortedPasteMiddle int, ShortedPasteUnknown int, VerticalCrack int, VisibleCrack int, Weird int, CellReplacementFab int, CellReplacementMod int, TouchUpthenGood int, WipethenGood int, Rework int,  org_id int, org_name varchar(10)) row format delimited fields terminated by '\t' lines terminated by '\n' stored as textfile location '/MES/Query'"
-
-echo " "
-echo "##################################################"
 echo "Hive: Drop and Create table RootCause"
 echo "##################################################"
 echo " "
