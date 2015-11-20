@@ -65,10 +65,6 @@ The MES ingestion is as follows:
         DocumentType (1)  
         dtproperties (1)  
         EBATrigger (1)  
-        ELData_Acq (1)  
-        ELData_Acq_Buffer (1)  
-        ELData_CellInfo (1)  
-        ELData_CellInfo_Buffer (1)  
         Fault (1)  
         FaultState (1)  
         FaultStatus (1)  
@@ -347,10 +343,6 @@ The MES ingestion is as follows:
         DocumentType :  
         dtproperties :  
         EBATrigger :  CreateDT, ProcessedDT
-        ELData_Acq :  
-        ELData_Acq_Buffer :  
-        ELData_CellInfo :  
-        ELData_CellInfo_Buffer :  
         Fault :  FaultReportedDT, ModifiedDT
         FaultState :  FromDT, ToDT, OpenedDT, SavedDT
         FaultStatus :  

@@ -562,46 +562,6 @@ hive -e "Create External table IF NOT EXISTS MES.EBATrigger (EBATriggerID int, R
 
 echo " "
 echo "##################################################"
-echo "Hive: Drop and Create table ELData_Acq"
-echo "##################################################"
-echo " "
-
-hive -e "Drop table MES.ELData_Acq"
-
-hive -e "Create External table IF NOT EXISTS MES.ELData_Acq (MeasurementSetID int, SerialNo varchar(508), BINNo varchar(508), Komax1 varchar(508), CktFormBuildMachine varchar(508), ElBuildMachine varchar(508), Comments varchar(4000), DT datetime2(3), NumCells int, CellHole int, LiftedTab int, MultipleCrack int, DiagonalCrack int, ReversePolarity int, ShatteredCell int, ShortedPasteBusbar int, ShortedPasteMiddle int, ShortedPasteUnknown int, VerticalCrack int, VisibleCrackFab int, VisibleCrackMod int, Weird int, CellReplacementFab int, CellReplacementMod int, TouchUpthenGood int, WipethenGood int, Rework int,  org_id int, org_name varchar(10)) row format delimited fields terminated by '\t' lines terminated by '\n' stored as textfile location '/MES/ELData_Acq'"
-
-echo " "
-echo "##################################################"
-echo "Hive: Drop and Create table ELData_Acq_Buffer"
-echo "##################################################"
-echo " "
-
-hive -e "Drop table MES.ELData_Acq_Buffer"
-
-hive -e "Create External table IF NOT EXISTS MES.ELData_Acq_Buffer (MeasurementSetID int, SerialNo varchar(508), BINNo varchar(508), Komax1 varchar(508), CktFormBuildMachine varchar(508), ElBuildMachine varchar(508), Comments varchar(4000), DT datetime2(3), NumCells int, CellHole int, LiftedTab int, MultipleCrack int, DiagonalCrack int, ReversePolarity int, ShatteredCell int, ShortedPasteBusbar int, ShortedPasteMiddle int, ShortedPasteUnknown int, VerticalCrack int, VisibleCrackFab int, VisibleCrackMod int, Weird int, CellReplacementFab int, CellReplacementMod int, TouchUpthenGood int, WipethenGood int, Rework int,  org_id int, org_name varchar(10)) row format delimited fields terminated by '\t' lines terminated by '\n' stored as textfile location '/MES/ELData_Acq_Buffer'"
-
-echo " "
-echo "##################################################"
-echo "Hive: Drop and Create table ELData_CellInfo"
-echo "##################################################"
-echo " "
-
-hive -e "Drop table MES.ELData_CellInfo"
-
-hive -e "Create External table IF NOT EXISTS MES.ELData_CellInfo (ConsumesCells varchar(508), ModuleID varchar(508), BINNo varchar(508), Variant1 varchar(200), CktFormBuildDT datetime2(3),  org_id int, org_name varchar(10)) row format delimited fields terminated by '\t' lines terminated by '\n' stored as textfile location '/MES/ELData_CellInfo'"
-
-echo " "
-echo "##################################################"
-echo "Hive: Drop and Create table ELData_CellInfo_Buffer"
-echo "##################################################"
-echo " "
-
-hive -e "Drop table MES.ELData_CellInfo_Buffer"
-
-hive -e "Create External table IF NOT EXISTS MES.ELData_CellInfo_Buffer (ConsumesCells varchar(508), ModuleID varchar(508), BINNo varchar(508), Variant1 varchar(200), CktFormBuildDT datetime2(3),  org_id int, org_name varchar(10)) row format delimited fields terminated by '\t' lines terminated by '\n' stored as textfile location '/MES/ELData_CellInfo_Buffer'"
-
-echo " "
-echo "##################################################"
 echo "Hive: Drop and Create table Fault"
 echo "##################################################"
 echo " "
