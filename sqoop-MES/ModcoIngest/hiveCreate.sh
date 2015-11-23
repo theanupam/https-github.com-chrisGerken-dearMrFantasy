@@ -2012,36 +2012,6 @@ hive -e "Create External table IF NOT EXISTS MES.SPCVarChart (SPCVarChartID int,
 
 echo " "
 echo "##################################################"
-echo "Hive: Drop and Create table Spec"
-echo "##################################################"
-echo " "
-
-hive -e "Drop table MES.Spec"
-
-hive -e "Create External table IF NOT EXISTS MES.Spec (SpecID int, VariableID int, USL float, NOM float, LSL float, SpecTypeID smallint, IsEdited tinyint, RevisionNo smallint, DecPlaces tinyint,  org_id int, org_name varchar(10)) row format delimited fields terminated by '\t' lines terminated by '\n' stored as textfile location '/MES/Spec'"
-
-echo " "
-echo "##################################################"
-echo "Hive: Drop and Create table Spec_"
-echo "##################################################"
-echo " "
-
-hive -e "Drop table MES.Spec_"
-
-hive -e "Create External table IF NOT EXISTS MES.Spec_ (SpecID int, LoginID smallint, Units varchar(40), URL float, LRL float, FromDT timestamp, ToDT timestamp, Comments varchar(2000), ModifiedDT timestamp, DrawingNumber varchar(508),  org_id int, org_name varchar(10)) row format delimited fields terminated by '\t' lines terminated by '\n' stored as textfile location '/MES/Spec_'"
-
-echo " "
-echo "##################################################"
-echo "Hive: Drop and Create table SpecType"
-echo "##################################################"
-echo " "
-
-hive -e "Drop table MES.SpecType"
-
-hive -e "Create External table IF NOT EXISTS MES.SpecType (SpecTypeID smallint, SpecType varchar(100), CUSTOMERID smallint,  org_id int, org_name varchar(10)) row format delimited fields terminated by '\t' lines terminated by '\n' stored as textfile location '/MES/SpecType'"
-
-echo " "
-echo "##################################################"
 echo "Hive: Drop and Create table SPMM_CalTools"
 echo "##################################################"
 echo " "

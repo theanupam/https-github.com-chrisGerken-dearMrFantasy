@@ -210,9 +210,6 @@ The MES ingestion is as follows:
         SPCRule (1)  
         SPCStatsStyle_CUS (1)  
         SPCVarChart (1)  
-        Spec (1)  
-        Spec_ (1)  
-        SpecType (1)  
         SPMM_CalTools (1)  
         SPMM_DMCost (1)  
         Supplier (1)  
@@ -487,9 +484,6 @@ The MES ingestion is as follows:
         SPCRule :  
         SPCStatsStyle_CUS :  
         SPCVarChart :  CreateDT
-        Spec :  
-        Spec_ :  FromDT, ToDT, ModifiedDT
-        SpecType :  
         SPMM_CalTools :  CalDate, CalDueDate, DueDate
         SPMM_DMCost :  
         Supplier :  
