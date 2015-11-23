@@ -16,6 +16,7 @@ import com.intersys.sqoop.driver.SqoopDriver;
 import com.intersys.sqoop.driver.exception.NoDataException;
 import com.intersys.sqoop.driver.exception.NoSuchDatabaseException;
 import com.intersys.sqoop.driver.model.key.*;
+import com.sun.xml.bind.v2.runtime.RuntimeUtil.ToStringAdapter;
 
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
@@ -313,13 +314,16 @@ public class Slice implements Comparable {
 		Connection connection = null;
 		Statement stmt = null;
 		ResultSet rs = null;
-	    try {
+
+		int min = 0;
+		int max = 0;
+		int rows = 0;
+		String query = "";
+		
+		try {
 			connection = SqoopDriver.getDefault().getConnection(database);
-			int min = 0;
-			int max = 0;
-			int rows = 0;
 			
-			String query = "select count(*) as 'ROWS' from "+table;
+			query = "select count(*) as 'ROWS' from "+table;
 			stmt = connection.createStatement();
 			rs = stmt.executeQuery(query);
 			if (rs.next()) {
@@ -347,6 +351,9 @@ public class Slice implements Comparable {
 		    return new Slice(System.currentTimeMillis(), min, max, rows, TYPE_UNDECIDED, "", true, false, false, 0);
 	    
 	    } catch (SQLException e) {
+	    	System.out.println("Error performing query: "+query);
+	    	System.out.println("\ttable="+table+"; column="+column+"; database="+database);
+	    	System.out.println("\tmin="+min+"; max="+max+"; rows="+rows);
 			throw e;
 		} finally {
 			try { rs.close(); } catch (Throwable t) {  }
