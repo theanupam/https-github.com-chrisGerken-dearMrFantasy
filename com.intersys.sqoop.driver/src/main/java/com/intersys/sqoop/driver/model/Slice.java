@@ -315,23 +315,11 @@ public class Slice implements Comparable {
 		ResultSet rs = null;
 	    try {
 			connection = SqoopDriver.getDefault().getConnection(database);
-			int min;
-			int max;
-			int rows;
+			int min = 0;
+			int max = 0;
+			int rows = 0;
 			
-			String query = "select min("+column+") as 'MIN', max("+column+") as 'MAX' from "+table;
-			stmt = connection.createStatement();
-			rs = stmt.executeQuery(query);
-			if (rs.next()) {
-			    min = rs.getInt("MIN");
-			    max = rs.getInt("MAX");
-			} else {
-				throw new NoDataException("No data for table "+table+" in data base "+database);
-			}
-			try { rs.close(); } catch (Throwable t) {  }
-			try { stmt.close(); } catch (Throwable t) {  }
-			
-			query = "select count(*) as 'ROWS' from "+table;
+			String query = "select count(*) as 'ROWS' from "+table;
 			stmt = connection.createStatement();
 			rs = stmt.executeQuery(query);
 			if (rs.next()) {
@@ -339,7 +327,23 @@ public class Slice implements Comparable {
 			} else {
 				throw new NoDataException("No data for table "+table+" in data base "+database);
 			}
-
+			
+			if (rows > 0) {
+				query = "select min("+column+") as 'MIN', max("+column+") as 'MAX' from "+table;
+				stmt = connection.createStatement();
+				rs = stmt.executeQuery(query);
+				if (rs.next()) {
+				    min = rs.getInt("MIN");
+				    max = rs.getInt("MAX");
+				} else {
+					throw new NoDataException("No data for table "+table+" in data base "+database);
+				}
+				try { rs.close(); } catch (Throwable t) {  }
+				try { stmt.close(); } catch (Throwable t) {  }
+			} else {
+				
+			}
+			
 		    return new Slice(System.currentTimeMillis(), min, max, rows, TYPE_UNDECIDED, "", true, false, false, 0);
 	    
 	    } catch (SQLException e) {
