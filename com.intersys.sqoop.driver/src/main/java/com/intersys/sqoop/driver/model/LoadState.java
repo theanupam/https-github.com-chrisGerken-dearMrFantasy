@@ -235,75 +235,79 @@ public class LoadState implements Comparable {
 		parms.put("_DoInterval", "false");
 		parms.put("_DoDelta", "false");
 
-		Slice slice = Slice.getSlice(getTable(), getIdColumn(), getDatabase());
+		try {
+			Slice slice = Slice.getSlice(getTable(), getIdColumn(), getDatabase());
 
-		if (!getIncremental()) {
+			if (!getIncremental()) {
 
-			System.out.println(getTable()+" in "+getDatabase()+" is a full load ("+(slice.getMaxId()-slice.getMinId()+1)+"; "+slice.getRows()+")");
-			_slices = new HashMap<SliceKey, Slice>();
-			
-			if (slice.getRows() > 0) {
-				addSlices(slice);
+				System.out.println(getTable()+" in "+getDatabase()+" is a full load ("+(slice.getMaxId()-slice.getMinId()+1)+"; "+slice.getRows()+")");
+				_slices = new HashMap<SliceKey, Slice>();
 				
-				slice.setHdfsDir(getHdfsBaseDir());
-				slice.setType(Slice.TYPE_FULL);
-				parms.put("_DoFull", "true");
-				parms.put("_DoFullTarget", getHdfsBaseDir());
-			} else {
-				System.out.println(" - No data => No import for now");
-			}
-		
-		} else {
-
-			System.out.println("Slice for "+getTable()+" in "+getDatabase()+" ("+(slice.getMaxId()-slice.getMinId()+1)+"; "+slice.getRows()+") : "+slice.asJson().toString());
-			
-			Slice first;
-			Slice last;
-			
-			List<Slice> list = Slice.sort(getSlices());
-			
-			boolean runJob = true;
-			
-			if (!getSlices().isEmpty()) {
-				last = list.get(list.size()-1);
-				if (last.getMaxId() == slice.getMaxId()) {
-					// No new data
-					runJob = false;
-				} else {
+				if (slice.getRows() > 0) {
+					addSlices(slice);
 					
-				}
-			}
-			
-			if (runJob) {
-				
-				addSlices(slice);
-				list = Slice.sort(getSlices());
-				
-				first = list.get(0);
-				last = list.get(list.size()-1);
-
-				if (list.size() == 1) {
-					parms.put("_DoBase", "true");
-					parms.put("_MaxBaseID", String.valueOf(first.getMaxId()));
-					slice.setHdfsDir(getHdfsBaseDir()+"/Base");
-					slice.setType(Slice.TYPE_BASE);
-					parms.put("_DoBaseTarget", slice.getHdfsDir());
+					slice.setHdfsDir(getHdfsBaseDir());
+					slice.setType(Slice.TYPE_FULL);
+					parms.put("_DoFull", "true");
+					parms.put("_DoFullTarget", getHdfsBaseDir());
 				} else {
-					parms.put("_DoDelta", "true");
-					parms.put("_MinDeltaID", String.valueOf(first.getMaxId()+1));
-					slice.setHdfsDir(getHdfsBaseDir()+"/Delta");
-					slice.setType(Slice.TYPE_DELTA);
-					parms.put("_DoDeltaTarget", slice.getHdfsDir());
+					System.out.println(" - No data => No import for now");
 				}
+			
+			} else {
+
+				System.out.println("Slice for "+getTable()+" in "+getDatabase()+" ("+(slice.getMaxId()-slice.getMinId()+1)+"; "+slice.getRows()+") : "+slice.asJson().toString());
+				
+				Slice first;
+				Slice last;
+				
+				List<Slice> list = Slice.sort(getSlices());
+				
+				boolean runJob = true;
+				
+				if (!getSlices().isEmpty()) {
+					last = list.get(list.size()-1);
+					if (last.getMaxId() == slice.getMaxId()) {
+						// No new data
+						runJob = false;
+					} else {
+						
+					}
+				}
+				
+				if (runJob) {
+					
+					addSlices(slice);
+					list = Slice.sort(getSlices());
+					
+					first = list.get(0);
+					last = list.get(list.size()-1);
+
+					if (list.size() == 1) {
+						parms.put("_DoBase", "true");
+						parms.put("_MaxBaseID", String.valueOf(first.getMaxId()));
+						slice.setHdfsDir(getHdfsBaseDir()+"/Base");
+						slice.setType(Slice.TYPE_BASE);
+						parms.put("_DoBaseTarget", slice.getHdfsDir());
+					} else {
+						parms.put("_DoDelta", "true");
+						parms.put("_MinDeltaID", String.valueOf(first.getMaxId()+1));
+						slice.setHdfsDir(getHdfsBaseDir()+"/Delta");
+						slice.setType(Slice.TYPE_DELTA);
+						parms.put("_DoDeltaTarget", slice.getHdfsDir());
+					}
 
 //				parms.put("_MinIncrementID", String.valueOf(first.getMaxId()+1));
 //				parms.put("_MaxIncrementID", String.valueOf(last.getMaxId()));
+					
+				}
 				
-			}
-			
-			// Increment target def for property _DoIncrementTarget
+				// Increment target def for property _DoIncrementTarget
 //			slice.setHdfsDir(getHdfsBaseDir()+"/Incr_"+slice.getMinId()+"_"+slice.getMaxId());
 
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		
 		Properties props = new Properties();
