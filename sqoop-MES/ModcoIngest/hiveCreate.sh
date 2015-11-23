@@ -12,26 +12,6 @@ hive -e "CREATE DATABASE IF NOT EXISTS MES"
 
 echo " "
 echo "##################################################"
-echo "Hive: Drop and Create table U_SP_Crate"
-echo "##################################################"
-echo " "
-
-hive -e "Drop table MES.U_SP_Crate"
-
-hive -e "Create External table IF NOT EXISTS MES.U_SP_Crate (CrateID bigint, CrateNo varchar(508), PartID int, Quantity float, CurrentQuantity float, Locked tinyint, Complete tinyint, CreatedDT timestamp, CompletedDT timestamp, MachineStageID smallint, CrateIndex bigint, MirrorPartID int, PadLock varchar(36),  org_id int, org_name varchar(10)) row format delimited fields terminated by '\t' lines terminated by '\n' stored as textfile location '/MES/U_SP_Crate'"
-
-echo " "
-echo "##################################################"
-echo "Hive: Drop and Create table U_SP_CrateLabel"
-echo "##################################################"
-echo " "
-
-hive -e "Drop table MES.U_SP_CrateLabel"
-
-hive -e "Create External table IF NOT EXISTS MES.U_SP_CrateLabel (U_SP_CrateLabelID bigint, CrateID bigint, MachineStage varchar(508), PartNumber varchar(508), InvState varchar(508), CrateNo varchar(508), CreatedDT timestamp, CompleteDT timestamp, Quantity float, LabelTemplate varchar(508), PrinterURL varchar(2048), PrintedDT timestamp, ScannedDT timestamp, IsCancelled tinyint, IsReprint tinyint, PartDescription varchar(508), LabelSaveDirectory varchar(508), IsPrintLandscape tinyint, NoCopies smallint, LabelsPerInventoryPack smallint,  org_id int, org_name varchar(10)) row format delimited fields terminated by '\t' lines terminated by '\n' stored as textfile location '/MES/U_SP_CrateLabel'"
-
-echo " "
-echo "##################################################"
 echo "Hive: Drop and Create table U_SP_LkInvIsolatedReasonMST"
 echo "##################################################"
 echo " "
@@ -59,16 +39,6 @@ echo " "
 hive -e "Drop table MES.U_SP_PalletLabel"
 
 hive -e "Create External table IF NOT EXISTS MES.U_SP_PalletLabel (U_SP_PalletLabelID bigint, PalletID bigint, MachineStage varchar(508), PartNumber varchar(508), InvState varchar(508), PalletNo varchar(508), CreatedDT timestamp, CompleteDT timestamp, Quantity float, LabelTemplate varchar(508), PrinterURL varchar(2048), PrintedDT timestamp, ScannedDT timestamp, IsCancelled tinyint, IsReprint tinyint, PartDescription varchar(508), LabelSaveDirectory varchar(508), IsPrintLandscape tinyint, NoCopies smallint, LabelsPerInventoryPack smallint,  org_id int, org_name varchar(10)) row format delimited fields terminated by '\t' lines terminated by '\n' stored as textfile location '/MES/U_SP_PalletLabel'"
-
-echo " "
-echo "##################################################"
-echo "Hive: Drop and Create table U_SP_SEQ_LPN"
-echo "##################################################"
-echo " "
-
-hive -e "Drop table MES.U_SP_SEQ_LPN"
-
-hive -e "Create External table IF NOT EXISTS MES.U_SP_SEQ_LPN (SeqID int, SeqVal varchar(1),  org_id int, org_name varchar(10)) row format delimited fields terminated by '\t' lines terminated by '\n' stored as textfile location '/MES/U_SP_SEQ_LPN'"
 
 echo " "
 echo "##################################################"
@@ -1802,16 +1772,6 @@ hive -e "Create External table IF NOT EXISTS MES.ScrapReasonGroup (ScrapReasonGr
 
 echo " "
 echo "##################################################"
-echo "Hive: Drop and Create table Sequences"
-echo "##################################################"
-echo " "
-
-hive -e "Drop table MES.Sequences"
-
-hive -e "Create External table IF NOT EXISTS MES.Sequences (SeqName varchar(50), SeqValue smallint,  org_id int, org_name varchar(10)) row format delimited fields terminated by '\t' lines terminated by '\n' stored as textfile location '/MES/Sequences'"
-
-echo " "
-echo "##################################################"
 echo "Hive: Drop and Create table SettingsPlantDefaults"
 echo "##################################################"
 echo " "
@@ -2012,26 +1972,6 @@ hive -e "Create External table IF NOT EXISTS MES.SPCVarChart (SPCVarChartID int,
 
 echo " "
 echo "##################################################"
-echo "Hive: Drop and Create table SPMM_CalTools"
-echo "##################################################"
-echo " "
-
-hive -e "Drop table MES.SPMM_CalTools"
-
-hive -e "Create External table IF NOT EXISTS MES.SPMM_CalTools (EDIT varchar(510), Site varchar(510), Control_No varchar(510), CSF_No float, AssetExternalControl_No varchar(510), Manufacturer varchar(510), EquipmentName varchar(510), Model_No varchar(510), Serial_No float, EquipmentLocation varchar(510), CalRequired varchar(510), CalFrequency varchar(510), CalDate timestamp, CalDueDate timestamp, Owner varchar(510), CalibrationSite varchar(510), Calibrator varchar(510), Status varchar(510), Isthelastcalibrationoutoftolerance varchar(510), DueDate timestamp,  org_id int, org_name varchar(10)) row format delimited fields terminated by '\t' lines terminated by '\n' stored as textfile location '/MES/SPMM_CalTools'"
-
-echo " "
-echo "##################################################"
-echo "Hive: Drop and Create table SPMM_DMCost"
-echo "##################################################"
-echo " "
-
-hive -e "Drop table MES.SPMM_DMCost"
-
-hive -e "Create External table IF NOT EXISTS MES.SPMM_DMCost (Oracle_PN varchar(100), Description varchar(510), Cost float,  org_id int, org_name varchar(10)) row format delimited fields terminated by '\t' lines terminated by '\n' stored as textfile location '/MES/SPMM_DMCost'"
-
-echo " "
-echo "##################################################"
 echo "Hive: Drop and Create table Supplier"
 echo "##################################################"
 echo " "
@@ -2039,16 +1979,6 @@ echo " "
 hive -e "Drop table MES.Supplier"
 
 hive -e "Create External table IF NOT EXISTS MES.Supplier (SupplierID smallint, Supplier varchar(508), SupplierCode varchar(508), AddressID smallint,  org_id int, org_name varchar(10)) row format delimited fields terminated by '\t' lines terminated by '\n' stored as textfile location '/MES/Supplier'"
-
-echo " "
-echo "##################################################"
-echo "Hive: Drop and Create table sysdiagrams"
-echo "##################################################"
-echo " "
-
-hive -e "Drop table MES.sysdiagrams"
-
-hive -e "Create External table IF NOT EXISTS MES.sysdiagrams (name varchar(256), principal_id int, diagram_id int, version int, definition varbinary(8000),  org_id int, org_name varchar(10)) row format delimited fields terminated by '\t' lines terminated by '\n' stored as textfile location '/MES/sysdiagrams'"
 
 echo " "
 echo "##################################################"
@@ -2462,16 +2392,6 @@ hive -e "Create External table IF NOT EXISTS MES.VarMeasurementP (VarMeasurement
 
 echo " "
 echo "##################################################"
-echo "Hive: Drop and Create table Version"
-echo "##################################################"
-echo " "
-
-hive -e "Drop table MES.Version"
-
-hive -e "Create External table IF NOT EXISTS MES.Version (PlantDBVersion varchar(100), Comments varchar(100), ModifiedDT timestamp,  org_id int, org_name varchar(10)) row format delimited fields terminated by '\t' lines terminated by '\n' stored as textfile location '/MES/Version'"
-
-echo " "
-echo "##################################################"
 echo "Hive: Drop and Create table WO"
 echo "##################################################"
 echo " "
@@ -2539,36 +2459,6 @@ echo " "
 hive -e "Drop table MES.WorkInstructionStep"
 
 hive -e "Create External table IF NOT EXISTS MES.WorkInstructionStep (WorkInstructionStepID int, WorkInstructionStep varchar(508), WorkInstructionProcedureID smallint, OperationTypeID smallint, StepOrder float, RfSpecialActionTypeID int, AcquisitionVariantID smallint,  org_id int, org_name varchar(10)) row format delimited fields terminated by '\t' lines terminated by '\n' stored as textfile location '/MES/WorkInstructionStep'"
-
-echo " "
-echo "##################################################"
-echo "Hive: Drop and Create table xxxHipotData"
-echo "##################################################"
-echo " "
-
-hive -e "Drop table MES.xxxHipotData"
-
-hive -e "Create External table IF NOT EXISTS MES.xxxHipotData (SERIAL_NUMBER varchar(100), CONT_A decimal(18,2), CONT_B decimal(18,2), CONT_C decimal(18,2), HIPOT decimal(18,2), STATION varchar(100), DATETIME timestamp, USERNAME varchar(100), REMARKS varchar(200),  org_id int, org_name varchar(10)) row format delimited fields terminated by '\t' lines terminated by '\n' stored as textfile location '/MES/xxxHipotData'"
-
-echo " "
-echo "##################################################"
-echo "Hive: Drop and Create table xxxHipotData_Buffer"
-echo "##################################################"
-echo " "
-
-hive -e "Drop table MES.xxxHipotData_Buffer"
-
-hive -e "Create External table IF NOT EXISTS MES.xxxHipotData_Buffer (SERIAL_NUMBER varchar(100), CONT_A decimal(18,2), CONT_B decimal(18,2), CONT_C decimal(18,2), HIPOT decimal(18,2), STATION varchar(100), DATETIME timestamp, USERNAME varchar(100), REMARKS varchar(200),  org_id int, org_name varchar(10)) row format delimited fields terminated by '\t' lines terminated by '\n' stored as textfile location '/MES/xxxHipotData_Buffer'"
-
-echo " "
-echo "##################################################"
-echo "Hive: Drop and Create table xxxIPN"
-echo "##################################################"
-echo " "
-
-hive -e "Drop table MES.xxxIPN"
-
-hive -e "Create External table IF NOT EXISTS MES.xxxIPN (PartNumber varchar(100), IPN varchar(500),  org_id int, org_name varchar(10)) row format delimited fields terminated by '\t' lines terminated by '\n' stored as textfile location '/MES/xxxIPN'"
 
 echo " "
 echo "##################################################"

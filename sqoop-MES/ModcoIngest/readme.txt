@@ -10,12 +10,9 @@ The MES ingestion is as follows:
 
 2. Tables ingested:
 
-        _SP_Crate (1)  
-        _SP_CrateLabel (1)  
         _SP_LkInvIsolatedReasonMST (1)  
         _SP_Pallet (1)  
         _SP_PalletLabel (1)  
-        _SP_SEQ_LPN (1)  
         _SPML_ModuleInfo (15)  
         AcqCtxVarClass (1)  
         Acquisition (1)  
@@ -189,7 +186,6 @@ The MES ingestion is as follows:
         Scrap_ (1)  
         ScrapReason (1)  
         ScrapReasonGroup (1)  
-        Sequences (1)  
         SettingsPlantDefaults (1)  
         SettingsPlantNameTemplates (1)  
         SettingsPlantTimeWindows (1)  
@@ -210,10 +206,7 @@ The MES ingestion is as follows:
         SPCRule (1)  
         SPCStatsStyle_CUS (1)  
         SPCVarChart (1)  
-        SPMM_CalTools (1)  
-        SPMM_DMCost (1)  
         Supplier (1)  
-        sysdiagrams (1)  
         TagCauseAction (1)  
         TagDef (1)  
         TagDefect (1)  
@@ -255,7 +248,6 @@ The MES ingestion is as follows:
         VariableTypeGroup (1)  
         VarMeasurement (1)  
         VarMeasurementP (1)  
-        Version (1)  
         WO (1)  
         WO_ (1)  
         WO_custom (1)  
@@ -263,9 +255,6 @@ The MES ingestion is as follows:
         WorkInstructionProcedure (1)  
         WorkInstructionResult (1)  
         WorkInstructionStep (1)  
-        xxxHipotData (1)  
-        xxxHipotData_Buffer (1)  
-        xxxIPN (1)  
 
         BuildRecord (100) from BuildRecord, BuildRecord_
         InventoryLabel (30) from InventoryLabel, InventoryLabel_, InventoryLabel_custom
@@ -284,12 +273,9 @@ The MES ingestion is as follows:
 
 4. Timestamps:
 
-        _SP_Crate :  CreatedDT, CompletedDT
-        _SP_CrateLabel :  CreatedDT, CompleteDT, PrintedDT, ScannedDT
         _SP_LkInvIsolatedReasonMST :  
         _SP_Pallet :  CreatedDT, CompletedDT
         _SP_PalletLabel :  CreatedDT, CompleteDT, PrintedDT, ScannedDT
-        _SP_SEQ_LPN :  
         _SPML_ModuleInfo :  LaminateCreatedDT, CktFormBuildDT, GlassBuildDate, LaminationBuildDT, ModuleCreatedDT, FramingBuildDT, JboxBuildDT, FlashtestClassifiedDT, PackedDT, ElTestDate, TrimBuildDT, EvaUseByDT
         AcqCtxVarClass :  
         Acquisition :  
@@ -463,7 +449,6 @@ The MES ingestion is as follows:
         Scrap_ :  OpenedDT, SavedDT
         ScrapReason :  
         ScrapReasonGroup :  
-        Sequences :  
         SettingsPlantDefaults :  
         SettingsPlantNameTemplates :  
         SettingsPlantTimeWindows :  
@@ -484,10 +469,7 @@ The MES ingestion is as follows:
         SPCRule :  
         SPCStatsStyle_CUS :  
         SPCVarChart :  CreateDT
-        SPMM_CalTools :  CalDate, CalDueDate, DueDate
-        SPMM_DMCost :  
         Supplier :  
-        sysdiagrams :  
         TagCauseAction :  DT
         TagDef :  DT
         TagDefect :  DT
@@ -529,7 +511,6 @@ The MES ingestion is as follows:
         VariableTypeGroup :  
         VarMeasurement :  DT
         VarMeasurementP :  DT
-        Version :  ModifiedDT
         WO :  DeadlineDT, ActualStartDT, ActualEndDT, PlannedStartDT, PlannedEndDT, EstimatedStartDT, EstimatedEndDT
         WO_ :  
         WO_custom :  Txn_date
@@ -537,9 +518,6 @@ The MES ingestion is as follows:
         WorkInstructionProcedure :  FromDT, ToDT, ModifiedDT
         WorkInstructionResult :  DT
         WorkInstructionStep :  
-        xxxHipotData :  DATETIME
-        xxxHipotData_Buffer :  DATETIME
-        xxxIPN :  
 
         
         BuildRecord :  BuildDT

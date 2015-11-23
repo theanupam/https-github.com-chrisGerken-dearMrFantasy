@@ -307,7 +307,8 @@ public class LoadState implements Comparable {
 
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("\t"+e.getLocalizedMessage());
+			System.out.println("\tException => No import for now");
 		}
 		
 		Properties props = new Properties();

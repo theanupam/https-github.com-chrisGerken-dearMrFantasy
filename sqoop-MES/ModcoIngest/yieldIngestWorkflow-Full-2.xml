@@ -1,14 +1,14 @@
 <workflow-app name="Ingest-Full-2" xmlns="uri:oozie:workflow:0.1">
 
- 	<start to="_SP_Crate-Ingest-SPDV"/>
+ 	<start to="_SP_LkInvIsolatedReasonMST-Ingest-SPDV"/>
 
 
-    <action name="_SP_Crate-Ingest-SPDV">
+    <action name="_SP_LkInvIsolatedReasonMST-Ingest-SPDV">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_DEVERN_OWNER__SP_Crate_DoFullTarget}" />
+            	<delete path="${job_DEVERN_OWNER__SP_LkInvIsolatedReasonMST_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -18,11 +18,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT CrateID,CrateNo,PartID,Quantity,CurrentQuantity,Locked,Complete,CreatedDT,CompletedDT,MachineStageID,CrateIndex,MirrorPartID,PadLock, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo._SP_Crate WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT LkInvIsolatedReasonMSTID,InvIsolatedReasonID,MachineStageTypeID, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo._SP_LkInvIsolatedReasonMST WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_DEVERN_OWNER__SP_Crate_DoFullTarget}</arg>
+            <arg>${job_DEVERN_OWNER__SP_LkInvIsolatedReasonMST_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -31,48 +31,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="_SP_PalletLabel-Ingest-SPDV"/>
-        <error to="_SP_PalletLabel-Ingest-SPDV"/>
+        <ok to="Acquisition-Ingest-SPMX"/>
+        <error to="Acquisition-Ingest-SPMX"/>
     </action>
 
-    <action name="_SP_PalletLabel-Ingest-SPDV">
+    <action name="Acquisition-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_DEVERN_OWNER__SP_PalletLabel_DoFullTarget}" />
-            </prepare>         	
-            <arg>import</arg>
-         	<arg>--connect</arg>
-            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
-            <arg>--username</arg>
-            <arg>usrSqoop</arg>
-            <arg>--password</arg>
-            <arg>AXm6Sn6#o</arg>
-            <arg>--query</arg>
-            <arg>SELECT _SP_PalletLabelID,PalletID,MachineStage,PartNumber,InvState,PalletNo,CreatedDT,CompleteDT,Quantity,LabelTemplate,PrinterURL,PrintedDT,ScannedDT,IsCancelled,IsReprint,PartDescription,LabelSaveDirectory,IsPrintLandscape,NoCopies,LabelsPerInventoryPack, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo._SP_PalletLabel WHERE ( $CONDITIONS ) </arg>
-            <arg>--num-mappers</arg>
-            <arg>1</arg>
-            <arg>--target-dir</arg>
-            <arg>${job_DEVERN_OWNER__SP_PalletLabel_DoFullTarget}</arg>
-            <arg>--fields-terminated-by</arg>
-            <arg>\t</arg>
-            <arg>--direct</arg>
-            <arg>--</arg>
-            <arg>--schema</arg>
-            <arg>dbo</arg>
-            <arg>-validate</arg>
-        </sqoop>
-        <ok to="AcquisitionAttributeType-Ingest-SPMX"/>
-        <error to="AcquisitionAttributeType-Ingest-SPMX"/>
-    </action>
-
-    <action name="AcquisitionAttributeType-Ingest-SPMX">
-        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
-			<job-tracker>${jobTracker}</job-tracker>
-            <name-node>${nameNode}</name-node>
-			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_AcquisitionAttributeType_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_Acquisition_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -82,11 +50,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT AcquisitionAttributeTypeID,AcquisitionVariantID,AttributeTypeID,EntryOrder,Formula,IsExplicitStep, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.AcquisitionAttributeType WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT AcquisitionID,Acquisition,AcquisitionCode,Description, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.Acquisition WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_AcquisitionAttributeType_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_Acquisition_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -95,16 +63,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="AcquisitionGroup-Ingest-SPMX"/>
-        <error to="AcquisitionGroup-Ingest-SPMX"/>
+        <ok to="AcquisitionDevice-Ingest-SPMX"/>
+        <error to="AcquisitionDevice-Ingest-SPMX"/>
     </action>
 
-    <action name="AcquisitionGroup-Ingest-SPMX">
+    <action name="AcquisitionDevice-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_AcquisitionGroup_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_AcquisitionDevice_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -114,11 +82,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT AcquisitionGroupID,AcquisitionGroup,Description,AcquisitionGroupCode,LoginID,ModifiedDT, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.AcquisitionGroup WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT AcquisitionDeviceID,AcquisitionVariableTypeID,WorkstationConfigID,Instructions,ImageURI,RfSourceID,DataDeviceID,DeviceArgs,DeviceOutput,FillMode,Preset,Multiplier,PreprocessingFunction,IsManualTrigger,IsManualConfirm, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.AcquisitionDevice WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_AcquisitionGroup_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_AcquisitionDevice_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -127,16 +95,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="Action-Ingest-SPMX"/>
-        <error to="Action-Ingest-SPMX"/>
+        <ok to="AcquisitionVariant_-Ingest-SPMX"/>
+        <error to="AcquisitionVariant_-Ingest-SPMX"/>
     </action>
 
-    <action name="Action-Ingest-SPMX">
+    <action name="AcquisitionVariant_-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_Action_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_AcquisitionVariant__DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -146,11 +114,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT ActionID,RfSpecialActionTypeID,ActionTypeID,ActionSubTypeID,ActionPlanID,ActionPlanCode,ActionName,Description,ActionOrder,RfPriorityID,SubmitterID,SubmittedDT,OwnerID,ActionStatusID,ClosedDT,ModifiedDT,LoginID,IsEdited,RevisionNo,DueDT,DeadlineDT,ExpiryDT,SortOrder, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.Action WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT AcquisitionVariantID,FromDT,ToDT,DataEntryURI,SPCURI,AcquisitionImageURI,LoginID,ModifiedDT,Comments,Instructions,PartID,Variant1,Variant2,Variant3,Variant4,Variant5,Variant6,Variant7,Variant8,Variant9,Variant10,Variant11,Variant12,Variant13,Variant14,Variant15,ToolTypeID,NoCavities,Documents,IsSuspendable,IsRotatableStepPlan,EBAReference,Variant16,Variant17,Variant18,Variant19,Variant20, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.AcquisitionVariant_ WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_Action_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_AcquisitionVariant__DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -159,16 +127,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="ActionSubType-Ingest-SPMX"/>
-        <error to="ActionSubType-Ingest-SPMX"/>
+        <ok to="ActionStatus-Ingest-SPMX"/>
+        <error to="ActionStatus-Ingest-SPMX"/>
     </action>
 
-    <action name="ActionSubType-Ingest-SPMX">
+    <action name="ActionStatus-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_ActionSubType_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_ActionStatus_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -178,11 +146,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT ActionSubTypeID,ActionSubType,ActionTypeID,Description,SubActionTypeCode,ReportOrder,Format,IsRetired, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.ActionSubType WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT ActionStatusID,ActionStatus,ConditionalFormat,IsClosedState, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.ActionStatus WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_ActionSubType_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_ActionStatus_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -191,16 +159,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="AssetCountType-Ingest-SPMX"/>
-        <error to="AssetCountType-Ingest-SPMX"/>
+        <ok to="Asset-Ingest-SPMX"/>
+        <error to="Asset-Ingest-SPMX"/>
     </action>
 
-    <action name="AssetCountType-Ingest-SPMX">
+    <action name="Asset-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_AssetCountType_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_Asset_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -210,11 +178,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT AssetCountTypeID,AssetCountType,Description, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.AssetCountType WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT AssetID,AssetName,RfAssetTypeID,LineID,MachineStageID,ToolID,GaugeID,PartID,InventoryPackID,LocationID,IsRetired,CostCentreID,ManufacturerID,SupplierID,AcquiredDT,PONumber,OrderedDT,ExpectedDeliveryDT,ExpectedFirstUseDT,EndUseDT,EndUseReason,PurchaseCost,DefaultLocationID,Comments, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.Asset WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_AssetCountType_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_Asset_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -223,16 +191,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="Attribute-Ingest-SPMX"/>
-        <error to="Attribute-Ingest-SPMX"/>
+        <ok to="AssetLevel-Ingest-SPMX"/>
+        <error to="AssetLevel-Ingest-SPMX"/>
     </action>
 
-    <action name="Attribute-Ingest-SPMX">
+    <action name="AssetLevel-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_Attribute_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_AssetLevel_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -242,11 +210,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT AttributeID,AttributeTypeID,ProductID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.Attribute WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT AssetLevelID,AssetID,SubAssetID,Sequence,Comments,FromDT, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.AssetLevel WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_Attribute_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_AssetLevel_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -255,16 +223,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="AVDataEntryOptions-Ingest-SPMX"/>
-        <error to="AVDataEntryOptions-Ingest-SPMX"/>
+        <ok to="AVAttribute-Ingest-SPMX"/>
+        <error to="AVAttribute-Ingest-SPMX"/>
     </action>
 
-    <action name="AVDataEntryOptions-Ingest-SPMX">
+    <action name="AVAttribute-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_AVDataEntryOptions_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_AVAttribute_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -274,11 +242,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT AcquisitionVariantID,RfVarGridStyleID,IsPITCols,IsPISNoCol,RfAttrGridStyleID,IsStepGrid,IsAttrSkipStep,ShowAttrInfoTip,UseAttrImagePicker,AttrGridContextMenu,IsPISerial,AutoGenerateSerialNo,PITSampling,MSTSampling,VAInterlace,IsExplicitHS,SampleSizeMode,OnDataCommitGoTo,IsDisableOOSWarnings,StepEditPolicy,DisableKeyboardOverride,ChainToStopped,DisplayPlan,AttrPassFailDefault,VariableSaveMode,AttrCellClick, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.AVDataEntryOptions WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT AcquisitionVariantID,TargetSampleSize,RfAttrStudyTypeID,Instructions,ImageURI,NoHeads,RfSourceID,DataDeviceID,DeviceArgs,DeviceOutput, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.AVAttribute WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_AVDataEntryOptions_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_AVAttribute_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -287,16 +255,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="CauseAction-Ingest-SPMX"/>
-        <error to="CauseAction-Ingest-SPMX"/>
+        <ok to="BOMVariant-Ingest-SPMX"/>
+        <error to="BOMVariant-Ingest-SPMX"/>
     </action>
 
-    <action name="CauseAction-Ingest-SPMX">
+    <action name="BOMVariant-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_CauseAction_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_BOMVariant_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -306,11 +274,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT CauseActionID,MeasurementSetID,IsAttributes,IndividualDefectID,AttributeTypeID,Cause,Action,DT,VarChartOCID,RfIsOSID,VarMeasurementID,VariableTypeID,IsEdited,RevisionNo,ProductID,AcquisitionID,MachineStageID,RfAttributeClassID,HeadNo,SampleNo,PositionNo,RfAcquisitionClassID,SPCChartComponentID,SPCRuleID,RfCauseActionStateID,TAGMSVALUE1,TAGMSTYPE1ID,CreateDT,AcknowledgeDT,CloseDT, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.CauseAction WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT BOMVariantID,BOMVariant,PartID,IsDefault,BOMVariantIndex,IsRetired,LoginID,DT, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.BOMVariant WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_CauseAction_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_BOMVariant_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -319,16 +287,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="Concern-Ingest-SPMX"/>
-        <error to="Concern-Ingest-SPMX"/>
+        <ok to="CommonFault-Ingest-SPMX"/>
+        <error to="CommonFault-Ingest-SPMX"/>
     </action>
 
-    <action name="Concern-Ingest-SPMX">
+    <action name="CommonFault-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_Concern_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_CommonFault_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -338,11 +306,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT ConcernID,ConcernStatusID,ConcernTypeID,RaisedDT,ClosedDT,SeverityID,DueDate,ConcernOwnerID,DepartmentOwnerID,CustomerID,CustomerContact,CustomerReference,AffectOnCustomer,PartTypeID,PartID,WOID,LineID,ProductionFromDT,ShiftID,QuantityAffected,QuantityUsed,InvIsolatedReasonID,Cost,LoginID,ModifiedDT,Concern,SubmitterLoginID,CustomerProduct,RfCurrencyID,MachineStageID,Reference1,Reference2,Reference3,RfConcernApplicationTypeID,HeadNo,ProductionToDT,QuantityFound,QuantityReturned,QuantityScrapped,QuantitySorted,SupplierID,ToolID,VariableTypeID,AttributeTypeID,ClosedByLoginID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.Concern WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT CommonFaultID,CommonFault,Description,LineTypeID,MachineStageTypeID,ToolTypeID,GaugeTypeID,PartTypeID,RfAssetTypeID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.CommonFault WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_Concern_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_CommonFault_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -351,16 +319,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="CRN_AcquisitionVariableType-Ingest-SPMX"/>
-        <error to="CRN_AcquisitionVariableType-Ingest-SPMX"/>
+        <ok to="CostCentre-Ingest-SPMX"/>
+        <error to="CostCentre-Ingest-SPMX"/>
     </action>
 
-    <action name="CRN_AcquisitionVariableType-Ingest-SPMX">
+    <action name="CostCentre-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_CRN_AcquisitionVariableType_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_CostCentre_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -370,11 +338,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT AcquisitionVariableTypeID,JobCommentLength,RfTorqueDirectionID,RfCycleEndTimeID,ThresholdTorque,RfMeasurementTypeID,RfFrequencyResponseID,UnitID,AuditAngle,CrnAdapterID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.CRN_AcquisitionVariableType WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT CostCentreID,CostCentre,Description, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.CostCentre WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_CRN_AcquisitionVariableType_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_CostCentre_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -383,16 +351,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="DefectCountP-Ingest-SPMX"/>
-        <error to="DefectCountP-Ingest-SPMX"/>
+        <ok to="DefectCount-Ingest-SPMX"/>
+        <error to="DefectCount-Ingest-SPMX"/>
     </action>
 
-    <action name="DefectCountP-Ingest-SPMX">
+    <action name="DefectCount-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_DefectCountP_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_DefectCount_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -402,11 +370,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT DefectCountPID,MeasurementSetPID,HeadNo,DefectCount,Ignored,AttributeTypeID,ProductID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.DefectCountP WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT DefectCountID,MeasurementSetID,HeadNo,DefectCount,Ignored,AttributeTypeID,ProductID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.DefectCount WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_DefectCountP_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_DefectCount_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -415,16 +383,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="dtproperties-Ingest-SPMX"/>
-        <error to="dtproperties-Ingest-SPMX"/>
+        <ok to="DocumentType-Ingest-SPMX"/>
+        <error to="DocumentType-Ingest-SPMX"/>
     </action>
 
-    <action name="dtproperties-Ingest-SPMX">
+    <action name="DocumentType-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_dtproperties_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_DocumentType_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -434,11 +402,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT id,objectid,property,value,uvalue,lvalue,version, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.dtproperties WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT DocumentTypeID,DocumentType, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.DocumentType WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_dtproperties_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_DocumentType_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -447,16 +415,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="FaultStatus-Ingest-SPMX"/>
-        <error to="FaultStatus-Ingest-SPMX"/>
+        <ok to="FaultState-Ingest-SPMX"/>
+        <error to="FaultState-Ingest-SPMX"/>
     </action>
 
-    <action name="FaultStatus-Ingest-SPMX">
+    <action name="FaultState-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_FaultStatus_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_FaultState_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -466,11 +434,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT FaultStatusID,FaultStatus,Description,RfFaultStatusID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.FaultStatus WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT FaultStateID,FaultID,FromDT,ToDT,FaultStatusID,Comments,LoginID,OpenedDT,SavedDT,IsEdited,RevisionNo,OriginalLoginID,EditedFaultStateID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.FaultState WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_FaultStatus_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_FaultState_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -479,16 +447,48 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="InvChangeState-Ingest-SPTM"/>
-        <error to="InvChangeState-Ingest-SPTM"/>
+        <ok to="IndividualDefect-Ingest-SPMX"/>
+        <error to="IndividualDefect-Ingest-SPMX"/>
     </action>
 
-    <action name="InvChangeState-Ingest-SPTM">
+    <action name="IndividualDefect-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_CAPETOWN_OWNER_InvChangeState_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_IndividualDefect_DoFullTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT IndividualDefectID,PartInstanceID,Ignored,DefectCount,MeasurementSetID,AttributeTypeID,ProductID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.IndividualDefect WHERE ( $CONDITIONS ) </arg>
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_MEXICALI_OWNER_IndividualDefect_DoFullTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="InventoryUsage_-Ingest-SPTM"/>
+        <error to="InventoryUsage_-Ingest-SPTM"/>
+    </action>
+
+    <action name="InventoryUsage_-Ingest-SPTM">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_CAPETOWN_OWNER_InventoryUsage__DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -498,11 +498,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT InvChangeStateID,InventoryPackID,FromDT,ToDT,InvIsolatedReasonID,Comments,LoginID,OpenedDT,SavedDT,IsEdited,RevisionNo,OriginalLoginID,EditedInvChangeStateID,InvStateID, 5 as "org_id",  'SPTM' as "org_name" , (DatePart(HOUR,InvChangeState.FromDT)) as "Trans_Hours" , (case when DatePart(HOUR,InvChangeState.FromDT) ${lessThan} 7 then cast(convert(char(11), InvChangeState.FromDT, 113) as datetime) -1 else cast(convert(char(11), InvChangeState.FromDT, 113) as datetime) end) as "ShiftStart_DateTime"   FROM dbo.InvChangeState WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT InventoryUsageID,StartUsingComments,StopUsingComments,StartLoginID,StopLoginID,OpenedStartDT,OpenedEndDT,SavedStartDT,SavedEndDT,OriginalLoginID,EditedInventoryUsageID,Reference1,Reference2,Reference3,Reference4,Reference5, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.InventoryUsage_ WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_CAPETOWN_OWNER_InvChangeState_DoFullTarget}</arg>
+            <arg>${job_CAPETOWN_OWNER_InventoryUsage__DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -511,16 +511,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="InvIsolatedReason-Ingest-SPTM"/>
-        <error to="InvIsolatedReason-Ingest-SPTM"/>
+        <ok to="LineGroup-Ingest-SPTM"/>
+        <error to="LineGroup-Ingest-SPTM"/>
     </action>
 
-    <action name="InvIsolatedReason-Ingest-SPTM">
+    <action name="LineGroup-Ingest-SPTM">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_CAPETOWN_OWNER_InvIsolatedReason_DoFullTarget}" />
+            	<delete path="${job_CAPETOWN_OWNER_LineGroup_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -530,11 +530,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT InvIsolatedReasonID,PartTypeID,IsolatedReason,InvStateID, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.InvIsolatedReason WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT LineGroupID,LineGroup,LineGroupCode,Description,OEETarget,WasteTarget,Reference1,Reference2,Reference3,Reference4,Reference5, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.LineGroup WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_CAPETOWN_OWNER_InvIsolatedReason_DoFullTarget}</arg>
+            <arg>${job_CAPETOWN_OWNER_LineGroup_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -543,16 +543,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="LineInfo_custom-Ingest-SPMX"/>
-        <error to="LineInfo_custom-Ingest-SPMX"/>
+        <ok to="LineType-Ingest-SPMX"/>
+        <error to="LineType-Ingest-SPMX"/>
     </action>
 
-    <action name="LineInfo_custom-Ingest-SPMX">
+    <action name="LineType-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_LineInfo_custom_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_LineType_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -562,11 +562,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT LineInfoID,CellsProduced, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.LineInfo_custom WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT LineTypeID,LineType,Description,IsRetired,LineInfoPrecedence,BudgetChangeOver,BudgetEfficiency, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.LineType WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_LineInfo_custom_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_LineType_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -575,16 +575,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="LkACAChain-Ingest-SPMX"/>
-        <error to="LkACAChain-Ingest-SPMX"/>
+        <ok to="LkCDefInCView-Ingest-SPMX"/>
+        <error to="LkCDefInCView-Ingest-SPMX"/>
     </action>
 
-    <action name="LkACAChain-Ingest-SPMX">
+    <action name="LkCDefInCView-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_LkACAChain_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_LkCDefInCView_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -594,11 +594,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT AcquisitionChainID,AcquisitionContextID,Sequence,LkACAChainID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.LkACAChain WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT SPCChartDefID,SPCChartSetViewID,Sequence,LkCDefInCViewID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.LkCDefInCView WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_LkACAChain_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_LkCDefInCView_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -607,16 +607,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="LkConcernAction-Ingest-SPMX"/>
-        <error to="LkConcernAction-Ingest-SPMX"/>
+        <ok to="LkConcernRootCause-Ingest-SPMX"/>
+        <error to="LkConcernRootCause-Ingest-SPMX"/>
     </action>
 
-    <action name="LkConcernAction-Ingest-SPMX">
+    <action name="LkConcernRootCause-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_LkConcernAction_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_LkConcernRootCause_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -626,11 +626,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT LKConcernActionID,ConcernID,ActionID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.LkConcernAction WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT LkConcernRootCauseID,RootCauseID,ConcernID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.LkConcernRootCause WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_LkConcernAction_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_LkConcernRootCause_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -639,16 +639,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="LKCSetCDef-Ingest-SPMX"/>
-        <error to="LKCSetCDef-Ingest-SPMX"/>
+        <ok to="LkDocumentInvPack-Ingest-SPMX"/>
+        <error to="LkDocumentInvPack-Ingest-SPMX"/>
     </action>
 
-    <action name="LKCSetCDef-Ingest-SPMX">
+    <action name="LkDocumentInvPack-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_LKCSetCDef_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_LkDocumentInvPack_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -658,11 +658,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT SPCChartSetID,SPCChartDefID,Sequence,LkCSetCDefID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.LKCSetCDef WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT LkDocumentInvPackID,DocumentID,InventoryPackID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.LkDocumentInvPack WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_LKCSetCDef_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_LkDocumentInvPack_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -671,16 +671,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="LkDocumentMaintProc-Ingest-SPMX"/>
-        <error to="LkDocumentMaintProc-Ingest-SPMX"/>
+        <ok to="LkFaultMaintWork-Ingest-SPMX"/>
+        <error to="LkFaultMaintWork-Ingest-SPMX"/>
     </action>
 
-    <action name="LkDocumentMaintProc-Ingest-SPMX">
+    <action name="LkFaultMaintWork-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_LkDocumentMaintProc_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_LkFaultMaintWork_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -690,11 +690,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT LkDocumentMaintProcID,DocumentID,MaintenanceProcedureID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.LkDocumentMaintProc WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT MaintenanceWorkID,FaultID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.LkFaultMaintWork WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_LkDocumentMaintProc_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_LkFaultMaintWork_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -703,16 +703,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="LkInvPackInvPack-Ingest-SPMX"/>
-        <error to="LkInvPackInvPack-Ingest-SPMX"/>
+        <ok to="LkLocationMachineStage-Ingest-SPMX"/>
+        <error to="LkLocationMachineStage-Ingest-SPMX"/>
     </action>
 
-    <action name="LkInvPackInvPack-Ingest-SPMX">
+    <action name="LkLocationMachineStage-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_LkInvPackInvPack_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_LkLocationMachineStage_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -722,11 +722,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT LkInvPackInvPackID,InventoryPackFromID,InventoryPackToID,RfInventoryLinkTypeID,LoginID,ModifiedDT, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.LkInvPackInvPack WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT LkLocationMachineStageId,MachineStageId,LocationId,IsLocationIn,IsLocationOut, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.LkLocationMachineStage WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_LkInvPackInvPack_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_LkLocationMachineStage_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -735,16 +735,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="LkMachineStagePrinter-Ingest-SPMX"/>
-        <error to="LkMachineStagePrinter-Ingest-SPMX"/>
+        <ok to="LkMPGMP-Ingest-SPMX"/>
+        <error to="LkMPGMP-Ingest-SPMX"/>
     </action>
 
-    <action name="LkMachineStagePrinter-Ingest-SPMX">
+    <action name="LkMPGMP-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_LkMachineStagePrinter_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_LkMPGMP_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -754,11 +754,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT LkMachineStagePrinterID,MachineStageID,PrinterID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.LkMachineStagePrinter WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT LkMPGMPID,MaintenanceProcedureGroupID,MaintenanceProcedureID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.LkMPGMP WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_LkMachineStagePrinter_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_LkMPGMP_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -767,16 +767,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="LkMSRGMSR-Ingest-SPMX"/>
-        <error to="LkMSRGMSR-Ingest-SPMX"/>
+        <ok to="LkPartAlternatePart-Ingest-SPMX"/>
+        <error to="LkPartAlternatePart-Ingest-SPMX"/>
     </action>
 
-    <action name="LkMSRGMSR-Ingest-SPMX">
+    <action name="LkPartAlternatePart-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_LkMSRGMSR_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_LkPartAlternatePart_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -786,11 +786,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT MachineStopReasonGroupID,MachineStopReasonID,LkMSRGMSRID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.LkMSRGMSR WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT LkPartAlternatePartID,AlternatePartID,PartID,PartToAlternatePartRatio, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.LkPartAlternatePart WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_LkMSRGMSR_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_LkPartAlternatePart_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -799,16 +799,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="LkPartDocument-Ingest-SPMX"/>
-        <error to="LkPartDocument-Ingest-SPMX"/>
+        <ok to="LKPartUnit-Ingest-SPMX"/>
+        <error to="LKPartUnit-Ingest-SPMX"/>
     </action>
 
-    <action name="LkPartDocument-Ingest-SPMX">
+    <action name="LKPartUnit-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_LkPartDocument_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_LKPartUnit_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -818,11 +818,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT LkPartDocumentID,PartID,DocumentID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.LkPartDocument WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT PartID,UnitID,LkPartUnitID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.LKPartUnit WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_LkPartDocument_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_LKPartUnit_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -831,16 +831,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="LkRootCauseAction-Ingest-SPMX"/>
-        <error to="LkRootCauseAction-Ingest-SPMX"/>
+        <ok to="LKSPCStatsStyleRfSPCStat_CUS-Ingest-SPMX"/>
+        <error to="LKSPCStatsStyleRfSPCStat_CUS-Ingest-SPMX"/>
     </action>
 
-    <action name="LkRootCauseAction-Ingest-SPMX">
+    <action name="LKSPCStatsStyleRfSPCStat_CUS-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_LkRootCauseAction_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_LKSPCStatsStyleRfSPCStat_CUS_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -850,11 +850,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT LkRootCauseActionID,RootCauseID,ActionID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.LkRootCauseAction WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT RfSPCStatID,SPCStatsStyleID,LkSPCStatsStyleRfSPCStatID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.LKSPCStatsStyleRfSPCStat_CUS WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_LkRootCauseAction_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_LKSPCStatsStyleRfSPCStat_CUS_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -863,16 +863,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="LkSRGSR-Ingest-SPMX"/>
-        <error to="LkSRGSR-Ingest-SPMX"/>
+        <ok to="LkTTG-Ingest-SPMX"/>
+        <error to="LkTTG-Ingest-SPMX"/>
     </action>
 
-    <action name="LkSRGSR-Ingest-SPMX">
+    <action name="LkTTG-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_LkSRGSR_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_LkTTG_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -882,11 +882,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT LkSRGSRID,ScrapReasonGroupID,ScrapReasonID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.LkSRGSR WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT ToolGroupID,ToolID,LkTTGID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.LkTTG WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_LkSRGSR_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_LkTTG_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -895,16 +895,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="LkUCTGUCT-Ingest-SPMX"/>
-        <error to="LkUCTGUCT-Ingest-SPMX"/>
+        <ok to="LkWIRBuildRecord-Ingest-SPMX"/>
+        <error to="LkWIRBuildRecord-Ingest-SPMX"/>
     </action>
 
-    <action name="LkUCTGUCT-Ingest-SPMX">
+    <action name="LkWIRBuildRecord-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_LkUCTGUCT_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_LkWIRBuildRecord_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -914,11 +914,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT LkUCTGUCTID,UnitCountTypeGroupID,UnitCountTypeID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.LkUCTGUCT WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT LkWIRBuildRecordID,WorkInstructionResultID,BuildRecordID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.LkWIRBuildRecord WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_LkUCTGUCT_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_LkWIRBuildRecord_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -927,16 +927,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="LkWIRMSetReq-Ingest-SPMX"/>
-        <error to="LkWIRMSetReq-Ingest-SPMX"/>
+        <ok to="MachineStageEvent-Ingest-SPMX"/>
+        <error to="MachineStageEvent-Ingest-SPMX"/>
     </action>
 
-    <action name="LkWIRMSetReq-Ingest-SPMX">
+    <action name="MachineStageEvent-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_LkWIRMSetReq_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_MachineStageEvent_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -946,11 +946,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT LkWIRMSetReqID,WorkInstructionResultID,MeasurementSetRequiredID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.LkWIRMSetReq WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT MachineStageEventID,LoginID,DT,MachineStageID,MachineStageEventTypeID,Comments, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.MachineStageEvent WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_LkWIRMSetReq_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_MachineStageEvent_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -959,16 +959,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="MachineStageEventType-Ingest-SPMX"/>
-        <error to="MachineStageEventType-Ingest-SPMX"/>
+        <ok to="MachineStopCategory-Ingest-SPMX"/>
+        <error to="MachineStopCategory-Ingest-SPMX"/>
     </action>
 
-    <action name="MachineStageEventType-Ingest-SPMX">
+    <action name="MachineStopCategory-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_MachineStageEventType_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_MachineStopCategory_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -978,11 +978,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT MachineStageEventTypeID,MachineStageEventType,Description,MachineStageTypeID,MachineStageEventTypeCode,IsAlarm,AlarmText, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.MachineStageEventType WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT MachineStopCategoryID,MachineStopCategory,Description,MachineStageTypeID,StopCategoryCode,DisplayOrder, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.MachineStopCategory WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_MachineStageEventType_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_MachineStopCategory_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -991,16 +991,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="MachineStopReason-Ingest-SPMX"/>
-        <error to="MachineStopReason-Ingest-SPMX"/>
+        <ok to="MaintenanceManHours-Ingest-SPMX"/>
+        <error to="MaintenanceManHours-Ingest-SPMX"/>
     </action>
 
-    <action name="MachineStopReason-Ingest-SPMX">
+    <action name="MaintenanceManHours-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_MachineStopReason_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_MaintenanceManHours_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -1010,11 +1010,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT MachineStopReasonID,StopReason,Description,MachineStageTypeID,IsPlanned,StopCode,RfMachineStopClassID,RfLineStopReasonTypeID,MachineStopCategoryID,IsRetired, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.MachineStopReason WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT MaintenanceManHoursID,MaintenanceWorkID,WorkerLoginID,ActualManHours,RevisionNo,IsEdited,ModifiedDT,SupplierID,SupplierCost,PersonnelGroupID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.MaintenanceManHours WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_MachineStopReason_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_MaintenanceManHours_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -1023,16 +1023,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="MaintenancePartPlanned-Ingest-SPMX"/>
-        <error to="MaintenancePartPlanned-Ingest-SPMX"/>
+        <ok to="MaintenanceProcedureGroup-Ingest-SPMX"/>
+        <error to="MaintenanceProcedureGroup-Ingest-SPMX"/>
     </action>
 
-    <action name="MaintenancePartPlanned-Ingest-SPMX">
+    <action name="MaintenanceProcedureGroup-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_MaintenancePartPlanned_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_MaintenanceProcedureGroup_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -1042,11 +1042,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT MaintenancePartPlannedID,MaintenanceProcedureStepID,PartID,PlannedCost,IsOptional,Quantity,UnitID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.MaintenancePartPlanned WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT MaintenanceProcedureGroupID,MaintenanceProcedureGroup,Description, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.MaintenanceProcedureGroup WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_MaintenancePartPlanned_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_MaintenanceProcedureGroup_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -1055,16 +1055,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="MaintenanceProcedureResult-Ingest-SPMX"/>
-        <error to="MaintenanceProcedureResult-Ingest-SPMX"/>
+        <ok to="MaintenanceReason-Ingest-SPMX"/>
+        <error to="MaintenanceReason-Ingest-SPMX"/>
     </action>
 
-    <action name="MaintenanceProcedureResult-Ingest-SPMX">
+    <action name="MaintenanceReason-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_MaintenanceProcedureResult_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_MaintenanceReason_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -1074,11 +1074,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT MaintenanceProcedureResultID,MaintenanceProcedureStepID,MaintenanceWorkID,Result,ResultPassFail,Comments,DT,CheckedByLoginID,MaintenanceProcedureStep,StepOrder,SubPartID,Component,RfMaintenanceCheckTypeID,RfSpecialActionTypeID,Test,USL,LSL,PersonnelGroupID,SupplierID,Nom,Units,DecPlaces, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.MaintenanceProcedureResult WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT MaintenanceReasonID,MaintenanceReason, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.MaintenanceReason WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_MaintenanceProcedureResult_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_MaintenanceReason_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -1087,16 +1087,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="MaintenanceWork-Ingest-SPMX"/>
-        <error to="MaintenanceWork-Ingest-SPMX"/>
+        <ok to="MaintProcScheduleOnAsset-Ingest-SPMX"/>
+        <error to="MaintProcScheduleOnAsset-Ingest-SPMX"/>
     </action>
 
-    <action name="MaintenanceWork-Ingest-SPMX">
+    <action name="MaintProcScheduleOnAsset-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_MaintenanceWork_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_MaintProcScheduleOnAsset_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -1106,11 +1106,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT MaintenanceWorkID,MaintenanceWO,AssetID,MaintenanceProcedureID,MaintenanceProcedureRevisionID,MaintProcScheduleOnAssetID,RfMaintenanceWorkTypeID,AdhocWorkToDo,MaintProcScheduleOnAssetNo,MaintenanceWorkStatusID,ActualStartDT,ActualEndDT,ActualManHours,PlannedStartDT,PlannedEndDT,PlannedManHours,OwnerLoginID,ActualLabourCost,PlannedLabourCost,RfCurrencyID,PartsCost,LineDownCost,Priority,MaintenanceReasonID,IsPlannedDateLockedByUser,EBATriggerID,PeriodDueDT,RunHoursDueDT,PartsBasedDueDT,EventDueDT,ReleasedDT,ReleasedLoginID,IsEdited,RevisionNo,AbsoluteCounterThreshold, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.MaintenanceWork WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT MaintProcScheduleOnAssetID,MaintenanceProcedureID,AssetID,RfPeriodTypeID,StartDate,AssetCountTypeID,EBAReference,IsEdited,LoginID,ModifiedDT,CalendarN1,CalendarN2,CalendarN3,CounterThreshold1,CounterThreshold2,CounterThreshold3,EstimatedCountPerDay,RunHourThreshold1,RunHourThreshold2,RunHourThreshold3,EstimatedRunHoursPerDay,EstimatedEventsPerDay,RevisionNo,IsRetired,PriorExecutions, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.MaintProcScheduleOnAsset WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_MaintenanceWork_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_MaintProcScheduleOnAsset_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -1119,16 +1119,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="MeasurementSet-Ingest-SPMX"/>
-        <error to="MeasurementSet-Ingest-SPMX"/>
+        <ok to="MeasurementSetRequired-Ingest-SPMX"/>
+        <error to="MeasurementSetRequired-Ingest-SPMX"/>
     </action>
 
-    <action name="MeasurementSet-Ingest-SPMX">
+    <action name="MeasurementSetRequired-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_MeasurementSet_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_MeasurementSetRequired_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -1138,11 +1138,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT MeasurementSetID,ActualAttrSampleSize,AcquisitionContextID,IsEdited,DT,AcquisitionID,MachineStageID,RfAcquisitionClassID,RevisionNo,PartID,JobID,ResumeStep,InventoryPackID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.MeasurementSet WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT MeasurementSetRequiredID,EBATriggerID,AcquisitionContextID,MeasurementSetID,RfAcquisitionStatusID,SubmittedDT,DueDT,DeadlineDT,ExpiryDT,OwnerID,ActionID,JobID,PartID,AssignedLoginID,InventoryPackID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.MeasurementSetRequired WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_MeasurementSet_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_MeasurementSetRequired_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -1151,16 +1151,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="ModulePackedDateTime-Ingest-SPMX"/>
-        <error to="ModulePackedDateTime-Ingest-SPMX"/>
+        <ok to="OPCConstant-Ingest-SPMX"/>
+        <error to="OPCConstant-Ingest-SPMX"/>
     </action>
 
-    <action name="ModulePackedDateTime-Ingest-SPMX">
+    <action name="OPCConstant-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_ModulePackedDateTime_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_OPCConstant_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -1170,11 +1170,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT SerialNo,TimePacked,IMS_No, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.ModulePackedDateTime WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT OPCConstantID,OPCItemID,Description,Constant,Formula,ModifiedDT,LoginID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.OPCConstant WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_ModulePackedDateTime_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_OPCConstant_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -1183,16 +1183,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="OPCCounter-Ingest-SPMX"/>
-        <error to="OPCCounter-Ingest-SPMX"/>
+        <ok to="OPCItem-Ingest-SPMX"/>
+        <error to="OPCItem-Ingest-SPMX"/>
     </action>
 
-    <action name="OPCCounter-Ingest-SPMX">
+    <action name="OPCItem-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_OPCCounter_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_OPCItem_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -1202,11 +1202,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT OPCCounterID,OPCItemID,Description,LoValue,HiValue,Scale,Offset,Formula,UnitCountTypeID,ScrapReasonID,ModifiedDT,LoginID,IsProduction,AcceptableRateOfChange,RfDeltaValueModeID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.OPCCounter WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT OPCItemID,OPCServerID,OPCGroupID,TagName,TagAddress,RfOPCItemTypeID,IsNotify,RawValue,UpdatedDT,Quality,Value,LastRawValue,LastUpdatedDT,LastQuality,LastValue,MachineStageID,ChangeAction,PLCID,IsDatedOnServer,IsStoredAsArray,IsActive,MachineStageEventTypeID,RfTransitionTypeID,TransitionToValue, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.OPCItem WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_OPCCounter_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_OPCItem_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -1215,16 +1215,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="OPCItemHistory-Ingest-SPMX"/>
-        <error to="OPCItemHistory-Ingest-SPMX"/>
+        <ok to="OPCParameter-Ingest-SPMX"/>
+        <error to="OPCParameter-Ingest-SPMX"/>
     </action>
 
-    <action name="OPCItemHistory-Ingest-SPMX">
+    <action name="OPCParameter-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_OPCItemHistory_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_OPCParameter_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -1234,11 +1234,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT OPCItemHistoryID,OPCItemID,UpdatedDT,RawValue,Value,Quality,CommittedDT, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.OPCItemHistory WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT OPCParameterID,OPCItemID,Description,Scale,Offset,Formula,VariableTypeID,HeadNo,SampleNo,PositionNo,ModifiedDT,LoginID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.OPCParameter WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_OPCItemHistory_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_OPCParameter_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -1247,16 +1247,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="OPCServer-Ingest-SPMX"/>
-        <error to="OPCServer-Ingest-SPMX"/>
+        <ok to="Operation-Ingest-SPMX"/>
+        <error to="Operation-Ingest-SPMX"/>
     </action>
 
-    <action name="OPCServer-Ingest-SPMX">
+    <action name="Operation-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_OPCServer_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_Operation_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -1266,11 +1266,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT OPCServerID,OPCClientID,OPCServer,ProgID,IsActive,ComputerID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.OPCServer WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT OperationID,OperationTypeID,MachineStageID,JobID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.Operation WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_OPCServer_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_Operation_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -1279,16 +1279,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="OperationType-Ingest-SPMX"/>
-        <error to="OperationType-Ingest-SPMX"/>
+        <ok to="PartSubClassification-Ingest-SPMX"/>
+        <error to="PartSubClassification-Ingest-SPMX"/>
     </action>
 
-    <action name="OperationType-Ingest-SPMX">
+    <action name="PartSubClassification-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_OperationType_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_PartSubClassification_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -1298,11 +1298,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT OperationTypeID,OperationType,OperationTypeCode,Description,PartTypeID,Sequence,IsOptional, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.OperationType WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT PartSubClassificationID,PartSubClassification,PartClassificationID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.PartSubClassification WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_OperationType_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_PartSubClassification_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -1311,16 +1311,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="PartType-Ingest-SPMX"/>
-        <error to="PartType-Ingest-SPMX"/>
+        <ok to="ProductionStop-Ingest-SPMX"/>
+        <error to="ProductionStop-Ingest-SPMX"/>
     </action>
 
-    <action name="PartType-Ingest-SPMX">
+    <action name="ProductionStop-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_PartType_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_ProductionStop_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -1330,11 +1330,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT PartTypeID,PartType,Description,PartTypeCode,Variant1TagListID,Variant2TagListID,Variant3TagListID,Variant4TagListID,Variant5TagListID,Variant6TagListID,Variant7TagListID,Variant8TagListID,Variant9TagListID,Variant10TagListID,Variant11TagListID,Variant12TagListID,Variant13TagListID,Variant14TagListID,Variant15TagListID,Variant16TagListID,Variant17TagListID,Variant18TagListID,Variant19TagListID,Variant20TagListID,RfInventoryAccountingModeID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.PartType WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT ProductionStopID,ProductionStopReasonID,JobID,FromDT,ToDT,LineID,IsEdited,RevisionNo, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.ProductionStop WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_PartType_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_ProductionStop_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -1343,16 +1343,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="ProductionStop_-Ingest-SPMX"/>
-        <error to="ProductionStop_-Ingest-SPMX"/>
+        <ok to="RootCause-Ingest-SPMX"/>
+        <error to="RootCause-Ingest-SPMX"/>
     </action>
 
-    <action name="ProductionStop_-Ingest-SPMX">
+    <action name="RootCause-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_ProductionStop__DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_RootCause_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -1362,11 +1362,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT ProductionStopID,StopComments,StopLoginID,OpenedStopDT,SavedStopDT,OriginalLoginID,EditedProductionStopID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.ProductionStop_ WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT RootCauseID,RootCause,Comments,RootCauseTypeID,LineTypeID,MachineStageTypeID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.RootCause WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_ProductionStop__DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_RootCause_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -1375,16 +1375,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="RootCauseType-Ingest-SPMX"/>
-        <error to="RootCauseType-Ingest-SPMX"/>
+        <ok to="ScrapReason-Ingest-SPMX"/>
+        <error to="ScrapReason-Ingest-SPMX"/>
     </action>
 
-    <action name="RootCauseType-Ingest-SPMX">
+    <action name="ScrapReason-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_RootCauseType_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_ScrapReason_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -1394,43 +1394,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT RootCauseTypeID,RootCauseType,Description,RootCauseTypeCode, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.RootCauseType WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT ScrapReasonID,ScrapReason,Description,MachineStageTypeID,DefaultUnitID,IsRetired, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.ScrapReason WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_RootCauseType_DoFullTarget}</arg>
-            <arg>--fields-terminated-by</arg>
-            <arg>\t</arg>
-            <arg>--direct</arg>
-            <arg>--</arg>
-            <arg>--schema</arg>
-            <arg>dbo</arg>
-            <arg>-validate</arg>
-        </sqoop>
-        <ok to="ScrapReasonGroup-Ingest-SPMX"/>
-        <error to="ScrapReasonGroup-Ingest-SPMX"/>
-    </action>
-
-    <action name="ScrapReasonGroup-Ingest-SPMX">
-        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
-			<job-tracker>${jobTracker}</job-tracker>
-            <name-node>${nameNode}</name-node>
-			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_ScrapReasonGroup_DoFullTarget}" />
-            </prepare>         	
-            <arg>import</arg>
-         	<arg>--connect</arg>
-            <arg>jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER</arg>
-            <arg>--username</arg>
-            <arg>usrSqoop</arg>
-            <arg>--password</arg>
-            <arg>AXm6Sn6#o</arg>
-            <arg>--query</arg>
-            <arg>SELECT ScrapReasonGroupID,ScrapReasonGroup,Description, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.ScrapReasonGroup WHERE ( $CONDITIONS ) </arg>
-            <arg>--num-mappers</arg>
-            <arg>1</arg>
-            <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_ScrapReasonGroup_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_ScrapReason_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -1599,16 +1567,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="Supplier-Ingest-SPMX"/>
-        <error to="Supplier-Ingest-SPMX"/>
+        <ok to="TagDef-Ingest-SPMX"/>
+        <error to="TagDef-Ingest-SPMX"/>
     </action>
 
-    <action name="Supplier-Ingest-SPMX">
+    <action name="TagDef-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_Supplier_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_TagDef_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -1618,11 +1586,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT SupplierID,Supplier,SupplierCode,AddressID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.Supplier WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT TagDefID,TagOwnerID,RfTable,TagTypeID,TagValue,DT, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.TagDef WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_Supplier_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_TagDef_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -1631,16 +1599,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="TagDefect-Ingest-SPMX"/>
-        <error to="TagDefect-Ingest-SPMX"/>
+        <ok to="TagMS-Ingest-SPMX"/>
+        <error to="TagMS-Ingest-SPMX"/>
     </action>
 
-    <action name="TagDefect-Ingest-SPMX">
+    <action name="TagMS-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_TagDefect_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_TagMS_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -1650,11 +1618,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT TagDefectID,IndividualDefectID,TagTypeID,TagValue,DT,X,Y, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.TagDefect WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT TagMSID,MeasurementSetID,TagTypeID,TagValue,DT,TagTreeNodeID,X,Y, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.TagMS WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_TagDefect_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_TagMS_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -1663,16 +1631,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="TagPartInstance-Ingest-SPMX"/>
-        <error to="TagPartInstance-Ingest-SPMX"/>
+        <ok to="TagTreeNode-Ingest-SPMX"/>
+        <error to="TagTreeNode-Ingest-SPMX"/>
     </action>
 
-    <action name="TagPartInstance-Ingest-SPMX">
+    <action name="TagTreeNode-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_TagPartInstance_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_TagTreeNode_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -1682,11 +1650,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT TagPartInstanceID,PartInstanceID,TagTypeID,TagValue,DT, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.TagPartInstance WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT TagTreeNodeID,TagTreeNode,TagTreeID,ParentTagTreeNodeID,Depth,SortOrder,ImageURI,NoCols,NoRows,SortExpression,ImageWidth,ImageHeight, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.TagTreeNode WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_TagPartInstance_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_TagTreeNode_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -1695,16 +1663,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="TagTreeNodeImgLoc-Ingest-SPMX"/>
-        <error to="TagTreeNodeImgLoc-Ingest-SPMX"/>
+        <ok to="TMP_Checks_Done-Ingest-SPMX"/>
+        <error to="TMP_Checks_Done-Ingest-SPMX"/>
     </action>
 
-    <action name="TagTreeNodeImgLoc-Ingest-SPMX">
+    <action name="TMP_Checks_Done-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_TagTreeNodeImgLoc_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_TMP_Checks_Done_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -1714,11 +1682,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT TagTreeNodeImgLocID,TagTreeNodeID,X,Y,Width,Height,MappedTagTreeNodeID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.TagTreeNodeImgLoc WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT ShiftID,JobID,AcquisitionContextID,Checks_Done, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.TMP_Checks_Done WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_TagTreeNodeImgLoc_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_TMP_Checks_Done_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -1727,16 +1695,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="TMP_Job_Shift_Downtime-Ingest-SPMX"/>
-        <error to="TMP_Job_Shift_Downtime-Ingest-SPMX"/>
+        <ok to="Tool_-Ingest-SPMX"/>
+        <error to="Tool_-Ingest-SPMX"/>
     </action>
 
-    <action name="TMP_Job_Shift_Downtime-Ingest-SPMX">
+    <action name="Tool_-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_TMP_Job_Shift_Downtime_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_Tool__DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -1746,11 +1714,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT ShiftID,MachineStageID,JobID,Downtime, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.TMP_Job_Shift_Downtime WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT ToolID,Supplier,Reference1,Reference2,Reference3,Reference4,Reference5,Ident, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.Tool_ WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_TMP_Job_Shift_Downtime_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_Tool__DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -1759,16 +1727,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="Tool_Custom-Ingest-SPMX"/>
-        <error to="Tool_Custom-Ingest-SPMX"/>
+        <ok to="ToolCavityStateReason-Ingest-SPMX"/>
+        <error to="ToolCavityStateReason-Ingest-SPMX"/>
     </action>
 
-    <action name="Tool_Custom-Ingest-SPMX">
+    <action name="ToolCavityStateReason-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_Tool_Custom_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_ToolCavityStateReason_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -1778,11 +1746,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT ToolID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.Tool_Custom WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT ToolCavityStateReasonID,ToolTypeID,ToolCavityStateReason,Description,CavityStatusCode, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.ToolCavityStateReason WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_Tool_Custom_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_ToolCavityStateReason_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -1791,16 +1759,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="ToolChangeReason-Ingest-SPMX"/>
-        <error to="ToolChangeReason-Ingest-SPMX"/>
+        <ok to="ToolType-Ingest-SPMX"/>
+        <error to="ToolType-Ingest-SPMX"/>
     </action>
 
-    <action name="ToolChangeReason-Ingest-SPMX">
+    <action name="ToolType-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_ToolChangeReason_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_ToolType_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -1810,11 +1778,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT ToolChangeReasonID,ToolTypeID,ChangeReason,Description,ChangeToRfToolStatusID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.ToolChangeReason WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT ToolTypeID,ToolType,ToolTypeCode,Description,Variant1TagListID,Variant2TagListID,Variant3TagListID,Variant4TagListID,Variant5TagListID,Variant6TagListID,Variant7TagListID,Variant8TagListID,Variant9TagListID,Variant10TagListID,Variant11TagListID,Variant12TagListID,Variant13TagListID,Variant14TagListID,Variant15TagListID,Variant16TagListID,Variant17TagListID,Variant18TagListID,Variant19TagListID,Variant20TagListID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.ToolType WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_ToolChangeReason_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_ToolType_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -1823,16 +1791,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="ToolUsage-Ingest-SPMX"/>
-        <error to="ToolUsage-Ingest-SPMX"/>
+        <ok to="UnitConversion-Ingest-SPMX"/>
+        <error to="UnitConversion-Ingest-SPMX"/>
     </action>
 
-    <action name="ToolUsage-Ingest-SPMX">
+    <action name="UnitConversion-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_ToolUsage_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_UnitConversion_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -1842,11 +1810,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT ToolUsageID,JobID,MachineStageID,ToolID,FromDT,ToDT,ToolPosition,ToolChangeReasonID,IsEdited,RevisionNo,OperationID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.ToolUsage WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT FromUnitID,ToUnitID,Multiplier,UnitConversionID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.UnitConversion WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_ToolUsage_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_UnitConversion_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -1855,16 +1823,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="UnitCount-Ingest-SPMX"/>
-        <error to="UnitCount-Ingest-SPMX"/>
+        <ok to="UnitCountTypeGroup-Ingest-SPMX"/>
+        <error to="UnitCountTypeGroup-Ingest-SPMX"/>
     </action>
 
-    <action name="UnitCount-Ingest-SPMX">
+    <action name="UnitCountTypeGroup-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_UnitCount_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_UnitCountTypeGroup_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -1874,11 +1842,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT UnitCountID,UnitCountTypeID,PartID,Quantity,UnitID,DT,MachineStageID,IsEdited,RevisionNo, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.UnitCount WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT UnitCountTypeGroupID,UnitCountTypeGroup,Description, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.UnitCountTypeGroup WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_UnitCount_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_UnitCountTypeGroup_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -1887,16 +1855,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="VarChartOC-Ingest-SPMX"/>
-        <error to="VarChartOC-Ingest-SPMX"/>
+        <ok to="VariableTypeClass-Ingest-SPMX"/>
+        <error to="VariableTypeClass-Ingest-SPMX"/>
     </action>
 
-    <action name="VarChartOC-Ingest-SPMX">
+    <action name="VariableTypeClass-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_VarChartOC_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_VariableTypeClass_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -1906,43 +1874,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT VarChartOCID,MeasurementSetID,SPCChartControlLimitID,SubgroupID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.VarChartOC WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT VariableTypeClassID,VariableTypeClass,Description,Priority, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.VariableTypeClass WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_VarChartOC_DoFullTarget}</arg>
-            <arg>--fields-terminated-by</arg>
-            <arg>\t</arg>
-            <arg>--direct</arg>
-            <arg>--</arg>
-            <arg>--schema</arg>
-            <arg>dbo</arg>
-            <arg>-validate</arg>
-        </sqoop>
-        <ok to="VariableTypeGroup-Ingest-SPMX"/>
-        <error to="VariableTypeGroup-Ingest-SPMX"/>
-    </action>
-
-    <action name="VariableTypeGroup-Ingest-SPMX">
-        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
-			<job-tracker>${jobTracker}</job-tracker>
-            <name-node>${nameNode}</name-node>
-			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_VariableTypeGroup_DoFullTarget}" />
-            </prepare>         	
-            <arg>import</arg>
-         	<arg>--connect</arg>
-            <arg>jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER</arg>
-            <arg>--username</arg>
-            <arg>usrSqoop</arg>
-            <arg>--password</arg>
-            <arg>AXm6Sn6#o</arg>
-            <arg>--query</arg>
-            <arg>SELECT VariableTypeGroupID,Name,Description,VariableTypeGroupCode,IsSmartGroup,SmartGroupPattern, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.VariableTypeGroup WHERE ( $CONDITIONS ) </arg>
-            <arg>--num-mappers</arg>
-            <arg>1</arg>
-            <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_VariableTypeGroup_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_VariableTypeClass_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -2015,48 +1951,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="xxxHipotData_Buffer-Ingest-SPMX"/>
-        <error to="xxxHipotData_Buffer-Ingest-SPMX"/>
+        <ok to="Job-Ingest-SPDV"/>
+        <error to="Job-Ingest-SPDV"/>
     </action>
 
-    <action name="xxxHipotData_Buffer-Ingest-SPMX">
+    <action name="Job-Ingest-SPDV">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_xxxHipotData_Buffer_DoFullTarget}" />
-            </prepare>         	
-            <arg>import</arg>
-         	<arg>--connect</arg>
-            <arg>jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER</arg>
-            <arg>--username</arg>
-            <arg>usrSqoop</arg>
-            <arg>--password</arg>
-            <arg>AXm6Sn6#o</arg>
-            <arg>--query</arg>
-            <arg>SELECT SERIAL_NUMBER,CONT_A,CONT_B,CONT_C,HIPOT,STATION,DATETIME,USERNAME,REMARKS, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.xxxHipotData_Buffer WHERE ( $CONDITIONS ) </arg>
-            <arg>--num-mappers</arg>
-            <arg>1</arg>
-            <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_xxxHipotData_Buffer_DoFullTarget}</arg>
-            <arg>--fields-terminated-by</arg>
-            <arg>\t</arg>
-            <arg>--direct</arg>
-            <arg>--</arg>
-            <arg>--schema</arg>
-            <arg>dbo</arg>
-            <arg>-validate</arg>
-        </sqoop>
-        <ok to="Line-Ingest-SPDV"/>
-        <error to="Line-Ingest-SPDV"/>
-    </action>
-
-    <action name="Line-Ingest-SPDV">
-        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
-			<job-tracker>${jobTracker}</job-tracker>
-            <name-node>${nameNode}</name-node>
-			<prepare>
-            	<delete path="${job_DEVERN_OWNER_Line_DoFullTarget}" />
+            	<delete path="${job_DEVERN_OWNER_Job_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -2066,11 +1970,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT Line.LineID, Line.Line, Line.Description, Line.LineTypeID, Line.IsRetired, Line.RfIntervalModeID, Line.IsOEEInventoryIsolation, Line.IsOEEInventoryReintroduction, Line.IsCountOutputInventory, Line.IsCountInputInventory, Line.IsLineInfoSweepEnabled, Line.IsWOOnSingleJob, Line.LineShortName, Line.CurrentLineInfoID, Line.LastLineInfoID, Line.RfInvCreatedDateModeID, Line.RfEndJobInvModeID, Line.CurrentJobID, Line.IsScrapAsQualityLoss, Line.IsScrapInProductionCounts, Line.LineDownCostPerHour, Line.IsContributeLineGroupOutput, Line.IsContributeLineGroupWaste, Line.IsContributeLineGroupDowntime, Line_.OEETarget, Line_.WasteTarget, Line_.Reference1, Line_.Reference2, Line_.Reference3, Line_.Reference4, Line_.Reference5,  3 as "org_id",  'SPDV' as "org_name"  FROM Line FULL JOIN Line_ ON (Line.LineID = Line_.LineID) FULL JOIN Line_Custom ON (Line.LineID = Line_Custom.LineID)   WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT Job.JobID, Job.WOID, Job.RfJobStatusID, Job.DeadlineDT, Job.ActualStartDT, Job.ActualEndDT, Job.PlannedStartDT, Job.PlannedEndDT, Job.PlannedDuration, Job.EstimatedStartDT, Job.EstimatedEndDT, Job.EstimatedDuration, Job.ScheduledSequence, Job.LineID, Job.ProductionStartDT, Job.ProductionEndDT, Job.TheoreticalCycleTime, Job.BudgetChangeOver, Job.QuantityOrdered, Job.IsCalculated, Job.LineGroupID, Job_.JobInstructions, Job_.ReleaseDT, Job_.ReleaseLoginID, Job_.StartLoginID, Job_.EndLoginID, Job_.Comments, Job_.ModifiedDt, Job_.ModifiedLoginID, Job_.StoppedReason, Job_.SkippedReason, Job_.SkippedDT,  3 as "org_id",  'SPDV' as "org_name"  FROM Job FULL JOIN Job_ ON (Job.JobID = Job_.JobID) FULL JOIN Job_Custom ON (Job.JobID = Job_Custom.JobID)   WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_DEVERN_OWNER_Line_DoFullTarget}</arg>
+            <arg>${job_DEVERN_OWNER_Job_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -2079,16 +1983,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="Part-Ingest-SPDV"/>
-        <error to="Part-Ingest-SPDV"/>
+        <ok to="MachineStop-Ingest-SPDV"/>
+        <error to="MachineStop-Ingest-SPDV"/>
     </action>
 
-    <action name="Part-Ingest-SPDV">
+    <action name="MachineStop-Ingest-SPDV">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_DEVERN_OWNER_Part_DoFullTarget}" />
+            	<delete path="${job_DEVERN_OWNER_MachineStop_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -2098,11 +2002,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT Part.PartID, Part.PartNumber, Part.Description, Part.IsRetired, Part.BaseUnitID, Part.PartTypeID, Part.Reference1, Part.Reference2, Part.Reference3, Part.Reference4, Part.Reference5, Part.Variant1, Part.Variant2, Part.Variant3, Part.Variant4, Part.Variant5, Part.Variant6, Part.Variant7, Part.Variant8, Part.Variant9, Part.Variant10, Part.Variant11, Part.Variant12, Part.Variant13, Part.Variant14, Part.Variant15, Part.Variant16, Part.Variant17, Part.Variant18, Part.Variant19, Part.Variant20, Part_.TheoreticalSpeed, Part_.LabelsPerInventoryPack, Part_.ItemsPerInventoryPack, Part_.ItemsPerLayer, Part_.LayersPerInventoryPack, Part_.PackingCode, Part_.LabelTemplate, Part_.ProductionInstructions, Part_.QualityInstructions, Part_.CustomerPartNo, Part_.CustomerPartDescription, Part_.LabelText1, Part_.LabelText2, Part_.LabelText3, Part_.UnitPrice1, Part_.UnitPrice2, Part_.LegacyPartNo, Part_.CreateDT, Part_.ModifiedDT, Part_.LoginID, Part_.PartRevisionNo, Part_.PartClassificationID, Part_.LastPurchaseCost, Part_.AveragePurchaseCost, Part_.StandardPurchaseCost, Part_.StandardManufactureCost, Part_.StandardSaleCost, Part_.PartSubClassificationID, Part_.CreatedInvUseByPeriod, Part_.CreatedInvUseAfterPeriod, Part_custom.Txn_date, Part_custom.Inventory_Item_Id, Part_custom.Item_Type_Description,  3 as "org_id",  'SPDV' as "org_name" , (CASE WHEN Part.PartTypeID = 58 then '1' WHEN Part.parttypeid in (39, 63) and (Part.Description like '%T5%' COLLATE Latin1_General_BIN or variant1 = 'T5') THEN '96' WHEN Part.PartTypeID = 40 THEN SUBSTRING(SUBSTRING(Description,(PATINDEX('%[ "-][0-9]%[BW][ "-]%',Part.Description)+1), (len(Part.description)-PATINDEX('%[ "-][0-9]%[BW][ "-]%',Part.Description)) ) , 1,(PATINDEX('%[WB]%',SUBSTRING(Part.Description,(PATINDEX('%[ "-][0-9]%[BW][ "-]%',Part.Description)+1), (len(Part.description)-PATINDEX('%[ "-][0-9]%[BW][ "-]%',Part.Description)) ))) -1 ) ELSE Part.variant1 END) as "Cell_Count" , (CASE WHEN Part.parttypeid in (39, 63) then case when Part.description like '%COM%' COLLATE Latin1_General_BIN THEN 'Commercial' ELSE 'Residential' END else 'NA' end) as "Demand_Category" , (CASE WHEN Part.Parttypeid = 58 then variant8 when Part.parttypeid in (39, 40, 63) then case when Part.description like '%E60%' COLLATE Latin1_General_BIN or Part.Description like '%X20%' COLLATE Latin1_General_BIN or Part.description like '%X21%' COLLATE Latin1_General_BIN then 'GEN E160' else 'GEN C160' end else 'NA' end) as "Series"  FROM Part FULL JOIN Part_ ON (Part.PartID = Part_.PartID) FULL JOIN Part_custom ON (Part.PartID = Part_custom.PartID)   WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT MachineStop.MachineStopID, MachineStop.MachineStopReasonID, MachineStop.FromDT, MachineStop.ToDT, MachineStop.MachineStageID, MachineStop.IsEdited, MachineStop.RevisionNo, MachineStop_.StopComments, MachineStop_.StartComments, MachineStop_.StartLoginID, MachineStop_.StopLoginID, MachineStop_.OpenedStopDT, MachineStop_.SavedStopDT, MachineStop_.OpenedStartDT, MachineStop_.SavedStartDT, MachineStop_.OriginalLoginID, MachineStop_.EditedMachineStopID,  3 as "org_id",  'SPDV' as "org_name"  FROM MachineStop FULL JOIN MachineStop_ ON (MachineStop.MachineStopID = MachineStop_.MachineStopID)   WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_DEVERN_OWNER_Part_DoFullTarget}</arg>
+            <arg>${job_DEVERN_OWNER_MachineStop_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
