@@ -31,6 +31,16 @@ pscp  -pw d4e30f24   yieldIngestWorkflow-Full-16.xml    appladm@prod-hubnamedaws
 pscp  -pw d4e30f24   yieldIngestWorkflow-Full-17.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Full-17.xml
 pscp  -pw d4e30f24   yieldIngestWorkflow-Full-18.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Full-18.xml
 pscp  -pw d4e30f24   yieldIngestWorkflow-Full-19.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Full-19.xml
+pscp  -pw d4e30f24   yieldIngestWorkflow-Full-20.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Full-20.xml
+pscp  -pw d4e30f24   yieldIngestWorkflow-Full-21.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Full-21.xml
+pscp  -pw d4e30f24   yieldIngestWorkflow-Full-22.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Full-22.xml
+pscp  -pw d4e30f24   yieldIngestWorkflow-Full-23.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Full-23.xml
+pscp  -pw d4e30f24   yieldIngestWorkflow-Full-24.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Full-24.xml
+pscp  -pw d4e30f24   yieldIngestWorkflow-Full-25.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Full-25.xml
+pscp  -pw d4e30f24   yieldIngestWorkflow-Full-26.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Full-26.xml
+pscp  -pw d4e30f24   yieldIngestWorkflow-Full-27.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Full-27.xml
+pscp  -pw d4e30f24   yieldIngestWorkflow-Full-28.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Full-28.xml
+pscp  -pw d4e30f24   yieldIngestWorkflow-Full-29.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Full-29.xml
 pscp  -pw d4e30f24   yieldIngestWorkflow-Hive.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Hive.xml
 
 

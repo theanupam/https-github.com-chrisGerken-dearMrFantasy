@@ -1,8 +1,15 @@
 <workflow-app name="<c:get select="$subflow/@workflowName" />" xmlns="uri:oozie:workflow:0.1">
 
- 	<start to="<c:get select="$subflow/@first"/>"/>
+ 	<start to="<c:get select="$subflow/@first"/>-Decision"/>
 
 <c:iterate select="$jobs/job[@flow=$subflow/@key]" var="job">
+	<decision name="<c:get select="$job/@name"/>-Decision">
+    	<switch>
+			<case to="<c:get select="$job/@name"/>">${ wf:conf('<c:get select="$job/@prefix"/>_DoFull') eq 'true'}</case>
+            <default to="<c:get select="$job/@nextJob"/>-Decision"/>
+        </switch>
+    </decision>
+
     <action name="<c:get select="$job/@name"/>">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
@@ -31,9 +38,9 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="<c:get select="$job/@nextJob"/>"/>
-        <error to="<c:get select="$job/@nextJob"/>"/>
+        <ok to="<c:get select="$job/@nextJob"/>-Decision"/>
+        <error to="<c:get select="$job/@nextJob"/>-Decision"/>
     </action>
 </c:iterate>
-	<end name="<c:get select="$subflow/@end" />"/>
+	<end name="<c:get select="$subflow/@end" />-Decision"/>
 </workflow-app>

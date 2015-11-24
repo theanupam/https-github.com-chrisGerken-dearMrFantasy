@@ -1,7 +1,14 @@
 <workflow-app name="Ingest-Full-11" xmlns="uri:oozie:workflow:0.1">
 
- 	<start to="_SP_PalletLabel-Ingest-SPMM"/>
+ 	<start to="_SP_PalletLabel-Ingest-SPMM-Decision"/>
 
+
+	<decision name="_SP_PalletLabel-Ingest-SPMM-Decision">
+    	<switch>
+			<case to="_SP_PalletLabel-Ingest-SPMM">${ wf:conf('job_SPMM_C1_OWNER__SP_PalletLabel_DoFull') eq 'true'}</case>
+            <default to="AcquisitionContext-Ingest-SPTM-Decision"/>
+        </switch>
+    </decision>
 
     <action name="_SP_PalletLabel-Ingest-SPMM">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
@@ -31,16 +38,23 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="AcquisitionAttributeType-Ingest-SPTM"/>
-        <error to="AcquisitionAttributeType-Ingest-SPTM"/>
+        <ok to="AcquisitionContext-Ingest-SPTM-Decision"/>
+        <error to="AcquisitionContext-Ingest-SPTM-Decision"/>
     </action>
 
-    <action name="AcquisitionAttributeType-Ingest-SPTM">
+	<decision name="AcquisitionContext-Ingest-SPTM-Decision">
+    	<switch>
+			<case to="AcquisitionContext-Ingest-SPTM">${ wf:conf('job_CAPETOWN_OWNER_AcquisitionContext_DoFull') eq 'true'}</case>
+            <default to="Action-Ingest-SPTM-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="AcquisitionContext-Ingest-SPTM">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_CAPETOWN_OWNER_AcquisitionAttributeType_DoFullTarget}" />
+            	<delete path="${job_CAPETOWN_OWNER_AcquisitionContext_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -50,11 +64,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT AcquisitionAttributeTypeID,AcquisitionVariantID,AttributeTypeID,EntryOrder,Formula,IsExplicitStep, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.AcquisitionAttributeType WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT MachineStageID,AcquisitionVariantID,LastMeasurementSetID,AcquisitionContextID,LastDoneDT,IsAttrOC,IsCriticalDefect, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.AcquisitionContext WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_CAPETOWN_OWNER_AcquisitionAttributeType_DoFullTarget}</arg>
+            <arg>${job_CAPETOWN_OWNER_AcquisitionContext_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -63,41 +77,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="AcquisitionGroup-Ingest-SPTM"/>
-        <error to="AcquisitionGroup-Ingest-SPTM"/>
+        <ok to="Action-Ingest-SPTM-Decision"/>
+        <error to="Action-Ingest-SPTM-Decision"/>
     </action>
 
-    <action name="AcquisitionGroup-Ingest-SPTM">
-        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
-			<job-tracker>${jobTracker}</job-tracker>
-            <name-node>${nameNode}</name-node>
-			<prepare>
-            	<delete path="${job_CAPETOWN_OWNER_AcquisitionGroup_DoFullTarget}" />
-            </prepare>         	
-            <arg>import</arg>
-         	<arg>--connect</arg>
-            <arg>jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER</arg>
-            <arg>--username</arg>
-            <arg>usrSqoop</arg>
-            <arg>--password</arg>
-            <arg>AXm6Sn6#o</arg>
-            <arg>--query</arg>
-            <arg>SELECT AcquisitionGroupID,AcquisitionGroup,Description,AcquisitionGroupCode,LoginID,ModifiedDT, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.AcquisitionGroup WHERE ( $CONDITIONS ) </arg>
-            <arg>--num-mappers</arg>
-            <arg>1</arg>
-            <arg>--target-dir</arg>
-            <arg>${job_CAPETOWN_OWNER_AcquisitionGroup_DoFullTarget}</arg>
-            <arg>--fields-terminated-by</arg>
-            <arg>\t</arg>
-            <arg>--direct</arg>
-            <arg>--</arg>
-            <arg>--schema</arg>
-            <arg>dbo</arg>
-            <arg>-validate</arg>
-        </sqoop>
-        <ok to="Action-Ingest-SPTM"/>
-        <error to="Action-Ingest-SPTM"/>
-    </action>
+	<decision name="Action-Ingest-SPTM-Decision">
+    	<switch>
+			<case to="Action-Ingest-SPTM">${ wf:conf('job_CAPETOWN_OWNER_Action_DoFull') eq 'true'}</case>
+            <default to="Address-Ingest-SPTM-Decision"/>
+        </switch>
+    </decision>
 
     <action name="Action-Ingest-SPTM">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
@@ -127,16 +116,23 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="ActionSubType-Ingest-SPTM"/>
-        <error to="ActionSubType-Ingest-SPTM"/>
+        <ok to="Address-Ingest-SPTM-Decision"/>
+        <error to="Address-Ingest-SPTM-Decision"/>
     </action>
 
-    <action name="ActionSubType-Ingest-SPTM">
+	<decision name="Address-Ingest-SPTM-Decision">
+    	<switch>
+			<case to="Address-Ingest-SPTM">${ wf:conf('job_CAPETOWN_OWNER_Address_DoFull') eq 'true'}</case>
+            <default to="Attribute-Ingest-SPTM-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="Address-Ingest-SPTM">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_CAPETOWN_OWNER_ActionSubType_DoFullTarget}" />
+            	<delete path="${job_CAPETOWN_OWNER_Address_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -146,11 +142,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT ActionSubTypeID,ActionSubType,ActionTypeID,Description,SubActionTypeCode,ReportOrder,Format,IsRetired, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.ActionSubType WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT AddressID,Address1,Address2,City,County,PostCode,Country, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.Address WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_CAPETOWN_OWNER_ActionSubType_DoFullTarget}</arg>
+            <arg>${job_CAPETOWN_OWNER_Address_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -159,41 +155,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="AssetCountType-Ingest-SPTM"/>
-        <error to="AssetCountType-Ingest-SPTM"/>
+        <ok to="Attribute-Ingest-SPTM-Decision"/>
+        <error to="Attribute-Ingest-SPTM-Decision"/>
     </action>
 
-    <action name="AssetCountType-Ingest-SPTM">
-        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
-			<job-tracker>${jobTracker}</job-tracker>
-            <name-node>${nameNode}</name-node>
-			<prepare>
-            	<delete path="${job_CAPETOWN_OWNER_AssetCountType_DoFullTarget}" />
-            </prepare>         	
-            <arg>import</arg>
-         	<arg>--connect</arg>
-            <arg>jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER</arg>
-            <arg>--username</arg>
-            <arg>usrSqoop</arg>
-            <arg>--password</arg>
-            <arg>AXm6Sn6#o</arg>
-            <arg>--query</arg>
-            <arg>SELECT AssetCountTypeID,AssetCountType,Description, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.AssetCountType WHERE ( $CONDITIONS ) </arg>
-            <arg>--num-mappers</arg>
-            <arg>1</arg>
-            <arg>--target-dir</arg>
-            <arg>${job_CAPETOWN_OWNER_AssetCountType_DoFullTarget}</arg>
-            <arg>--fields-terminated-by</arg>
-            <arg>\t</arg>
-            <arg>--direct</arg>
-            <arg>--</arg>
-            <arg>--schema</arg>
-            <arg>dbo</arg>
-            <arg>-validate</arg>
-        </sqoop>
-        <ok to="Attribute-Ingest-SPTM"/>
-        <error to="Attribute-Ingest-SPTM"/>
-    </action>
+	<decision name="Attribute-Ingest-SPTM-Decision">
+    	<switch>
+			<case to="Attribute-Ingest-SPTM">${ wf:conf('job_CAPETOWN_OWNER_Attribute_DoFull') eq 'true'}</case>
+            <default to="BOMItem-Ingest-SPTM-Decision"/>
+        </switch>
+    </decision>
 
     <action name="Attribute-Ingest-SPTM">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
@@ -223,16 +194,23 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="AVDataEntryOptions-Ingest-SPTM"/>
-        <error to="AVDataEntryOptions-Ingest-SPTM"/>
+        <ok to="BOMItem-Ingest-SPTM-Decision"/>
+        <error to="BOMItem-Ingest-SPTM-Decision"/>
     </action>
 
-    <action name="AVDataEntryOptions-Ingest-SPTM">
+	<decision name="BOMItem-Ingest-SPTM-Decision">
+    	<switch>
+			<case to="BOMItem-Ingest-SPTM">${ wf:conf('job_CAPETOWN_OWNER_BOMItem_DoFull') eq 'true'}</case>
+            <default to="Concern-Ingest-SPTM-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="BOMItem-Ingest-SPTM">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_CAPETOWN_OWNER_AVDataEntryOptions_DoFullTarget}" />
+            	<delete path="${job_CAPETOWN_OWNER_BOMItem_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -242,11 +220,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT AcquisitionVariantID,RfVarGridStyleID,IsPITCols,IsPISNoCol,RfAttrGridStyleID,IsStepGrid,IsAttrSkipStep,ShowAttrInfoTip,UseAttrImagePicker,AttrGridContextMenu,IsPISerial,AutoGenerateSerialNo,PITSampling,MSTSampling,VAInterlace,IsExplicitHS,SampleSizeMode,OnDataCommitGoTo,IsDisableOOSWarnings,StepEditPolicy,DisableKeyboardOverride,ChainToStopped,DisplayPlan,AttrPassFailDefault,VariableSaveMode,AttrCellClick, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.AVDataEntryOptions WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT BOMItemID,BOMVariantID,PartID,SubPartID,SubPartQuantity,SubPartUnitID,RfInvPackTraceabilityID,Sequence,Instructions,RfBOMItemTypeID,IsDefault,IsAllowExceedBOMQty,Reference1,Reference2,Reference3,Reference4,Reference5, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.BOMItem WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_CAPETOWN_OWNER_AVDataEntryOptions_DoFullTarget}</arg>
+            <arg>${job_CAPETOWN_OWNER_BOMItem_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -255,41 +233,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="CauseAction-Ingest-SPTM"/>
-        <error to="CauseAction-Ingest-SPTM"/>
+        <ok to="Concern-Ingest-SPTM-Decision"/>
+        <error to="Concern-Ingest-SPTM-Decision"/>
     </action>
 
-    <action name="CauseAction-Ingest-SPTM">
-        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
-			<job-tracker>${jobTracker}</job-tracker>
-            <name-node>${nameNode}</name-node>
-			<prepare>
-            	<delete path="${job_CAPETOWN_OWNER_CauseAction_DoFullTarget}" />
-            </prepare>         	
-            <arg>import</arg>
-         	<arg>--connect</arg>
-            <arg>jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER</arg>
-            <arg>--username</arg>
-            <arg>usrSqoop</arg>
-            <arg>--password</arg>
-            <arg>AXm6Sn6#o</arg>
-            <arg>--query</arg>
-            <arg>SELECT CauseActionID,MeasurementSetID,IsAttributes,IndividualDefectID,AttributeTypeID,Cause,Action,DT,VarChartOCID,RfIsOSID,VarMeasurementID,VariableTypeID,IsEdited,RevisionNo,ProductID,AcquisitionID,MachineStageID,RfAttributeClassID,HeadNo,SampleNo,PositionNo,RfAcquisitionClassID,SPCChartComponentID,SPCRuleID,RfCauseActionStateID,TAGMSVALUE1,TAGMSTYPE1ID,CreateDT,AcknowledgeDT,CloseDT, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.CauseAction WHERE ( $CONDITIONS ) </arg>
-            <arg>--num-mappers</arg>
-            <arg>1</arg>
-            <arg>--target-dir</arg>
-            <arg>${job_CAPETOWN_OWNER_CauseAction_DoFullTarget}</arg>
-            <arg>--fields-terminated-by</arg>
-            <arg>\t</arg>
-            <arg>--direct</arg>
-            <arg>--</arg>
-            <arg>--schema</arg>
-            <arg>dbo</arg>
-            <arg>-validate</arg>
-        </sqoop>
-        <ok to="Concern-Ingest-SPTM"/>
-        <error to="Concern-Ingest-SPTM"/>
-    </action>
+	<decision name="Concern-Ingest-SPTM-Decision">
+    	<switch>
+			<case to="Concern-Ingest-SPTM">${ wf:conf('job_CAPETOWN_OWNER_Concern_DoFull') eq 'true'}</case>
+            <default to="Customer-Ingest-SPTM-Decision"/>
+        </switch>
+    </decision>
 
     <action name="Concern-Ingest-SPTM">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
@@ -319,16 +272,23 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="CRN_AcquisitionVariableType-Ingest-SPTM"/>
-        <error to="CRN_AcquisitionVariableType-Ingest-SPTM"/>
+        <ok to="Customer-Ingest-SPTM-Decision"/>
+        <error to="Customer-Ingest-SPTM-Decision"/>
     </action>
 
-    <action name="CRN_AcquisitionVariableType-Ingest-SPTM">
+	<decision name="Customer-Ingest-SPTM-Decision">
+    	<switch>
+			<case to="Customer-Ingest-SPTM">${ wf:conf('job_CAPETOWN_OWNER_Customer_DoFull') eq 'true'}</case>
+            <default to="dtproperties-Ingest-SPTM-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="Customer-Ingest-SPTM">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_CAPETOWN_OWNER_CRN_AcquisitionVariableType_DoFullTarget}" />
+            	<delete path="${job_CAPETOWN_OWNER_Customer_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -338,11 +298,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT AcquisitionVariableTypeID,JobCommentLength,RfTorqueDirectionID,RfCycleEndTimeID,ThresholdTorque,RfMeasurementTypeID,RfFrequencyResponseID,UnitID,AuditAngle,CrnAdapterID, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.CRN_AcquisitionVariableType WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT CustomerID,Customer,CustomerCode,AddressID,RfLanguageID, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.Customer WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_CAPETOWN_OWNER_CRN_AcquisitionVariableType_DoFullTarget}</arg>
+            <arg>${job_CAPETOWN_OWNER_Customer_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -351,41 +311,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="DefectCountP-Ingest-SPTM"/>
-        <error to="DefectCountP-Ingest-SPTM"/>
+        <ok to="dtproperties-Ingest-SPTM-Decision"/>
+        <error to="dtproperties-Ingest-SPTM-Decision"/>
     </action>
 
-    <action name="DefectCountP-Ingest-SPTM">
-        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
-			<job-tracker>${jobTracker}</job-tracker>
-            <name-node>${nameNode}</name-node>
-			<prepare>
-            	<delete path="${job_CAPETOWN_OWNER_DefectCountP_DoFullTarget}" />
-            </prepare>         	
-            <arg>import</arg>
-         	<arg>--connect</arg>
-            <arg>jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER</arg>
-            <arg>--username</arg>
-            <arg>usrSqoop</arg>
-            <arg>--password</arg>
-            <arg>AXm6Sn6#o</arg>
-            <arg>--query</arg>
-            <arg>SELECT DefectCountPID,MeasurementSetPID,HeadNo,DefectCount,Ignored,AttributeTypeID,ProductID, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.DefectCountP WHERE ( $CONDITIONS ) </arg>
-            <arg>--num-mappers</arg>
-            <arg>1</arg>
-            <arg>--target-dir</arg>
-            <arg>${job_CAPETOWN_OWNER_DefectCountP_DoFullTarget}</arg>
-            <arg>--fields-terminated-by</arg>
-            <arg>\t</arg>
-            <arg>--direct</arg>
-            <arg>--</arg>
-            <arg>--schema</arg>
-            <arg>dbo</arg>
-            <arg>-validate</arg>
-        </sqoop>
-        <ok to="dtproperties-Ingest-SPTM"/>
-        <error to="dtproperties-Ingest-SPTM"/>
-    </action>
+	<decision name="dtproperties-Ingest-SPTM-Decision">
+    	<switch>
+			<case to="dtproperties-Ingest-SPTM">${ wf:conf('job_CAPETOWN_OWNER_dtproperties_DoFull') eq 'true'}</case>
+            <default to="GaugeType-Ingest-SPTM-Decision"/>
+        </switch>
+    </decision>
 
     <action name="dtproperties-Ingest-SPTM">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
@@ -415,16 +350,23 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="FaultStatus-Ingest-SPTM"/>
-        <error to="FaultStatus-Ingest-SPTM"/>
+        <ok to="GaugeType-Ingest-SPTM-Decision"/>
+        <error to="GaugeType-Ingest-SPTM-Decision"/>
     </action>
 
-    <action name="FaultStatus-Ingest-SPTM">
+	<decision name="GaugeType-Ingest-SPTM-Decision">
+    	<switch>
+			<case to="GaugeType-Ingest-SPTM">${ wf:conf('job_CAPETOWN_OWNER_GaugeType_DoFull') eq 'true'}</case>
+            <default to="InvState-Ingest-SPTT-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="GaugeType-Ingest-SPTM">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_CAPETOWN_OWNER_FaultStatus_DoFullTarget}" />
+            	<delete path="${job_CAPETOWN_OWNER_GaugeType_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -434,11 +376,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT FaultStatusID,FaultStatus,Description,RfFaultStatusID, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.FaultStatus WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT GaugeTypeID,GaugeType, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.GaugeType WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_CAPETOWN_OWNER_FaultStatus_DoFullTarget}</arg>
+            <arg>${job_CAPETOWN_OWNER_GaugeType_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -447,41 +389,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="InventoryAtLocation-Ingest-SPTT"/>
-        <error to="InventoryAtLocation-Ingest-SPTT"/>
+        <ok to="InvState-Ingest-SPTT-Decision"/>
+        <error to="InvState-Ingest-SPTT-Decision"/>
     </action>
 
-    <action name="InventoryAtLocation-Ingest-SPTT">
-        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
-			<job-tracker>${jobTracker}</job-tracker>
-            <name-node>${nameNode}</name-node>
-			<prepare>
-            	<delete path="${job_TOULOUSE_OWNER_InventoryAtLocation_DoFullTarget}" />
-            </prepare>         	
-            <arg>import</arg>
-         	<arg>--connect</arg>
-            <arg>jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER</arg>
-            <arg>--username</arg>
-            <arg>usrSqoop</arg>
-            <arg>--password</arg>
-            <arg>AXm6Sn6#o</arg>
-            <arg>--query</arg>
-            <arg>SELECT InventoryAtLocationID,LocationID,InventoryPackID,FromDT,ToDT,IsEdited,RevisionNo,EditedInvAtLocationID,MovedByLoginID,ModifiedDT,Reference1,Reference2,Reference3, 4 as "org_id",  'SPTT' as "org_name"   FROM dbo.InventoryAtLocation WHERE ( $CONDITIONS ) </arg>
-            <arg>--num-mappers</arg>
-            <arg>1</arg>
-            <arg>--target-dir</arg>
-            <arg>${job_TOULOUSE_OWNER_InventoryAtLocation_DoFullTarget}</arg>
-            <arg>--fields-terminated-by</arg>
-            <arg>\t</arg>
-            <arg>--direct</arg>
-            <arg>--</arg>
-            <arg>--schema</arg>
-            <arg>dbo</arg>
-            <arg>-validate</arg>
-        </sqoop>
-        <ok to="InvState-Ingest-SPTT"/>
-        <error to="InvState-Ingest-SPTT"/>
-    </action>
+	<decision name="InvState-Ingest-SPTT-Decision">
+    	<switch>
+			<case to="InvState-Ingest-SPTT">${ wf:conf('job_TOULOUSE_OWNER_InvState_DoFull') eq 'true'}</case>
+            <default to="LineSection-Ingest-SPTM-Decision"/>
+        </switch>
+    </decision>
 
     <action name="InvState-Ingest-SPTT">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
@@ -511,16 +428,23 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="LineInfo_custom-Ingest-SPTM"/>
-        <error to="LineInfo_custom-Ingest-SPTM"/>
+        <ok to="LineSection-Ingest-SPTM-Decision"/>
+        <error to="LineSection-Ingest-SPTM-Decision"/>
     </action>
 
-    <action name="LineInfo_custom-Ingest-SPTM">
+	<decision name="LineSection-Ingest-SPTM-Decision">
+    	<switch>
+			<case to="LineSection-Ingest-SPTM">${ wf:conf('job_CAPETOWN_OWNER_LineSection_DoFull') eq 'true'}</case>
+            <default to="LkConcernAction-Ingest-SPTM-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="LineSection-Ingest-SPTM">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_CAPETOWN_OWNER_LineInfo_custom_DoFullTarget}" />
+            	<delete path="${job_CAPETOWN_OWNER_LineSection_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -530,11 +454,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT LineInfoID,CellsProduced, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.LineInfo_custom WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT LineSectionID,LineSection,Description,IsRetired, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.LineSection WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_CAPETOWN_OWNER_LineInfo_custom_DoFullTarget}</arg>
+            <arg>${job_CAPETOWN_OWNER_LineSection_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -543,41 +467,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="LkACAChain-Ingest-SPTM"/>
-        <error to="LkACAChain-Ingest-SPTM"/>
+        <ok to="LkConcernAction-Ingest-SPTM-Decision"/>
+        <error to="LkConcernAction-Ingest-SPTM-Decision"/>
     </action>
 
-    <action name="LkACAChain-Ingest-SPTM">
-        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
-			<job-tracker>${jobTracker}</job-tracker>
-            <name-node>${nameNode}</name-node>
-			<prepare>
-            	<delete path="${job_CAPETOWN_OWNER_LkACAChain_DoFullTarget}" />
-            </prepare>         	
-            <arg>import</arg>
-         	<arg>--connect</arg>
-            <arg>jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER</arg>
-            <arg>--username</arg>
-            <arg>usrSqoop</arg>
-            <arg>--password</arg>
-            <arg>AXm6Sn6#o</arg>
-            <arg>--query</arg>
-            <arg>SELECT AcquisitionChainID,AcquisitionContextID,Sequence,LkACAChainID, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.LkACAChain WHERE ( $CONDITIONS ) </arg>
-            <arg>--num-mappers</arg>
-            <arg>1</arg>
-            <arg>--target-dir</arg>
-            <arg>${job_CAPETOWN_OWNER_LkACAChain_DoFullTarget}</arg>
-            <arg>--fields-terminated-by</arg>
-            <arg>\t</arg>
-            <arg>--direct</arg>
-            <arg>--</arg>
-            <arg>--schema</arg>
-            <arg>dbo</arg>
-            <arg>-validate</arg>
-        </sqoop>
-        <ok to="LkConcernAction-Ingest-SPTM"/>
-        <error to="LkConcernAction-Ingest-SPTM"/>
-    </action>
+	<decision name="LkConcernAction-Ingest-SPTM-Decision">
+    	<switch>
+			<case to="LkConcernAction-Ingest-SPTM">${ wf:conf('job_CAPETOWN_OWNER_LkConcernAction_DoFull') eq 'true'}</case>
+            <default to="LkDocumentAsset-Ingest-SPTM-Decision"/>
+        </switch>
+    </decision>
 
     <action name="LkConcernAction-Ingest-SPTM">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
@@ -607,16 +506,23 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="LKCSetCDef-Ingest-SPTM"/>
-        <error to="LKCSetCDef-Ingest-SPTM"/>
+        <ok to="LkDocumentAsset-Ingest-SPTM-Decision"/>
+        <error to="LkDocumentAsset-Ingest-SPTM-Decision"/>
     </action>
 
-    <action name="LKCSetCDef-Ingest-SPTM">
+	<decision name="LkDocumentAsset-Ingest-SPTM-Decision">
+    	<switch>
+			<case to="LkDocumentAsset-Ingest-SPTM">${ wf:conf('job_CAPETOWN_OWNER_LkDocumentAsset_DoFull') eq 'true'}</case>
+            <default to="LkInvPackInvPack-Ingest-SPTM-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="LkDocumentAsset-Ingest-SPTM">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_CAPETOWN_OWNER_LKCSetCDef_DoFullTarget}" />
+            	<delete path="${job_CAPETOWN_OWNER_LkDocumentAsset_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -626,11 +532,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT SPCChartSetID,SPCChartDefID,Sequence,LkCSetCDefID, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.LKCSetCDef WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT LkDocumentAssetID,DocumentID,AssetID, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.LkDocumentAsset WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_CAPETOWN_OWNER_LKCSetCDef_DoFullTarget}</arg>
+            <arg>${job_CAPETOWN_OWNER_LkDocumentAsset_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -639,41 +545,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="LkDocumentMaintProc-Ingest-SPTM"/>
-        <error to="LkDocumentMaintProc-Ingest-SPTM"/>
+        <ok to="LkInvPackInvPack-Ingest-SPTM-Decision"/>
+        <error to="LkInvPackInvPack-Ingest-SPTM-Decision"/>
     </action>
 
-    <action name="LkDocumentMaintProc-Ingest-SPTM">
-        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
-			<job-tracker>${jobTracker}</job-tracker>
-            <name-node>${nameNode}</name-node>
-			<prepare>
-            	<delete path="${job_CAPETOWN_OWNER_LkDocumentMaintProc_DoFullTarget}" />
-            </prepare>         	
-            <arg>import</arg>
-         	<arg>--connect</arg>
-            <arg>jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER</arg>
-            <arg>--username</arg>
-            <arg>usrSqoop</arg>
-            <arg>--password</arg>
-            <arg>AXm6Sn6#o</arg>
-            <arg>--query</arg>
-            <arg>SELECT LkDocumentMaintProcID,DocumentID,MaintenanceProcedureID, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.LkDocumentMaintProc WHERE ( $CONDITIONS ) </arg>
-            <arg>--num-mappers</arg>
-            <arg>1</arg>
-            <arg>--target-dir</arg>
-            <arg>${job_CAPETOWN_OWNER_LkDocumentMaintProc_DoFullTarget}</arg>
-            <arg>--fields-terminated-by</arg>
-            <arg>\t</arg>
-            <arg>--direct</arg>
-            <arg>--</arg>
-            <arg>--schema</arg>
-            <arg>dbo</arg>
-            <arg>-validate</arg>
-        </sqoop>
-        <ok to="LkInvPackInvPack-Ingest-SPTM"/>
-        <error to="LkInvPackInvPack-Ingest-SPTM"/>
-    </action>
+	<decision name="LkInvPackInvPack-Ingest-SPTM-Decision">
+    	<switch>
+			<case to="LkInvPackInvPack-Ingest-SPTM">${ wf:conf('job_CAPETOWN_OWNER_LkInvPackInvPack_DoFull') eq 'true'}</case>
+            <default to="LkMGMS-Ingest-SPTM-Decision"/>
+        </switch>
+    </decision>
 
     <action name="LkInvPackInvPack-Ingest-SPTM">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
@@ -703,16 +584,23 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="LkMachineStagePrinter-Ingest-SPTM"/>
-        <error to="LkMachineStagePrinter-Ingest-SPTM"/>
+        <ok to="LkMGMS-Ingest-SPTM-Decision"/>
+        <error to="LkMGMS-Ingest-SPTM-Decision"/>
     </action>
 
-    <action name="LkMachineStagePrinter-Ingest-SPTM">
+	<decision name="LkMGMS-Ingest-SPTM-Decision">
+    	<switch>
+			<case to="LkMGMS-Ingest-SPTM">${ wf:conf('job_CAPETOWN_OWNER_LkMGMS_DoFull') eq 'true'}</case>
+            <default to="LkPartDocument-Ingest-SPTM-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="LkMGMS-Ingest-SPTM">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_CAPETOWN_OWNER_LkMachineStagePrinter_DoFullTarget}" />
+            	<delete path="${job_CAPETOWN_OWNER_LkMGMS_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -722,11 +610,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT LkMachineStagePrinterID,MachineStageID,PrinterID, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.LkMachineStagePrinter WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT MachineStageID,MachineGroupID,LkMGMSID, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.LkMGMS WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_CAPETOWN_OWNER_LkMachineStagePrinter_DoFullTarget}</arg>
+            <arg>${job_CAPETOWN_OWNER_LkMGMS_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -735,41 +623,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="LkMSRGMSR-Ingest-SPTM"/>
-        <error to="LkMSRGMSR-Ingest-SPTM"/>
+        <ok to="LkPartDocument-Ingest-SPTM-Decision"/>
+        <error to="LkPartDocument-Ingest-SPTM-Decision"/>
     </action>
 
-    <action name="LkMSRGMSR-Ingest-SPTM">
-        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
-			<job-tracker>${jobTracker}</job-tracker>
-            <name-node>${nameNode}</name-node>
-			<prepare>
-            	<delete path="${job_CAPETOWN_OWNER_LkMSRGMSR_DoFullTarget}" />
-            </prepare>         	
-            <arg>import</arg>
-         	<arg>--connect</arg>
-            <arg>jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER</arg>
-            <arg>--username</arg>
-            <arg>usrSqoop</arg>
-            <arg>--password</arg>
-            <arg>AXm6Sn6#o</arg>
-            <arg>--query</arg>
-            <arg>SELECT MachineStopReasonGroupID,MachineStopReasonID,LkMSRGMSRID, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.LkMSRGMSR WHERE ( $CONDITIONS ) </arg>
-            <arg>--num-mappers</arg>
-            <arg>1</arg>
-            <arg>--target-dir</arg>
-            <arg>${job_CAPETOWN_OWNER_LkMSRGMSR_DoFullTarget}</arg>
-            <arg>--fields-terminated-by</arg>
-            <arg>\t</arg>
-            <arg>--direct</arg>
-            <arg>--</arg>
-            <arg>--schema</arg>
-            <arg>dbo</arg>
-            <arg>-validate</arg>
-        </sqoop>
-        <ok to="LkPartDocument-Ingest-SPTM"/>
-        <error to="LkPartDocument-Ingest-SPTM"/>
-    </action>
+	<decision name="LkPartDocument-Ingest-SPTM-Decision">
+    	<switch>
+			<case to="LkPartDocument-Ingest-SPTM">${ wf:conf('job_CAPETOWN_OWNER_LkPartDocument_DoFull') eq 'true'}</case>
+            <default to="LkSPCCSVR-Ingest-SPTM-Decision"/>
+        </switch>
+    </decision>
 
     <action name="LkPartDocument-Ingest-SPTM">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
@@ -799,16 +662,23 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="LkRootCauseAction-Ingest-SPTM"/>
-        <error to="LkRootCauseAction-Ingest-SPTM"/>
+        <ok to="LkSPCCSVR-Ingest-SPTM-Decision"/>
+        <error to="LkSPCCSVR-Ingest-SPTM-Decision"/>
     </action>
 
-    <action name="LkRootCauseAction-Ingest-SPTM">
+	<decision name="LkSPCCSVR-Ingest-SPTM-Decision">
+    	<switch>
+			<case to="LkSPCCSVR-Ingest-SPTM">${ wf:conf('job_CAPETOWN_OWNER_LkSPCCSVR_DoFull') eq 'true'}</case>
+            <default to="LkUCTGUCT-Ingest-SPTM-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="LkSPCCSVR-Ingest-SPTM">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_CAPETOWN_OWNER_LkRootCauseAction_DoFullTarget}" />
+            	<delete path="${job_CAPETOWN_OWNER_LkSPCCSVR_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -818,11 +688,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT LkRootCauseActionID,RootCauseID,ActionID, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.LkRootCauseAction WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT SPCCalcStyleID,RfViolationRuleID,RfChartComponentID,LkSPCCSVRID,RuleRange,RuleGroup, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.LkSPCCSVR WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_CAPETOWN_OWNER_LkRootCauseAction_DoFullTarget}</arg>
+            <arg>${job_CAPETOWN_OWNER_LkSPCCSVR_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -831,41 +701,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="LkSRGSR-Ingest-SPTM"/>
-        <error to="LkSRGSR-Ingest-SPTM"/>
+        <ok to="LkUCTGUCT-Ingest-SPTM-Decision"/>
+        <error to="LkUCTGUCT-Ingest-SPTM-Decision"/>
     </action>
 
-    <action name="LkSRGSR-Ingest-SPTM">
-        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
-			<job-tracker>${jobTracker}</job-tracker>
-            <name-node>${nameNode}</name-node>
-			<prepare>
-            	<delete path="${job_CAPETOWN_OWNER_LkSRGSR_DoFullTarget}" />
-            </prepare>         	
-            <arg>import</arg>
-         	<arg>--connect</arg>
-            <arg>jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER</arg>
-            <arg>--username</arg>
-            <arg>usrSqoop</arg>
-            <arg>--password</arg>
-            <arg>AXm6Sn6#o</arg>
-            <arg>--query</arg>
-            <arg>SELECT LkSRGSRID,ScrapReasonGroupID,ScrapReasonID, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.LkSRGSR WHERE ( $CONDITIONS ) </arg>
-            <arg>--num-mappers</arg>
-            <arg>1</arg>
-            <arg>--target-dir</arg>
-            <arg>${job_CAPETOWN_OWNER_LkSRGSR_DoFullTarget}</arg>
-            <arg>--fields-terminated-by</arg>
-            <arg>\t</arg>
-            <arg>--direct</arg>
-            <arg>--</arg>
-            <arg>--schema</arg>
-            <arg>dbo</arg>
-            <arg>-validate</arg>
-        </sqoop>
-        <ok to="LkUCTGUCT-Ingest-SPTM"/>
-        <error to="LkUCTGUCT-Ingest-SPTM"/>
-    </action>
+	<decision name="LkUCTGUCT-Ingest-SPTM-Decision">
+    	<switch>
+			<case to="LkUCTGUCT-Ingest-SPTM">${ wf:conf('job_CAPETOWN_OWNER_LkUCTGUCT_DoFull') eq 'true'}</case>
+            <default to="MachineStageCell-Ingest-SPTM-Decision"/>
+        </switch>
+    </decision>
 
     <action name="LkUCTGUCT-Ingest-SPTM">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
@@ -895,16 +740,23 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="LkWIRMSetReq-Ingest-SPTM"/>
-        <error to="LkWIRMSetReq-Ingest-SPTM"/>
+        <ok to="MachineStageCell-Ingest-SPTM-Decision"/>
+        <error to="MachineStageCell-Ingest-SPTM-Decision"/>
     </action>
 
-    <action name="LkWIRMSetReq-Ingest-SPTM">
+	<decision name="MachineStageCell-Ingest-SPTM-Decision">
+    	<switch>
+			<case to="MachineStageCell-Ingest-SPTM">${ wf:conf('job_CAPETOWN_OWNER_MachineStageCell_DoFull') eq 'true'}</case>
+            <default to="MachineStopReason-Ingest-SPTM-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="MachineStageCell-Ingest-SPTM">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_CAPETOWN_OWNER_LkWIRMSetReq_DoFullTarget}" />
+            	<delete path="${job_CAPETOWN_OWNER_MachineStageCell_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -914,11 +766,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT LkWIRMSetReqID,WorkInstructionResultID,MeasurementSetRequiredID, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.LkWIRMSetReq WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT MachineStageCellID,MachineStageID,IsCreator,IsConsumer,IsLabeller,IsAutoBatchNo,IsPackConsumer,IsResortConsumer,IsNonJob,IsToolShowCavities,IsInvPackPackNo,IsInvPackPartNo,IsInvPackPartDesc,IsInvPackPartType,IsInvPackQty,IsInvPackHeader,IsInvPackRows,IsInvPackState,IsInvPackReason,IsAcqDblck,AcqGrid,CustomPage,IsClickable,IsDrillable, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.MachineStageCell WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_CAPETOWN_OWNER_LkWIRMSetReq_DoFullTarget}</arg>
+            <arg>${job_CAPETOWN_OWNER_MachineStageCell_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -927,41 +779,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="MachineStageEventType-Ingest-SPTM"/>
-        <error to="MachineStageEventType-Ingest-SPTM"/>
+        <ok to="MachineStopReason-Ingest-SPTM-Decision"/>
+        <error to="MachineStopReason-Ingest-SPTM-Decision"/>
     </action>
 
-    <action name="MachineStageEventType-Ingest-SPTM">
-        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
-			<job-tracker>${jobTracker}</job-tracker>
-            <name-node>${nameNode}</name-node>
-			<prepare>
-            	<delete path="${job_CAPETOWN_OWNER_MachineStageEventType_DoFullTarget}" />
-            </prepare>         	
-            <arg>import</arg>
-         	<arg>--connect</arg>
-            <arg>jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER</arg>
-            <arg>--username</arg>
-            <arg>usrSqoop</arg>
-            <arg>--password</arg>
-            <arg>AXm6Sn6#o</arg>
-            <arg>--query</arg>
-            <arg>SELECT MachineStageEventTypeID,MachineStageEventType,Description,MachineStageTypeID,MachineStageEventTypeCode,IsAlarm,AlarmText, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.MachineStageEventType WHERE ( $CONDITIONS ) </arg>
-            <arg>--num-mappers</arg>
-            <arg>1</arg>
-            <arg>--target-dir</arg>
-            <arg>${job_CAPETOWN_OWNER_MachineStageEventType_DoFullTarget}</arg>
-            <arg>--fields-terminated-by</arg>
-            <arg>\t</arg>
-            <arg>--direct</arg>
-            <arg>--</arg>
-            <arg>--schema</arg>
-            <arg>dbo</arg>
-            <arg>-validate</arg>
-        </sqoop>
-        <ok to="MachineStopReason-Ingest-SPTM"/>
-        <error to="MachineStopReason-Ingest-SPTM"/>
-    </action>
+	<decision name="MachineStopReason-Ingest-SPTM-Decision">
+    	<switch>
+			<case to="MachineStopReason-Ingest-SPTM">${ wf:conf('job_CAPETOWN_OWNER_MachineStopReason_DoFull') eq 'true'}</case>
+            <default to="MaintenanceProcedure-Ingest-SPTM-Decision"/>
+        </switch>
+    </decision>
 
     <action name="MachineStopReason-Ingest-SPTM">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
@@ -991,16 +818,23 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="MaintenancePartPlanned-Ingest-SPTM"/>
-        <error to="MaintenancePartPlanned-Ingest-SPTM"/>
+        <ok to="MaintenanceProcedure-Ingest-SPTM-Decision"/>
+        <error to="MaintenanceProcedure-Ingest-SPTM-Decision"/>
     </action>
 
-    <action name="MaintenancePartPlanned-Ingest-SPTM">
+	<decision name="MaintenanceProcedure-Ingest-SPTM-Decision">
+    	<switch>
+			<case to="MaintenanceProcedure-Ingest-SPTM">${ wf:conf('job_CAPETOWN_OWNER_MaintenanceProcedure_DoFull') eq 'true'}</case>
+            <default to="MaintenanceWork-Ingest-SPTM-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="MaintenanceProcedure-Ingest-SPTM">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_CAPETOWN_OWNER_MaintenancePartPlanned_DoFullTarget}" />
+            	<delete path="${job_CAPETOWN_OWNER_MaintenanceProcedure_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -1010,11 +844,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT MaintenancePartPlannedID,MaintenanceProcedureStepID,PartID,PlannedCost,IsOptional,Quantity,UnitID, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.MaintenancePartPlanned WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT MaintenanceProcedureID,MaintenanceProcedure,PartID,ResponsibleDepartmentID,BudgetWorkDone,PlannedManHours,PlannedDuration,MaintenanceProcedureCode,AdvanceWarningPeriod,SchedulingWindow,PlannedMachineStageDowntime,PlannedLineDowntime,SubPartID,CreatedDT,CreatedLoginID,RfMaintenanceWorkTypeID,CostCentreID,IsAutoAuthoriseWork,IsRetired,IsToolTakenOutOfService, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.MaintenanceProcedure WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_CAPETOWN_OWNER_MaintenancePartPlanned_DoFullTarget}</arg>
+            <arg>${job_CAPETOWN_OWNER_MaintenanceProcedure_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -1023,41 +857,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="MaintenanceProcedureResult-Ingest-SPTM"/>
-        <error to="MaintenanceProcedureResult-Ingest-SPTM"/>
+        <ok to="MaintenanceWork-Ingest-SPTM-Decision"/>
+        <error to="MaintenanceWork-Ingest-SPTM-Decision"/>
     </action>
 
-    <action name="MaintenanceProcedureResult-Ingest-SPTM">
-        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
-			<job-tracker>${jobTracker}</job-tracker>
-            <name-node>${nameNode}</name-node>
-			<prepare>
-            	<delete path="${job_CAPETOWN_OWNER_MaintenanceProcedureResult_DoFullTarget}" />
-            </prepare>         	
-            <arg>import</arg>
-         	<arg>--connect</arg>
-            <arg>jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER</arg>
-            <arg>--username</arg>
-            <arg>usrSqoop</arg>
-            <arg>--password</arg>
-            <arg>AXm6Sn6#o</arg>
-            <arg>--query</arg>
-            <arg>SELECT MaintenanceProcedureResultID,MaintenanceProcedureStepID,MaintenanceWorkID,Result,ResultPassFail,Comments,DT,CheckedByLoginID,MaintenanceProcedureStep,StepOrder,SubPartID,Component,RfMaintenanceCheckTypeID,RfSpecialActionTypeID,Test,USL,LSL,PersonnelGroupID,SupplierID,Nom,Units,DecPlaces, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.MaintenanceProcedureResult WHERE ( $CONDITIONS ) </arg>
-            <arg>--num-mappers</arg>
-            <arg>1</arg>
-            <arg>--target-dir</arg>
-            <arg>${job_CAPETOWN_OWNER_MaintenanceProcedureResult_DoFullTarget}</arg>
-            <arg>--fields-terminated-by</arg>
-            <arg>\t</arg>
-            <arg>--direct</arg>
-            <arg>--</arg>
-            <arg>--schema</arg>
-            <arg>dbo</arg>
-            <arg>-validate</arg>
-        </sqoop>
-        <ok to="MaintenanceWork-Ingest-SPTM"/>
-        <error to="MaintenanceWork-Ingest-SPTM"/>
-    </action>
+	<decision name="MaintenanceWork-Ingest-SPTM-Decision">
+    	<switch>
+			<case to="MaintenanceWork-Ingest-SPTM">${ wf:conf('job_CAPETOWN_OWNER_MaintenanceWork_DoFull') eq 'true'}</case>
+            <default to="MeasurementSetP-Ingest-SPTM-Decision"/>
+        </switch>
+    </decision>
 
     <action name="MaintenanceWork-Ingest-SPTM">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
@@ -1087,16 +896,23 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="MeasurementSet-Ingest-SPTM"/>
-        <error to="MeasurementSet-Ingest-SPTM"/>
+        <ok to="MeasurementSetP-Ingest-SPTM-Decision"/>
+        <error to="MeasurementSetP-Ingest-SPTM-Decision"/>
     </action>
 
-    <action name="MeasurementSet-Ingest-SPTM">
+	<decision name="MeasurementSetP-Ingest-SPTM-Decision">
+    	<switch>
+			<case to="MeasurementSetP-Ingest-SPTM">${ wf:conf('job_CAPETOWN_OWNER_MeasurementSetP_DoFull') eq 'true'}</case>
+            <default to="OPCCounter-Ingest-SPTM-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="MeasurementSetP-Ingest-SPTM">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_CAPETOWN_OWNER_MeasurementSet_DoFullTarget}" />
+            	<delete path="${job_CAPETOWN_OWNER_MeasurementSetP_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -1106,11 +922,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT MeasurementSetID,ActualAttrSampleSize,AcquisitionContextID,IsEdited,DT,AcquisitionID,MachineStageID,RfAcquisitionClassID,RevisionNo,PartID,JobID,ResumeStep,InventoryPackID, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.MeasurementSet WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT MeasurementSetPID,ActualAttrSampleSize,AcquisitionContextID,IsEdited,DT,AcquisitionID,MachineStageID,RfAcquisitionClassID,RevisionNo,PartID,JobID, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.MeasurementSetP WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_CAPETOWN_OWNER_MeasurementSet_DoFullTarget}</arg>
+            <arg>${job_CAPETOWN_OWNER_MeasurementSetP_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -1119,41 +935,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="ModulePackedDateTime-Ingest-SPTM"/>
-        <error to="ModulePackedDateTime-Ingest-SPTM"/>
+        <ok to="OPCCounter-Ingest-SPTM-Decision"/>
+        <error to="OPCCounter-Ingest-SPTM-Decision"/>
     </action>
 
-    <action name="ModulePackedDateTime-Ingest-SPTM">
-        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
-			<job-tracker>${jobTracker}</job-tracker>
-            <name-node>${nameNode}</name-node>
-			<prepare>
-            	<delete path="${job_CAPETOWN_OWNER_ModulePackedDateTime_DoFullTarget}" />
-            </prepare>         	
-            <arg>import</arg>
-         	<arg>--connect</arg>
-            <arg>jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER</arg>
-            <arg>--username</arg>
-            <arg>usrSqoop</arg>
-            <arg>--password</arg>
-            <arg>AXm6Sn6#o</arg>
-            <arg>--query</arg>
-            <arg>SELECT SerialNo,TimePacked,IMS_No, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.ModulePackedDateTime WHERE ( $CONDITIONS ) </arg>
-            <arg>--num-mappers</arg>
-            <arg>1</arg>
-            <arg>--target-dir</arg>
-            <arg>${job_CAPETOWN_OWNER_ModulePackedDateTime_DoFullTarget}</arg>
-            <arg>--fields-terminated-by</arg>
-            <arg>\t</arg>
-            <arg>--direct</arg>
-            <arg>--</arg>
-            <arg>--schema</arg>
-            <arg>dbo</arg>
-            <arg>-validate</arg>
-        </sqoop>
-        <ok to="OPCCounter-Ingest-SPTM"/>
-        <error to="OPCCounter-Ingest-SPTM"/>
-    </action>
+	<decision name="OPCCounter-Ingest-SPTM-Decision">
+    	<switch>
+			<case to="OPCCounter-Ingest-SPTM">${ wf:conf('job_CAPETOWN_OWNER_OPCCounter_DoFull') eq 'true'}</case>
+            <default to="OPCMachineEventCode-Ingest-SPTM-Decision"/>
+        </switch>
+    </decision>
 
     <action name="OPCCounter-Ingest-SPTM">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
@@ -1183,16 +974,23 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="OPCItemHistory-Ingest-SPTM"/>
-        <error to="OPCItemHistory-Ingest-SPTM"/>
+        <ok to="OPCMachineEventCode-Ingest-SPTM-Decision"/>
+        <error to="OPCMachineEventCode-Ingest-SPTM-Decision"/>
     </action>
 
-    <action name="OPCItemHistory-Ingest-SPTM">
+	<decision name="OPCMachineEventCode-Ingest-SPTM-Decision">
+    	<switch>
+			<case to="OPCMachineEventCode-Ingest-SPTM">${ wf:conf('job_CAPETOWN_OWNER_OPCMachineEventCode_DoFull') eq 'true'}</case>
+            <default to="OperationType-Ingest-SPTM-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="OPCMachineEventCode-Ingest-SPTM">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_CAPETOWN_OWNER_OPCItemHistory_DoFullTarget}" />
+            	<delete path="${job_CAPETOWN_OWNER_OPCMachineEventCode_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -1202,11 +1000,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT OPCItemHistoryID,OPCItemID,UpdatedDT,RawValue,Value,Quality,CommittedDT, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.OPCItemHistory WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT OPCMachineEventCodeID,OPCMachineEventCode,OPCMachineEventID,MachineStopReasonID,IsRunning, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.OPCMachineEventCode WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_CAPETOWN_OWNER_OPCItemHistory_DoFullTarget}</arg>
+            <arg>${job_CAPETOWN_OWNER_OPCMachineEventCode_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -1215,41 +1013,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="OPCServer-Ingest-SPTM"/>
-        <error to="OPCServer-Ingest-SPTM"/>
+        <ok to="OperationType-Ingest-SPTM-Decision"/>
+        <error to="OperationType-Ingest-SPTM-Decision"/>
     </action>
 
-    <action name="OPCServer-Ingest-SPTM">
-        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
-			<job-tracker>${jobTracker}</job-tracker>
-            <name-node>${nameNode}</name-node>
-			<prepare>
-            	<delete path="${job_CAPETOWN_OWNER_OPCServer_DoFullTarget}" />
-            </prepare>         	
-            <arg>import</arg>
-         	<arg>--connect</arg>
-            <arg>jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER</arg>
-            <arg>--username</arg>
-            <arg>usrSqoop</arg>
-            <arg>--password</arg>
-            <arg>AXm6Sn6#o</arg>
-            <arg>--query</arg>
-            <arg>SELECT OPCServerID,OPCClientID,OPCServer,ProgID,IsActive,ComputerID, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.OPCServer WHERE ( $CONDITIONS ) </arg>
-            <arg>--num-mappers</arg>
-            <arg>1</arg>
-            <arg>--target-dir</arg>
-            <arg>${job_CAPETOWN_OWNER_OPCServer_DoFullTarget}</arg>
-            <arg>--fields-terminated-by</arg>
-            <arg>\t</arg>
-            <arg>--direct</arg>
-            <arg>--</arg>
-            <arg>--schema</arg>
-            <arg>dbo</arg>
-            <arg>-validate</arg>
-        </sqoop>
-        <ok to="OperationType-Ingest-SPTM"/>
-        <error to="OperationType-Ingest-SPTM"/>
-    </action>
+	<decision name="OperationType-Ingest-SPTM-Decision">
+    	<switch>
+			<case to="OperationType-Ingest-SPTM">${ wf:conf('job_CAPETOWN_OWNER_OperationType_DoFull') eq 'true'}</case>
+            <default to="Product-Ingest-SPTM-Decision"/>
+        </switch>
+    </decision>
 
     <action name="OperationType-Ingest-SPTM">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
@@ -1279,16 +1052,23 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="PartType-Ingest-SPTM"/>
-        <error to="PartType-Ingest-SPTM"/>
+        <ok to="Product-Ingest-SPTM-Decision"/>
+        <error to="Product-Ingest-SPTM-Decision"/>
     </action>
 
-    <action name="PartType-Ingest-SPTM">
+	<decision name="Product-Ingest-SPTM-Decision">
+    	<switch>
+			<case to="Product-Ingest-SPTM">${ wf:conf('job_CAPETOWN_OWNER_Product_DoFull') eq 'true'}</case>
+            <default to="RootCauseType-Ingest-SPTM-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="Product-Ingest-SPTM">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_CAPETOWN_OWNER_PartType_DoFullTarget}" />
+            	<delete path="${job_CAPETOWN_OWNER_Product_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -1298,11 +1078,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT PartTypeID,PartType,Description,PartTypeCode,Variant1TagListID,Variant2TagListID,Variant3TagListID,Variant4TagListID,Variant5TagListID,Variant6TagListID,Variant7TagListID,Variant8TagListID,Variant9TagListID,Variant10TagListID,Variant11TagListID,Variant12TagListID,Variant13TagListID,Variant14TagListID,Variant15TagListID,Variant16TagListID,Variant17TagListID,Variant18TagListID,Variant19TagListID,Variant20TagListID,RfInventoryAccountingModeID, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.PartType WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT ProductID,ProductTypeID,Name,Description,IsRetired,PartID,Variant1,Variant2,Variant3,Variant4,Variant5,Variant6,Variant7,Variant8,Variant9,Variant10,Variant11,Variant12,Variant13,Variant14,Variant15,Variant16,Variant17,Variant18,Variant19,Variant20, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.Product WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_CAPETOWN_OWNER_PartType_DoFullTarget}</arg>
+            <arg>${job_CAPETOWN_OWNER_Product_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -1311,41 +1091,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="ProductionStop_-Ingest-SPTM"/>
-        <error to="ProductionStop_-Ingest-SPTM"/>
+        <ok to="RootCauseType-Ingest-SPTM-Decision"/>
+        <error to="RootCauseType-Ingest-SPTM-Decision"/>
     </action>
 
-    <action name="ProductionStop_-Ingest-SPTM">
-        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
-			<job-tracker>${jobTracker}</job-tracker>
-            <name-node>${nameNode}</name-node>
-			<prepare>
-            	<delete path="${job_CAPETOWN_OWNER_ProductionStop__DoFullTarget}" />
-            </prepare>         	
-            <arg>import</arg>
-         	<arg>--connect</arg>
-            <arg>jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER</arg>
-            <arg>--username</arg>
-            <arg>usrSqoop</arg>
-            <arg>--password</arg>
-            <arg>AXm6Sn6#o</arg>
-            <arg>--query</arg>
-            <arg>SELECT ProductionStopID,StopComments,StopLoginID,OpenedStopDT,SavedStopDT,OriginalLoginID,EditedProductionStopID, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.ProductionStop_ WHERE ( $CONDITIONS ) </arg>
-            <arg>--num-mappers</arg>
-            <arg>1</arg>
-            <arg>--target-dir</arg>
-            <arg>${job_CAPETOWN_OWNER_ProductionStop__DoFullTarget}</arg>
-            <arg>--fields-terminated-by</arg>
-            <arg>\t</arg>
-            <arg>--direct</arg>
-            <arg>--</arg>
-            <arg>--schema</arg>
-            <arg>dbo</arg>
-            <arg>-validate</arg>
-        </sqoop>
-        <ok to="RootCauseType-Ingest-SPTM"/>
-        <error to="RootCauseType-Ingest-SPTM"/>
-    </action>
+	<decision name="RootCauseType-Ingest-SPTM-Decision">
+    	<switch>
+			<case to="RootCauseType-Ingest-SPTM">${ wf:conf('job_CAPETOWN_OWNER_RootCauseType_DoFull') eq 'true'}</case>
+            <default to="SettingsPlantNameTemplates-Ingest-SPTM-Decision"/>
+        </switch>
+    </decision>
 
     <action name="RootCauseType-Ingest-SPTM">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
@@ -1375,16 +1130,23 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="ScrapReasonGroup-Ingest-SPTM"/>
-        <error to="ScrapReasonGroup-Ingest-SPTM"/>
+        <ok to="SettingsPlantNameTemplates-Ingest-SPTM-Decision"/>
+        <error to="SettingsPlantNameTemplates-Ingest-SPTM-Decision"/>
     </action>
 
-    <action name="ScrapReasonGroup-Ingest-SPTM">
+	<decision name="SettingsPlantNameTemplates-Ingest-SPTM-Decision">
+    	<switch>
+			<case to="SettingsPlantNameTemplates-Ingest-SPTM">${ wf:conf('job_CAPETOWN_OWNER_SettingsPlantNameTemplates_DoFull') eq 'true'}</case>
+            <default to="ShiftType-Ingest-SPTM-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="SettingsPlantNameTemplates-Ingest-SPTM">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_CAPETOWN_OWNER_ScrapReasonGroup_DoFullTarget}" />
+            	<delete path="${job_CAPETOWN_OWNER_SettingsPlantNameTemplates_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -1394,11 +1156,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT ScrapReasonGroupID,ScrapReasonGroup,Description, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.ScrapReasonGroup WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT SettingsPlantNameTemplatesID,CreateInvPackNoTemplate,CustomerUniqueKeyTemplate,InventoryPackNameTemplate,WONumberTemplate,ReceiveInvPackNoTemplate,BOMVariantTemplate, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.SettingsPlantNameTemplates WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_CAPETOWN_OWNER_ScrapReasonGroup_DoFullTarget}</arg>
+            <arg>${job_CAPETOWN_OWNER_SettingsPlantNameTemplates_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -1407,41 +1169,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="Shift-Ingest-SPTM"/>
-        <error to="Shift-Ingest-SPTM"/>
+        <ok to="ShiftType-Ingest-SPTM-Decision"/>
+        <error to="ShiftType-Ingest-SPTM-Decision"/>
     </action>
 
-    <action name="Shift-Ingest-SPTM">
-        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
-			<job-tracker>${jobTracker}</job-tracker>
-            <name-node>${nameNode}</name-node>
-			<prepare>
-            	<delete path="${job_CAPETOWN_OWNER_Shift_DoFullTarget}" />
-            </prepare>         	
-            <arg>import</arg>
-         	<arg>--connect</arg>
-            <arg>jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER</arg>
-            <arg>--username</arg>
-            <arg>usrSqoop</arg>
-            <arg>--password</arg>
-            <arg>AXm6Sn6#o</arg>
-            <arg>--query</arg>
-            <arg>SELECT ShiftID,ShiftTypeID,ShiftPatternID,FromDT,ToDT,Sequence, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.Shift WHERE ( $CONDITIONS ) </arg>
-            <arg>--num-mappers</arg>
-            <arg>1</arg>
-            <arg>--target-dir</arg>
-            <arg>${job_CAPETOWN_OWNER_Shift_DoFullTarget}</arg>
-            <arg>--fields-terminated-by</arg>
-            <arg>\t</arg>
-            <arg>--direct</arg>
-            <arg>--</arg>
-            <arg>--schema</arg>
-            <arg>dbo</arg>
-            <arg>-validate</arg>
-        </sqoop>
-        <ok to="ShiftType-Ingest-SPTM"/>
-        <error to="ShiftType-Ingest-SPTM"/>
-    </action>
+	<decision name="ShiftType-Ingest-SPTM-Decision">
+    	<switch>
+			<case to="ShiftType-Ingest-SPTM">${ wf:conf('job_CAPETOWN_OWNER_ShiftType_DoFull') eq 'true'}</case>
+            <default to="SPCChartSetView-Ingest-SPTM-Decision"/>
+        </switch>
+    </decision>
 
     <action name="ShiftType-Ingest-SPTM">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
@@ -1471,16 +1208,23 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="SPCChartDef-Ingest-SPTM"/>
-        <error to="SPCChartDef-Ingest-SPTM"/>
+        <ok to="SPCChartSetView-Ingest-SPTM-Decision"/>
+        <error to="SPCChartSetView-Ingest-SPTM-Decision"/>
     </action>
 
-    <action name="SPCChartDef-Ingest-SPTM">
+	<decision name="SPCChartSetView-Ingest-SPTM-Decision">
+    	<switch>
+			<case to="SPCChartSetView-Ingest-SPTM">${ wf:conf('job_CAPETOWN_OWNER_SPCChartSetView_DoFull') eq 'true'}</case>
+            <default to="SPCVarChart-Ingest-SPTM-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="SPCChartSetView-Ingest-SPTM">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_CAPETOWN_OWNER_SPCChartDef_DoFullTarget}" />
+            	<delete path="${job_CAPETOWN_OWNER_SPCChartSetView_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -1490,11 +1234,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT SPCChartDefID,VariableTypeID,SPCRuleID,RfStudyTypeID,GroupingSize,MovingRange,SPCCalcStyleID,RfGroupingID,NGroupMarkerID,CpBasedOnID,CLBasedOnID, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.SPCChartDef WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT SPCChartSetViewID,SPCChartSetView,Sequence,SPCChartSetID,RfChartSetViewTypeID,NoCols,NoRows,Caption,Tooltip,IsAggregated,RfCutByIDs,IsPanelled,ImageURI,GridImageRender,ParetoXAxis,ParetoStackBy,SPCChartSetViewStyleID,IsAutoFit,OverlayFlags, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.SPCChartSetView WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_CAPETOWN_OWNER_SPCChartDef_DoFullTarget}</arg>
+            <arg>${job_CAPETOWN_OWNER_SPCChartSetView_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -1503,41 +1247,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="SPCDefaultControlLimit-Ingest-SPTM"/>
-        <error to="SPCDefaultControlLimit-Ingest-SPTM"/>
+        <ok to="SPCVarChart-Ingest-SPTM-Decision"/>
+        <error to="SPCVarChart-Ingest-SPTM-Decision"/>
     </action>
 
-    <action name="SPCDefaultControlLimit-Ingest-SPTM">
-        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
-			<job-tracker>${jobTracker}</job-tracker>
-            <name-node>${nameNode}</name-node>
-			<prepare>
-            	<delete path="${job_CAPETOWN_OWNER_SPCDefaultControlLimit_DoFullTarget}" />
-            </prepare>         	
-            <arg>import</arg>
-         	<arg>--connect</arg>
-            <arg>jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER</arg>
-            <arg>--username</arg>
-            <arg>usrSqoop</arg>
-            <arg>--password</arg>
-            <arg>AXm6Sn6#o</arg>
-            <arg>--query</arg>
-            <arg>SELECT SPCDefaultControlLimitID,SPCChartDefID,RfChartComponentID,RfChart,UCL,CL,LCL,ModifiedDT,LoginID,ProductID, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.SPCDefaultControlLimit WHERE ( $CONDITIONS ) </arg>
-            <arg>--num-mappers</arg>
-            <arg>1</arg>
-            <arg>--target-dir</arg>
-            <arg>${job_CAPETOWN_OWNER_SPCDefaultControlLimit_DoFullTarget}</arg>
-            <arg>--fields-terminated-by</arg>
-            <arg>\t</arg>
-            <arg>--direct</arg>
-            <arg>--</arg>
-            <arg>--schema</arg>
-            <arg>dbo</arg>
-            <arg>-validate</arg>
-        </sqoop>
-        <ok to="SPCVarChart-Ingest-SPTM"/>
-        <error to="SPCVarChart-Ingest-SPTM"/>
-    </action>
+	<decision name="SPCVarChart-Ingest-SPTM-Decision">
+    	<switch>
+			<case to="SPCVarChart-Ingest-SPTM">${ wf:conf('job_CAPETOWN_OWNER_SPCVarChart_DoFull') eq 'true'}</case>
+            <default to="TagListValue-Ingest-SPTM-Decision"/>
+        </switch>
+    </decision>
 
     <action name="SPCVarChart-Ingest-SPTM">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
@@ -1567,16 +1286,23 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="TagDefect-Ingest-SPTM"/>
-        <error to="TagDefect-Ingest-SPTM"/>
+        <ok to="TagListValue-Ingest-SPTM-Decision"/>
+        <error to="TagListValue-Ingest-SPTM-Decision"/>
     </action>
 
-    <action name="TagDefect-Ingest-SPTM">
+	<decision name="TagListValue-Ingest-SPTM-Decision">
+    	<switch>
+			<case to="TagListValue-Ingest-SPTM">${ wf:conf('job_CAPETOWN_OWNER_TagListValue_DoFull') eq 'true'}</case>
+            <default to="TagTreeNodeImgLoc-Ingest-SPTM-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="TagListValue-Ingest-SPTM">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_CAPETOWN_OWNER_TagDefect_DoFullTarget}" />
+            	<delete path="${job_CAPETOWN_OWNER_TagListValue_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -1586,11 +1312,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT TagDefectID,IndividualDefectID,TagTypeID,TagValue,DT,X,Y, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.TagDefect WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT TagListValueID,TagListID,TagListValue,DisplayOrder,IsRetired, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.TagListValue WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_CAPETOWN_OWNER_TagDefect_DoFullTarget}</arg>
+            <arg>${job_CAPETOWN_OWNER_TagListValue_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -1599,41 +1325,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="TagPartInstance-Ingest-SPTM"/>
-        <error to="TagPartInstance-Ingest-SPTM"/>
+        <ok to="TagTreeNodeImgLoc-Ingest-SPTM-Decision"/>
+        <error to="TagTreeNodeImgLoc-Ingest-SPTM-Decision"/>
     </action>
 
-    <action name="TagPartInstance-Ingest-SPTM">
-        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
-			<job-tracker>${jobTracker}</job-tracker>
-            <name-node>${nameNode}</name-node>
-			<prepare>
-            	<delete path="${job_CAPETOWN_OWNER_TagPartInstance_DoFullTarget}" />
-            </prepare>         	
-            <arg>import</arg>
-         	<arg>--connect</arg>
-            <arg>jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER</arg>
-            <arg>--username</arg>
-            <arg>usrSqoop</arg>
-            <arg>--password</arg>
-            <arg>AXm6Sn6#o</arg>
-            <arg>--query</arg>
-            <arg>SELECT TagPartInstanceID,PartInstanceID,TagTypeID,TagValue,DT, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.TagPartInstance WHERE ( $CONDITIONS ) </arg>
-            <arg>--num-mappers</arg>
-            <arg>1</arg>
-            <arg>--target-dir</arg>
-            <arg>${job_CAPETOWN_OWNER_TagPartInstance_DoFullTarget}</arg>
-            <arg>--fields-terminated-by</arg>
-            <arg>\t</arg>
-            <arg>--direct</arg>
-            <arg>--</arg>
-            <arg>--schema</arg>
-            <arg>dbo</arg>
-            <arg>-validate</arg>
-        </sqoop>
-        <ok to="TagTreeNodeImgLoc-Ingest-SPTM"/>
-        <error to="TagTreeNodeImgLoc-Ingest-SPTM"/>
-    </action>
+	<decision name="TagTreeNodeImgLoc-Ingest-SPTM-Decision">
+    	<switch>
+			<case to="TagTreeNodeImgLoc-Ingest-SPTM">${ wf:conf('job_CAPETOWN_OWNER_TagTreeNodeImgLoc_DoFull') eq 'true'}</case>
+            <default to="Tool-Ingest-SPTM-Decision"/>
+        </switch>
+    </decision>
 
     <action name="TagTreeNodeImgLoc-Ingest-SPTM">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
@@ -1663,16 +1364,23 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="TMP_Job_Shift_Downtime-Ingest-SPTM"/>
-        <error to="TMP_Job_Shift_Downtime-Ingest-SPTM"/>
+        <ok to="Tool-Ingest-SPTM-Decision"/>
+        <error to="Tool-Ingest-SPTM-Decision"/>
     </action>
 
-    <action name="TMP_Job_Shift_Downtime-Ingest-SPTM">
+	<decision name="Tool-Ingest-SPTM-Decision">
+    	<switch>
+			<case to="Tool-Ingest-SPTM">${ wf:conf('job_CAPETOWN_OWNER_Tool_DoFull') eq 'true'}</case>
+            <default to="ToolChangeReason-Ingest-SPTM-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="Tool-Ingest-SPTM">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_CAPETOWN_OWNER_TMP_Job_Shift_Downtime_DoFullTarget}" />
+            	<delete path="${job_CAPETOWN_OWNER_Tool_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -1682,11 +1390,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT ShiftID,MachineStageID,JobID,Downtime, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.TMP_Job_Shift_Downtime WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT ToolID,Tool,ToolSet,Description,ToolTypeID,IsRetired,NoCavities,Variant1,Variant2,Variant3,Variant4,Variant5,Variant6,Variant7,Variant8,Variant9,Variant10,Variant11,Variant12,Variant13,Variant14,Variant15,PartID,Variant16,Variant17,Variant18,Variant19,Variant20, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.Tool WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_CAPETOWN_OWNER_TMP_Job_Shift_Downtime_DoFullTarget}</arg>
+            <arg>${job_CAPETOWN_OWNER_Tool_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -1695,41 +1403,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="Tool_Custom-Ingest-SPTM"/>
-        <error to="Tool_Custom-Ingest-SPTM"/>
+        <ok to="ToolChangeReason-Ingest-SPTM-Decision"/>
+        <error to="ToolChangeReason-Ingest-SPTM-Decision"/>
     </action>
 
-    <action name="Tool_Custom-Ingest-SPTM">
-        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
-			<job-tracker>${jobTracker}</job-tracker>
-            <name-node>${nameNode}</name-node>
-			<prepare>
-            	<delete path="${job_CAPETOWN_OWNER_Tool_Custom_DoFullTarget}" />
-            </prepare>         	
-            <arg>import</arg>
-         	<arg>--connect</arg>
-            <arg>jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER</arg>
-            <arg>--username</arg>
-            <arg>usrSqoop</arg>
-            <arg>--password</arg>
-            <arg>AXm6Sn6#o</arg>
-            <arg>--query</arg>
-            <arg>SELECT ToolID, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.Tool_Custom WHERE ( $CONDITIONS ) </arg>
-            <arg>--num-mappers</arg>
-            <arg>1</arg>
-            <arg>--target-dir</arg>
-            <arg>${job_CAPETOWN_OWNER_Tool_Custom_DoFullTarget}</arg>
-            <arg>--fields-terminated-by</arg>
-            <arg>\t</arg>
-            <arg>--direct</arg>
-            <arg>--</arg>
-            <arg>--schema</arg>
-            <arg>dbo</arg>
-            <arg>-validate</arg>
-        </sqoop>
-        <ok to="ToolChangeReason-Ingest-SPTM"/>
-        <error to="ToolChangeReason-Ingest-SPTM"/>
-    </action>
+	<decision name="ToolChangeReason-Ingest-SPTM-Decision">
+    	<switch>
+			<case to="ToolChangeReason-Ingest-SPTM">${ wf:conf('job_CAPETOWN_OWNER_ToolChangeReason_DoFull') eq 'true'}</case>
+            <default to="Unit-Ingest-SPTM-Decision"/>
+        </switch>
+    </decision>
 
     <action name="ToolChangeReason-Ingest-SPTM">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
@@ -1759,16 +1442,23 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="ToolUsage-Ingest-SPTM"/>
-        <error to="ToolUsage-Ingest-SPTM"/>
+        <ok to="Unit-Ingest-SPTM-Decision"/>
+        <error to="Unit-Ingest-SPTM-Decision"/>
     </action>
 
-    <action name="ToolUsage-Ingest-SPTM">
+	<decision name="Unit-Ingest-SPTM-Decision">
+    	<switch>
+			<case to="Unit-Ingest-SPTM">${ wf:conf('job_CAPETOWN_OWNER_Unit_DoFull') eq 'true'}</case>
+            <default to="VarChartOC-Ingest-SPTM-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="Unit-Ingest-SPTM">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_CAPETOWN_OWNER_ToolUsage_DoFullTarget}" />
+            	<delete path="${job_CAPETOWN_OWNER_Unit_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -1778,11 +1468,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT ToolUsageID,JobID,MachineStageID,ToolID,FromDT,ToDT,ToolPosition,ToolChangeReasonID,IsEdited,RevisionNo,OperationID, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.ToolUsage WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT UnitID,Unit,Description, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.Unit WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_CAPETOWN_OWNER_ToolUsage_DoFullTarget}</arg>
+            <arg>${job_CAPETOWN_OWNER_Unit_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -1791,41 +1481,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="UnitCount-Ingest-SPTM"/>
-        <error to="UnitCount-Ingest-SPTM"/>
+        <ok to="VarChartOC-Ingest-SPTM-Decision"/>
+        <error to="VarChartOC-Ingest-SPTM-Decision"/>
     </action>
 
-    <action name="UnitCount-Ingest-SPTM">
-        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
-			<job-tracker>${jobTracker}</job-tracker>
-            <name-node>${nameNode}</name-node>
-			<prepare>
-            	<delete path="${job_CAPETOWN_OWNER_UnitCount_DoFullTarget}" />
-            </prepare>         	
-            <arg>import</arg>
-         	<arg>--connect</arg>
-            <arg>jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER</arg>
-            <arg>--username</arg>
-            <arg>usrSqoop</arg>
-            <arg>--password</arg>
-            <arg>AXm6Sn6#o</arg>
-            <arg>--query</arg>
-            <arg>SELECT UnitCountID,UnitCountTypeID,PartID,Quantity,UnitID,DT,MachineStageID,IsEdited,RevisionNo, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.UnitCount WHERE ( $CONDITIONS ) </arg>
-            <arg>--num-mappers</arg>
-            <arg>1</arg>
-            <arg>--target-dir</arg>
-            <arg>${job_CAPETOWN_OWNER_UnitCount_DoFullTarget}</arg>
-            <arg>--fields-terminated-by</arg>
-            <arg>\t</arg>
-            <arg>--direct</arg>
-            <arg>--</arg>
-            <arg>--schema</arg>
-            <arg>dbo</arg>
-            <arg>-validate</arg>
-        </sqoop>
-        <ok to="VarChartOC-Ingest-SPTM"/>
-        <error to="VarChartOC-Ingest-SPTM"/>
-    </action>
+	<decision name="VarChartOC-Ingest-SPTM-Decision">
+    	<switch>
+			<case to="VarChartOC-Ingest-SPTM">${ wf:conf('job_CAPETOWN_OWNER_VarChartOC_DoFull') eq 'true'}</case>
+            <default to="VarMeasurementP-Ingest-SPTM-Decision"/>
+        </switch>
+    </decision>
 
     <action name="VarChartOC-Ingest-SPTM">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
@@ -1855,16 +1520,23 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="VariableTypeGroup-Ingest-SPTM"/>
-        <error to="VariableTypeGroup-Ingest-SPTM"/>
+        <ok to="VarMeasurementP-Ingest-SPTM-Decision"/>
+        <error to="VarMeasurementP-Ingest-SPTM-Decision"/>
     </action>
 
-    <action name="VariableTypeGroup-Ingest-SPTM">
+	<decision name="VarMeasurementP-Ingest-SPTM-Decision">
+    	<switch>
+			<case to="VarMeasurementP-Ingest-SPTM">${ wf:conf('job_CAPETOWN_OWNER_VarMeasurementP_DoFull') eq 'true'}</case>
+            <default to="WorkInstructionResult-Ingest-SPTM-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="VarMeasurementP-Ingest-SPTM">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_CAPETOWN_OWNER_VariableTypeGroup_DoFullTarget}" />
+            	<delete path="${job_CAPETOWN_OWNER_VarMeasurementP_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -1874,11 +1546,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT VariableTypeGroupID,Name,Description,VariableTypeGroupCode,IsSmartGroup,SmartGroupPattern, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.VariableTypeGroup WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT VarMeasurementPID,SpecID,MeasurementSetPID,Measurement,Ignored,VariableTypeID,ProductID,HeadNo,SampleNo,PositionNo,DT,RfIsOSID, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.VarMeasurementP WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_CAPETOWN_OWNER_VariableTypeGroup_DoFullTarget}</arg>
+            <arg>${job_CAPETOWN_OWNER_VarMeasurementP_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -1887,41 +1559,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="WO_-Ingest-SPTM"/>
-        <error to="WO_-Ingest-SPTM"/>
+        <ok to="WorkInstructionResult-Ingest-SPTM-Decision"/>
+        <error to="WorkInstructionResult-Ingest-SPTM-Decision"/>
     </action>
 
-    <action name="WO_-Ingest-SPTM">
-        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
-			<job-tracker>${jobTracker}</job-tracker>
-            <name-node>${nameNode}</name-node>
-			<prepare>
-            	<delete path="${job_CAPETOWN_OWNER_WO__DoFullTarget}" />
-            </prepare>         	
-            <arg>import</arg>
-         	<arg>--connect</arg>
-            <arg>jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER</arg>
-            <arg>--username</arg>
-            <arg>usrSqoop</arg>
-            <arg>--password</arg>
-            <arg>AXm6Sn6#o</arg>
-            <arg>--query</arg>
-            <arg>SELECT WOID,CustomerOrderNo,LabelsPerInventoryPack,ItemsPerInventoryPack,ItemsPerLayer,LayersPerInventoryPack,PackingCode,LabelTemplate,LabelColour,EANCode,CusStartNum,CusEndNum,CustomerPartNo,CustomerPartDescription,LabelText1,LabelText2,LabelText3,PrinterURL,BOMVariantID, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.WO_ WHERE ( $CONDITIONS ) </arg>
-            <arg>--num-mappers</arg>
-            <arg>1</arg>
-            <arg>--target-dir</arg>
-            <arg>${job_CAPETOWN_OWNER_WO__DoFullTarget}</arg>
-            <arg>--fields-terminated-by</arg>
-            <arg>\t</arg>
-            <arg>--direct</arg>
-            <arg>--</arg>
-            <arg>--schema</arg>
-            <arg>dbo</arg>
-            <arg>-validate</arg>
-        </sqoop>
-        <ok to="WorkInstructionResult-Ingest-SPTM"/>
-        <error to="WorkInstructionResult-Ingest-SPTM"/>
-    </action>
+	<decision name="WorkInstructionResult-Ingest-SPTM-Decision">
+    	<switch>
+			<case to="WorkInstructionResult-Ingest-SPTM">${ wf:conf('job_CAPETOWN_OWNER_WorkInstructionResult_DoFull') eq 'true'}</case>
+            <default to="MachineStop-Ingest-SPMM-Decision"/>
+        </switch>
+    </decision>
 
     <action name="WorkInstructionResult-Ingest-SPTM">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
@@ -1951,16 +1598,23 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="Location-Ingest-SPMM"/>
-        <error to="Location-Ingest-SPMM"/>
+        <ok to="MachineStop-Ingest-SPMM-Decision"/>
+        <error to="MachineStop-Ingest-SPMM-Decision"/>
     </action>
 
-    <action name="Location-Ingest-SPMM">
+	<decision name="MachineStop-Ingest-SPMM-Decision">
+    	<switch>
+			<case to="MachineStop-Ingest-SPMM">${ wf:conf('job_SPMM_C1_OWNER_MachineStop_DoFull') eq 'true'}</case>
+            <default to="End-Full-11-Ingest-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="MachineStop-Ingest-SPMM">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_SPMM_C1_OWNER_Location_DoFullTarget}" />
+            	<delete path="${job_SPMM_C1_OWNER_MachineStop_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -1970,11 +1624,11 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT Location.LocationID, Location.Location, Location.LocationTypeID, Location.IsRetired, Location.MaxQuantity, Location.LocationCode, Location.Description, LocationType.LocationType, LocationType.LocationTypeCode,  2 as "org_id",  'SPMM' as "org_name"  FROM Location FULL JOIN LocationType ON (Location.LocationID = LocationType.LocationTypeID)   WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT MachineStop.MachineStopID, MachineStop.MachineStopReasonID, MachineStop.FromDT, MachineStop.ToDT, MachineStop.MachineStageID, MachineStop.IsEdited, MachineStop.RevisionNo, MachineStop_.StopComments, MachineStop_.StartComments, MachineStop_.StartLoginID, MachineStop_.StopLoginID, MachineStop_.OpenedStopDT, MachineStop_.SavedStopDT, MachineStop_.OpenedStartDT, MachineStop_.SavedStartDT, MachineStop_.OriginalLoginID, MachineStop_.EditedMachineStopID,  2 as "org_id",  'SPMM' as "org_name"  FROM MachineStop FULL JOIN MachineStop_ ON (MachineStop.MachineStopID = MachineStop_.MachineStopID)   WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_SPMM_C1_OWNER_Location_DoFullTarget}</arg>
+            <arg>${job_SPMM_C1_OWNER_MachineStop_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -1983,41 +1637,9 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="WO-Ingest-SPDV"/>
-        <error to="WO-Ingest-SPDV"/>
+        <ok to="End-Full-11-Ingest-Decision"/>
+        <error to="End-Full-11-Ingest-Decision"/>
     </action>
 
-    <action name="WO-Ingest-SPDV">
-        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
-			<job-tracker>${jobTracker}</job-tracker>
-            <name-node>${nameNode}</name-node>
-			<prepare>
-            	<delete path="${job_DEVERN_OWNER_WO_DoFullTarget}" />
-            </prepare>         	
-            <arg>import</arg>
-         	<arg>--connect</arg>
-            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
-            <arg>--username</arg>
-            <arg>usrSqoop</arg>
-            <arg>--password</arg>
-            <arg>AXm6Sn6#o</arg>
-            <arg>--query</arg>
-            <arg>SELECT WO.WOID, WO.WONumber, WO.RunNo, WO.PartID, WO.QuantityOrdered, WO.RfJobStatusID, WO.DeadlineDT, WO.ActualStartDT, WO.ActualEndDT, WO.PlannedStartDT, WO.PlannedEndDT, WO.EstimatedStartDT, WO.EstimatedEndDT, WO.CustomerID, WO.IsDiscrete, WO.Reference1, WO.Reference2, WO.Reference3, WO.Reference4, WO.Reference5, WO.WORefID, WO_.CustomerOrderNo, WO_.LabelsPerInventoryPack, WO_.ItemsPerInventoryPack, WO_.ItemsPerLayer, WO_.LayersPerInventoryPack, WO_.PackingCode, WO_.LabelTemplate, WO_.LabelColour, WO_.EANCode, WO_.CusStartNum, WO_.CusEndNum, WO_.CustomerPartNo, WO_.CustomerPartDescription, WO_.LabelText1, WO_.LabelText2, WO_.LabelText3, WO_.PrinterURL, WO_.BOMVariantID, WO_custom.BaseWONumber, WO_custom.Txn_date, WO_custom.Wip_Entity_ID, WO_custom.Alternate_Bom, WO_custom.WO_Status, WO_custom.IsBtoCto,  3 as "org_id",  'SPDV' as "org_name"  FROM WO FULL JOIN WO_ ON (WO.WOID = WO_.WOID) FULL JOIN WO_custom ON (WO.WOID = WO_custom.WOID)   WHERE ( $CONDITIONS ) </arg>
-            <arg>--num-mappers</arg>
-            <arg>1</arg>
-            <arg>--target-dir</arg>
-            <arg>${job_DEVERN_OWNER_WO_DoFullTarget}</arg>
-            <arg>--fields-terminated-by</arg>
-            <arg>\t</arg>
-            <arg>--direct</arg>
-            <arg>--</arg>
-            <arg>--schema</arg>
-            <arg>dbo</arg>
-            <arg>-validate</arg>
-        </sqoop>
-        <ok to="End-Full-11-Ingest"/>
-        <error to="End-Full-11-Ingest"/>
-    </action>
-
-	<end name="End-Full-11-Ingest"/>
+	<end name="End-Full-11-Ingest-Decision"/>
 </workflow-app>

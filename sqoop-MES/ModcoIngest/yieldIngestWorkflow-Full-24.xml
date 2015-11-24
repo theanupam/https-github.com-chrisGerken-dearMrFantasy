@@ -1,0 +1,1606 @@
+<workflow-app name="Ingest-Full-24" xmlns="uri:oozie:workflow:0.1">
+
+ 	<start to="Acquisition-Ingest-SPDV-Decision"/>
+
+
+	<decision name="Acquisition-Ingest-SPDV-Decision">
+    	<switch>
+			<case to="Acquisition-Ingest-SPDV">${ wf:conf('job_DEVERN_OWNER_Acquisition_DoFull') eq 'true'}</case>
+            <default to="AcquisitionVariableType-Ingest-SPDV-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="Acquisition-Ingest-SPDV">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_DEVERN_OWNER_Acquisition_DoFullTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT AcquisitionID,Acquisition,AcquisitionCode,Description, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo.Acquisition WHERE ( $CONDITIONS ) </arg>
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_DEVERN_OWNER_Acquisition_DoFullTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="AcquisitionVariableType-Ingest-SPDV-Decision"/>
+        <error to="AcquisitionVariableType-Ingest-SPDV-Decision"/>
+    </action>
+
+	<decision name="AcquisitionVariableType-Ingest-SPDV-Decision">
+    	<switch>
+			<case to="AcquisitionVariableType-Ingest-SPDV">${ wf:conf('job_DEVERN_OWNER_AcquisitionVariableType_DoFull') eq 'true'}</case>
+            <default to="ActionStatus-Ingest-SPDV-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="AcquisitionVariableType-Ingest-SPDV">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_DEVERN_OWNER_AcquisitionVariableType_DoFullTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT AcquisitionVariableTypeID,AcquisitionVariantID,VariableTypeID,NoHeads,NoSamples,NoPositions,EntryOrder,Formula, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo.AcquisitionVariableType WHERE ( $CONDITIONS ) </arg>
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_DEVERN_OWNER_AcquisitionVariableType_DoFullTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="ActionStatus-Ingest-SPDV-Decision"/>
+        <error to="ActionStatus-Ingest-SPDV-Decision"/>
+    </action>
+
+	<decision name="ActionStatus-Ingest-SPDV-Decision">
+    	<switch>
+			<case to="ActionStatus-Ingest-SPDV">${ wf:conf('job_DEVERN_OWNER_ActionStatus_DoFull') eq 'true'}</case>
+            <default to="AssetCycleCount-Ingest-SPDV-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="ActionStatus-Ingest-SPDV">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_DEVERN_OWNER_ActionStatus_DoFullTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT ActionStatusID,ActionStatus,ConditionalFormat,IsClosedState, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo.ActionStatus WHERE ( $CONDITIONS ) </arg>
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_DEVERN_OWNER_ActionStatus_DoFullTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="AssetCycleCount-Ingest-SPDV-Decision"/>
+        <error to="AssetCycleCount-Ingest-SPDV-Decision"/>
+    </action>
+
+	<decision name="AssetCycleCount-Ingest-SPDV-Decision">
+    	<switch>
+			<case to="AssetCycleCount-Ingest-SPDV">${ wf:conf('job_DEVERN_OWNER_AssetCycleCount_DoFull') eq 'true'}</case>
+            <default to="AVAttribute-Ingest-SPDV-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="AssetCycleCount-Ingest-SPDV">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_DEVERN_OWNER_AssetCycleCount_DoFullTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT AssetCycleCountID,AssetID,RfDayPeriodID,Count,AssetCountTypeID, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo.AssetCycleCount WHERE ( $CONDITIONS ) </arg>
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_DEVERN_OWNER_AssetCycleCount_DoFullTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="AVAttribute-Ingest-SPDV-Decision"/>
+        <error to="AVAttribute-Ingest-SPDV-Decision"/>
+    </action>
+
+	<decision name="AVAttribute-Ingest-SPDV-Decision">
+    	<switch>
+			<case to="AVAttribute-Ingest-SPDV">${ wf:conf('job_DEVERN_OWNER_AVAttribute_DoFull') eq 'true'}</case>
+            <default to="CauseAction_-Ingest-SPDV-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="AVAttribute-Ingest-SPDV">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_DEVERN_OWNER_AVAttribute_DoFullTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT AcquisitionVariantID,TargetSampleSize,RfAttrStudyTypeID,Instructions,ImageURI,NoHeads,RfSourceID,DataDeviceID,DeviceArgs,DeviceOutput, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo.AVAttribute WHERE ( $CONDITIONS ) </arg>
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_DEVERN_OWNER_AVAttribute_DoFullTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="CauseAction_-Ingest-SPDV-Decision"/>
+        <error to="CauseAction_-Ingest-SPDV-Decision"/>
+    </action>
+
+	<decision name="CauseAction_-Ingest-SPDV-Decision">
+    	<switch>
+			<case to="CauseAction_-Ingest-SPDV">${ wf:conf('job_DEVERN_OWNER_CauseAction__DoFull') eq 'true'}</case>
+            <default to="CostCentre-Ingest-SPDV-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="CauseAction_-Ingest-SPDV">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_DEVERN_OWNER_CauseAction__DoFullTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT CauseActionID,Comments,LoginID,OpenedDT,SavedDT,OriginalLoginID,EditedCauseActionID, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo.CauseAction_ WHERE ( $CONDITIONS ) </arg>
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_DEVERN_OWNER_CauseAction__DoFullTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="CostCentre-Ingest-SPDV-Decision"/>
+        <error to="CostCentre-Ingest-SPDV-Decision"/>
+    </action>
+
+	<decision name="CostCentre-Ingest-SPDV-Decision">
+    	<switch>
+			<case to="CostCentre-Ingest-SPDV">${ wf:conf('job_DEVERN_OWNER_CostCentre_DoFull') eq 'true'}</case>
+            <default to="Department-Ingest-SPDV-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="CostCentre-Ingest-SPDV">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_DEVERN_OWNER_CostCentre_DoFullTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT CostCentreID,CostCentre,Description, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo.CostCentre WHERE ( $CONDITIONS ) </arg>
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_DEVERN_OWNER_CostCentre_DoFullTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="Department-Ingest-SPDV-Decision"/>
+        <error to="Department-Ingest-SPDV-Decision"/>
+    </action>
+
+	<decision name="Department-Ingest-SPDV-Decision">
+    	<switch>
+			<case to="Department-Ingest-SPDV">${ wf:conf('job_DEVERN_OWNER_Department_DoFull') eq 'true'}</case>
+            <default to="FaultState-Ingest-SPDV-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="Department-Ingest-SPDV">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_DEVERN_OWNER_Department_DoFullTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT DepartmentID,Name,DepartmentGroup,Classification1,PlantID,DepartmentCode,Description, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo.Department WHERE ( $CONDITIONS ) </arg>
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_DEVERN_OWNER_Department_DoFullTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="FaultState-Ingest-SPDV-Decision"/>
+        <error to="FaultState-Ingest-SPDV-Decision"/>
+    </action>
+
+	<decision name="FaultState-Ingest-SPDV-Decision">
+    	<switch>
+			<case to="FaultState-Ingest-SPDV">${ wf:conf('job_DEVERN_OWNER_FaultState_DoFull') eq 'true'}</case>
+            <default to="InventoryUsage-Ingest-SPMM-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="FaultState-Ingest-SPDV">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_DEVERN_OWNER_FaultState_DoFullTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT FaultStateID,FaultID,FromDT,ToDT,FaultStatusID,Comments,LoginID,OpenedDT,SavedDT,IsEdited,RevisionNo,OriginalLoginID,EditedFaultStateID, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo.FaultState WHERE ( $CONDITIONS ) </arg>
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_DEVERN_OWNER_FaultState_DoFullTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="InventoryUsage-Ingest-SPMM-Decision"/>
+        <error to="InventoryUsage-Ingest-SPMM-Decision"/>
+    </action>
+
+	<decision name="InventoryUsage-Ingest-SPMM-Decision">
+    	<switch>
+			<case to="InventoryUsage-Ingest-SPMM">${ wf:conf('job_SPMM_C1_OWNER_InventoryUsage_DoFull') eq 'true'}</case>
+            <default to="LineInfo-Ingest-SPDV-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="InventoryUsage-Ingest-SPMM">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_SPMM_C1_OWNER_InventoryUsage_DoFullTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT InventoryUsageID,JobID,MachineStageID,InventoryPackID,FromDT,ToDT,IsEdited,RevisionNo,IsReintroduced,Quantity, 2 as "org_id",  'SPMM' as "org_name"   FROM dbo.InventoryUsage WHERE ( $CONDITIONS ) </arg>
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_SPMM_C1_OWNER_InventoryUsage_DoFullTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="LineInfo-Ingest-SPDV-Decision"/>
+        <error to="LineInfo-Ingest-SPDV-Decision"/>
+    </action>
+
+	<decision name="LineInfo-Ingest-SPDV-Decision">
+    	<switch>
+			<case to="LineInfo-Ingest-SPDV">${ wf:conf('job_DEVERN_OWNER_LineInfo_DoFull') eq 'true'}</case>
+            <default to="LkAGAV-Ingest-SPDV-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="LineInfo-Ingest-SPDV">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_DEVERN_OWNER_LineInfo_DoFullTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT LineInfoID,RfLineInfoEventID,LineID,ShiftID,WOID,FromDT,ToDT,rfDayHourPeriodID,TotalTime,ExcludedTime,ScheduledTime,STOperations,STInduced,DTTechnical,DTOperations,DTQuality,DownTime,StopTime,RunTime,NotRunTime,TheoreticalCycleTime,QuantityScrap,QuantityGood,ModifiedDT,LoginID,QuantityIn,TotalInventoryProduced,TotalInventoryReintroduced,NetQuantityProduced,QuantityInLineSpoilage,TotalSpoilage,AccountedSpoilage,TotalInventoryIsolated,ProductionStopJobID,TotalUnitsProduced,BottleNeckMachineStageID,InventoryIn,InterProdStopTime,InProdStopTime,QuantityUnitsIn,QuantityInventoryIn,TotalQuantityProduced,TotalPacksProduced,TotalPacksIsolated,TotalPacksReintroduced,TotalPacksMade,ValidState,LineGroupID,LineGroupShiftID,LineGroupBottleneckID, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo.LineInfo WHERE ( $CONDITIONS ) </arg>
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_DEVERN_OWNER_LineInfo_DoFullTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="LkAGAV-Ingest-SPDV-Decision"/>
+        <error to="LkAGAV-Ingest-SPDV-Decision"/>
+    </action>
+
+	<decision name="LkAGAV-Ingest-SPDV-Decision">
+    	<switch>
+			<case to="LkAGAV-Ingest-SPDV">${ wf:conf('job_DEVERN_OWNER_LkAGAV_DoFull') eq 'true'}</case>
+            <default to="LkConcernRootCause-Ingest-SPDV-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="LkAGAV-Ingest-SPDV">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_DEVERN_OWNER_LkAGAV_DoFullTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT AcquisitionGroupID,AcquisitionVariantID,Sequence,LkAGAVID, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo.LkAGAV WHERE ( $CONDITIONS ) </arg>
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_DEVERN_OWNER_LkAGAV_DoFullTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="LkConcernRootCause-Ingest-SPDV-Decision"/>
+        <error to="LkConcernRootCause-Ingest-SPDV-Decision"/>
+    </action>
+
+	<decision name="LkConcernRootCause-Ingest-SPDV-Decision">
+    	<switch>
+			<case to="LkConcernRootCause-Ingest-SPDV">${ wf:conf('job_DEVERN_OWNER_LkConcernRootCause_DoFull') eq 'true'}</case>
+            <default to="LkDocumentWIProc-Ingest-SPDV-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="LkConcernRootCause-Ingest-SPDV">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_DEVERN_OWNER_LkConcernRootCause_DoFullTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT LkConcernRootCauseID,RootCauseID,ConcernID, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo.LkConcernRootCause WHERE ( $CONDITIONS ) </arg>
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_DEVERN_OWNER_LkConcernRootCause_DoFullTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="LkDocumentWIProc-Ingest-SPDV-Decision"/>
+        <error to="LkDocumentWIProc-Ingest-SPDV-Decision"/>
+    </action>
+
+	<decision name="LkDocumentWIProc-Ingest-SPDV-Decision">
+    	<switch>
+			<case to="LkDocumentWIProc-Ingest-SPDV">${ wf:conf('job_DEVERN_OWNER_LkDocumentWIProc_DoFull') eq 'true'}</case>
+            <default to="LkLocationMachineStage-Ingest-SPDV-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="LkDocumentWIProc-Ingest-SPDV">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_DEVERN_OWNER_LkDocumentWIProc_DoFullTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT LkDocumentWIProcID,WorkInstructionProcedureID,DocumentID, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo.LkDocumentWIProc WHERE ( $CONDITIONS ) </arg>
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_DEVERN_OWNER_LkDocumentWIProc_DoFullTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="LkLocationMachineStage-Ingest-SPDV-Decision"/>
+        <error to="LkLocationMachineStage-Ingest-SPDV-Decision"/>
+    </action>
+
+	<decision name="LkLocationMachineStage-Ingest-SPDV-Decision">
+    	<switch>
+			<case to="LkLocationMachineStage-Ingest-SPDV">${ wf:conf('job_DEVERN_OWNER_LkLocationMachineStage_DoFull') eq 'true'}</case>
+            <default to="LkOpTMST-Ingest-SPDV-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="LkLocationMachineStage-Ingest-SPDV">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_DEVERN_OWNER_LkLocationMachineStage_DoFullTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT LkLocationMachineStageId,MachineStageId,LocationId,IsLocationIn,IsLocationOut, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo.LkLocationMachineStage WHERE ( $CONDITIONS ) </arg>
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_DEVERN_OWNER_LkLocationMachineStage_DoFullTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="LkOpTMST-Ingest-SPDV-Decision"/>
+        <error to="LkOpTMST-Ingest-SPDV-Decision"/>
+    </action>
+
+	<decision name="LkOpTMST-Ingest-SPDV-Decision">
+    	<switch>
+			<case to="LkOpTMST-Ingest-SPDV">${ wf:conf('job_DEVERN_OWNER_LkOpTMST_DoFull') eq 'true'}</case>
+            <default to="LKPartUnit-Ingest-SPDV-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="LkOpTMST-Ingest-SPDV">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_DEVERN_OWNER_LkOpTMST_DoFullTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT OperationTypeID,MachineStageTypeID,LkOpTMSTID,PassName, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo.LkOpTMST WHERE ( $CONDITIONS ) </arg>
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_DEVERN_OWNER_LkOpTMST_DoFullTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="LKPartUnit-Ingest-SPDV-Decision"/>
+        <error to="LKPartUnit-Ingest-SPDV-Decision"/>
+    </action>
+
+	<decision name="LKPartUnit-Ingest-SPDV-Decision">
+    	<switch>
+			<case to="LKPartUnit-Ingest-SPDV">${ wf:conf('job_DEVERN_OWNER_LKPartUnit_DoFull') eq 'true'}</case>
+            <default to="LkToolTypeOpType-Ingest-SPDV-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="LKPartUnit-Ingest-SPDV">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_DEVERN_OWNER_LKPartUnit_DoFullTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT PartID,UnitID,LkPartUnitID, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo.LKPartUnit WHERE ( $CONDITIONS ) </arg>
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_DEVERN_OWNER_LKPartUnit_DoFullTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="LkToolTypeOpType-Ingest-SPDV-Decision"/>
+        <error to="LkToolTypeOpType-Ingest-SPDV-Decision"/>
+    </action>
+
+	<decision name="LkToolTypeOpType-Ingest-SPDV-Decision">
+    	<switch>
+			<case to="LkToolTypeOpType-Ingest-SPDV">${ wf:conf('job_DEVERN_OWNER_LkToolTypeOpType_DoFull') eq 'true'}</case>
+            <default to="LkWIRBuildRecord-Ingest-SPDV-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="LkToolTypeOpType-Ingest-SPDV">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_DEVERN_OWNER_LkToolTypeOpType_DoFullTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT ToolTypeID,OperationTypeID,MaxNoTools,LkToolTypeOpTypeID, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo.LkToolTypeOpType WHERE ( $CONDITIONS ) </arg>
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_DEVERN_OWNER_LkToolTypeOpType_DoFullTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="LkWIRBuildRecord-Ingest-SPDV-Decision"/>
+        <error to="LkWIRBuildRecord-Ingest-SPDV-Decision"/>
+    </action>
+
+	<decision name="LkWIRBuildRecord-Ingest-SPDV-Decision">
+    	<switch>
+			<case to="LkWIRBuildRecord-Ingest-SPDV">${ wf:conf('job_DEVERN_OWNER_LkWIRBuildRecord_DoFull') eq 'true'}</case>
+            <default to="MachineStageInvPosition-Ingest-SPDV-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="LkWIRBuildRecord-Ingest-SPDV">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_DEVERN_OWNER_LkWIRBuildRecord_DoFullTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT LkWIRBuildRecordID,WorkInstructionResultID,BuildRecordID, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo.LkWIRBuildRecord WHERE ( $CONDITIONS ) </arg>
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_DEVERN_OWNER_LkWIRBuildRecord_DoFullTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="MachineStageInvPosition-Ingest-SPDV-Decision"/>
+        <error to="MachineStageInvPosition-Ingest-SPDV-Decision"/>
+    </action>
+
+	<decision name="MachineStageInvPosition-Ingest-SPDV-Decision">
+    	<switch>
+			<case to="MachineStageInvPosition-Ingest-SPDV">${ wf:conf('job_DEVERN_OWNER_MachineStageInvPosition_DoFull') eq 'true'}</case>
+            <default to="MaintenanceManHours-Ingest-SPDV-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="MachineStageInvPosition-Ingest-SPDV">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_DEVERN_OWNER_MachineStageInvPosition_DoFullTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT MachineStageInvPositionId,MachineStageId,Position,PositionNumber, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo.MachineStageInvPosition WHERE ( $CONDITIONS ) </arg>
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_DEVERN_OWNER_MachineStageInvPosition_DoFullTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="MaintenanceManHours-Ingest-SPDV-Decision"/>
+        <error to="MaintenanceManHours-Ingest-SPDV-Decision"/>
+    </action>
+
+	<decision name="MaintenanceManHours-Ingest-SPDV-Decision">
+    	<switch>
+			<case to="MaintenanceManHours-Ingest-SPDV">${ wf:conf('job_DEVERN_OWNER_MaintenanceManHours_DoFull') eq 'true'}</case>
+            <default to="MaintenanceProcedureRevision-Ingest-SPDV-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="MaintenanceManHours-Ingest-SPDV">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_DEVERN_OWNER_MaintenanceManHours_DoFullTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT MaintenanceManHoursID,MaintenanceWorkID,WorkerLoginID,ActualManHours,RevisionNo,IsEdited,ModifiedDT,SupplierID,SupplierCost,PersonnelGroupID, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo.MaintenanceManHours WHERE ( $CONDITIONS ) </arg>
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_DEVERN_OWNER_MaintenanceManHours_DoFullTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="MaintenanceProcedureRevision-Ingest-SPDV-Decision"/>
+        <error to="MaintenanceProcedureRevision-Ingest-SPDV-Decision"/>
+    </action>
+
+	<decision name="MaintenanceProcedureRevision-Ingest-SPDV-Decision">
+    	<switch>
+			<case to="MaintenanceProcedureRevision-Ingest-SPDV">${ wf:conf('job_DEVERN_OWNER_MaintenanceProcedureRevision_DoFull') eq 'true'}</case>
+            <default to="MaintProcScheduleOnAsset-Ingest-SPDV-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="MaintenanceProcedureRevision-Ingest-SPDV">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_DEVERN_OWNER_MaintenanceProcedureRevision_DoFullTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT MaintenanceProcedureRevisionID,MaintenanceProcedureID,FromDT,ToDT,IsEdited,RevisionNo,LoginID,ModifiedDT,RevisedMaintProcID, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo.MaintenanceProcedureRevision WHERE ( $CONDITIONS ) </arg>
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_DEVERN_OWNER_MaintenanceProcedureRevision_DoFullTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="MaintProcScheduleOnAsset-Ingest-SPDV-Decision"/>
+        <error to="MaintProcScheduleOnAsset-Ingest-SPDV-Decision"/>
+    </action>
+
+	<decision name="MaintProcScheduleOnAsset-Ingest-SPDV-Decision">
+    	<switch>
+			<case to="MaintProcScheduleOnAsset-Ingest-SPDV">${ wf:conf('job_DEVERN_OWNER_MaintProcScheduleOnAsset_DoFull') eq 'true'}</case>
+            <default to="ModulePackedDateTime_Buffer-Ingest-SPDV-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="MaintProcScheduleOnAsset-Ingest-SPDV">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_DEVERN_OWNER_MaintProcScheduleOnAsset_DoFullTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT MaintProcScheduleOnAssetID,MaintenanceProcedureID,AssetID,RfPeriodTypeID,StartDate,AssetCountTypeID,EBAReference,IsEdited,LoginID,ModifiedDT,CalendarN1,CalendarN2,CalendarN3,CounterThreshold1,CounterThreshold2,CounterThreshold3,EstimatedCountPerDay,RunHourThreshold1,RunHourThreshold2,RunHourThreshold3,EstimatedRunHoursPerDay,EstimatedEventsPerDay,RevisionNo,IsRetired,PriorExecutions, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo.MaintProcScheduleOnAsset WHERE ( $CONDITIONS ) </arg>
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_DEVERN_OWNER_MaintProcScheduleOnAsset_DoFullTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="ModulePackedDateTime_Buffer-Ingest-SPDV-Decision"/>
+        <error to="ModulePackedDateTime_Buffer-Ingest-SPDV-Decision"/>
+    </action>
+
+	<decision name="ModulePackedDateTime_Buffer-Ingest-SPDV-Decision">
+    	<switch>
+			<case to="ModulePackedDateTime_Buffer-Ingest-SPDV">${ wf:conf('job_DEVERN_OWNER_ModulePackedDateTime_Buffer_DoFull') eq 'true'}</case>
+            <default to="OPCItem-Ingest-SPDV-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="ModulePackedDateTime_Buffer-Ingest-SPDV">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_DEVERN_OWNER_ModulePackedDateTime_Buffer_DoFullTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT SerialNo,TimePacked,IMS_No, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo.ModulePackedDateTime_Buffer WHERE ( $CONDITIONS ) </arg>
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_DEVERN_OWNER_ModulePackedDateTime_Buffer_DoFullTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="OPCItem-Ingest-SPDV-Decision"/>
+        <error to="OPCItem-Ingest-SPDV-Decision"/>
+    </action>
+
+	<decision name="OPCItem-Ingest-SPDV-Decision">
+    	<switch>
+			<case to="OPCItem-Ingest-SPDV">${ wf:conf('job_DEVERN_OWNER_OPCItem_DoFull') eq 'true'}</case>
+            <default to="OPCSpeed-Ingest-SPDV-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="OPCItem-Ingest-SPDV">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_DEVERN_OWNER_OPCItem_DoFullTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT OPCItemID,OPCServerID,OPCGroupID,TagName,TagAddress,RfOPCItemTypeID,IsNotify,RawValue,UpdatedDT,Quality,Value,LastRawValue,LastUpdatedDT,LastQuality,LastValue,MachineStageID,ChangeAction,PLCID,IsDatedOnServer,IsStoredAsArray,IsActive,MachineStageEventTypeID,RfTransitionTypeID,TransitionToValue, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo.OPCItem WHERE ( $CONDITIONS ) </arg>
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_DEVERN_OWNER_OPCItem_DoFullTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="OPCSpeed-Ingest-SPDV-Decision"/>
+        <error to="OPCSpeed-Ingest-SPDV-Decision"/>
+    </action>
+
+	<decision name="OPCSpeed-Ingest-SPDV-Decision">
+    	<switch>
+			<case to="OPCSpeed-Ingest-SPDV">${ wf:conf('job_DEVERN_OWNER_OPCSpeed_DoFull') eq 'true'}</case>
+            <default to="PartSubClassification-Ingest-SPDV-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="OPCSpeed-Ingest-SPDV">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_DEVERN_OWNER_OPCSpeed_DoFullTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT OPCSpeedID,OPCItemID,Description,Scale,Formula,ModifiedDT,LoginID, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo.OPCSpeed WHERE ( $CONDITIONS ) </arg>
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_DEVERN_OWNER_OPCSpeed_DoFullTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="PartSubClassification-Ingest-SPDV-Decision"/>
+        <error to="PartSubClassification-Ingest-SPDV-Decision"/>
+    </action>
+
+	<decision name="PartSubClassification-Ingest-SPDV-Decision">
+    	<switch>
+			<case to="PartSubClassification-Ingest-SPDV">${ wf:conf('job_DEVERN_OWNER_PartSubClassification_DoFull') eq 'true'}</case>
+            <default to="ProductionStopReason-Ingest-SPDV-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="PartSubClassification-Ingest-SPDV">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_DEVERN_OWNER_PartSubClassification_DoFullTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT PartSubClassificationID,PartSubClassification,PartClassificationID, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo.PartSubClassification WHERE ( $CONDITIONS ) </arg>
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_DEVERN_OWNER_PartSubClassification_DoFullTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="ProductionStopReason-Ingest-SPDV-Decision"/>
+        <error to="ProductionStopReason-Ingest-SPDV-Decision"/>
+    </action>
+
+	<decision name="ProductionStopReason-Ingest-SPDV-Decision">
+    	<switch>
+			<case to="ProductionStopReason-Ingest-SPDV">${ wf:conf('job_DEVERN_OWNER_ProductionStopReason_DoFull') eq 'true'}</case>
+            <default to="ScrapReason-Ingest-SPDV-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="ProductionStopReason-Ingest-SPDV">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_DEVERN_OWNER_ProductionStopReason_DoFullTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT ProductionStopReasonID,ProductionStopReason,Description,StopCode,RfLineStopReasonTypeID,RfStopRelativeToJobID,IsPlanned,IsDefaultNoJobReason,IsRetired, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo.ProductionStopReason WHERE ( $CONDITIONS ) </arg>
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_DEVERN_OWNER_ProductionStopReason_DoFullTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="ScrapReason-Ingest-SPDV-Decision"/>
+        <error to="ScrapReason-Ingest-SPDV-Decision"/>
+    </action>
+
+	<decision name="ScrapReason-Ingest-SPDV-Decision">
+    	<switch>
+			<case to="ScrapReason-Ingest-SPDV">${ wf:conf('job_DEVERN_OWNER_ScrapReason_DoFull') eq 'true'}</case>
+            <default to="ShiftlyChecksDone-Ingest-SPDV-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="ScrapReason-Ingest-SPDV">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_DEVERN_OWNER_ScrapReason_DoFullTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT ScrapReasonID,ScrapReason,Description,MachineStageTypeID,DefaultUnitID,IsRetired, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo.ScrapReason WHERE ( $CONDITIONS ) </arg>
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_DEVERN_OWNER_ScrapReason_DoFullTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="ShiftlyChecksDone-Ingest-SPDV-Decision"/>
+        <error to="ShiftlyChecksDone-Ingest-SPDV-Decision"/>
+    </action>
+
+	<decision name="ShiftlyChecksDone-Ingest-SPDV-Decision">
+    	<switch>
+			<case to="ShiftlyChecksDone-Ingest-SPDV">${ wf:conf('job_DEVERN_OWNER_ShiftlyChecksDone_DoFull') eq 'true'}</case>
+            <default to="SPCChartControlLimit-Ingest-SPDV-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="ShiftlyChecksDone-Ingest-SPDV">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_DEVERN_OWNER_ShiftlyChecksDone_DoFullTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT ShiftlyChecksDoneID,shiftid,jobid,fromdt,todt,partid,acquisitioncontextid,machinestageid,acquisitionvariantid,acquisitionid,downtime,uptime,total_time,datacollectionperiod,checks_req,checks_req_after_downtime,checks_done,updated_dt, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo.ShiftlyChecksDone WHERE ( $CONDITIONS ) </arg>
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_DEVERN_OWNER_ShiftlyChecksDone_DoFullTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="SPCChartControlLimit-Ingest-SPDV-Decision"/>
+        <error to="SPCChartControlLimit-Ingest-SPDV-Decision"/>
+    </action>
+
+	<decision name="SPCChartControlLimit-Ingest-SPDV-Decision">
+    	<switch>
+			<case to="SPCChartControlLimit-Ingest-SPDV">${ wf:conf('job_DEVERN_OWNER_SPCChartControlLimit_DoFull') eq 'true'}</case>
+            <default to="SPCDefaultView-Ingest-SPDV-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="SPCChartControlLimit-Ingest-SPDV">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_DEVERN_OWNER_SPCChartControlLimit_DoFullTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT SPCChartControlLimitID,SPCChartComponentID,RfChartComponentID,RfChart,UCL,CL,LCL,FromDT,ToDT,RangeToDT,ModifiedDT,LoginID,RangeFromDT, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo.SPCChartControlLimit WHERE ( $CONDITIONS ) </arg>
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_DEVERN_OWNER_SPCChartControlLimit_DoFullTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="SPCDefaultView-Ingest-SPDV-Decision"/>
+        <error to="SPCDefaultView-Ingest-SPDV-Decision"/>
+    </action>
+
+	<decision name="SPCDefaultView-Ingest-SPDV-Decision">
+    	<switch>
+			<case to="SPCDefaultView-Ingest-SPDV">${ wf:conf('job_DEVERN_OWNER_SPCDefaultView_DoFull') eq 'true'}</case>
+            <default to="TagDef-Ingest-SPDV-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="SPCDefaultView-Ingest-SPDV">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_DEVERN_OWNER_SPCDefaultView_DoFullTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT SPCDefaultViewID,Sequence,RfChartSetViewTypeID,NoCols,NoRows,Caption,Tooltip,IsAggregated,RfCutByIDs,IsPanelled,ImageURI,GridImageRender,ParetoXAxis,ParetoStackBy,SPCChartSetViewStyleID,IsAutoFit,AcquisitionUsageID,OverlayFlags, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo.SPCDefaultView WHERE ( $CONDITIONS ) </arg>
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_DEVERN_OWNER_SPCDefaultView_DoFullTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="TagDef-Ingest-SPDV-Decision"/>
+        <error to="TagDef-Ingest-SPDV-Decision"/>
+    </action>
+
+	<decision name="TagDef-Ingest-SPDV-Decision">
+    	<switch>
+			<case to="TagDef-Ingest-SPDV">${ wf:conf('job_DEVERN_OWNER_TagDef_DoFull') eq 'true'}</case>
+            <default to="TagProfile-Ingest-SPDV-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="TagDef-Ingest-SPDV">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_DEVERN_OWNER_TagDef_DoFullTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT TagDefID,TagOwnerID,RfTable,TagTypeID,TagValue,DT, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo.TagDef WHERE ( $CONDITIONS ) </arg>
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_DEVERN_OWNER_TagDef_DoFullTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="TagProfile-Ingest-SPDV-Decision"/>
+        <error to="TagProfile-Ingest-SPDV-Decision"/>
+    </action>
+
+	<decision name="TagProfile-Ingest-SPDV-Decision">
+    	<switch>
+			<case to="TagProfile-Ingest-SPDV">${ wf:conf('job_DEVERN_OWNER_TagProfile_DoFull') eq 'true'}</case>
+            <default to="TMP_Checks_Done-Ingest-SPDV-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="TagProfile-Ingest-SPDV">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_DEVERN_OWNER_TagProfile_DoFullTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT TagProfileID,Name, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo.TagProfile WHERE ( $CONDITIONS ) </arg>
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_DEVERN_OWNER_TagProfile_DoFullTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="TMP_Checks_Done-Ingest-SPDV-Decision"/>
+        <error to="TMP_Checks_Done-Ingest-SPDV-Decision"/>
+    </action>
+
+	<decision name="TMP_Checks_Done-Ingest-SPDV-Decision">
+    	<switch>
+			<case to="TMP_Checks_Done-Ingest-SPDV">${ wf:conf('job_DEVERN_OWNER_TMP_Checks_Done_DoFull') eq 'true'}</case>
+            <default to="ToolAtLocation-Ingest-SPDV-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="TMP_Checks_Done-Ingest-SPDV">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_DEVERN_OWNER_TMP_Checks_Done_DoFullTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT ShiftID,JobID,AcquisitionContextID,Checks_Done, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo.TMP_Checks_Done WHERE ( $CONDITIONS ) </arg>
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_DEVERN_OWNER_TMP_Checks_Done_DoFullTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="ToolAtLocation-Ingest-SPDV-Decision"/>
+        <error to="ToolAtLocation-Ingest-SPDV-Decision"/>
+    </action>
+
+	<decision name="ToolAtLocation-Ingest-SPDV-Decision">
+    	<switch>
+			<case to="ToolAtLocation-Ingest-SPDV">${ wf:conf('job_DEVERN_OWNER_ToolAtLocation_DoFull') eq 'true'}</case>
+            <default to="ToolType-Ingest-SPDV-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="ToolAtLocation-Ingest-SPDV">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_DEVERN_OWNER_ToolAtLocation_DoFullTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT ToolAtLocationID,LocationID,ToolID,FromDT,ToDT,IsEdited,RevisionNo,EditedToolAtLocationID,MovedByLoginID,ModifiedDT,Reference1,Reference2,Reference3, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo.ToolAtLocation WHERE ( $CONDITIONS ) </arg>
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_DEVERN_OWNER_ToolAtLocation_DoFullTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="ToolType-Ingest-SPDV-Decision"/>
+        <error to="ToolType-Ingest-SPDV-Decision"/>
+    </action>
+
+	<decision name="ToolType-Ingest-SPDV-Decision">
+    	<switch>
+			<case to="ToolType-Ingest-SPDV">${ wf:conf('job_DEVERN_OWNER_ToolType_DoFull') eq 'true'}</case>
+            <default to="UnitCount_-Ingest-SPDV-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="ToolType-Ingest-SPDV">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_DEVERN_OWNER_ToolType_DoFullTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT ToolTypeID,ToolType,ToolTypeCode,Description,Variant1TagListID,Variant2TagListID,Variant3TagListID,Variant4TagListID,Variant5TagListID,Variant6TagListID,Variant7TagListID,Variant8TagListID,Variant9TagListID,Variant10TagListID,Variant11TagListID,Variant12TagListID,Variant13TagListID,Variant14TagListID,Variant15TagListID,Variant16TagListID,Variant17TagListID,Variant18TagListID,Variant19TagListID,Variant20TagListID, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo.ToolType WHERE ( $CONDITIONS ) </arg>
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_DEVERN_OWNER_ToolType_DoFullTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="UnitCount_-Ingest-SPDV-Decision"/>
+        <error to="UnitCount_-Ingest-SPDV-Decision"/>
+    </action>
+
+	<decision name="UnitCount_-Ingest-SPDV-Decision">
+    	<switch>
+			<case to="UnitCount_-Ingest-SPDV">${ wf:conf('job_DEVERN_OWNER_UnitCount__DoFull') eq 'true'}</case>
+            <default to="VariableTypeClass-Ingest-SPDV-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="UnitCount_-Ingest-SPDV">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_DEVERN_OWNER_UnitCount__DoFullTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT UnitCountID,CollectionQuantity,CollectionUnitID,Comments,LoginID,OpenedDT,SavedDT,OriginalLoginID,EditedUnitCountID,Reference1,Reference2,Reference3,Reference4,Reference5, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo.UnitCount_ WHERE ( $CONDITIONS ) </arg>
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_DEVERN_OWNER_UnitCount__DoFullTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="VariableTypeClass-Ingest-SPDV-Decision"/>
+        <error to="VariableTypeClass-Ingest-SPDV-Decision"/>
+    </action>
+
+	<decision name="VariableTypeClass-Ingest-SPDV-Decision">
+    	<switch>
+			<case to="VariableTypeClass-Ingest-SPDV">${ wf:conf('job_DEVERN_OWNER_VariableTypeClass_DoFull') eq 'true'}</case>
+            <default to="WO_custom-Ingest-SPDV-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="VariableTypeClass-Ingest-SPDV">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_DEVERN_OWNER_VariableTypeClass_DoFullTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT VariableTypeClassID,VariableTypeClass,Description,Priority, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo.VariableTypeClass WHERE ( $CONDITIONS ) </arg>
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_DEVERN_OWNER_VariableTypeClass_DoFullTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="WO_custom-Ingest-SPDV-Decision"/>
+        <error to="WO_custom-Ingest-SPDV-Decision"/>
+    </action>
+
+	<decision name="WO_custom-Ingest-SPDV-Decision">
+    	<switch>
+			<case to="WO_custom-Ingest-SPDV">${ wf:conf('job_DEVERN_OWNER_WO_custom_DoFull') eq 'true'}</case>
+            <default to="Job-Ingest-SPTM-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="WO_custom-Ingest-SPDV">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_DEVERN_OWNER_WO_custom_DoFullTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT WOID,BaseWONumber,Txn_date,Wip_Entity_ID,Alternate_Bom,WO_Status,IsBtoCto, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo.WO_custom WHERE ( $CONDITIONS ) </arg>
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_DEVERN_OWNER_WO_custom_DoFullTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="Job-Ingest-SPTM-Decision"/>
+        <error to="Job-Ingest-SPTM-Decision"/>
+    </action>
+
+	<decision name="Job-Ingest-SPTM-Decision">
+    	<switch>
+			<case to="Job-Ingest-SPTM">${ wf:conf('job_CAPETOWN_OWNER_Job_DoFull') eq 'true'}</case>
+            <default to="End-Full-24-Ingest-Decision"/>
+        </switch>
+    </decision>
+
+    <action name="Job-Ingest-SPTM">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_CAPETOWN_OWNER_Job_DoFullTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT Job.JobID, Job.WOID, Job.RfJobStatusID, Job.DeadlineDT, Job.ActualStartDT, Job.ActualEndDT, Job.PlannedStartDT, Job.PlannedEndDT, Job.PlannedDuration, Job.EstimatedStartDT, Job.EstimatedEndDT, Job.EstimatedDuration, Job.ScheduledSequence, Job.LineID, Job.ProductionStartDT, Job.ProductionEndDT, Job.TheoreticalCycleTime, Job.BudgetChangeOver, Job.QuantityOrdered, Job.IsCalculated, Job.LineGroupID, Job_.JobInstructions, Job_.ReleaseDT, Job_.ReleaseLoginID, Job_.StartLoginID, Job_.EndLoginID, Job_.Comments, Job_.ModifiedDt, Job_.ModifiedLoginID, Job_.StoppedReason, Job_.SkippedReason, Job_.SkippedDT,  5 as "org_id",  'SPTM' as "org_name"  FROM Job FULL JOIN Job_ ON (Job.JobID = Job_.JobID) FULL JOIN Job_Custom ON (Job.JobID = Job_Custom.JobID)   WHERE ( $CONDITIONS ) </arg>
+            <arg>--num-mappers</arg>
+            <arg>1</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_CAPETOWN_OWNER_Job_DoFullTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="End-Full-24-Ingest-Decision"/>
+        <error to="End-Full-24-Ingest-Decision"/>
+    </action>
+
+	<end name="End-Full-24-Ingest-Decision"/>
+</workflow-app>

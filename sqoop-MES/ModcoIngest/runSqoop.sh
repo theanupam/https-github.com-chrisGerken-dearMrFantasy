@@ -26,6 +26,16 @@ hadoop fs -put yieldIngestWorkflow-Full-16.xml /IncrementalYield/yieldIngestWork
 hadoop fs -put yieldIngestWorkflow-Full-17.xml /IncrementalYield/yieldIngestWorkflow-Full-17.xml
 hadoop fs -put yieldIngestWorkflow-Full-18.xml /IncrementalYield/yieldIngestWorkflow-Full-18.xml
 hadoop fs -put yieldIngestWorkflow-Full-19.xml /IncrementalYield/yieldIngestWorkflow-Full-19.xml
+hadoop fs -put yieldIngestWorkflow-Full-20.xml /IncrementalYield/yieldIngestWorkflow-Full-20.xml
+hadoop fs -put yieldIngestWorkflow-Full-21.xml /IncrementalYield/yieldIngestWorkflow-Full-21.xml
+hadoop fs -put yieldIngestWorkflow-Full-22.xml /IncrementalYield/yieldIngestWorkflow-Full-22.xml
+hadoop fs -put yieldIngestWorkflow-Full-23.xml /IncrementalYield/yieldIngestWorkflow-Full-23.xml
+hadoop fs -put yieldIngestWorkflow-Full-24.xml /IncrementalYield/yieldIngestWorkflow-Full-24.xml
+hadoop fs -put yieldIngestWorkflow-Full-25.xml /IncrementalYield/yieldIngestWorkflow-Full-25.xml
+hadoop fs -put yieldIngestWorkflow-Full-26.xml /IncrementalYield/yieldIngestWorkflow-Full-26.xml
+hadoop fs -put yieldIngestWorkflow-Full-27.xml /IncrementalYield/yieldIngestWorkflow-Full-27.xml
+hadoop fs -put yieldIngestWorkflow-Full-28.xml /IncrementalYield/yieldIngestWorkflow-Full-28.xml
+hadoop fs -put yieldIngestWorkflow-Full-29.xml /IncrementalYield/yieldIngestWorkflow-Full-29.xml
 hadoop fs -put yieldIngestWorkflow-Hive.xml /IncrementalYield/yieldIngestWorkflow-Hive.xml
 
 hadoop fs -put hs_01.q /IncrementalYield/hs_01.q 
@@ -103,6 +113,36 @@ oozie  validate  yieldIngestWorkflow-Full-18.xml
 echo "";
 echo "Validating yieldIngestWorkflow-Full-19.xml";
 oozie  validate  yieldIngestWorkflow-Full-19.xml  
+echo "";
+echo "Validating yieldIngestWorkflow-Full-20.xml";
+oozie  validate  yieldIngestWorkflow-Full-20.xml  
+echo "";
+echo "Validating yieldIngestWorkflow-Full-21.xml";
+oozie  validate  yieldIngestWorkflow-Full-21.xml  
+echo "";
+echo "Validating yieldIngestWorkflow-Full-22.xml";
+oozie  validate  yieldIngestWorkflow-Full-22.xml  
+echo "";
+echo "Validating yieldIngestWorkflow-Full-23.xml";
+oozie  validate  yieldIngestWorkflow-Full-23.xml  
+echo "";
+echo "Validating yieldIngestWorkflow-Full-24.xml";
+oozie  validate  yieldIngestWorkflow-Full-24.xml  
+echo "";
+echo "Validating yieldIngestWorkflow-Full-25.xml";
+oozie  validate  yieldIngestWorkflow-Full-25.xml  
+echo "";
+echo "Validating yieldIngestWorkflow-Full-26.xml";
+oozie  validate  yieldIngestWorkflow-Full-26.xml  
+echo "";
+echo "Validating yieldIngestWorkflow-Full-27.xml";
+oozie  validate  yieldIngestWorkflow-Full-27.xml  
+echo "";
+echo "Validating yieldIngestWorkflow-Full-28.xml";
+oozie  validate  yieldIngestWorkflow-Full-28.xml  
+echo "";
+echo "Validating yieldIngestWorkflow-Full-29.xml";
+oozie  validate  yieldIngestWorkflow-Full-29.xml  
 echo "";
 echo "Validating yieldIngestWorkflow-Hive.xml";
 oozie  validate  yieldIngestWorkflow-Hive.xml  
