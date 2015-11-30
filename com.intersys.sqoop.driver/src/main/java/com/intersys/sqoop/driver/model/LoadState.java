@@ -435,6 +435,7 @@ public class LoadState implements Comparable {
 				int minId = min + (i * rowsPerBase);
 				int maxId = min + ((i+1) * rowsPerBase) - 1;
 				base = new Chunk(now+i, minId, maxId, 0L, 0L, hdfsDir, 0);
+				addBases(base);
 			}
 			base.setMaxId(max);
 			
