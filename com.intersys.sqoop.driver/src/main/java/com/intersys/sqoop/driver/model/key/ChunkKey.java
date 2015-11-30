@@ -1,10 +1,10 @@
 package com.intersys.sqoop.driver.model.key;
 
-public class SliceKey implements Comparable<SliceKey> {
+public class ChunkKey implements Comparable<ChunkKey> {
 
 	private Long _timestamp;
 
-	public SliceKey(Long timestamp) {
+	public ChunkKey(Long timestamp) {
 		super();
 		this._timestamp = timestamp;
 	}
@@ -14,7 +14,7 @@ public class SliceKey implements Comparable<SliceKey> {
 	}
 
 	@Override
-	public int compareTo(SliceKey other) {
+	public int compareTo(ChunkKey other) {
 		if (this == other) 
 			return 0;
 		if (other == null) 
@@ -55,7 +55,7 @@ public class SliceKey implements Comparable<SliceKey> {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		SliceKey other = (SliceKey) obj;
+		ChunkKey other = (ChunkKey) obj;
 
 		if (_timestamp == null) {
 			if (other._timestamp != null)

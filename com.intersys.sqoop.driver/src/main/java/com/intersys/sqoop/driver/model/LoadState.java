@@ -2,42 +2,51 @@ package com.intersys.sqoop.driver.model;
 
 	// Begin imports
 
-import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.sql.Statement;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Properties;
-
-import org.apache.hadoop.fs.FileSystem;
-import org.codehaus.jettison.json.JSONArray;
-import org.codehaus.jettison.json.JSONException;
-import org.codehaus.jettison.json.JSONObject;
 
 import com.intersys.sqoop.driver.SqoopDriver;
 import com.intersys.sqoop.driver.exception.NoDataException;
 import com.intersys.sqoop.driver.exception.NoSuchDatabaseException;
-import com.intersys.sqoop.driver.model.key.LoadStateKey;
-import com.intersys.sqoop.driver.model.key.SliceKey;
+import com.intersys.sqoop.driver.model.key.*;
+
+import org.codehaus.jettison.json.JSONArray;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 
 	// End imports 
 
 public class LoadState implements Comparable {
 
 	// Begin custom declarations
+	
+	public static int rowsPerBase = 25000000;
 
 	// End custom declarations 
 
 	private String _table;
-	private String _idColumn;
 	private String _database;
 	private Boolean _incremental;
 	private String _hdfsBaseDir;
 	private String _ooziePrefix;
 
 
-	private HashMap<SliceKey,Slice> _slices;
+	private HashMap<ChunkKey,Chunk> _fulls;
+
+	private HashMap<ChunkKey,Chunk> _bases;
+
+	private HashMap<ChunkKey,Chunk> _periods;
+
+	private HashMap<ChunkKey,Chunk> _deltas;
+
+	private HashMap<SnapshotKey,Snapshot> _snapshots;
 
 	public LoadState(JSONObject jobj) throws JSONException {
 		super();
@@ -46,12 +55,6 @@ public class LoadState implements Comparable {
 		try { _table = jobj.getString("table"); } catch (Throwable t) { }
 		if (_table == null) {
 			_table = "";
-		}
-
-		_idColumn = null;
-		try { _idColumn = jobj.getString("idColumn"); } catch (Throwable t) { }
-		if (_idColumn == null) {
-			_idColumn = "";
 		}
 
 		_database = null;
@@ -81,28 +84,83 @@ public class LoadState implements Comparable {
 		JSONArray jarr;
 
 
-		_slices = new HashMap<SliceKey,Slice>();
+		_fulls = new HashMap<ChunkKey,Chunk>();
 		try {
-			jarr = jobj.getJSONArray("slices");
-			_slices = new HashMap<SliceKey,Slice>();
+			jarr = jobj.getJSONArray("fulls");
+			_fulls = new HashMap<ChunkKey,Chunk>();
 			for (int i = 0; i < jarr.length(); i++) {
-				addSlices(new Slice(jarr.getJSONObject(i)));
+				addFulls(new Chunk(jarr.getJSONObject(i)));
+			}
+		} catch (Throwable t) {
+			// Do nothing		
+		}
+
+
+		_bases = new HashMap<ChunkKey,Chunk>();
+		try {
+			jarr = jobj.getJSONArray("bases");
+			_bases = new HashMap<ChunkKey,Chunk>();
+			for (int i = 0; i < jarr.length(); i++) {
+				addBases(new Chunk(jarr.getJSONObject(i)));
+			}
+		} catch (Throwable t) {
+			// Do nothing		
+		}
+
+
+		_periods = new HashMap<ChunkKey,Chunk>();
+		try {
+			jarr = jobj.getJSONArray("periods");
+			_periods = new HashMap<ChunkKey,Chunk>();
+			for (int i = 0; i < jarr.length(); i++) {
+				addPeriods(new Chunk(jarr.getJSONObject(i)));
+			}
+		} catch (Throwable t) {
+			// Do nothing		
+		}
+
+
+		_deltas = new HashMap<ChunkKey,Chunk>();
+		try {
+			jarr = jobj.getJSONArray("deltas");
+			_deltas = new HashMap<ChunkKey,Chunk>();
+			for (int i = 0; i < jarr.length(); i++) {
+				addDeltas(new Chunk(jarr.getJSONObject(i)));
+			}
+		} catch (Throwable t) {
+			// Do nothing		
+		}
+
+
+		_snapshots = new HashMap<SnapshotKey,Snapshot>();
+		try {
+			jarr = jobj.getJSONArray("snapshots");
+			_snapshots = new HashMap<SnapshotKey,Snapshot>();
+			for (int i = 0; i < jarr.length(); i++) {
+				addSnapshots(new Snapshot(jarr.getJSONObject(i)));
 			}
 		} catch (Throwable t) {
 			// Do nothing		
 		}
 	}
 
-	public LoadState(String table, String idColumn, String database, Boolean incremental, String hdfsBaseDir, String ooziePrefix) {
+	public LoadState(String table, String database, Boolean incremental, String hdfsBaseDir, String ooziePrefix) {
 		super();
 		this._table = table;
-		this._idColumn = idColumn;
 		this._database = database;
 		this._incremental = incremental;
 		this._hdfsBaseDir = hdfsBaseDir;
 		this._ooziePrefix = ooziePrefix;
  
-		_slices = new HashMap<SliceKey,Slice>();
+		_fulls = new HashMap<ChunkKey,Chunk>();
+ 
+		_bases = new HashMap<ChunkKey,Chunk>();
+ 
+		_periods = new HashMap<ChunkKey,Chunk>();
+ 
+		_deltas = new HashMap<ChunkKey,Chunk>();
+ 
+		_snapshots = new HashMap<SnapshotKey,Snapshot>();
 
 	}
 	
@@ -110,8 +168,6 @@ public class LoadState implements Comparable {
 		JSONObject jobj = new JSONObject();
 
 		if (_table != null) { jobj.put("table", _table); }
-
-		if (_idColumn != null) { jobj.put("idColumn", _idColumn); }
 
 		if (_database != null) { jobj.put("database", _database); }
 
@@ -125,10 +181,38 @@ public class LoadState implements Comparable {
 
 
 		jarr = new JSONArray();
-		for (Slice obj: getSlices()) {
+		for (Chunk obj: getFulls()) {
 			jarr.put(obj.asJson());
 		}
-		jobj.put("slices", jarr);
+		jobj.put("fulls", jarr);
+
+
+		jarr = new JSONArray();
+		for (Chunk obj: getBases()) {
+			jarr.put(obj.asJson());
+		}
+		jobj.put("bases", jarr);
+
+
+		jarr = new JSONArray();
+		for (Chunk obj: getPeriods()) {
+			jarr.put(obj.asJson());
+		}
+		jobj.put("periods", jarr);
+
+
+		jarr = new JSONArray();
+		for (Chunk obj: getDeltas()) {
+			jarr.put(obj.asJson());
+		}
+		jobj.put("deltas", jarr);
+
+
+		jarr = new JSONArray();
+		for (Snapshot obj: getSnapshots()) {
+			jarr.put(obj.asJson());
+		}
+		jobj.put("snapshots", jarr);
 		
 		return jobj;
 	}
@@ -139,14 +223,6 @@ public class LoadState implements Comparable {
 
 	public void setTable(String table) {
 		this._table = table;
-	}
-
-	public String getIdColumn() {
-		return _idColumn;
-	}
-
-	public void setIdColumn(String idColumn) {
-		this._idColumn = idColumn;
 	}
 
 	public String getDatabase() {
@@ -182,20 +258,88 @@ public class LoadState implements Comparable {
 	}
  
 
-	public void addSlices(Slice bean) {
-		_slices.put(bean.key(), bean);
+	public void addFulls(Chunk bean) {
+		_fulls.put(bean.key(), bean);
 	}
 
-	public void removeSlices(Slice bean) {
-		_slices.remove(bean.key());
+	public void removeFulls(Chunk bean) {
+		_fulls.remove(bean.key());
 	}
 	
-	public Slice getSlices(SliceKey key) {
-		return _slices.get(key);
+	public Chunk getFulls(ChunkKey key) {
+		return _fulls.get(key);
 	}
 	
-	public List<Slice> getSlices() {
-		return new ArrayList<Slice>(_slices.values());
+	public List<Chunk> getFulls() {
+		return new ArrayList<Chunk>(_fulls.values());
+	}
+ 
+
+	public void addBases(Chunk bean) {
+		_bases.put(bean.key(), bean);
+	}
+
+	public void removeBases(Chunk bean) {
+		_bases.remove(bean.key());
+	}
+	
+	public Chunk getBases(ChunkKey key) {
+		return _bases.get(key);
+	}
+	
+	public List<Chunk> getBases() {
+		return new ArrayList<Chunk>(_bases.values());
+	}
+ 
+
+	public void addPeriods(Chunk bean) {
+		_periods.put(bean.key(), bean);
+	}
+
+	public void removePeriods(Chunk bean) {
+		_periods.remove(bean.key());
+	}
+	
+	public Chunk getPeriods(ChunkKey key) {
+		return _periods.get(key);
+	}
+	
+	public List<Chunk> getPeriods() {
+		return new ArrayList<Chunk>(_periods.values());
+	}
+ 
+
+	public void addDeltas(Chunk bean) {
+		_deltas.put(bean.key(), bean);
+	}
+
+	public void removeDeltas(Chunk bean) {
+		_deltas.remove(bean.key());
+	}
+	
+	public Chunk getDeltas(ChunkKey key) {
+		return _deltas.get(key);
+	}
+	
+	public List<Chunk> getDeltas() {
+		return new ArrayList<Chunk>(_deltas.values());
+	}
+ 
+
+	public void addSnapshots(Snapshot bean) {
+		_snapshots.put(bean.key(), bean);
+	}
+
+	public void removeSnapshots(Snapshot bean) {
+		_snapshots.remove(bean.key());
+	}
+	
+	public Snapshot getSnapshots(SnapshotKey key) {
+		return _snapshots.get(key);
+	}
+	
+	public List<Snapshot> getSnapshots() {
+		return new ArrayList<Snapshot>(_snapshots.values());
 	}
 
 	public LoadStateKey key() {
@@ -227,111 +371,259 @@ public class LoadState implements Comparable {
 	
 	// Begin custom logic
 
-	public Properties increment() throws SQLException, NoSuchDatabaseException, NoDataException, JSONException {
+	public void resetParms(Properties props) {
 
-		HashMap<String, String> parms = new HashMap<String, String>();
-		parms.put("_DoFull", "false");
-		parms.put("_DoBase", "false");
-		parms.put("_DoInterval", "false");
-		parms.put("_DoDelta", "false");
+		props.setProperty(SqoopDriver.PROPERTY_PREFIX + getDatabase() + "_" + getTable() + "_DoFull", "false");
+		props.setProperty(SqoopDriver.PROPERTY_PREFIX + getDatabase() + "_" + getTable() + "_DoBase", "false");
+		props.setProperty(SqoopDriver.PROPERTY_PREFIX + getDatabase() + "_" + getTable() + "_DoInterval", "false");
+		props.setProperty(SqoopDriver.PROPERTY_PREFIX + getDatabase() + "_" + getTable() + "_DoDelta", "false");
+
+	}
+	
+	public void update(IngestionState is) throws SQLException, NoSuchDatabaseException, NoDataException, JSONException {
 
 		try {
-			Slice slice = Slice.getSlice(getTable(), getIdColumn(), getDatabase());
 
-			if (!getIncremental()) {
+			if (getIncremental()) {
 
-				System.out.println(getTable()+" in "+getDatabase()+" is a full load ("+(slice.getMaxId()-slice.getMinId()+1)+"; "+slice.getRows()+")");
-				_slices = new HashMap<SliceKey, Slice>();
-				
-				if (slice.getRows() > 0) {
-					addSlices(slice);
-					
-					slice.setHdfsDir(getHdfsBaseDir());
-					slice.setType(Slice.TYPE_FULL);
-					parms.put("_DoFull", "true");
-					parms.put("_DoFullTarget", getHdfsBaseDir());
-				} else {
-					System.out.println(" - No data => No import for now");
-				}
-			
+				updateAsIncremental(is);
+							
 			} else {
 
-				System.out.println("Slice for "+getTable()+" in "+getDatabase()+" ("+(slice.getMaxId()-slice.getMinId()+1)+"; "+slice.getRows()+") : "+slice.asJson().toString());
-				
-				Slice first;
-				Slice last;
-				
-				List<Slice> list = Slice.sort(getSlices());
-				
-				boolean runJob = true;
-				
-				if (!getSlices().isEmpty()) {
-					last = list.get(list.size()-1);
-					if (last.getMaxId() == slice.getMaxId()) {
-						// No new data
-						runJob = false;
-					} else {
-						
-					}
-				}
-				
-				if (runJob) {
-					
-					addSlices(slice);
-					list = Slice.sort(getSlices());
-					
-					first = list.get(0);
-					last = list.get(list.size()-1);
-
-					if (list.size() == 1) {
-						parms.put("_DoBase", "true");
-						parms.put("_MaxBaseID", String.valueOf(first.getMaxId()));
-						slice.setHdfsDir(getHdfsBaseDir()+"/Base");
-						slice.setType(Slice.TYPE_BASE);
-						parms.put("_DoBaseTarget", slice.getHdfsDir());
-					} else {
-						parms.put("_DoDelta", "true");
-						parms.put("_MinDeltaID", String.valueOf(first.getMaxId()+1));
-						slice.setHdfsDir(getHdfsBaseDir()+"/Delta");
-						slice.setType(Slice.TYPE_DELTA);
-						parms.put("_DoDeltaTarget", slice.getHdfsDir());
-					}
-
-//				parms.put("_MinIncrementID", String.valueOf(first.getMaxId()+1));
-//				parms.put("_MaxIncrementID", String.valueOf(last.getMaxId()));
-					
-				}
-				
-				// Increment target def for property _DoIncrementTarget
-//			slice.setHdfsDir(getHdfsBaseDir()+"/Incr_"+slice.getMinId()+"_"+slice.getMaxId());
+				updateAsFull(is);
 
 			}
+
 		} catch (Exception e) {
 			System.out.println("\t"+e.getLocalizedMessage());
-			System.out.println("\tException => No import for now");
 		}
 		
-		Properties props = new Properties();
-		for (String key: parms.keySet()) {
-			String value = parms.get(key);
-			props.setProperty(SqoopDriver.PROPERTY_PREFIX + getDatabase() + "_" + getTable() + key, value);
+	}
+
+	private void updateAsIncremental(IngestionState is) throws NoSuchDatabaseException, NoDataException, SQLException {
+
+		System.out.println(getTable()+" in "+getDatabase()+" is incremental");
+
+		int rows = getRows(is);
+		if (rows == 0) {
+			System.out.println(" - No data => No import for now");
+			return;
 		}
 		
-		return props;
+		int min = getMinId(is);
+		int max = getMaxId(is);
+		
+		Snapshot lastSnapshot = null;
+		if (!getSnapshots().isEmpty()) {
+			List<Snapshot> snapshots = Snapshot.sort(getSnapshots());
+			lastSnapshot = snapshots.get(snapshots.size()-1);
+		}
+		
+		Snapshot snapshot = new Snapshot(System.currentTimeMillis(), max);
+		addSnapshots(snapshot);
+		
+		// First, see if we have any bases
+		
+		if (getBases().isEmpty()) {
+			
+			long bases = (max-min+1) / rowsPerBase + 1;
+
+			Chunk base = null;
+			long now = System.currentTimeMillis() - bases;
+			for (int i = 0; i < bases; i++) {
+				String hdfsDir = getHdfsBaseDir() + "/Base/" + i;
+				int minId = min + (i * rowsPerBase);
+				int maxId = min + ((i+1) * rowsPerBase) - 1;
+				base = new Chunk(now+i, minId, maxId, 0L, 0L, hdfsDir, 0);
+			}
+			base.setMaxId(max);
+			
+			return;
+		}
+		
+		// If we already have some bases, just update the delta for now
+		
+		if (lastSnapshot.getId() == max) {
+			// if no new data
+			removeSnapshots(snapshot);
+			System.out.println(" - No new data => No import for now");
+			return;
+		}
+		
+		Chunk delta;
+
+		if (getDeltas().isEmpty()) {
+			String hdfsDir = getHdfsBaseDir() + "/Delta";
+			int minId = lastSnapshot.getId() + 1;
+			int maxId = max;
+			delta = new Chunk(System.currentTimeMillis(), minId, maxId, 0L, 0L, hdfsDir, 0);
+			addDeltas(delta);
+		}
+		
+		delta = getDeltas().get(0);
+		
+	}
+
+	private void updateAsFull(IngestionState is) throws NoSuchDatabaseException, NoDataException, SQLException {
+
+		System.out.println(getTable()+" in "+getDatabase()+" is a full load");
+
+		if (getFulls().isEmpty()) {
+			
+			int rows = getRows(is);
+			if (rows > 0) {
+				int max = getMaxId(is);
+				Chunk full = Chunk.full(getHdfsBaseDir(), max);
+				addFulls(full);	
+			} else {
+				System.out.println(" - No data => No import for now");
+			}
+
+		}
+		
 	}
 
 	public void reset() {
-		_slices = new HashMap<SliceKey, Slice>();
+		_fulls = new HashMap<ChunkKey, Chunk>();
+		_bases = new HashMap<ChunkKey, Chunk>();
+		_deltas = new HashMap<ChunkKey, Chunk>();
+		_periods = new HashMap<ChunkKey, Chunk>();
+		_snapshots = new HashMap<SnapshotKey, Snapshot>();
 	}
 
-	public void validate(FileSystem hdfs) throws IllegalArgumentException, IOException {
+	public int getMinId(IngestionState is) throws SQLException, NoSuchDatabaseException, NoDataException {
 
-		for (Slice slice: getSlices()) {
-			slice.validate(hdfs);
+		Connection connection = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+
+		String query = "";
+		
+		try {
+			connection = SqoopDriver.getDefault().getConnection(getDatabase());
+			
+				query = "select min("+getColumn(is)+") as 'MIN' from "+getTable();
+				stmt = connection.createStatement();
+				rs = stmt.executeQuery(query);
+				if (rs.next()) {
+				    return rs.getInt("MIN");
+				} else {
+					throw new NoDataException("No data for table "+getTable()+" in data base "+getDatabase());
+				}
+			
+	    } catch (SQLException e) {
+	    	System.out.println("Error performing query: "+query);
+	    	System.out.println("\ttable="+getTable()+"; column="+getColumn(is)+"; database="+getDatabase());
+			throw e;
+		} finally {
+			try { rs.close(); } catch (Throwable t) {  }
+			try { stmt.close(); } catch (Throwable t) {  }
 		}
+
+	}
+
+	private String getColumn(IngestionState is) {
+		return is.getTables(new TableSpecKey(getTable())).getIdColumn();
+	}
+
+	public int getMaxId(IngestionState is) throws SQLException, NoSuchDatabaseException, NoDataException {
+
+		Connection connection = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+
+		String query = "";
+		
+		try {
+			connection = SqoopDriver.getDefault().getConnection(getDatabase());
+			
+				query = "select max("+getColumn(is)+") as 'MAX' from "+getTable();
+				stmt = connection.createStatement();
+				rs = stmt.executeQuery(query);
+				if (rs.next()) {
+				    return rs.getInt("MAX");
+				} else {
+					throw new NoDataException("No data for table "+getTable()+" in data base "+getDatabase());
+				}
+			
+	    } catch (SQLException e) {
+	    	System.out.println("Error performing query: "+query);
+	    	System.out.println("\ttable="+getTable()+"; column="+getColumn(is)+"; database="+getDatabase());
+			throw e;
+		} finally {
+			try { rs.close(); } catch (Throwable t) {  }
+			try { stmt.close(); } catch (Throwable t) {  }
+		}
+
+	}
+
+	public int getRows(IngestionState is) throws SQLException, NoSuchDatabaseException, NoDataException {
+
+		Connection connection = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+
+		String query = "";
+		
+		try {
+			connection = SqoopDriver.getDefault().getConnection(getDatabase());
+			
+				query = "select count("+getColumn(is)+") as 'ROWS' from "+getTable();
+				stmt = connection.createStatement();
+				rs = stmt.executeQuery(query);
+				if (rs.next()) {
+				    return rs.getInt("ROWS");
+				} else {
+					throw new NoDataException("No data for table "+getTable()+" in data base "+getDatabase());
+				}
+			
+	    } catch (SQLException e) {
+	    	System.out.println("Error performing query: "+query);
+	    	System.out.println("\ttable="+getTable()+"; column="+getColumn(is)+"; database="+getDatabase());
+			throw e;
+		} finally {
+			try { rs.close(); } catch (Throwable t) {  }
+			try { stmt.close(); } catch (Throwable t) {  }
+		}
+
+	}
+
+	public List<JobSpec> proposeJobs(IngestionState is, boolean all) {
+
+		List<JobSpec> jobs = new ArrayList<JobSpec>();
+		boolean found;
+		
+		// Find the earliest base that needs refreshing
+		
+		found = false;
+		for (Chunk base: Chunk.sort(getBases())) {
+			if (!found) {
+				if ((base.getRefreshed() == 0L) || (base.isOutOfDate(is))) {
+					found = !all;
+					jobs.add(base.baseJob(SqoopDriver.PROPERTY_PREFIX + getDatabase() + "_" + getTable(), "Base load of "+getDatabase()+" : "+getTable()));
+				}
+			}
+		}
+		
+		// If there's a delta, update it
+		
+		if (!getDeltas().isEmpty()) {
+			Chunk delta = getDeltas().get(0);
+			jobs.add(delta.deltaJob(SqoopDriver.PROPERTY_PREFIX + getDatabase() + "_" + getTable(), "Delta load of "+getDatabase()+" : "+getTable()));
+		}
+		
+		// If there's a full, update it
+		
+		if (!getFulls().isEmpty()) {
+			Chunk full = getFulls().get(0);
+			jobs.add(full.fullJob(SqoopDriver.PROPERTY_PREFIX + getDatabase() + "_" + getTable(), "Full load of "+getDatabase()+" : "+getTable()));
+		}
+
+		return jobs;
 		
 	}
 
+	
 	// End custom logic 
 	
 }

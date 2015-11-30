@@ -35,6 +35,10 @@ public class IngestionState implements Comparable {
 
 	// Begin custom declarations
 
+	private FileSystem hdfs = null;
+	private long refreshPeriod = 3L * 24L * 60L * 60000L;
+	private int maxJobs = 100;
+	
 	// End custom declarations 
 
 	private String _name;
@@ -291,10 +295,22 @@ public class IngestionState implements Comparable {
 
 	public Properties configureIncrement() throws SQLException, NoSuchDatabaseException, NoDataException, JSONException {
 		Properties newProps = new Properties();
+		ArrayList<JobSpec> jobs = new ArrayList<JobSpec>();
 		for (LoadState ls : LoadState.sort(getLoads())) {
-			Properties props = ls.increment();
-			newProps.putAll(props);
+			ls.resetParms(newProps);
+			ls.update(this);
+			List<JobSpec> proposals = ls.proposeJobs(this, false);
+			jobs.addAll(proposals);
 		}
+		
+		JobSpec job[] = new JobSpec[jobs.size()];
+		jobs.toArray(job);
+		Arrays.sort(job);
+		for (int i = 0; ((i < job.length) && (i < maxJobs)); i++) {
+			System.out.println("Do "+job[i].getDescription());
+			newProps.putAll(job[i].getProperties());
+		}
+		
 		return newProps;
 	}
 
@@ -306,12 +322,48 @@ public class IngestionState implements Comparable {
 	}
 
 	public void validate() throws IOException, URISyntaxException {
-		
-		FileSystem hdfs = FileSystem.get( new URI(getHdfsUrl() ), new Configuration() );
-		for (LoadState ls: getLoads()) {
-			ls.validate(hdfs);
+		ArrayList<JobSpec> jobs = new ArrayList<JobSpec>();
+		for (LoadState ls : LoadState.sort(getLoads())) {
+			List<JobSpec> proposals = ls.proposeJobs(this,true);
+			jobs.addAll(proposals);
 		}
 		
+		for (JobSpec js: jobs) {
+			System.out.println(js.getDescription());
+		}
+
+	}
+
+	public boolean dataOutOfDate(String hdfsDir) {
+		try {
+			if (!getHdfs().exists(new Path(hdfsDir))) {
+				return true;
+			}
+			
+			if (!getHdfs().exists(new Path(hdfsDir+"/_SUCCESS"))) {
+				return true;
+			}
+			
+			long mod = getHdfs().getFileStatus(new Path(hdfsDir+"/_SUCCESS")).getModificationTime();
+			long age = System.currentTimeMillis() - mod;
+			if (age > refreshPeriod) {
+				return true;
+			}
+			
+			return false;
+			
+		} catch (Exception e) {
+
+		}
+		
+		return true;
+	}
+	
+	private FileSystem getHdfs() throws IOException, URISyntaxException {
+		if (hdfs == null) {
+			hdfs = FileSystem.get( new URI(getHdfsUrl() ), new Configuration() );
+		}
+		return hdfs;
 	}
 
 	// End custom logic 

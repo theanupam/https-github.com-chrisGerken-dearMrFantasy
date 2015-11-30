@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Properties;
 
 import org.codehaus.jettison.json.JSONException;
@@ -30,6 +31,8 @@ public class SqoopDriver {
 	private IngestionState state;
 	
 	public static final String PROPERTY_PREFIX = "job_";
+	
+	private HashMap<String, Connection> connections = new HashMap<String, Connection>();
 	
 	private SqoopDriver() {
 
@@ -84,6 +87,7 @@ public class SqoopDriver {
 		try {
 			state = IngestionState.loadFrom(ingestionStateFile);
 			state.validate();
+			cleanup();
 		} catch (IOException e) {
 			throw new SqoopDriverException(e);
 		} catch (URISyntaxException e) {
@@ -104,6 +108,7 @@ public class SqoopDriver {
 			Properties newProps = state.configureIncrement();
 			updateProperties(newProps, ooziePropsFile);
 			state.persistTo(ingestionStateFile);
+			cleanup();
 		} catch (IOException e) {
 			throw new SqoopDriverException(e);
 		} catch (URISyntaxException e) {
@@ -112,6 +117,12 @@ public class SqoopDriver {
 			throw new SqoopDriverException(e);
 		} catch (JSONException e) {
 			throw new SqoopDriverException(e);
+		}
+	}
+
+	private void cleanup() {
+		for (Connection conn: connections.values()) {
+			try { conn.close(); } catch (Throwable t) { }
 		}
 	}
 
@@ -147,13 +158,18 @@ public class SqoopDriver {
 
 	public Connection getConnection(String database) throws SQLException, NoSuchDatabaseException {
 
-		DatabaseSpec spec = state.getDatabases(new DatabaseSpecKey(database));
-		
-		Properties properties = new Properties();
-	    properties.put("user", spec.getUserid());
-	    properties.put("password", spec.getPassword());
+		Connection conn = connections.get(database);
+		if (conn == null) {
+			DatabaseSpec spec = state.getDatabases(new DatabaseSpecKey(database));
+			
+			Properties properties = new Properties();
+		    properties.put("user", spec.getUserid());
+		    properties.put("password", spec.getPassword());
 
-		Connection conn = DriverManager.getConnection( spec.getUrl(), properties);
+			conn = DriverManager.getConnection( spec.getUrl(), properties);
+			connections.put(database, conn);
+		}
+		
 		return conn;
 	    
 	}
