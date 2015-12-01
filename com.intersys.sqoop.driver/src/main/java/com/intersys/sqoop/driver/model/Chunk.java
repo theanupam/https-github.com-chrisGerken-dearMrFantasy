@@ -224,6 +224,7 @@ public class Chunk implements Comparable {
 
 		JobSpec js = new JobSpec(getRefreshed(), desc, JobSpec.JOB_BASE);
 		js.set(prefix+"_DoBase", "true");
+		js.set(prefix+"_MinBaseID", String.valueOf(getMinId()));
 		js.set(prefix+"_MaxBaseID", String.valueOf(getMaxId()));
 		js.set(prefix+"_DoBaseTarget", getHdfsDir());
 		return js;
