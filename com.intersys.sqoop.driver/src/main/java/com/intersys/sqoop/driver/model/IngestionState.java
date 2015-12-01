@@ -358,6 +358,25 @@ public class IngestionState implements Comparable {
 		
 		return true;
 	}
+
+	public long bornOnDate(String hdfsDir) {
+		try {
+			if (!getHdfs().exists(new Path(hdfsDir))) {
+				return 0L;
+			}
+			
+			if (!getHdfs().exists(new Path(hdfsDir+"/_SUCCESS"))) {
+				return 0L;
+			}
+			
+			return getHdfs().getFileStatus(new Path(hdfsDir+"/_SUCCESS")).getModificationTime();
+			
+		} catch (Exception e) {
+
+		}
+		
+		return 0L;
+	}
 	
 	private FileSystem getHdfs() throws IOException, URISyntaxException {
 		if (hdfs == null) {

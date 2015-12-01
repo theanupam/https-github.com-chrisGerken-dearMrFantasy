@@ -207,6 +207,10 @@ public class Chunk implements Comparable {
 		return is.dataOutOfDate(getHdfsDir());
 	}
 
+	public long bornOnDate(IngestionState is) {
+		return is.bornOnDate(getHdfsDir());
+	}
+
 	public JobSpec fullJob(String prefix, String desc) {
 
 		JobSpec js = new JobSpec(getRefreshed(), desc, JobSpec.JOB_FULL);

@@ -492,6 +492,10 @@ public class LoadState implements Comparable {
 		_snapshots = new HashMap<SnapshotKey, Snapshot>();
 	}
 
+	public boolean isEnabled(IngestionState is) {
+		return is.getDatabases(new DatabaseSpecKey(getDatabase())).getEnabled() && is.getTables(new TableSpecKey(getTable())).getEnabled();
+	}
+	
 	public int getMinId(IngestionState is) throws SQLException, NoSuchDatabaseException, NoDataException {
 
 		Connection connection = null;
@@ -601,6 +605,7 @@ public class LoadState implements Comparable {
 			if (!found) {
 				if ((base.getRefreshed() == 0L) || (base.isOutOfDate(is))) {
 					found = !all;
+					base.setRefreshed(is.bornOnDate(getHdfsBaseDir()));
 					jobs.add(base.baseJob(SqoopDriver.PROPERTY_PREFIX + getDatabase() + "_" + getTable(), "Base load of "+getDatabase()+" : "+getTable()));
 				}
 			}
@@ -610,6 +615,7 @@ public class LoadState implements Comparable {
 		
 		if (!getDeltas().isEmpty()) {
 			Chunk delta = getDeltas().get(0);
+			delta.setRefreshed(is.bornOnDate(getHdfsBaseDir()));
 			jobs.add(delta.deltaJob(SqoopDriver.PROPERTY_PREFIX + getDatabase() + "_" + getTable(), "Delta load of "+getDatabase()+" : "+getTable()));
 		}
 		
@@ -617,6 +623,7 @@ public class LoadState implements Comparable {
 		
 		if (!getFulls().isEmpty()) {
 			Chunk full = getFulls().get(0);
+			full.setRefreshed(is.bornOnDate(getHdfsBaseDir()));
 			jobs.add(full.fullJob(SqoopDriver.PROPERTY_PREFIX + getDatabase() + "_" + getTable(), "Full load of "+getDatabase()+" : "+getTable()));
 		}
 
