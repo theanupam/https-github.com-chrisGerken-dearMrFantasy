@@ -27,7 +27,8 @@ public class LoadState implements Comparable {
 
 	// Begin custom declarations
 	
-	public static int rowsPerBase = 25000000;
+	public static int rowsPerBase = 15000000;
+	public static int sliceSize   =   100000;
 
 	// End custom declarations 
 
@@ -473,6 +474,9 @@ public class LoadState implements Comparable {
 			
 			int rows = getRows(is);
 			if (rows > 0) {
+				if (rows > sliceSize) {
+					System.out.println(" - Rows: "+rows+"; recommend making load incremental");
+				}
 				int max = getMaxId(is);
 				Chunk full = Chunk.full(getHdfsBaseDir(), max);
 				addFulls(full);	
