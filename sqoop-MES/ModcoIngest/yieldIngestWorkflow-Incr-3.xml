@@ -1,51 +1,420 @@
 <workflow-app name="Ingest-Incr-3" xmlns="uri:oozie:workflow:0.1">
 
- 	<start to="InvChangeState-Ingest-SPMX"/>
+ 	<start to="_SPML_ModuleInfo-Ingest-SPMM"/>
 
 
-	<decision name="InvChangeState-Ingest-SPMX">
+	<decision name="_SPML_ModuleInfo-Ingest-SPMM">
     	<switch>
-			<case to="InvChangeState-Ingest-SPMX-DoBase">${ wf:conf('job_MEXICALI_OWNER_InvChangeState_DoBase') eq 'true'}</case>
-            <default to="InvChangeState-Ingest-SPMX-IsDelta"/>
+			<case to="_SPML_ModuleInfo-Ingest-SPMM-DoBase">${ wf:conf('job_SPMM_C1_OWNER__SPML_ModuleInfo_DoBase') eq 'true'}</case>
+            <default to="_SPML_ModuleInfo-Ingest-SPMM-IsDelta"/>
         </switch>
     </decision>
 
-	<decision name="InvChangeState-Ingest-SPMX-IsDelta">
+	<decision name="_SPML_ModuleInfo-Ingest-SPMM-IsDelta">
     	<switch>
-			<case to="InvChangeState-Ingest-SPMX-DoDelta">${ wf:conf('job_MEXICALI_OWNER_InvChangeState_DoDelta') eq 'true'}</case>
-            <default to="InvChangeState-Ingest-SPMX-IsIncrement"/>
+			<case to="_SPML_ModuleInfo-Ingest-SPMM-DoDelta">${ wf:conf('job_SPMM_C1_OWNER__SPML_ModuleInfo_DoDelta') eq 'true'}</case>
+            <default to="_SPML_ModuleInfo-Ingest-SPMM-IsIncrement"/>
         </switch>
     </decision>
 
-	<decision name="InvChangeState-Ingest-SPMX-IsIncrement">
+	<decision name="_SPML_ModuleInfo-Ingest-SPMM-IsIncrement">
     	<switch>
-			<case to="InvChangeState-Ingest-SPMX-DoIncrement">${ wf:conf('job_MEXICALI_OWNER_InvChangeState_DoIncrement') eq 'true'}</case>
+			<case to="_SPML_ModuleInfo-Ingest-SPMM-DoIncrement">${ wf:conf('job_SPMM_C1_OWNER__SPML_ModuleInfo_DoIncrement') eq 'true'}</case>
+            <default to="DefectCount-Ingest-SPTT"/>
+        </switch>
+    </decision>
+
+    <action name="_SPML_ModuleInfo-Ingest-SPMM-DoBase">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_SPMM_C1_OWNER__SPML_ModuleInfo_DoBaseTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT ModuleInfoID,SerialNo,LaminateID,LaminateCreatedDT,LaminateOrderNo,LaminatePartNo,BINNo,CktFormBuildPart,CktFormBuildMachine,CktFormBuildDT,GlassBuildPart,GlassBuildDate,LaminationBuildMachine,LaminationBuildDT,ModuleID,ModuleCreatedDT,ModuleOrderNo,IntendedModulePartNo,IntendedModulePartDesc,FramingBuildPart,FramingBuildMachine,FramingBuildDT,JboxBuildPart,JboxBuildDT,FlashtestClassifiedDT,FinalModulePartNo,FinalModulePartDesc,ActualPower,ActualVocMod,ActualFF,PackedDT,InventoryState,JboxBuildMachine,ActualIsc,FlashtestBuildMachine,Komax1,Komax2,Komax3,GlassID,CellType,StringerOperator,CircuitOperator1,CircuitOperator2,TrimChangeReason,PowerChartGenerated,LaminateWoId,ModuleWoId,VisualStateId,RfInvStateId,ElTestDate,ElBuildMachine,ActualVmpMod,ActualImpMod,TrimBuildMachine,TrimBuildDT,CellThickness,PalletID,FlashTestID,PadLock,BtoCtoSerialNo,EvaUseByDT, 2 as "org_id",  'SPMM' as "org_name"   FROM dbo._SPML_ModuleInfo WHERE ( $CONDITIONS )  AND ( ModuleInfoID ${lessThanEqual} ${job_SPMM_C1_OWNER__SPML_ModuleInfo_MaxBaseID} ) AND ( ${job_SPMM_C1_OWNER__SPML_ModuleInfo_MinBaseID} ${lessThanEqual} ModuleInfoID )</arg>
+            <arg>--split-by</arg>
+            <arg>ModuleInfoID</arg>
+            <arg>--num-mappers</arg>
+            <arg>6</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_SPMM_C1_OWNER__SPML_ModuleInfo_DoBaseTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="_SPML_ModuleInfo-Ingest-SPMM-IsDelta"/>
+        <error to="_SPML_ModuleInfo-Ingest-SPMM-IsDelta"/>
+    </action>
+    <action name="_SPML_ModuleInfo-Ingest-SPMM-DoDelta">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_SPMM_C1_OWNER__SPML_ModuleInfo_DoDeltaTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT ModuleInfoID,SerialNo,LaminateID,LaminateCreatedDT,LaminateOrderNo,LaminatePartNo,BINNo,CktFormBuildPart,CktFormBuildMachine,CktFormBuildDT,GlassBuildPart,GlassBuildDate,LaminationBuildMachine,LaminationBuildDT,ModuleID,ModuleCreatedDT,ModuleOrderNo,IntendedModulePartNo,IntendedModulePartDesc,FramingBuildPart,FramingBuildMachine,FramingBuildDT,JboxBuildPart,JboxBuildDT,FlashtestClassifiedDT,FinalModulePartNo,FinalModulePartDesc,ActualPower,ActualVocMod,ActualFF,PackedDT,InventoryState,JboxBuildMachine,ActualIsc,FlashtestBuildMachine,Komax1,Komax2,Komax3,GlassID,CellType,StringerOperator,CircuitOperator1,CircuitOperator2,TrimChangeReason,PowerChartGenerated,LaminateWoId,ModuleWoId,VisualStateId,RfInvStateId,ElTestDate,ElBuildMachine,ActualVmpMod,ActualImpMod,TrimBuildMachine,TrimBuildDT,CellThickness,PalletID,FlashTestID,PadLock,BtoCtoSerialNo,EvaUseByDT, 2 as "org_id",  'SPMM' as "org_name"   FROM dbo._SPML_ModuleInfo WHERE ( $CONDITIONS )  AND ( ModuleInfoID ${greaterThanEqual} ${job_SPMM_C1_OWNER__SPML_ModuleInfo_MinDeltaID} )</arg>
+            <arg>--split-by</arg>
+            <arg>ModuleInfoID</arg>
+            <arg>--num-mappers</arg>
+            <arg>6</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_SPMM_C1_OWNER__SPML_ModuleInfo_DoDeltaTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="_SPML_ModuleInfo-Ingest-SPMM-IsIncrement"/>
+        <error to="_SPML_ModuleInfo-Ingest-SPMM-IsIncrement"/>
+    </action>
+
+    <action name="_SPML_ModuleInfo-Ingest-SPMM-DoIncrement">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_SPMM_C1_OWNER__SPML_ModuleInfo_DoIncrementTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT ModuleInfoID,SerialNo,LaminateID,LaminateCreatedDT,LaminateOrderNo,LaminatePartNo,BINNo,CktFormBuildPart,CktFormBuildMachine,CktFormBuildDT,GlassBuildPart,GlassBuildDate,LaminationBuildMachine,LaminationBuildDT,ModuleID,ModuleCreatedDT,ModuleOrderNo,IntendedModulePartNo,IntendedModulePartDesc,FramingBuildPart,FramingBuildMachine,FramingBuildDT,JboxBuildPart,JboxBuildDT,FlashtestClassifiedDT,FinalModulePartNo,FinalModulePartDesc,ActualPower,ActualVocMod,ActualFF,PackedDT,InventoryState,JboxBuildMachine,ActualIsc,FlashtestBuildMachine,Komax1,Komax2,Komax3,GlassID,CellType,StringerOperator,CircuitOperator1,CircuitOperator2,TrimChangeReason,PowerChartGenerated,LaminateWoId,ModuleWoId,VisualStateId,RfInvStateId,ElTestDate,ElBuildMachine,ActualVmpMod,ActualImpMod,TrimBuildMachine,TrimBuildDT,CellThickness,PalletID,FlashTestID,PadLock,BtoCtoSerialNo,EvaUseByDT, 2 as "org_id",  'SPMM' as "org_name"   FROM dbo._SPML_ModuleInfo WHERE ( $CONDITIONS )  AND (  ModuleInfoID ${greaterThanEqual} ${job_SPMM_C1_OWNER__SPML_ModuleInfo_MinIncrementID} ) AND ( ${job_SPMM_C1_OWNER__SPML_ModuleInfo_MaxIncrementID} ${greaterThanEqual} ModuleInfoID )</arg>
+            <arg>--split-by</arg>
+            <arg>ModuleInfoID</arg>
+            <arg>--num-mappers</arg>
+            <arg>6</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_SPMM_C1_OWNER__SPML_ModuleInfo_DoIncrementTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="DefectCount-Ingest-SPTT"/>
+        <error to="DefectCount-Ingest-SPTT"/>
+    </action>
+
+
+	<decision name="DefectCount-Ingest-SPTT">
+    	<switch>
+			<case to="DefectCount-Ingest-SPTT-DoBase">${ wf:conf('job_TOULOUSE_OWNER_DefectCount_DoBase') eq 'true'}</case>
+            <default to="DefectCount-Ingest-SPTT-IsDelta"/>
+        </switch>
+    </decision>
+
+	<decision name="DefectCount-Ingest-SPTT-IsDelta">
+    	<switch>
+			<case to="DefectCount-Ingest-SPTT-DoDelta">${ wf:conf('job_TOULOUSE_OWNER_DefectCount_DoDelta') eq 'true'}</case>
+            <default to="DefectCount-Ingest-SPTT-IsIncrement"/>
+        </switch>
+    </decision>
+
+	<decision name="DefectCount-Ingest-SPTT-IsIncrement">
+    	<switch>
+			<case to="DefectCount-Ingest-SPTT-DoIncrement">${ wf:conf('job_TOULOUSE_OWNER_DefectCount_DoIncrement') eq 'true'}</case>
+            <default to="IndividualDefect-Ingest-SPMX"/>
+        </switch>
+    </decision>
+
+    <action name="DefectCount-Ingest-SPTT-DoBase">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_TOULOUSE_OWNER_DefectCount_DoBaseTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT DefectCountID,MeasurementSetID,HeadNo,DefectCount,Ignored,AttributeTypeID,ProductID, 4 as "org_id",  'SPTT' as "org_name"   FROM dbo.DefectCount WHERE ( $CONDITIONS )  AND ( DefectCountID ${lessThanEqual} ${job_TOULOUSE_OWNER_DefectCount_MaxBaseID} ) AND ( ${job_TOULOUSE_OWNER_DefectCount_MinBaseID} ${lessThanEqual} DefectCountID )</arg>
+            <arg>--split-by</arg>
+            <arg>DefectCountID</arg>
+            <arg>--num-mappers</arg>
+            <arg>6</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_TOULOUSE_OWNER_DefectCount_DoBaseTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="DefectCount-Ingest-SPTT-IsDelta"/>
+        <error to="DefectCount-Ingest-SPTT-IsDelta"/>
+    </action>
+    <action name="DefectCount-Ingest-SPTT-DoDelta">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_TOULOUSE_OWNER_DefectCount_DoDeltaTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT DefectCountID,MeasurementSetID,HeadNo,DefectCount,Ignored,AttributeTypeID,ProductID, 4 as "org_id",  'SPTT' as "org_name"   FROM dbo.DefectCount WHERE ( $CONDITIONS )  AND ( DefectCountID ${greaterThanEqual} ${job_TOULOUSE_OWNER_DefectCount_MinDeltaID} )</arg>
+            <arg>--split-by</arg>
+            <arg>DefectCountID</arg>
+            <arg>--num-mappers</arg>
+            <arg>6</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_TOULOUSE_OWNER_DefectCount_DoDeltaTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="DefectCount-Ingest-SPTT-IsIncrement"/>
+        <error to="DefectCount-Ingest-SPTT-IsIncrement"/>
+    </action>
+
+    <action name="DefectCount-Ingest-SPTT-DoIncrement">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_TOULOUSE_OWNER_DefectCount_DoIncrementTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT DefectCountID,MeasurementSetID,HeadNo,DefectCount,Ignored,AttributeTypeID,ProductID, 4 as "org_id",  'SPTT' as "org_name"   FROM dbo.DefectCount WHERE ( $CONDITIONS )  AND (  DefectCountID ${greaterThanEqual} ${job_TOULOUSE_OWNER_DefectCount_MinIncrementID} ) AND ( ${job_TOULOUSE_OWNER_DefectCount_MaxIncrementID} ${greaterThanEqual} DefectCountID )</arg>
+            <arg>--split-by</arg>
+            <arg>DefectCountID</arg>
+            <arg>--num-mappers</arg>
+            <arg>6</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_TOULOUSE_OWNER_DefectCount_DoIncrementTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="IndividualDefect-Ingest-SPMX"/>
+        <error to="IndividualDefect-Ingest-SPMX"/>
+    </action>
+
+
+	<decision name="IndividualDefect-Ingest-SPMX">
+    	<switch>
+			<case to="IndividualDefect-Ingest-SPMX-DoBase">${ wf:conf('job_MEXICALI_OWNER_IndividualDefect_DoBase') eq 'true'}</case>
+            <default to="IndividualDefect-Ingest-SPMX-IsDelta"/>
+        </switch>
+    </decision>
+
+	<decision name="IndividualDefect-Ingest-SPMX-IsDelta">
+    	<switch>
+			<case to="IndividualDefect-Ingest-SPMX-DoDelta">${ wf:conf('job_MEXICALI_OWNER_IndividualDefect_DoDelta') eq 'true'}</case>
+            <default to="IndividualDefect-Ingest-SPMX-IsIncrement"/>
+        </switch>
+    </decision>
+
+	<decision name="IndividualDefect-Ingest-SPMX-IsIncrement">
+    	<switch>
+			<case to="IndividualDefect-Ingest-SPMX-DoIncrement">${ wf:conf('job_MEXICALI_OWNER_IndividualDefect_DoIncrement') eq 'true'}</case>
+            <default to="InvChangeState-Ingest-SPTM"/>
+        </switch>
+    </decision>
+
+    <action name="IndividualDefect-Ingest-SPMX-DoBase">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_MEXICALI_OWNER_IndividualDefect_DoBaseTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT IndividualDefectID,PartInstanceID,Ignored,DefectCount,MeasurementSetID,AttributeTypeID,ProductID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.IndividualDefect WHERE ( $CONDITIONS )  AND ( IndividualDefectID ${lessThanEqual} ${job_MEXICALI_OWNER_IndividualDefect_MaxBaseID} ) AND ( ${job_MEXICALI_OWNER_IndividualDefect_MinBaseID} ${lessThanEqual} IndividualDefectID )</arg>
+            <arg>--split-by</arg>
+            <arg>IndividualDefectID</arg>
+            <arg>--num-mappers</arg>
+            <arg>6</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_MEXICALI_OWNER_IndividualDefect_DoBaseTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="IndividualDefect-Ingest-SPMX-IsDelta"/>
+        <error to="IndividualDefect-Ingest-SPMX-IsDelta"/>
+    </action>
+    <action name="IndividualDefect-Ingest-SPMX-DoDelta">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_MEXICALI_OWNER_IndividualDefect_DoDeltaTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT IndividualDefectID,PartInstanceID,Ignored,DefectCount,MeasurementSetID,AttributeTypeID,ProductID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.IndividualDefect WHERE ( $CONDITIONS )  AND ( IndividualDefectID ${greaterThanEqual} ${job_MEXICALI_OWNER_IndividualDefect_MinDeltaID} )</arg>
+            <arg>--split-by</arg>
+            <arg>IndividualDefectID</arg>
+            <arg>--num-mappers</arg>
+            <arg>6</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_MEXICALI_OWNER_IndividualDefect_DoDeltaTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="IndividualDefect-Ingest-SPMX-IsIncrement"/>
+        <error to="IndividualDefect-Ingest-SPMX-IsIncrement"/>
+    </action>
+
+    <action name="IndividualDefect-Ingest-SPMX-DoIncrement">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_MEXICALI_OWNER_IndividualDefect_DoIncrementTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT IndividualDefectID,PartInstanceID,Ignored,DefectCount,MeasurementSetID,AttributeTypeID,ProductID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.IndividualDefect WHERE ( $CONDITIONS )  AND (  IndividualDefectID ${greaterThanEqual} ${job_MEXICALI_OWNER_IndividualDefect_MinIncrementID} ) AND ( ${job_MEXICALI_OWNER_IndividualDefect_MaxIncrementID} ${greaterThanEqual} IndividualDefectID )</arg>
+            <arg>--split-by</arg>
+            <arg>IndividualDefectID</arg>
+            <arg>--num-mappers</arg>
+            <arg>6</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_MEXICALI_OWNER_IndividualDefect_DoIncrementTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="InvChangeState-Ingest-SPTM"/>
+        <error to="InvChangeState-Ingest-SPTM"/>
+    </action>
+
+
+	<decision name="InvChangeState-Ingest-SPTM">
+    	<switch>
+			<case to="InvChangeState-Ingest-SPTM-DoBase">${ wf:conf('job_CAPETOWN_OWNER_InvChangeState_DoBase') eq 'true'}</case>
+            <default to="InvChangeState-Ingest-SPTM-IsDelta"/>
+        </switch>
+    </decision>
+
+	<decision name="InvChangeState-Ingest-SPTM-IsDelta">
+    	<switch>
+			<case to="InvChangeState-Ingest-SPTM-DoDelta">${ wf:conf('job_CAPETOWN_OWNER_InvChangeState_DoDelta') eq 'true'}</case>
+            <default to="InvChangeState-Ingest-SPTM-IsIncrement"/>
+        </switch>
+    </decision>
+
+	<decision name="InvChangeState-Ingest-SPTM-IsIncrement">
+    	<switch>
+			<case to="InvChangeState-Ingest-SPTM-DoIncrement">${ wf:conf('job_CAPETOWN_OWNER_InvChangeState_DoIncrement') eq 'true'}</case>
             <default to="LineInfo-Ingest-SPMX"/>
         </switch>
     </decision>
 
-    <action name="InvChangeState-Ingest-SPMX-DoBase">
+    <action name="InvChangeState-Ingest-SPTM-DoBase">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_InvChangeState_DoBaseTarget}" />
+            	<delete path="${job_CAPETOWN_OWNER_InvChangeState_DoBaseTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
-            <arg>jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER</arg>
             <arg>--username</arg>
             <arg>usrSqoop</arg>
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT InvChangeStateID,InventoryPackID,FromDT,ToDT,InvIsolatedReasonID,Comments,LoginID,OpenedDT,SavedDT,IsEdited,RevisionNo,OriginalLoginID,EditedInvChangeStateID,InvStateID, 1 as "org_id",  'SPMX' as "org_name" , (DatePart(HOUR,InvChangeState.FromDT)) as "Trans_Hours" , (case when DatePart(HOUR,InvChangeState.FromDT) ${lessThan} 7 then cast(convert(char(11), InvChangeState.FromDT, 113) as datetime) -1 else cast(convert(char(11), InvChangeState.FromDT, 113) as datetime) end) as "ShiftStart_DateTime"   FROM dbo.InvChangeState WHERE ( $CONDITIONS )  AND ( InvChangeStateID ${lessThanEqual} ${job_MEXICALI_OWNER_InvChangeState_MaxBaseID} ) AND ( ${job_MEXICALI_OWNER_InvChangeState_MinBaseID} ${lessThanEqual} InvChangeStateID )</arg>
+            <arg>SELECT InvChangeStateID,InventoryPackID,FromDT,ToDT,InvIsolatedReasonID,Comments,LoginID,OpenedDT,SavedDT,IsEdited,RevisionNo,OriginalLoginID,EditedInvChangeStateID,InvStateID, 5 as "org_id",  'SPTM' as "org_name" , (DatePart(HOUR,InvChangeState.FromDT)) as "Trans_Hours" , (case when DatePart(HOUR,InvChangeState.FromDT) ${lessThan} 7 then cast(convert(char(11), InvChangeState.FromDT, 113) as datetime) -1 else cast(convert(char(11), InvChangeState.FromDT, 113) as datetime) end) as "ShiftStart_DateTime"   FROM dbo.InvChangeState WHERE ( $CONDITIONS )  AND ( InvChangeStateID ${lessThanEqual} ${job_CAPETOWN_OWNER_InvChangeState_MaxBaseID} ) AND ( ${job_CAPETOWN_OWNER_InvChangeState_MinBaseID} ${lessThanEqual} InvChangeStateID )</arg>
             <arg>--split-by</arg>
             <arg>InvChangeStateID</arg>
             <arg>--num-mappers</arg>
             <arg>6</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_InvChangeState_DoBaseTarget}</arg>
+            <arg>${job_CAPETOWN_OWNER_InvChangeState_DoBaseTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -54,31 +423,31 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="InvChangeState-Ingest-SPMX-IsDelta"/>
-        <error to="InvChangeState-Ingest-SPMX-IsDelta"/>
+        <ok to="InvChangeState-Ingest-SPTM-IsDelta"/>
+        <error to="InvChangeState-Ingest-SPTM-IsDelta"/>
     </action>
-    <action name="InvChangeState-Ingest-SPMX-DoDelta">
+    <action name="InvChangeState-Ingest-SPTM-DoDelta">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_InvChangeState_DoDeltaTarget}" />
+            	<delete path="${job_CAPETOWN_OWNER_InvChangeState_DoDeltaTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
-            <arg>jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER</arg>
             <arg>--username</arg>
             <arg>usrSqoop</arg>
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT InvChangeStateID,InventoryPackID,FromDT,ToDT,InvIsolatedReasonID,Comments,LoginID,OpenedDT,SavedDT,IsEdited,RevisionNo,OriginalLoginID,EditedInvChangeStateID,InvStateID, 1 as "org_id",  'SPMX' as "org_name" , (DatePart(HOUR,InvChangeState.FromDT)) as "Trans_Hours" , (case when DatePart(HOUR,InvChangeState.FromDT) ${lessThan} 7 then cast(convert(char(11), InvChangeState.FromDT, 113) as datetime) -1 else cast(convert(char(11), InvChangeState.FromDT, 113) as datetime) end) as "ShiftStart_DateTime"   FROM dbo.InvChangeState WHERE ( $CONDITIONS )  AND ( InvChangeStateID ${greaterThanEqual} ${job_MEXICALI_OWNER_InvChangeState_MinDeltaID} )</arg>
+            <arg>SELECT InvChangeStateID,InventoryPackID,FromDT,ToDT,InvIsolatedReasonID,Comments,LoginID,OpenedDT,SavedDT,IsEdited,RevisionNo,OriginalLoginID,EditedInvChangeStateID,InvStateID, 5 as "org_id",  'SPTM' as "org_name" , (DatePart(HOUR,InvChangeState.FromDT)) as "Trans_Hours" , (case when DatePart(HOUR,InvChangeState.FromDT) ${lessThan} 7 then cast(convert(char(11), InvChangeState.FromDT, 113) as datetime) -1 else cast(convert(char(11), InvChangeState.FromDT, 113) as datetime) end) as "ShiftStart_DateTime"   FROM dbo.InvChangeState WHERE ( $CONDITIONS )  AND ( InvChangeStateID ${greaterThanEqual} ${job_CAPETOWN_OWNER_InvChangeState_MinDeltaID} )</arg>
             <arg>--split-by</arg>
             <arg>InvChangeStateID</arg>
             <arg>--num-mappers</arg>
             <arg>6</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_InvChangeState_DoDeltaTarget}</arg>
+            <arg>${job_CAPETOWN_OWNER_InvChangeState_DoDeltaTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -87,32 +456,32 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="InvChangeState-Ingest-SPMX-IsIncrement"/>
-        <error to="InvChangeState-Ingest-SPMX-IsIncrement"/>
+        <ok to="InvChangeState-Ingest-SPTM-IsIncrement"/>
+        <error to="InvChangeState-Ingest-SPTM-IsIncrement"/>
     </action>
 
-    <action name="InvChangeState-Ingest-SPMX-DoIncrement">
+    <action name="InvChangeState-Ingest-SPTM-DoIncrement">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_MEXICALI_OWNER_InvChangeState_DoIncrementTarget}" />
+            	<delete path="${job_CAPETOWN_OWNER_InvChangeState_DoIncrementTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
-            <arg>jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER</arg>
             <arg>--username</arg>
             <arg>usrSqoop</arg>
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT InvChangeStateID,InventoryPackID,FromDT,ToDT,InvIsolatedReasonID,Comments,LoginID,OpenedDT,SavedDT,IsEdited,RevisionNo,OriginalLoginID,EditedInvChangeStateID,InvStateID, 1 as "org_id",  'SPMX' as "org_name" , (DatePart(HOUR,InvChangeState.FromDT)) as "Trans_Hours" , (case when DatePart(HOUR,InvChangeState.FromDT) ${lessThan} 7 then cast(convert(char(11), InvChangeState.FromDT, 113) as datetime) -1 else cast(convert(char(11), InvChangeState.FromDT, 113) as datetime) end) as "ShiftStart_DateTime"   FROM dbo.InvChangeState WHERE ( $CONDITIONS )  AND (  InvChangeStateID ${greaterThanEqual} ${job_MEXICALI_OWNER_InvChangeState_MinIncrementID} ) AND ( ${job_MEXICALI_OWNER_InvChangeState_MaxIncrementID} ${greaterThanEqual} InvChangeStateID )</arg>
+            <arg>SELECT InvChangeStateID,InventoryPackID,FromDT,ToDT,InvIsolatedReasonID,Comments,LoginID,OpenedDT,SavedDT,IsEdited,RevisionNo,OriginalLoginID,EditedInvChangeStateID,InvStateID, 5 as "org_id",  'SPTM' as "org_name" , (DatePart(HOUR,InvChangeState.FromDT)) as "Trans_Hours" , (case when DatePart(HOUR,InvChangeState.FromDT) ${lessThan} 7 then cast(convert(char(11), InvChangeState.FromDT, 113) as datetime) -1 else cast(convert(char(11), InvChangeState.FromDT, 113) as datetime) end) as "ShiftStart_DateTime"   FROM dbo.InvChangeState WHERE ( $CONDITIONS )  AND (  InvChangeStateID ${greaterThanEqual} ${job_CAPETOWN_OWNER_InvChangeState_MinIncrementID} ) AND ( ${job_CAPETOWN_OWNER_InvChangeState_MaxIncrementID} ${greaterThanEqual} InvChangeStateID )</arg>
             <arg>--split-by</arg>
             <arg>InvChangeStateID</arg>
             <arg>--num-mappers</arg>
             <arg>6</arg>
             <arg>--target-dir</arg>
-            <arg>${job_MEXICALI_OWNER_InvChangeState_DoIncrementTarget}</arg>
+            <arg>${job_CAPETOWN_OWNER_InvChangeState_DoIncrementTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -143,7 +512,7 @@
 	<decision name="LineInfo-Ingest-SPMX-IsIncrement">
     	<switch>
 			<case to="LineInfo-Ingest-SPMX-DoIncrement">${ wf:conf('job_MEXICALI_OWNER_LineInfo_DoIncrement') eq 'true'}</case>
-            <default to="BuildRecord-Ingest-SPTT"/>
+            <default to="LineInfo_custom-Ingest-SPDV"/>
         </switch>
     </decision>
 
@@ -244,38 +613,407 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="BuildRecord-Ingest-SPTT"/>
-        <error to="BuildRecord-Ingest-SPTT"/>
+        <ok to="LineInfo_custom-Ingest-SPDV"/>
+        <error to="LineInfo_custom-Ingest-SPDV"/>
     </action>
 
 
-	<decision name="BuildRecord-Ingest-SPTT">
+	<decision name="LineInfo_custom-Ingest-SPDV">
     	<switch>
-			<case to="BuildRecord-Ingest-SPTT-DoBase">${ wf:conf('job_TOULOUSE_OWNER_BuildRecord_DoBase') eq 'true'}</case>
-            <default to="BuildRecord-Ingest-SPTT-IsDelta"/>
+			<case to="LineInfo_custom-Ingest-SPDV-DoBase">${ wf:conf('job_DEVERN_OWNER_LineInfo_custom_DoBase') eq 'true'}</case>
+            <default to="LineInfo_custom-Ingest-SPDV-IsDelta"/>
         </switch>
     </decision>
 
-	<decision name="BuildRecord-Ingest-SPTT-IsDelta">
+	<decision name="LineInfo_custom-Ingest-SPDV-IsDelta">
     	<switch>
-			<case to="BuildRecord-Ingest-SPTT-DoDelta">${ wf:conf('job_TOULOUSE_OWNER_BuildRecord_DoDelta') eq 'true'}</case>
-            <default to="BuildRecord-Ingest-SPTT-IsIncrement"/>
+			<case to="LineInfo_custom-Ingest-SPDV-DoDelta">${ wf:conf('job_DEVERN_OWNER_LineInfo_custom_DoDelta') eq 'true'}</case>
+            <default to="LineInfo_custom-Ingest-SPDV-IsIncrement"/>
         </switch>
     </decision>
 
-	<decision name="BuildRecord-Ingest-SPTT-IsIncrement">
+	<decision name="LineInfo_custom-Ingest-SPDV-IsIncrement">
     	<switch>
-			<case to="BuildRecord-Ingest-SPTT-DoIncrement">${ wf:conf('job_TOULOUSE_OWNER_BuildRecord_DoIncrement') eq 'true'}</case>
-            <default to="InventoryLabel-Ingest-SPTT"/>
+			<case to="LineInfo_custom-Ingest-SPDV-DoIncrement">${ wf:conf('job_DEVERN_OWNER_LineInfo_custom_DoIncrement') eq 'true'}</case>
+            <default to="LKShiftMachineStage-Ingest-SPMX"/>
         </switch>
     </decision>
 
-    <action name="BuildRecord-Ingest-SPTT-DoBase">
+    <action name="LineInfo_custom-Ingest-SPDV-DoBase">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_TOULOUSE_OWNER_BuildRecord_DoBaseTarget}" />
+            	<delete path="${job_DEVERN_OWNER_LineInfo_custom_DoBaseTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT LineInfoID,CellsProduced, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo.LineInfo_custom WHERE ( $CONDITIONS )  AND ( LineInfoID ${lessThanEqual} ${job_DEVERN_OWNER_LineInfo_custom_MaxBaseID} ) AND ( ${job_DEVERN_OWNER_LineInfo_custom_MinBaseID} ${lessThanEqual} LineInfoID )</arg>
+            <arg>--split-by</arg>
+            <arg>LineInfoID</arg>
+            <arg>--num-mappers</arg>
+            <arg>6</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_DEVERN_OWNER_LineInfo_custom_DoBaseTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="LineInfo_custom-Ingest-SPDV-IsDelta"/>
+        <error to="LineInfo_custom-Ingest-SPDV-IsDelta"/>
+    </action>
+    <action name="LineInfo_custom-Ingest-SPDV-DoDelta">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_DEVERN_OWNER_LineInfo_custom_DoDeltaTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT LineInfoID,CellsProduced, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo.LineInfo_custom WHERE ( $CONDITIONS )  AND ( LineInfoID ${greaterThanEqual} ${job_DEVERN_OWNER_LineInfo_custom_MinDeltaID} )</arg>
+            <arg>--split-by</arg>
+            <arg>LineInfoID</arg>
+            <arg>--num-mappers</arg>
+            <arg>6</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_DEVERN_OWNER_LineInfo_custom_DoDeltaTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="LineInfo_custom-Ingest-SPDV-IsIncrement"/>
+        <error to="LineInfo_custom-Ingest-SPDV-IsIncrement"/>
+    </action>
+
+    <action name="LineInfo_custom-Ingest-SPDV-DoIncrement">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_DEVERN_OWNER_LineInfo_custom_DoIncrementTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT LineInfoID,CellsProduced, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo.LineInfo_custom WHERE ( $CONDITIONS )  AND (  LineInfoID ${greaterThanEqual} ${job_DEVERN_OWNER_LineInfo_custom_MinIncrementID} ) AND ( ${job_DEVERN_OWNER_LineInfo_custom_MaxIncrementID} ${greaterThanEqual} LineInfoID )</arg>
+            <arg>--split-by</arg>
+            <arg>LineInfoID</arg>
+            <arg>--num-mappers</arg>
+            <arg>6</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_DEVERN_OWNER_LineInfo_custom_DoIncrementTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="LKShiftMachineStage-Ingest-SPMX"/>
+        <error to="LKShiftMachineStage-Ingest-SPMX"/>
+    </action>
+
+
+	<decision name="LKShiftMachineStage-Ingest-SPMX">
+    	<switch>
+			<case to="LKShiftMachineStage-Ingest-SPMX-DoBase">${ wf:conf('job_MEXICALI_OWNER_LKShiftMachineStage_DoBase') eq 'true'}</case>
+            <default to="LKShiftMachineStage-Ingest-SPMX-IsDelta"/>
+        </switch>
+    </decision>
+
+	<decision name="LKShiftMachineStage-Ingest-SPMX-IsDelta">
+    	<switch>
+			<case to="LKShiftMachineStage-Ingest-SPMX-DoDelta">${ wf:conf('job_MEXICALI_OWNER_LKShiftMachineStage_DoDelta') eq 'true'}</case>
+            <default to="LKShiftMachineStage-Ingest-SPMX-IsIncrement"/>
+        </switch>
+    </decision>
+
+	<decision name="LKShiftMachineStage-Ingest-SPMX-IsIncrement">
+    	<switch>
+			<case to="LKShiftMachineStage-Ingest-SPMX-DoIncrement">${ wf:conf('job_MEXICALI_OWNER_LKShiftMachineStage_DoIncrement') eq 'true'}</case>
+            <default to="MeasurementSet-Ingest-SPDV"/>
+        </switch>
+    </decision>
+
+    <action name="LKShiftMachineStage-Ingest-SPMX-DoBase">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_MEXICALI_OWNER_LKShiftMachineStage_DoBaseTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT LkShiftMachineStageID,MachineStageID,ShiftID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.LKShiftMachineStage WHERE ( $CONDITIONS )  AND ( LkShiftMachineStageID ${lessThanEqual} ${job_MEXICALI_OWNER_LKShiftMachineStage_MaxBaseID} ) AND ( ${job_MEXICALI_OWNER_LKShiftMachineStage_MinBaseID} ${lessThanEqual} LkShiftMachineStageID )</arg>
+            <arg>--split-by</arg>
+            <arg>LkShiftMachineStageID</arg>
+            <arg>--num-mappers</arg>
+            <arg>6</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_MEXICALI_OWNER_LKShiftMachineStage_DoBaseTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="LKShiftMachineStage-Ingest-SPMX-IsDelta"/>
+        <error to="LKShiftMachineStage-Ingest-SPMX-IsDelta"/>
+    </action>
+    <action name="LKShiftMachineStage-Ingest-SPMX-DoDelta">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_MEXICALI_OWNER_LKShiftMachineStage_DoDeltaTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT LkShiftMachineStageID,MachineStageID,ShiftID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.LKShiftMachineStage WHERE ( $CONDITIONS )  AND ( LkShiftMachineStageID ${greaterThanEqual} ${job_MEXICALI_OWNER_LKShiftMachineStage_MinDeltaID} )</arg>
+            <arg>--split-by</arg>
+            <arg>LkShiftMachineStageID</arg>
+            <arg>--num-mappers</arg>
+            <arg>6</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_MEXICALI_OWNER_LKShiftMachineStage_DoDeltaTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="LKShiftMachineStage-Ingest-SPMX-IsIncrement"/>
+        <error to="LKShiftMachineStage-Ingest-SPMX-IsIncrement"/>
+    </action>
+
+    <action name="LKShiftMachineStage-Ingest-SPMX-DoIncrement">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_MEXICALI_OWNER_LKShiftMachineStage_DoIncrementTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT LkShiftMachineStageID,MachineStageID,ShiftID, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.LKShiftMachineStage WHERE ( $CONDITIONS )  AND (  LkShiftMachineStageID ${greaterThanEqual} ${job_MEXICALI_OWNER_LKShiftMachineStage_MinIncrementID} ) AND ( ${job_MEXICALI_OWNER_LKShiftMachineStage_MaxIncrementID} ${greaterThanEqual} LkShiftMachineStageID )</arg>
+            <arg>--split-by</arg>
+            <arg>LkShiftMachineStageID</arg>
+            <arg>--num-mappers</arg>
+            <arg>6</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_MEXICALI_OWNER_LKShiftMachineStage_DoIncrementTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="MeasurementSet-Ingest-SPDV"/>
+        <error to="MeasurementSet-Ingest-SPDV"/>
+    </action>
+
+
+	<decision name="MeasurementSet-Ingest-SPDV">
+    	<switch>
+			<case to="MeasurementSet-Ingest-SPDV-DoBase">${ wf:conf('job_DEVERN_OWNER_MeasurementSet_DoBase') eq 'true'}</case>
+            <default to="MeasurementSet-Ingest-SPDV-IsDelta"/>
+        </switch>
+    </decision>
+
+	<decision name="MeasurementSet-Ingest-SPDV-IsDelta">
+    	<switch>
+			<case to="MeasurementSet-Ingest-SPDV-DoDelta">${ wf:conf('job_DEVERN_OWNER_MeasurementSet_DoDelta') eq 'true'}</case>
+            <default to="MeasurementSet-Ingest-SPDV-IsIncrement"/>
+        </switch>
+    </decision>
+
+	<decision name="MeasurementSet-Ingest-SPDV-IsIncrement">
+    	<switch>
+			<case to="MeasurementSet-Ingest-SPDV-DoIncrement">${ wf:conf('job_DEVERN_OWNER_MeasurementSet_DoIncrement') eq 'true'}</case>
+            <default to="MeasurementSet_-Ingest-SPTT"/>
+        </switch>
+    </decision>
+
+    <action name="MeasurementSet-Ingest-SPDV-DoBase">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_DEVERN_OWNER_MeasurementSet_DoBaseTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT MeasurementSetID,ActualAttrSampleSize,AcquisitionContextID,IsEdited,DT,AcquisitionID,MachineStageID,RfAcquisitionClassID,RevisionNo,PartID,JobID,ResumeStep,InventoryPackID, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo.MeasurementSet WHERE ( $CONDITIONS )  AND ( MeasurementSetID ${lessThanEqual} ${job_DEVERN_OWNER_MeasurementSet_MaxBaseID} ) AND ( ${job_DEVERN_OWNER_MeasurementSet_MinBaseID} ${lessThanEqual} MeasurementSetID )</arg>
+            <arg>--split-by</arg>
+            <arg>MeasurementSetID</arg>
+            <arg>--num-mappers</arg>
+            <arg>6</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_DEVERN_OWNER_MeasurementSet_DoBaseTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="MeasurementSet-Ingest-SPDV-IsDelta"/>
+        <error to="MeasurementSet-Ingest-SPDV-IsDelta"/>
+    </action>
+    <action name="MeasurementSet-Ingest-SPDV-DoDelta">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_DEVERN_OWNER_MeasurementSet_DoDeltaTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT MeasurementSetID,ActualAttrSampleSize,AcquisitionContextID,IsEdited,DT,AcquisitionID,MachineStageID,RfAcquisitionClassID,RevisionNo,PartID,JobID,ResumeStep,InventoryPackID, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo.MeasurementSet WHERE ( $CONDITIONS )  AND ( MeasurementSetID ${greaterThanEqual} ${job_DEVERN_OWNER_MeasurementSet_MinDeltaID} )</arg>
+            <arg>--split-by</arg>
+            <arg>MeasurementSetID</arg>
+            <arg>--num-mappers</arg>
+            <arg>6</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_DEVERN_OWNER_MeasurementSet_DoDeltaTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="MeasurementSet-Ingest-SPDV-IsIncrement"/>
+        <error to="MeasurementSet-Ingest-SPDV-IsIncrement"/>
+    </action>
+
+    <action name="MeasurementSet-Ingest-SPDV-DoIncrement">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_DEVERN_OWNER_MeasurementSet_DoIncrementTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT MeasurementSetID,ActualAttrSampleSize,AcquisitionContextID,IsEdited,DT,AcquisitionID,MachineStageID,RfAcquisitionClassID,RevisionNo,PartID,JobID,ResumeStep,InventoryPackID, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo.MeasurementSet WHERE ( $CONDITIONS )  AND (  MeasurementSetID ${greaterThanEqual} ${job_DEVERN_OWNER_MeasurementSet_MinIncrementID} ) AND ( ${job_DEVERN_OWNER_MeasurementSet_MaxIncrementID} ${greaterThanEqual} MeasurementSetID )</arg>
+            <arg>--split-by</arg>
+            <arg>MeasurementSetID</arg>
+            <arg>--num-mappers</arg>
+            <arg>6</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_DEVERN_OWNER_MeasurementSet_DoIncrementTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="MeasurementSet_-Ingest-SPTT"/>
+        <error to="MeasurementSet_-Ingest-SPTT"/>
+    </action>
+
+
+	<decision name="MeasurementSet_-Ingest-SPTT">
+    	<switch>
+			<case to="MeasurementSet_-Ingest-SPTT-DoBase">${ wf:conf('job_TOULOUSE_OWNER_MeasurementSet__DoBase') eq 'true'}</case>
+            <default to="MeasurementSet_-Ingest-SPTT-IsDelta"/>
+        </switch>
+    </decision>
+
+	<decision name="MeasurementSet_-Ingest-SPTT-IsDelta">
+    	<switch>
+			<case to="MeasurementSet_-Ingest-SPTT-DoDelta">${ wf:conf('job_TOULOUSE_OWNER_MeasurementSet__DoDelta') eq 'true'}</case>
+            <default to="MeasurementSet_-Ingest-SPTT-IsIncrement"/>
+        </switch>
+    </decision>
+
+	<decision name="MeasurementSet_-Ingest-SPTT-IsIncrement">
+    	<switch>
+			<case to="MeasurementSet_-Ingest-SPTT-DoIncrement">${ wf:conf('job_TOULOUSE_OWNER_MeasurementSet__DoIncrement') eq 'true'}</case>
+            <default to="PartInstance-Ingest-SPTT"/>
+        </switch>
+    </decision>
+
+    <action name="MeasurementSet_-Ingest-SPTT-DoBase">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_TOULOUSE_OWNER_MeasurementSet__DoBaseTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -285,13 +1023,13 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT BuildRecord.BuildRecordID, BuildRecord.InvPackCreatedID, BuildRecord.InvPackConsumedID, BuildRecord.QuantityUsed, BuildRecord.UnitID, BuildRecord.BuildDT, BuildRecord.IsEdited, BuildRecord.RevisionNo, BuildRecord.BuildMachineStageID, BuildRecord_.Comments, BuildRecord_.LoginID, BuildRecord_.OpenedDT, BuildRecord_.SavedDT, BuildRecord_.EditedBuildRecordID, BuildRecord_.OriginalLoginID, BuildRecord_.Reference1, BuildRecord_.Reference2, BuildRecord_.Reference3, BuildRecord_.Reference4, BuildRecord_.Reference5,  4 as "org_id",  'SPTT' as "org_name"  FROM BuildRecord FULL JOIN BuildRecord_ ON (BuildRecord.BuildRecordID = BuildRecord_.BuildRecordID)   WHERE ( $CONDITIONS )  AND ( BuildRecord.BuildRecordID ${lessThanEqual} ${job_TOULOUSE_OWNER_BuildRecord_MaxBaseID} ) AND ( ${job_TOULOUSE_OWNER_BuildRecord_MinBaseID} ${lessThanEqual} BuildRecord.BuildRecordID )</arg>
+            <arg>SELECT MeasurementSetID,Comments,LoginID,OpenedDT,SavedDT,OriginalLoginID,EditedMSID,ApprovalLoginID, 4 as "org_id",  'SPTT' as "org_name"   FROM dbo.MeasurementSet_ WHERE ( $CONDITIONS )  AND ( MeasurementSetID ${lessThanEqual} ${job_TOULOUSE_OWNER_MeasurementSet__MaxBaseID} ) AND ( ${job_TOULOUSE_OWNER_MeasurementSet__MinBaseID} ${lessThanEqual} MeasurementSetID )</arg>
             <arg>--split-by</arg>
-            <arg>BuildRecord.BuildRecordID</arg>
+            <arg>MeasurementSetID</arg>
             <arg>--num-mappers</arg>
             <arg>6</arg>
             <arg>--target-dir</arg>
-            <arg>${job_TOULOUSE_OWNER_BuildRecord_DoBaseTarget}</arg>
+            <arg>${job_TOULOUSE_OWNER_MeasurementSet__DoBaseTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -300,15 +1038,15 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="BuildRecord-Ingest-SPTT-IsDelta"/>
-        <error to="BuildRecord-Ingest-SPTT-IsDelta"/>
+        <ok to="MeasurementSet_-Ingest-SPTT-IsDelta"/>
+        <error to="MeasurementSet_-Ingest-SPTT-IsDelta"/>
     </action>
-    <action name="BuildRecord-Ingest-SPTT-DoDelta">
+    <action name="MeasurementSet_-Ingest-SPTT-DoDelta">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_TOULOUSE_OWNER_BuildRecord_DoDeltaTarget}" />
+            	<delete path="${job_TOULOUSE_OWNER_MeasurementSet__DoDeltaTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -318,13 +1056,13 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT BuildRecord.BuildRecordID, BuildRecord.InvPackCreatedID, BuildRecord.InvPackConsumedID, BuildRecord.QuantityUsed, BuildRecord.UnitID, BuildRecord.BuildDT, BuildRecord.IsEdited, BuildRecord.RevisionNo, BuildRecord.BuildMachineStageID, BuildRecord_.Comments, BuildRecord_.LoginID, BuildRecord_.OpenedDT, BuildRecord_.SavedDT, BuildRecord_.EditedBuildRecordID, BuildRecord_.OriginalLoginID, BuildRecord_.Reference1, BuildRecord_.Reference2, BuildRecord_.Reference3, BuildRecord_.Reference4, BuildRecord_.Reference5,  4 as "org_id",  'SPTT' as "org_name"  FROM BuildRecord FULL JOIN BuildRecord_ ON (BuildRecord.BuildRecordID = BuildRecord_.BuildRecordID)   WHERE ( $CONDITIONS )  AND ( BuildRecord.BuildRecordID ${greaterThanEqual} ${job_TOULOUSE_OWNER_BuildRecord_MinDeltaID} )</arg>
+            <arg>SELECT MeasurementSetID,Comments,LoginID,OpenedDT,SavedDT,OriginalLoginID,EditedMSID,ApprovalLoginID, 4 as "org_id",  'SPTT' as "org_name"   FROM dbo.MeasurementSet_ WHERE ( $CONDITIONS )  AND ( MeasurementSetID ${greaterThanEqual} ${job_TOULOUSE_OWNER_MeasurementSet__MinDeltaID} )</arg>
             <arg>--split-by</arg>
-            <arg>BuildRecord.BuildRecordID</arg>
+            <arg>MeasurementSetID</arg>
             <arg>--num-mappers</arg>
             <arg>6</arg>
             <arg>--target-dir</arg>
-            <arg>${job_TOULOUSE_OWNER_BuildRecord_DoDeltaTarget}</arg>
+            <arg>${job_TOULOUSE_OWNER_MeasurementSet__DoDeltaTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -333,16 +1071,16 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="BuildRecord-Ingest-SPTT-IsIncrement"/>
-        <error to="BuildRecord-Ingest-SPTT-IsIncrement"/>
+        <ok to="MeasurementSet_-Ingest-SPTT-IsIncrement"/>
+        <error to="MeasurementSet_-Ingest-SPTT-IsIncrement"/>
     </action>
 
-    <action name="BuildRecord-Ingest-SPTT-DoIncrement">
+    <action name="MeasurementSet_-Ingest-SPTT-DoIncrement">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_TOULOUSE_OWNER_BuildRecord_DoIncrementTarget}" />
+            	<delete path="${job_TOULOUSE_OWNER_MeasurementSet__DoIncrementTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
@@ -352,13 +1090,13 @@
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT BuildRecord.BuildRecordID, BuildRecord.InvPackCreatedID, BuildRecord.InvPackConsumedID, BuildRecord.QuantityUsed, BuildRecord.UnitID, BuildRecord.BuildDT, BuildRecord.IsEdited, BuildRecord.RevisionNo, BuildRecord.BuildMachineStageID, BuildRecord_.Comments, BuildRecord_.LoginID, BuildRecord_.OpenedDT, BuildRecord_.SavedDT, BuildRecord_.EditedBuildRecordID, BuildRecord_.OriginalLoginID, BuildRecord_.Reference1, BuildRecord_.Reference2, BuildRecord_.Reference3, BuildRecord_.Reference4, BuildRecord_.Reference5,  4 as "org_id",  'SPTT' as "org_name"  FROM BuildRecord FULL JOIN BuildRecord_ ON (BuildRecord.BuildRecordID = BuildRecord_.BuildRecordID)   WHERE ( $CONDITIONS )  AND (  BuildRecord.BuildRecordID ${greaterThanEqual} ${job_TOULOUSE_OWNER_BuildRecord_MinIncrementID} ) AND ( ${job_TOULOUSE_OWNER_BuildRecord_MaxIncrementID} ${greaterThanEqual} BuildRecord.BuildRecordID )</arg>
+            <arg>SELECT MeasurementSetID,Comments,LoginID,OpenedDT,SavedDT,OriginalLoginID,EditedMSID,ApprovalLoginID, 4 as "org_id",  'SPTT' as "org_name"   FROM dbo.MeasurementSet_ WHERE ( $CONDITIONS )  AND (  MeasurementSetID ${greaterThanEqual} ${job_TOULOUSE_OWNER_MeasurementSet__MinIncrementID} ) AND ( ${job_TOULOUSE_OWNER_MeasurementSet__MaxIncrementID} ${greaterThanEqual} MeasurementSetID )</arg>
             <arg>--split-by</arg>
-            <arg>BuildRecord.BuildRecordID</arg>
+            <arg>MeasurementSetID</arg>
             <arg>--num-mappers</arg>
             <arg>6</arg>
             <arg>--target-dir</arg>
-            <arg>${job_TOULOUSE_OWNER_BuildRecord_DoIncrementTarget}</arg>
+            <arg>${job_TOULOUSE_OWNER_MeasurementSet__DoIncrementTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -367,54 +1105,915 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="InventoryLabel-Ingest-SPTT"/>
-        <error to="InventoryLabel-Ingest-SPTT"/>
+        <ok to="PartInstance-Ingest-SPTT"/>
+        <error to="PartInstance-Ingest-SPTT"/>
     </action>
 
 
-	<decision name="InventoryLabel-Ingest-SPTT">
+	<decision name="PartInstance-Ingest-SPTT">
     	<switch>
-			<case to="InventoryLabel-Ingest-SPTT-DoBase">${ wf:conf('job_TOULOUSE_OWNER_InventoryLabel_DoBase') eq 'true'}</case>
-            <default to="InventoryLabel-Ingest-SPTT-IsDelta"/>
+			<case to="PartInstance-Ingest-SPTT-DoBase">${ wf:conf('job_TOULOUSE_OWNER_PartInstance_DoBase') eq 'true'}</case>
+            <default to="PartInstance-Ingest-SPTT-IsDelta"/>
         </switch>
     </decision>
 
-	<decision name="InventoryLabel-Ingest-SPTT-IsDelta">
+	<decision name="PartInstance-Ingest-SPTT-IsDelta">
     	<switch>
-			<case to="InventoryLabel-Ingest-SPTT-DoDelta">${ wf:conf('job_TOULOUSE_OWNER_InventoryLabel_DoDelta') eq 'true'}</case>
-            <default to="InventoryLabel-Ingest-SPTT-IsIncrement"/>
+			<case to="PartInstance-Ingest-SPTT-DoDelta">${ wf:conf('job_TOULOUSE_OWNER_PartInstance_DoDelta') eq 'true'}</case>
+            <default to="PartInstance-Ingest-SPTT-IsIncrement"/>
         </switch>
     </decision>
 
-	<decision name="InventoryLabel-Ingest-SPTT-IsIncrement">
+	<decision name="PartInstance-Ingest-SPTT-IsIncrement">
     	<switch>
-			<case to="InventoryLabel-Ingest-SPTT-DoIncrement">${ wf:conf('job_TOULOUSE_OWNER_InventoryLabel_DoIncrement') eq 'true'}</case>
+			<case to="PartInstance-Ingest-SPTT-DoIncrement">${ wf:conf('job_TOULOUSE_OWNER_PartInstance_DoIncrement') eq 'true'}</case>
+            <default to="TagDefect-Ingest-SPMX"/>
+        </switch>
+    </decision>
+
+    <action name="PartInstance-Ingest-SPTT-DoBase">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_TOULOUSE_OWNER_PartInstance_DoBaseTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT PartInstanceID,MeasurementSetID,HeadNo,SampleNo,SerialNo, 4 as "org_id",  'SPTT' as "org_name"   FROM dbo.PartInstance WHERE ( $CONDITIONS )  AND ( PartInstanceID ${lessThanEqual} ${job_TOULOUSE_OWNER_PartInstance_MaxBaseID} ) AND ( ${job_TOULOUSE_OWNER_PartInstance_MinBaseID} ${lessThanEqual} PartInstanceID )</arg>
+            <arg>--split-by</arg>
+            <arg>PartInstanceID</arg>
+            <arg>--num-mappers</arg>
+            <arg>6</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_TOULOUSE_OWNER_PartInstance_DoBaseTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="PartInstance-Ingest-SPTT-IsDelta"/>
+        <error to="PartInstance-Ingest-SPTT-IsDelta"/>
+    </action>
+    <action name="PartInstance-Ingest-SPTT-DoDelta">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_TOULOUSE_OWNER_PartInstance_DoDeltaTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT PartInstanceID,MeasurementSetID,HeadNo,SampleNo,SerialNo, 4 as "org_id",  'SPTT' as "org_name"   FROM dbo.PartInstance WHERE ( $CONDITIONS )  AND ( PartInstanceID ${greaterThanEqual} ${job_TOULOUSE_OWNER_PartInstance_MinDeltaID} )</arg>
+            <arg>--split-by</arg>
+            <arg>PartInstanceID</arg>
+            <arg>--num-mappers</arg>
+            <arg>6</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_TOULOUSE_OWNER_PartInstance_DoDeltaTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="PartInstance-Ingest-SPTT-IsIncrement"/>
+        <error to="PartInstance-Ingest-SPTT-IsIncrement"/>
+    </action>
+
+    <action name="PartInstance-Ingest-SPTT-DoIncrement">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_TOULOUSE_OWNER_PartInstance_DoIncrementTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT PartInstanceID,MeasurementSetID,HeadNo,SampleNo,SerialNo, 4 as "org_id",  'SPTT' as "org_name"   FROM dbo.PartInstance WHERE ( $CONDITIONS )  AND (  PartInstanceID ${greaterThanEqual} ${job_TOULOUSE_OWNER_PartInstance_MinIncrementID} ) AND ( ${job_TOULOUSE_OWNER_PartInstance_MaxIncrementID} ${greaterThanEqual} PartInstanceID )</arg>
+            <arg>--split-by</arg>
+            <arg>PartInstanceID</arg>
+            <arg>--num-mappers</arg>
+            <arg>6</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_TOULOUSE_OWNER_PartInstance_DoIncrementTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="TagDefect-Ingest-SPMX"/>
+        <error to="TagDefect-Ingest-SPMX"/>
+    </action>
+
+
+	<decision name="TagDefect-Ingest-SPMX">
+    	<switch>
+			<case to="TagDefect-Ingest-SPMX-DoBase">${ wf:conf('job_MEXICALI_OWNER_TagDefect_DoBase') eq 'true'}</case>
+            <default to="TagDefect-Ingest-SPMX-IsDelta"/>
+        </switch>
+    </decision>
+
+	<decision name="TagDefect-Ingest-SPMX-IsDelta">
+    	<switch>
+			<case to="TagDefect-Ingest-SPMX-DoDelta">${ wf:conf('job_MEXICALI_OWNER_TagDefect_DoDelta') eq 'true'}</case>
+            <default to="TagDefect-Ingest-SPMX-IsIncrement"/>
+        </switch>
+    </decision>
+
+	<decision name="TagDefect-Ingest-SPMX-IsIncrement">
+    	<switch>
+			<case to="TagDefect-Ingest-SPMX-DoIncrement">${ wf:conf('job_MEXICALI_OWNER_TagDefect_DoIncrement') eq 'true'}</case>
+            <default to="TagMS-Ingest-SPMM"/>
+        </switch>
+    </decision>
+
+    <action name="TagDefect-Ingest-SPMX-DoBase">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_MEXICALI_OWNER_TagDefect_DoBaseTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT TagDefectID,IndividualDefectID,TagTypeID,TagValue,DT,X,Y, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.TagDefect WHERE ( $CONDITIONS )  AND ( TagDefectID ${lessThanEqual} ${job_MEXICALI_OWNER_TagDefect_MaxBaseID} ) AND ( ${job_MEXICALI_OWNER_TagDefect_MinBaseID} ${lessThanEqual} TagDefectID )</arg>
+            <arg>--split-by</arg>
+            <arg>TagDefectID</arg>
+            <arg>--num-mappers</arg>
+            <arg>6</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_MEXICALI_OWNER_TagDefect_DoBaseTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="TagDefect-Ingest-SPMX-IsDelta"/>
+        <error to="TagDefect-Ingest-SPMX-IsDelta"/>
+    </action>
+    <action name="TagDefect-Ingest-SPMX-DoDelta">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_MEXICALI_OWNER_TagDefect_DoDeltaTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT TagDefectID,IndividualDefectID,TagTypeID,TagValue,DT,X,Y, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.TagDefect WHERE ( $CONDITIONS )  AND ( TagDefectID ${greaterThanEqual} ${job_MEXICALI_OWNER_TagDefect_MinDeltaID} )</arg>
+            <arg>--split-by</arg>
+            <arg>TagDefectID</arg>
+            <arg>--num-mappers</arg>
+            <arg>6</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_MEXICALI_OWNER_TagDefect_DoDeltaTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="TagDefect-Ingest-SPMX-IsIncrement"/>
+        <error to="TagDefect-Ingest-SPMX-IsIncrement"/>
+    </action>
+
+    <action name="TagDefect-Ingest-SPMX-DoIncrement">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_MEXICALI_OWNER_TagDefect_DoIncrementTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT TagDefectID,IndividualDefectID,TagTypeID,TagValue,DT,X,Y, 1 as "org_id",  'SPMX' as "org_name"   FROM dbo.TagDefect WHERE ( $CONDITIONS )  AND (  TagDefectID ${greaterThanEqual} ${job_MEXICALI_OWNER_TagDefect_MinIncrementID} ) AND ( ${job_MEXICALI_OWNER_TagDefect_MaxIncrementID} ${greaterThanEqual} TagDefectID )</arg>
+            <arg>--split-by</arg>
+            <arg>TagDefectID</arg>
+            <arg>--num-mappers</arg>
+            <arg>6</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_MEXICALI_OWNER_TagDefect_DoIncrementTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="TagMS-Ingest-SPMM"/>
+        <error to="TagMS-Ingest-SPMM"/>
+    </action>
+
+
+	<decision name="TagMS-Ingest-SPMM">
+    	<switch>
+			<case to="TagMS-Ingest-SPMM-DoBase">${ wf:conf('job_SPMM_C1_OWNER_TagMS_DoBase') eq 'true'}</case>
+            <default to="TagMS-Ingest-SPMM-IsDelta"/>
+        </switch>
+    </decision>
+
+	<decision name="TagMS-Ingest-SPMM-IsDelta">
+    	<switch>
+			<case to="TagMS-Ingest-SPMM-DoDelta">${ wf:conf('job_SPMM_C1_OWNER_TagMS_DoDelta') eq 'true'}</case>
+            <default to="TagMS-Ingest-SPMM-IsIncrement"/>
+        </switch>
+    </decision>
+
+	<decision name="TagMS-Ingest-SPMM-IsIncrement">
+    	<switch>
+			<case to="TagMS-Ingest-SPMM-DoIncrement">${ wf:conf('job_SPMM_C1_OWNER_TagMS_DoIncrement') eq 'true'}</case>
+            <default to="UnitCount-Ingest-SPDV"/>
+        </switch>
+    </decision>
+
+    <action name="TagMS-Ingest-SPMM-DoBase">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_SPMM_C1_OWNER_TagMS_DoBaseTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT TagMSID,MeasurementSetID,TagTypeID,TagValue,DT,TagTreeNodeID,X,Y, 2 as "org_id",  'SPMM' as "org_name"   FROM dbo.TagMS WHERE ( $CONDITIONS )  AND ( TagMSID ${lessThanEqual} ${job_SPMM_C1_OWNER_TagMS_MaxBaseID} ) AND ( ${job_SPMM_C1_OWNER_TagMS_MinBaseID} ${lessThanEqual} TagMSID )</arg>
+            <arg>--split-by</arg>
+            <arg>TagMSID</arg>
+            <arg>--num-mappers</arg>
+            <arg>6</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_SPMM_C1_OWNER_TagMS_DoBaseTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="TagMS-Ingest-SPMM-IsDelta"/>
+        <error to="TagMS-Ingest-SPMM-IsDelta"/>
+    </action>
+    <action name="TagMS-Ingest-SPMM-DoDelta">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_SPMM_C1_OWNER_TagMS_DoDeltaTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT TagMSID,MeasurementSetID,TagTypeID,TagValue,DT,TagTreeNodeID,X,Y, 2 as "org_id",  'SPMM' as "org_name"   FROM dbo.TagMS WHERE ( $CONDITIONS )  AND ( TagMSID ${greaterThanEqual} ${job_SPMM_C1_OWNER_TagMS_MinDeltaID} )</arg>
+            <arg>--split-by</arg>
+            <arg>TagMSID</arg>
+            <arg>--num-mappers</arg>
+            <arg>6</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_SPMM_C1_OWNER_TagMS_DoDeltaTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="TagMS-Ingest-SPMM-IsIncrement"/>
+        <error to="TagMS-Ingest-SPMM-IsIncrement"/>
+    </action>
+
+    <action name="TagMS-Ingest-SPMM-DoIncrement">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_SPMM_C1_OWNER_TagMS_DoIncrementTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT TagMSID,MeasurementSetID,TagTypeID,TagValue,DT,TagTreeNodeID,X,Y, 2 as "org_id",  'SPMM' as "org_name"   FROM dbo.TagMS WHERE ( $CONDITIONS )  AND (  TagMSID ${greaterThanEqual} ${job_SPMM_C1_OWNER_TagMS_MinIncrementID} ) AND ( ${job_SPMM_C1_OWNER_TagMS_MaxIncrementID} ${greaterThanEqual} TagMSID )</arg>
+            <arg>--split-by</arg>
+            <arg>TagMSID</arg>
+            <arg>--num-mappers</arg>
+            <arg>6</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_SPMM_C1_OWNER_TagMS_DoIncrementTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="UnitCount-Ingest-SPDV"/>
+        <error to="UnitCount-Ingest-SPDV"/>
+    </action>
+
+
+	<decision name="UnitCount-Ingest-SPDV">
+    	<switch>
+			<case to="UnitCount-Ingest-SPDV-DoBase">${ wf:conf('job_DEVERN_OWNER_UnitCount_DoBase') eq 'true'}</case>
+            <default to="UnitCount-Ingest-SPDV-IsDelta"/>
+        </switch>
+    </decision>
+
+	<decision name="UnitCount-Ingest-SPDV-IsDelta">
+    	<switch>
+			<case to="UnitCount-Ingest-SPDV-DoDelta">${ wf:conf('job_DEVERN_OWNER_UnitCount_DoDelta') eq 'true'}</case>
+            <default to="UnitCount-Ingest-SPDV-IsIncrement"/>
+        </switch>
+    </decision>
+
+	<decision name="UnitCount-Ingest-SPDV-IsIncrement">
+    	<switch>
+			<case to="UnitCount-Ingest-SPDV-DoIncrement">${ wf:conf('job_DEVERN_OWNER_UnitCount_DoIncrement') eq 'true'}</case>
+            <default to="UnitCount_-Ingest-SPTT"/>
+        </switch>
+    </decision>
+
+    <action name="UnitCount-Ingest-SPDV-DoBase">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_DEVERN_OWNER_UnitCount_DoBaseTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT UnitCountID,UnitCountTypeID,PartID,Quantity,UnitID,DT,MachineStageID,IsEdited,RevisionNo, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo.UnitCount WHERE ( $CONDITIONS )  AND ( UnitCountID ${lessThanEqual} ${job_DEVERN_OWNER_UnitCount_MaxBaseID} ) AND ( ${job_DEVERN_OWNER_UnitCount_MinBaseID} ${lessThanEqual} UnitCountID )</arg>
+            <arg>--split-by</arg>
+            <arg>UnitCountID</arg>
+            <arg>--num-mappers</arg>
+            <arg>6</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_DEVERN_OWNER_UnitCount_DoBaseTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="UnitCount-Ingest-SPDV-IsDelta"/>
+        <error to="UnitCount-Ingest-SPDV-IsDelta"/>
+    </action>
+    <action name="UnitCount-Ingest-SPDV-DoDelta">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_DEVERN_OWNER_UnitCount_DoDeltaTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT UnitCountID,UnitCountTypeID,PartID,Quantity,UnitID,DT,MachineStageID,IsEdited,RevisionNo, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo.UnitCount WHERE ( $CONDITIONS )  AND ( UnitCountID ${greaterThanEqual} ${job_DEVERN_OWNER_UnitCount_MinDeltaID} )</arg>
+            <arg>--split-by</arg>
+            <arg>UnitCountID</arg>
+            <arg>--num-mappers</arg>
+            <arg>6</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_DEVERN_OWNER_UnitCount_DoDeltaTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="UnitCount-Ingest-SPDV-IsIncrement"/>
+        <error to="UnitCount-Ingest-SPDV-IsIncrement"/>
+    </action>
+
+    <action name="UnitCount-Ingest-SPDV-DoIncrement">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_DEVERN_OWNER_UnitCount_DoIncrementTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT UnitCountID,UnitCountTypeID,PartID,Quantity,UnitID,DT,MachineStageID,IsEdited,RevisionNo, 3 as "org_id",  'SPDV' as "org_name"   FROM dbo.UnitCount WHERE ( $CONDITIONS )  AND (  UnitCountID ${greaterThanEqual} ${job_DEVERN_OWNER_UnitCount_MinIncrementID} ) AND ( ${job_DEVERN_OWNER_UnitCount_MaxIncrementID} ${greaterThanEqual} UnitCountID )</arg>
+            <arg>--split-by</arg>
+            <arg>UnitCountID</arg>
+            <arg>--num-mappers</arg>
+            <arg>6</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_DEVERN_OWNER_UnitCount_DoIncrementTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="UnitCount_-Ingest-SPTT"/>
+        <error to="UnitCount_-Ingest-SPTT"/>
+    </action>
+
+
+	<decision name="UnitCount_-Ingest-SPTT">
+    	<switch>
+			<case to="UnitCount_-Ingest-SPTT-DoBase">${ wf:conf('job_TOULOUSE_OWNER_UnitCount__DoBase') eq 'true'}</case>
+            <default to="UnitCount_-Ingest-SPTT-IsDelta"/>
+        </switch>
+    </decision>
+
+	<decision name="UnitCount_-Ingest-SPTT-IsDelta">
+    	<switch>
+			<case to="UnitCount_-Ingest-SPTT-DoDelta">${ wf:conf('job_TOULOUSE_OWNER_UnitCount__DoDelta') eq 'true'}</case>
+            <default to="UnitCount_-Ingest-SPTT-IsIncrement"/>
+        </switch>
+    </decision>
+
+	<decision name="UnitCount_-Ingest-SPTT-IsIncrement">
+    	<switch>
+			<case to="UnitCount_-Ingest-SPTT-DoIncrement">${ wf:conf('job_TOULOUSE_OWNER_UnitCount__DoIncrement') eq 'true'}</case>
+            <default to="VarMeasurement-Ingest-SPTM"/>
+        </switch>
+    </decision>
+
+    <action name="UnitCount_-Ingest-SPTT-DoBase">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_TOULOUSE_OWNER_UnitCount__DoBaseTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT UnitCountID,CollectionQuantity,CollectionUnitID,Comments,LoginID,OpenedDT,SavedDT,OriginalLoginID,EditedUnitCountID,Reference1,Reference2,Reference3,Reference4,Reference5, 4 as "org_id",  'SPTT' as "org_name"   FROM dbo.UnitCount_ WHERE ( $CONDITIONS )  AND ( UnitCountID ${lessThanEqual} ${job_TOULOUSE_OWNER_UnitCount__MaxBaseID} ) AND ( ${job_TOULOUSE_OWNER_UnitCount__MinBaseID} ${lessThanEqual} UnitCountID )</arg>
+            <arg>--split-by</arg>
+            <arg>UnitCountID</arg>
+            <arg>--num-mappers</arg>
+            <arg>6</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_TOULOUSE_OWNER_UnitCount__DoBaseTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="UnitCount_-Ingest-SPTT-IsDelta"/>
+        <error to="UnitCount_-Ingest-SPTT-IsDelta"/>
+    </action>
+    <action name="UnitCount_-Ingest-SPTT-DoDelta">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_TOULOUSE_OWNER_UnitCount__DoDeltaTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT UnitCountID,CollectionQuantity,CollectionUnitID,Comments,LoginID,OpenedDT,SavedDT,OriginalLoginID,EditedUnitCountID,Reference1,Reference2,Reference3,Reference4,Reference5, 4 as "org_id",  'SPTT' as "org_name"   FROM dbo.UnitCount_ WHERE ( $CONDITIONS )  AND ( UnitCountID ${greaterThanEqual} ${job_TOULOUSE_OWNER_UnitCount__MinDeltaID} )</arg>
+            <arg>--split-by</arg>
+            <arg>UnitCountID</arg>
+            <arg>--num-mappers</arg>
+            <arg>6</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_TOULOUSE_OWNER_UnitCount__DoDeltaTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="UnitCount_-Ingest-SPTT-IsIncrement"/>
+        <error to="UnitCount_-Ingest-SPTT-IsIncrement"/>
+    </action>
+
+    <action name="UnitCount_-Ingest-SPTT-DoIncrement">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_TOULOUSE_OWNER_UnitCount__DoIncrementTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT UnitCountID,CollectionQuantity,CollectionUnitID,Comments,LoginID,OpenedDT,SavedDT,OriginalLoginID,EditedUnitCountID,Reference1,Reference2,Reference3,Reference4,Reference5, 4 as "org_id",  'SPTT' as "org_name"   FROM dbo.UnitCount_ WHERE ( $CONDITIONS )  AND (  UnitCountID ${greaterThanEqual} ${job_TOULOUSE_OWNER_UnitCount__MinIncrementID} ) AND ( ${job_TOULOUSE_OWNER_UnitCount__MaxIncrementID} ${greaterThanEqual} UnitCountID )</arg>
+            <arg>--split-by</arg>
+            <arg>UnitCountID</arg>
+            <arg>--num-mappers</arg>
+            <arg>6</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_TOULOUSE_OWNER_UnitCount__DoIncrementTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="VarMeasurement-Ingest-SPTM"/>
+        <error to="VarMeasurement-Ingest-SPTM"/>
+    </action>
+
+
+	<decision name="VarMeasurement-Ingest-SPTM">
+    	<switch>
+			<case to="VarMeasurement-Ingest-SPTM-DoBase">${ wf:conf('job_CAPETOWN_OWNER_VarMeasurement_DoBase') eq 'true'}</case>
+            <default to="VarMeasurement-Ingest-SPTM-IsDelta"/>
+        </switch>
+    </decision>
+
+	<decision name="VarMeasurement-Ingest-SPTM-IsDelta">
+    	<switch>
+			<case to="VarMeasurement-Ingest-SPTM-DoDelta">${ wf:conf('job_CAPETOWN_OWNER_VarMeasurement_DoDelta') eq 'true'}</case>
+            <default to="VarMeasurement-Ingest-SPTM-IsIncrement"/>
+        </switch>
+    </decision>
+
+	<decision name="VarMeasurement-Ingest-SPTM-IsIncrement">
+    	<switch>
+			<case to="VarMeasurement-Ingest-SPTM-DoIncrement">${ wf:conf('job_CAPETOWN_OWNER_VarMeasurement_DoIncrement') eq 'true'}</case>
+            <default to="BuildRecord-Ingest-SPMX"/>
+        </switch>
+    </decision>
+
+    <action name="VarMeasurement-Ingest-SPTM-DoBase">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_CAPETOWN_OWNER_VarMeasurement_DoBaseTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT VarMeasurementID,SpecID,MeasurementSetID,Measurement,Ignored,VariableTypeID,ProductID,HeadNo,SampleNo,PositionNo,DT,RfIsOSID, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.VarMeasurement WHERE ( $CONDITIONS )  AND ( VarMeasurementID ${lessThanEqual} ${job_CAPETOWN_OWNER_VarMeasurement_MaxBaseID} ) AND ( ${job_CAPETOWN_OWNER_VarMeasurement_MinBaseID} ${lessThanEqual} VarMeasurementID )</arg>
+            <arg>--split-by</arg>
+            <arg>VarMeasurementID</arg>
+            <arg>--num-mappers</arg>
+            <arg>6</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_CAPETOWN_OWNER_VarMeasurement_DoBaseTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="VarMeasurement-Ingest-SPTM-IsDelta"/>
+        <error to="VarMeasurement-Ingest-SPTM-IsDelta"/>
+    </action>
+    <action name="VarMeasurement-Ingest-SPTM-DoDelta">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_CAPETOWN_OWNER_VarMeasurement_DoDeltaTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT VarMeasurementID,SpecID,MeasurementSetID,Measurement,Ignored,VariableTypeID,ProductID,HeadNo,SampleNo,PositionNo,DT,RfIsOSID, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.VarMeasurement WHERE ( $CONDITIONS )  AND ( VarMeasurementID ${greaterThanEqual} ${job_CAPETOWN_OWNER_VarMeasurement_MinDeltaID} )</arg>
+            <arg>--split-by</arg>
+            <arg>VarMeasurementID</arg>
+            <arg>--num-mappers</arg>
+            <arg>6</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_CAPETOWN_OWNER_VarMeasurement_DoDeltaTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="VarMeasurement-Ingest-SPTM-IsIncrement"/>
+        <error to="VarMeasurement-Ingest-SPTM-IsIncrement"/>
+    </action>
+
+    <action name="VarMeasurement-Ingest-SPTM-DoIncrement">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_CAPETOWN_OWNER_VarMeasurement_DoIncrementTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT VarMeasurementID,SpecID,MeasurementSetID,Measurement,Ignored,VariableTypeID,ProductID,HeadNo,SampleNo,PositionNo,DT,RfIsOSID, 5 as "org_id",  'SPTM' as "org_name"   FROM dbo.VarMeasurement WHERE ( $CONDITIONS )  AND (  VarMeasurementID ${greaterThanEqual} ${job_CAPETOWN_OWNER_VarMeasurement_MinIncrementID} ) AND ( ${job_CAPETOWN_OWNER_VarMeasurement_MaxIncrementID} ${greaterThanEqual} VarMeasurementID )</arg>
+            <arg>--split-by</arg>
+            <arg>VarMeasurementID</arg>
+            <arg>--num-mappers</arg>
+            <arg>6</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_CAPETOWN_OWNER_VarMeasurement_DoIncrementTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="BuildRecord-Ingest-SPMX"/>
+        <error to="BuildRecord-Ingest-SPMX"/>
+    </action>
+
+
+	<decision name="BuildRecord-Ingest-SPMX">
+    	<switch>
+			<case to="BuildRecord-Ingest-SPMX-DoBase">${ wf:conf('job_MEXICALI_OWNER_BuildRecord_DoBase') eq 'true'}</case>
+            <default to="BuildRecord-Ingest-SPMX-IsDelta"/>
+        </switch>
+    </decision>
+
+	<decision name="BuildRecord-Ingest-SPMX-IsDelta">
+    	<switch>
+			<case to="BuildRecord-Ingest-SPMX-DoDelta">${ wf:conf('job_MEXICALI_OWNER_BuildRecord_DoDelta') eq 'true'}</case>
+            <default to="BuildRecord-Ingest-SPMX-IsIncrement"/>
+        </switch>
+    </decision>
+
+	<decision name="BuildRecord-Ingest-SPMX-IsIncrement">
+    	<switch>
+			<case to="BuildRecord-Ingest-SPMX-DoIncrement">${ wf:conf('job_MEXICALI_OWNER_BuildRecord_DoIncrement') eq 'true'}</case>
+            <default to="InventoryLabel-Ingest-SPMM"/>
+        </switch>
+    </decision>
+
+    <action name="BuildRecord-Ingest-SPMX-DoBase">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_MEXICALI_OWNER_BuildRecord_DoBaseTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT BuildRecord.BuildRecordID, BuildRecord.InvPackCreatedID, BuildRecord.InvPackConsumedID, BuildRecord.QuantityUsed, BuildRecord.UnitID, BuildRecord.BuildDT, BuildRecord.IsEdited, BuildRecord.RevisionNo, BuildRecord.BuildMachineStageID, BuildRecord_.Comments, BuildRecord_.LoginID, BuildRecord_.OpenedDT, BuildRecord_.SavedDT, BuildRecord_.EditedBuildRecordID, BuildRecord_.OriginalLoginID, BuildRecord_.Reference1, BuildRecord_.Reference2, BuildRecord_.Reference3, BuildRecord_.Reference4, BuildRecord_.Reference5,  1 as "org_id",  'SPMX' as "org_name"  FROM BuildRecord FULL JOIN BuildRecord_ ON (BuildRecord.BuildRecordID = BuildRecord_.BuildRecordID)   WHERE ( $CONDITIONS )  AND ( BuildRecord.BuildRecordID ${lessThanEqual} ${job_MEXICALI_OWNER_BuildRecord_MaxBaseID} ) AND ( ${job_MEXICALI_OWNER_BuildRecord_MinBaseID} ${lessThanEqual} BuildRecord.BuildRecordID )</arg>
+            <arg>--split-by</arg>
+            <arg>BuildRecord.BuildRecordID</arg>
+            <arg>--num-mappers</arg>
+            <arg>6</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_MEXICALI_OWNER_BuildRecord_DoBaseTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="BuildRecord-Ingest-SPMX-IsDelta"/>
+        <error to="BuildRecord-Ingest-SPMX-IsDelta"/>
+    </action>
+    <action name="BuildRecord-Ingest-SPMX-DoDelta">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_MEXICALI_OWNER_BuildRecord_DoDeltaTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT BuildRecord.BuildRecordID, BuildRecord.InvPackCreatedID, BuildRecord.InvPackConsumedID, BuildRecord.QuantityUsed, BuildRecord.UnitID, BuildRecord.BuildDT, BuildRecord.IsEdited, BuildRecord.RevisionNo, BuildRecord.BuildMachineStageID, BuildRecord_.Comments, BuildRecord_.LoginID, BuildRecord_.OpenedDT, BuildRecord_.SavedDT, BuildRecord_.EditedBuildRecordID, BuildRecord_.OriginalLoginID, BuildRecord_.Reference1, BuildRecord_.Reference2, BuildRecord_.Reference3, BuildRecord_.Reference4, BuildRecord_.Reference5,  1 as "org_id",  'SPMX' as "org_name"  FROM BuildRecord FULL JOIN BuildRecord_ ON (BuildRecord.BuildRecordID = BuildRecord_.BuildRecordID)   WHERE ( $CONDITIONS )  AND ( BuildRecord.BuildRecordID ${greaterThanEqual} ${job_MEXICALI_OWNER_BuildRecord_MinDeltaID} )</arg>
+            <arg>--split-by</arg>
+            <arg>BuildRecord.BuildRecordID</arg>
+            <arg>--num-mappers</arg>
+            <arg>6</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_MEXICALI_OWNER_BuildRecord_DoDeltaTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="BuildRecord-Ingest-SPMX-IsIncrement"/>
+        <error to="BuildRecord-Ingest-SPMX-IsIncrement"/>
+    </action>
+
+    <action name="BuildRecord-Ingest-SPMX-DoIncrement">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+			<prepare>
+            	<delete path="${job_MEXICALI_OWNER_BuildRecord_DoIncrementTarget}" />
+            </prepare>         	
+            <arg>import</arg>
+         	<arg>--connect</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER</arg>
+            <arg>--username</arg>
+            <arg>usrSqoop</arg>
+            <arg>--password</arg>
+            <arg>AXm6Sn6#o</arg>
+            <arg>--query</arg>
+            <arg>SELECT BuildRecord.BuildRecordID, BuildRecord.InvPackCreatedID, BuildRecord.InvPackConsumedID, BuildRecord.QuantityUsed, BuildRecord.UnitID, BuildRecord.BuildDT, BuildRecord.IsEdited, BuildRecord.RevisionNo, BuildRecord.BuildMachineStageID, BuildRecord_.Comments, BuildRecord_.LoginID, BuildRecord_.OpenedDT, BuildRecord_.SavedDT, BuildRecord_.EditedBuildRecordID, BuildRecord_.OriginalLoginID, BuildRecord_.Reference1, BuildRecord_.Reference2, BuildRecord_.Reference3, BuildRecord_.Reference4, BuildRecord_.Reference5,  1 as "org_id",  'SPMX' as "org_name"  FROM BuildRecord FULL JOIN BuildRecord_ ON (BuildRecord.BuildRecordID = BuildRecord_.BuildRecordID)   WHERE ( $CONDITIONS )  AND (  BuildRecord.BuildRecordID ${greaterThanEqual} ${job_MEXICALI_OWNER_BuildRecord_MinIncrementID} ) AND ( ${job_MEXICALI_OWNER_BuildRecord_MaxIncrementID} ${greaterThanEqual} BuildRecord.BuildRecordID )</arg>
+            <arg>--split-by</arg>
+            <arg>BuildRecord.BuildRecordID</arg>
+            <arg>--num-mappers</arg>
+            <arg>6</arg>
+            <arg>--target-dir</arg>
+            <arg>${job_MEXICALI_OWNER_BuildRecord_DoIncrementTarget}</arg>
+            <arg>--fields-terminated-by</arg>
+            <arg>\t</arg>
+            <arg>--direct</arg>
+            <arg>--</arg>
+            <arg>--schema</arg>
+            <arg>dbo</arg>
+            <arg>-validate</arg>
+        </sqoop>
+        <ok to="InventoryLabel-Ingest-SPMM"/>
+        <error to="InventoryLabel-Ingest-SPMM"/>
+    </action>
+
+
+	<decision name="InventoryLabel-Ingest-SPMM">
+    	<switch>
+			<case to="InventoryLabel-Ingest-SPMM-DoBase">${ wf:conf('job_SPMM_C1_OWNER_InventoryLabel_DoBase') eq 'true'}</case>
+            <default to="InventoryLabel-Ingest-SPMM-IsDelta"/>
+        </switch>
+    </decision>
+
+	<decision name="InventoryLabel-Ingest-SPMM-IsDelta">
+    	<switch>
+			<case to="InventoryLabel-Ingest-SPMM-DoDelta">${ wf:conf('job_SPMM_C1_OWNER_InventoryLabel_DoDelta') eq 'true'}</case>
+            <default to="InventoryLabel-Ingest-SPMM-IsIncrement"/>
+        </switch>
+    </decision>
+
+	<decision name="InventoryLabel-Ingest-SPMM-IsIncrement">
+    	<switch>
+			<case to="InventoryLabel-Ingest-SPMM-DoIncrement">${ wf:conf('job_SPMM_C1_OWNER_InventoryLabel_DoIncrement') eq 'true'}</case>
             <default to="InventoryPack-Ingest-SPTT"/>
         </switch>
     </decision>
 
-    <action name="InventoryLabel-Ingest-SPTT-DoBase">
+    <action name="InventoryLabel-Ingest-SPMM-DoBase">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_TOULOUSE_OWNER_InventoryLabel_DoBaseTarget}" />
+            	<delete path="${job_SPMM_C1_OWNER_InventoryLabel_DoBaseTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
-            <arg>jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER</arg>
             <arg>--username</arg>
             <arg>usrSqoop</arg>
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT InventoryLabel.InventoryLabelID, InventoryLabel.MachineStage, InventoryLabel.PartNumber, InventoryLabel.PartType, InventoryLabel.QuantityOrdered, InventoryLabel.WONumber, InventoryLabel.InventoryPackNo, InventoryLabel.CreatedFromDT, InventoryLabel.Quantity, InventoryLabel.Unit, InventoryLabel.Line, InventoryLabel.LabelTemplate, InventoryLabel.LabelsPerInventoryPack, InventoryLabel.ItemsPerLayer, InventoryLabel.LayersPerInventoryPack, InventoryLabel.PrinterURL, InventoryLabel.PrintedDT, InventoryLabel.ItemsPerInventoryPack, InventoryLabel.ScannedDT, InventoryLabel.IsCancelled, InventoryLabel.OrderQuantityPacks, InventoryLabel.LineShortName, InventoryLabel.PackNo, InventoryLabel.IsReprint, InventoryLabel.PartDescription, InventoryLabel.LabelSaveDirectory, InventoryLabel.JobID, InventoryLabel.IsPrintLandscape, InventoryLabel.NoCopies, InventoryLabel_.LabelColour, InventoryLabel_.EANCode, InventoryLabel_.CusNum, InventoryLabel_.PackingCode, InventoryLabel_.CustomerPartNo, InventoryLabel_.CustomerPartDescription, InventoryLabel_.LabelText1, InventoryLabel_.LabelText2, InventoryLabel_.LabelText3, InventoryLabel_.Customer, InventoryLabel_.Address1, InventoryLabel_.Address2, InventoryLabel_.City, InventoryLabel_.County, InventoryLabel_.PostCode, InventoryLabel_.Country, InventoryLabel_custom.InventoryPackID,  4 as "org_id",  'SPTT' as "org_name"  FROM InventoryLabel FULL JOIN InventoryLabel_ ON (InventoryLabel.InventoryLabelID = InventoryLabel_.InventoryLabelID) FULL JOIN InventoryLabel_custom ON (InventoryLabel.InventoryLabelID = InventoryLabel_custom.InventoryLabelID)   WHERE ( $CONDITIONS )  AND ( InventoryLabel.InventoryLabelID ${lessThanEqual} ${job_TOULOUSE_OWNER_InventoryLabel_MaxBaseID} ) AND ( ${job_TOULOUSE_OWNER_InventoryLabel_MinBaseID} ${lessThanEqual} InventoryLabel.InventoryLabelID )</arg>
+            <arg>SELECT InventoryLabel.InventoryLabelID, InventoryLabel.MachineStage, InventoryLabel.PartNumber, InventoryLabel.PartType, InventoryLabel.QuantityOrdered, InventoryLabel.WONumber, InventoryLabel.InventoryPackNo, InventoryLabel.CreatedFromDT, InventoryLabel.Quantity, InventoryLabel.Unit, InventoryLabel.Line, InventoryLabel.LabelTemplate, InventoryLabel.LabelsPerInventoryPack, InventoryLabel.ItemsPerLayer, InventoryLabel.LayersPerInventoryPack, InventoryLabel.PrinterURL, InventoryLabel.PrintedDT, InventoryLabel.ItemsPerInventoryPack, InventoryLabel.ScannedDT, InventoryLabel.IsCancelled, InventoryLabel.OrderQuantityPacks, InventoryLabel.LineShortName, InventoryLabel.PackNo, InventoryLabel.IsReprint, InventoryLabel.PartDescription, InventoryLabel.LabelSaveDirectory, InventoryLabel.JobID, InventoryLabel.IsPrintLandscape, InventoryLabel.NoCopies, InventoryLabel_.LabelColour, InventoryLabel_.EANCode, InventoryLabel_.CusNum, InventoryLabel_.PackingCode, InventoryLabel_.CustomerPartNo, InventoryLabel_.CustomerPartDescription, InventoryLabel_.LabelText1, InventoryLabel_.LabelText2, InventoryLabel_.LabelText3, InventoryLabel_.Customer, InventoryLabel_.Address1, InventoryLabel_.Address2, InventoryLabel_.City, InventoryLabel_.County, InventoryLabel_.PostCode, InventoryLabel_.Country, InventoryLabel_custom.InventoryPackID,  2 as "org_id",  'SPMM' as "org_name"  FROM InventoryLabel FULL JOIN InventoryLabel_ ON (InventoryLabel.InventoryLabelID = InventoryLabel_.InventoryLabelID) FULL JOIN InventoryLabel_custom ON (InventoryLabel.InventoryLabelID = InventoryLabel_custom.InventoryLabelID)   WHERE ( $CONDITIONS )  AND ( InventoryLabel.InventoryLabelID ${lessThanEqual} ${job_SPMM_C1_OWNER_InventoryLabel_MaxBaseID} ) AND ( ${job_SPMM_C1_OWNER_InventoryLabel_MinBaseID} ${lessThanEqual} InventoryLabel.InventoryLabelID )</arg>
             <arg>--split-by</arg>
             <arg>InventoryLabel.InventoryLabelID</arg>
             <arg>--num-mappers</arg>
             <arg>6</arg>
             <arg>--target-dir</arg>
-            <arg>${job_TOULOUSE_OWNER_InventoryLabel_DoBaseTarget}</arg>
+            <arg>${job_SPMM_C1_OWNER_InventoryLabel_DoBaseTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -423,31 +2022,31 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="InventoryLabel-Ingest-SPTT-IsDelta"/>
-        <error to="InventoryLabel-Ingest-SPTT-IsDelta"/>
+        <ok to="InventoryLabel-Ingest-SPMM-IsDelta"/>
+        <error to="InventoryLabel-Ingest-SPMM-IsDelta"/>
     </action>
-    <action name="InventoryLabel-Ingest-SPTT-DoDelta">
+    <action name="InventoryLabel-Ingest-SPMM-DoDelta">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_TOULOUSE_OWNER_InventoryLabel_DoDeltaTarget}" />
+            	<delete path="${job_SPMM_C1_OWNER_InventoryLabel_DoDeltaTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
-            <arg>jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER</arg>
             <arg>--username</arg>
             <arg>usrSqoop</arg>
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT InventoryLabel.InventoryLabelID, InventoryLabel.MachineStage, InventoryLabel.PartNumber, InventoryLabel.PartType, InventoryLabel.QuantityOrdered, InventoryLabel.WONumber, InventoryLabel.InventoryPackNo, InventoryLabel.CreatedFromDT, InventoryLabel.Quantity, InventoryLabel.Unit, InventoryLabel.Line, InventoryLabel.LabelTemplate, InventoryLabel.LabelsPerInventoryPack, InventoryLabel.ItemsPerLayer, InventoryLabel.LayersPerInventoryPack, InventoryLabel.PrinterURL, InventoryLabel.PrintedDT, InventoryLabel.ItemsPerInventoryPack, InventoryLabel.ScannedDT, InventoryLabel.IsCancelled, InventoryLabel.OrderQuantityPacks, InventoryLabel.LineShortName, InventoryLabel.PackNo, InventoryLabel.IsReprint, InventoryLabel.PartDescription, InventoryLabel.LabelSaveDirectory, InventoryLabel.JobID, InventoryLabel.IsPrintLandscape, InventoryLabel.NoCopies, InventoryLabel_.LabelColour, InventoryLabel_.EANCode, InventoryLabel_.CusNum, InventoryLabel_.PackingCode, InventoryLabel_.CustomerPartNo, InventoryLabel_.CustomerPartDescription, InventoryLabel_.LabelText1, InventoryLabel_.LabelText2, InventoryLabel_.LabelText3, InventoryLabel_.Customer, InventoryLabel_.Address1, InventoryLabel_.Address2, InventoryLabel_.City, InventoryLabel_.County, InventoryLabel_.PostCode, InventoryLabel_.Country, InventoryLabel_custom.InventoryPackID,  4 as "org_id",  'SPTT' as "org_name"  FROM InventoryLabel FULL JOIN InventoryLabel_ ON (InventoryLabel.InventoryLabelID = InventoryLabel_.InventoryLabelID) FULL JOIN InventoryLabel_custom ON (InventoryLabel.InventoryLabelID = InventoryLabel_custom.InventoryLabelID)   WHERE ( $CONDITIONS )  AND ( InventoryLabel.InventoryLabelID ${greaterThanEqual} ${job_TOULOUSE_OWNER_InventoryLabel_MinDeltaID} )</arg>
+            <arg>SELECT InventoryLabel.InventoryLabelID, InventoryLabel.MachineStage, InventoryLabel.PartNumber, InventoryLabel.PartType, InventoryLabel.QuantityOrdered, InventoryLabel.WONumber, InventoryLabel.InventoryPackNo, InventoryLabel.CreatedFromDT, InventoryLabel.Quantity, InventoryLabel.Unit, InventoryLabel.Line, InventoryLabel.LabelTemplate, InventoryLabel.LabelsPerInventoryPack, InventoryLabel.ItemsPerLayer, InventoryLabel.LayersPerInventoryPack, InventoryLabel.PrinterURL, InventoryLabel.PrintedDT, InventoryLabel.ItemsPerInventoryPack, InventoryLabel.ScannedDT, InventoryLabel.IsCancelled, InventoryLabel.OrderQuantityPacks, InventoryLabel.LineShortName, InventoryLabel.PackNo, InventoryLabel.IsReprint, InventoryLabel.PartDescription, InventoryLabel.LabelSaveDirectory, InventoryLabel.JobID, InventoryLabel.IsPrintLandscape, InventoryLabel.NoCopies, InventoryLabel_.LabelColour, InventoryLabel_.EANCode, InventoryLabel_.CusNum, InventoryLabel_.PackingCode, InventoryLabel_.CustomerPartNo, InventoryLabel_.CustomerPartDescription, InventoryLabel_.LabelText1, InventoryLabel_.LabelText2, InventoryLabel_.LabelText3, InventoryLabel_.Customer, InventoryLabel_.Address1, InventoryLabel_.Address2, InventoryLabel_.City, InventoryLabel_.County, InventoryLabel_.PostCode, InventoryLabel_.Country, InventoryLabel_custom.InventoryPackID,  2 as "org_id",  'SPMM' as "org_name"  FROM InventoryLabel FULL JOIN InventoryLabel_ ON (InventoryLabel.InventoryLabelID = InventoryLabel_.InventoryLabelID) FULL JOIN InventoryLabel_custom ON (InventoryLabel.InventoryLabelID = InventoryLabel_custom.InventoryLabelID)   WHERE ( $CONDITIONS )  AND ( InventoryLabel.InventoryLabelID ${greaterThanEqual} ${job_SPMM_C1_OWNER_InventoryLabel_MinDeltaID} )</arg>
             <arg>--split-by</arg>
             <arg>InventoryLabel.InventoryLabelID</arg>
             <arg>--num-mappers</arg>
             <arg>6</arg>
             <arg>--target-dir</arg>
-            <arg>${job_TOULOUSE_OWNER_InventoryLabel_DoDeltaTarget}</arg>
+            <arg>${job_SPMM_C1_OWNER_InventoryLabel_DoDeltaTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -456,32 +2055,32 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="InventoryLabel-Ingest-SPTT-IsIncrement"/>
-        <error to="InventoryLabel-Ingest-SPTT-IsIncrement"/>
+        <ok to="InventoryLabel-Ingest-SPMM-IsIncrement"/>
+        <error to="InventoryLabel-Ingest-SPMM-IsIncrement"/>
     </action>
 
-    <action name="InventoryLabel-Ingest-SPTT-DoIncrement">
+    <action name="InventoryLabel-Ingest-SPMM-DoIncrement">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_TOULOUSE_OWNER_InventoryLabel_DoIncrementTarget}" />
+            	<delete path="${job_SPMM_C1_OWNER_InventoryLabel_DoIncrementTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
-            <arg>jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=SPMM_C1_OWNER</arg>
             <arg>--username</arg>
             <arg>usrSqoop</arg>
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT InventoryLabel.InventoryLabelID, InventoryLabel.MachineStage, InventoryLabel.PartNumber, InventoryLabel.PartType, InventoryLabel.QuantityOrdered, InventoryLabel.WONumber, InventoryLabel.InventoryPackNo, InventoryLabel.CreatedFromDT, InventoryLabel.Quantity, InventoryLabel.Unit, InventoryLabel.Line, InventoryLabel.LabelTemplate, InventoryLabel.LabelsPerInventoryPack, InventoryLabel.ItemsPerLayer, InventoryLabel.LayersPerInventoryPack, InventoryLabel.PrinterURL, InventoryLabel.PrintedDT, InventoryLabel.ItemsPerInventoryPack, InventoryLabel.ScannedDT, InventoryLabel.IsCancelled, InventoryLabel.OrderQuantityPacks, InventoryLabel.LineShortName, InventoryLabel.PackNo, InventoryLabel.IsReprint, InventoryLabel.PartDescription, InventoryLabel.LabelSaveDirectory, InventoryLabel.JobID, InventoryLabel.IsPrintLandscape, InventoryLabel.NoCopies, InventoryLabel_.LabelColour, InventoryLabel_.EANCode, InventoryLabel_.CusNum, InventoryLabel_.PackingCode, InventoryLabel_.CustomerPartNo, InventoryLabel_.CustomerPartDescription, InventoryLabel_.LabelText1, InventoryLabel_.LabelText2, InventoryLabel_.LabelText3, InventoryLabel_.Customer, InventoryLabel_.Address1, InventoryLabel_.Address2, InventoryLabel_.City, InventoryLabel_.County, InventoryLabel_.PostCode, InventoryLabel_.Country, InventoryLabel_custom.InventoryPackID,  4 as "org_id",  'SPTT' as "org_name"  FROM InventoryLabel FULL JOIN InventoryLabel_ ON (InventoryLabel.InventoryLabelID = InventoryLabel_.InventoryLabelID) FULL JOIN InventoryLabel_custom ON (InventoryLabel.InventoryLabelID = InventoryLabel_custom.InventoryLabelID)   WHERE ( $CONDITIONS )  AND (  InventoryLabel.InventoryLabelID ${greaterThanEqual} ${job_TOULOUSE_OWNER_InventoryLabel_MinIncrementID} ) AND ( ${job_TOULOUSE_OWNER_InventoryLabel_MaxIncrementID} ${greaterThanEqual} InventoryLabel.InventoryLabelID )</arg>
+            <arg>SELECT InventoryLabel.InventoryLabelID, InventoryLabel.MachineStage, InventoryLabel.PartNumber, InventoryLabel.PartType, InventoryLabel.QuantityOrdered, InventoryLabel.WONumber, InventoryLabel.InventoryPackNo, InventoryLabel.CreatedFromDT, InventoryLabel.Quantity, InventoryLabel.Unit, InventoryLabel.Line, InventoryLabel.LabelTemplate, InventoryLabel.LabelsPerInventoryPack, InventoryLabel.ItemsPerLayer, InventoryLabel.LayersPerInventoryPack, InventoryLabel.PrinterURL, InventoryLabel.PrintedDT, InventoryLabel.ItemsPerInventoryPack, InventoryLabel.ScannedDT, InventoryLabel.IsCancelled, InventoryLabel.OrderQuantityPacks, InventoryLabel.LineShortName, InventoryLabel.PackNo, InventoryLabel.IsReprint, InventoryLabel.PartDescription, InventoryLabel.LabelSaveDirectory, InventoryLabel.JobID, InventoryLabel.IsPrintLandscape, InventoryLabel.NoCopies, InventoryLabel_.LabelColour, InventoryLabel_.EANCode, InventoryLabel_.CusNum, InventoryLabel_.PackingCode, InventoryLabel_.CustomerPartNo, InventoryLabel_.CustomerPartDescription, InventoryLabel_.LabelText1, InventoryLabel_.LabelText2, InventoryLabel_.LabelText3, InventoryLabel_.Customer, InventoryLabel_.Address1, InventoryLabel_.Address2, InventoryLabel_.City, InventoryLabel_.County, InventoryLabel_.PostCode, InventoryLabel_.Country, InventoryLabel_custom.InventoryPackID,  2 as "org_id",  'SPMM' as "org_name"  FROM InventoryLabel FULL JOIN InventoryLabel_ ON (InventoryLabel.InventoryLabelID = InventoryLabel_.InventoryLabelID) FULL JOIN InventoryLabel_custom ON (InventoryLabel.InventoryLabelID = InventoryLabel_custom.InventoryLabelID)   WHERE ( $CONDITIONS )  AND (  InventoryLabel.InventoryLabelID ${greaterThanEqual} ${job_SPMM_C1_OWNER_InventoryLabel_MinIncrementID} ) AND ( ${job_SPMM_C1_OWNER_InventoryLabel_MaxIncrementID} ${greaterThanEqual} InventoryLabel.InventoryLabelID )</arg>
             <arg>--split-by</arg>
             <arg>InventoryLabel.InventoryLabelID</arg>
             <arg>--num-mappers</arg>
             <arg>6</arg>
             <arg>--target-dir</arg>
-            <arg>${job_TOULOUSE_OWNER_InventoryLabel_DoIncrementTarget}</arg>
+            <arg>${job_SPMM_C1_OWNER_InventoryLabel_DoIncrementTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>

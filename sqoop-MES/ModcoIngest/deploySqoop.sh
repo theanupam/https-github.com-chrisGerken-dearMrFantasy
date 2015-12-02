@@ -6,6 +6,8 @@ hadoop fs -put yieldIngestWorkflow-Incr-0.xml /IncrementalYield/yieldIngestWorkf
 hadoop fs -put yieldIngestWorkflow-Incr-1.xml /IncrementalYield/yieldIngestWorkflow-Incr-1.xml
 hadoop fs -put yieldIngestWorkflow-Incr-2.xml /IncrementalYield/yieldIngestWorkflow-Incr-2.xml
 hadoop fs -put yieldIngestWorkflow-Incr-3.xml /IncrementalYield/yieldIngestWorkflow-Incr-3.xml
+hadoop fs -put yieldIngestWorkflow-Incr-4.xml /IncrementalYield/yieldIngestWorkflow-Incr-4.xml
+hadoop fs -put yieldIngestWorkflow-Incr-5.xml /IncrementalYield/yieldIngestWorkflow-Incr-5.xml
 hadoop fs -put yieldIngestWorkflow-Full-0.xml /IncrementalYield/yieldIngestWorkflow-Full-0.xml
 hadoop fs -put yieldIngestWorkflow-Full-1.xml /IncrementalYield/yieldIngestWorkflow-Full-1.xml
 hadoop fs -put yieldIngestWorkflow-Full-2.xml /IncrementalYield/yieldIngestWorkflow-Full-2.xml
@@ -53,6 +55,12 @@ oozie  validate  yieldIngestWorkflow-Incr-2.xml
 echo "";
 echo "Validating yieldIngestWorkflow-Incr-3.xml";
 oozie  validate  yieldIngestWorkflow-Incr-3.xml  
+echo "";
+echo "Validating yieldIngestWorkflow-Incr-4.xml";
+oozie  validate  yieldIngestWorkflow-Incr-4.xml  
+echo "";
+echo "Validating yieldIngestWorkflow-Incr-5.xml";
+oozie  validate  yieldIngestWorkflow-Incr-5.xml  
 echo "";
 echo "Validating yieldIngestWorkflow-Full-0.xml";
 oozie  validate  yieldIngestWorkflow-Full-0.xml  
