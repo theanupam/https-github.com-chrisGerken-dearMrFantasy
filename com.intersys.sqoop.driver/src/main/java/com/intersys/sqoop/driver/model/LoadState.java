@@ -610,7 +610,7 @@ public class LoadState implements Comparable {
 				if ((base.getRefreshed() == 0L) || (base.isOutOfDate(is))) {
 					found = !all;
 					base.setRefreshed(is.bornOnDate(base.getHdfsDir()));
-					jobs.add(base.baseJob(SqoopDriver.PROPERTY_PREFIX + getDatabase() + "_" + getTable(), "Base load of "+getHdfsBaseDir()));
+					jobs.add(base.baseJob(SqoopDriver.PROPERTY_PREFIX + getDatabase() + "_" + getTable(), "Base load of "+base.getHdfsDir()));
 				}
 			}
 		}
