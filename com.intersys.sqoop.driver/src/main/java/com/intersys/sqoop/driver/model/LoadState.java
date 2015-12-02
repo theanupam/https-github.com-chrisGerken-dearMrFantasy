@@ -610,7 +610,7 @@ public class LoadState implements Comparable {
 				if ((base.getRefreshed() == 0L) || (base.isOutOfDate(is))) {
 					found = !all;
 					base.setRefreshed(is.bornOnDate(getHdfsBaseDir()));
-					jobs.add(base.baseJob(SqoopDriver.PROPERTY_PREFIX + getDatabase() + "_" + getTable(), "Base load of "+getDatabase()+" : "+getTable()));
+					jobs.add(base.baseJob(SqoopDriver.PROPERTY_PREFIX + getDatabase() + "_" + getTable(), "Base load of "+getHdfsBaseDir()));
 				}
 			}
 		}
@@ -620,7 +620,7 @@ public class LoadState implements Comparable {
 		if (!getDeltas().isEmpty()) {
 			Chunk delta = getDeltas().get(0);
 			delta.setRefreshed(is.bornOnDate(getHdfsBaseDir()));
-			jobs.add(delta.deltaJob(SqoopDriver.PROPERTY_PREFIX + getDatabase() + "_" + getTable(), "Delta load of "+getDatabase()+" : "+getTable()));
+			jobs.add(delta.deltaJob(SqoopDriver.PROPERTY_PREFIX + getDatabase() + "_" + getTable(), "Delta load of "+getHdfsBaseDir()));
 		}
 		
 		// If there's a full, update it
@@ -628,7 +628,7 @@ public class LoadState implements Comparable {
 		if (!getFulls().isEmpty()) {
 			Chunk full = getFulls().get(0);
 			full.setRefreshed(is.bornOnDate(getHdfsBaseDir()));
-			jobs.add(full.fullJob(SqoopDriver.PROPERTY_PREFIX + getDatabase() + "_" + getTable(), "Full load of "+getDatabase()+" : "+getTable()));
+			jobs.add(full.fullJob(SqoopDriver.PROPERTY_PREFIX + getDatabase() + "_" + getTable(), "Full load of "+getHdfsBaseDir()));
 		}
 
 		return jobs;
