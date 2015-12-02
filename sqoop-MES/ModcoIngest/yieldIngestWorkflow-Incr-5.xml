@@ -1127,7 +1127,7 @@
 	<decision name="BuildRecord-Ingest-SPDV-IsIncrement">
     	<switch>
 			<case to="BuildRecord-Ingest-SPDV-DoIncrement">${ wf:conf('job_DEVERN_OWNER_BuildRecord_DoIncrement') eq 'true'}</case>
-            <default to="InventoryPack-Ingest-SPTT"/>
+            <default to="InventoryPack-Ingest-SPDV"/>
         </switch>
     </decision>
 
@@ -1228,54 +1228,54 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="InventoryPack-Ingest-SPTT"/>
-        <error to="InventoryPack-Ingest-SPTT"/>
+        <ok to="InventoryPack-Ingest-SPDV"/>
+        <error to="InventoryPack-Ingest-SPDV"/>
     </action>
 
 
-	<decision name="InventoryPack-Ingest-SPTT">
+	<decision name="InventoryPack-Ingest-SPDV">
     	<switch>
-			<case to="InventoryPack-Ingest-SPTT-DoBase">${ wf:conf('job_TOULOUSE_OWNER_InventoryPack_DoBase') eq 'true'}</case>
-            <default to="InventoryPack-Ingest-SPTT-IsDelta"/>
+			<case to="InventoryPack-Ingest-SPDV-DoBase">${ wf:conf('job_DEVERN_OWNER_InventoryPack_DoBase') eq 'true'}</case>
+            <default to="InventoryPack-Ingest-SPDV-IsDelta"/>
         </switch>
     </decision>
 
-	<decision name="InventoryPack-Ingest-SPTT-IsDelta">
+	<decision name="InventoryPack-Ingest-SPDV-IsDelta">
     	<switch>
-			<case to="InventoryPack-Ingest-SPTT-DoDelta">${ wf:conf('job_TOULOUSE_OWNER_InventoryPack_DoDelta') eq 'true'}</case>
-            <default to="InventoryPack-Ingest-SPTT-IsIncrement"/>
+			<case to="InventoryPack-Ingest-SPDV-DoDelta">${ wf:conf('job_DEVERN_OWNER_InventoryPack_DoDelta') eq 'true'}</case>
+            <default to="InventoryPack-Ingest-SPDV-IsIncrement"/>
         </switch>
     </decision>
 
-	<decision name="InventoryPack-Ingest-SPTT-IsIncrement">
+	<decision name="InventoryPack-Ingest-SPDV-IsIncrement">
     	<switch>
-			<case to="InventoryPack-Ingest-SPTT-DoIncrement">${ wf:conf('job_TOULOUSE_OWNER_InventoryPack_DoIncrement') eq 'true'}</case>
+			<case to="InventoryPack-Ingest-SPDV-DoIncrement">${ wf:conf('job_DEVERN_OWNER_InventoryPack_DoIncrement') eq 'true'}</case>
             <default to="End-Incr-5-Ingest"/>
         </switch>
     </decision>
 
-    <action name="InventoryPack-Ingest-SPTT-DoBase">
+    <action name="InventoryPack-Ingest-SPDV-DoBase">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_TOULOUSE_OWNER_InventoryPack_DoBaseTarget}" />
+            	<delete path="${job_DEVERN_OWNER_InventoryPack_DoBaseTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
-            <arg>jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
             <arg>--username</arg>
             <arg>usrSqoop</arg>
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT InventoryPack.InventoryPackID, InventoryPack.InventoryPackNo, InventoryPack.WOID, InventoryPack.JobID, InventoryPack.CreatedFromDT, InventoryPack.CreatedToDT, InventoryPack.CreatedOnMachineStageID, InventoryPack.IsEdited, InventoryPack.RevisionNo, InventoryPack.PartID, InventoryPack.Quantity, InventoryPack.UnitID, InventoryPack.Ignored, InventoryPack.InventoryPackIndex, InventoryPack.CustomerUniqueKey, InventoryPack.ReceivedDT, InventoryPack.BirthDT, InventoryPack.LastBuildRecordID, InventoryPack.msrepl_tran_version, InventoryPack.CurrentQuantity, InventoryPack.QuantityAdjustment, InventoryPack.PositionNumber, InventoryPack.LocationID, InventoryPack.InvStateID, InventoryPack.LocationFromDT, InventoryPack_.Comments, InventoryPack_.LoginID, InventoryPack_.OpenedDT, InventoryPack_.SavedDT, InventoryPack_.OriginalLoginID, InventoryPack_.EditedInventoryPackID, InventoryPack_.Reference1, InventoryPack_.Reference2, InventoryPack_.Reference3, InventoryPack_.Reference4, InventoryPack_.Reference5, InventoryPack_.Reference6, InventoryPack_.Reference7, InventoryPack_.Reference8, InventoryPack_.Reference9, InventoryPack_.Reference10, InventoryPack_.SupplierID, InventoryPack_.SupplierReference, InventoryPack_.UseByDT, InventoryPack_.UseAfterDT, InventoryPack_Custom.Txn_date, InventoryPack_Custom.OracleStatus, InventoryPack_Custom.IntendedWOID, InventoryPack_Custom.FinalWOID, InventoryPack_Custom.OriginalQty, InventoryPack_Custom.Seq_Id, InventoryPack_Custom.From_Subinventory, InventoryPack_Custom.From_Locator, InventoryPack_Custom.To_Subinventory, InventoryPack_Custom.To_Locator, InventoryPack_Custom.ScrappedShiftID, InventoryPack_Custom.LastInventoryLabelID, InventoryPack_Custom.ScrapLocationID, InventoryPack_Custom.MachineLocationID, InventoryPack_Custom.ScrapReasonID, InventoryPack_Custom.ModuleInfoID, InventoryPack_Custom.ResealedDT,  4 as "org_id",  'SPTT' as "org_name"  FROM InventoryPack FULL JOIN InventoryPack_ ON (InventoryPack.InventoryPackID = InventoryPack_.InventoryPackID) FULL JOIN InventoryPack_Custom ON (InventoryPack.InventoryPackID = InventoryPack_Custom.InventoryPackId)   WHERE ( $CONDITIONS )  AND ( InventoryPack.InventoryPackID ${lessThanEqual} ${job_TOULOUSE_OWNER_InventoryPack_MaxBaseID} ) AND ( ${job_TOULOUSE_OWNER_InventoryPack_MinBaseID} ${lessThanEqual} InventoryPack.InventoryPackID )</arg>
+            <arg>SELECT InventoryPack.InventoryPackID, InventoryPack.InventoryPackNo, InventoryPack.WOID, InventoryPack.JobID, InventoryPack.CreatedFromDT, InventoryPack.CreatedToDT, InventoryPack.CreatedOnMachineStageID, InventoryPack.IsEdited, InventoryPack.RevisionNo, InventoryPack.PartID, InventoryPack.Quantity, InventoryPack.UnitID, InventoryPack.Ignored, InventoryPack.InventoryPackIndex, InventoryPack.CustomerUniqueKey, InventoryPack.ReceivedDT, InventoryPack.BirthDT, InventoryPack.LastBuildRecordID, InventoryPack.msrepl_tran_version, InventoryPack.CurrentQuantity, InventoryPack.QuantityAdjustment, InventoryPack.PositionNumber, InventoryPack.LocationID, InventoryPack.InvStateID, InventoryPack.LocationFromDT, InventoryPack_.Comments, InventoryPack_.LoginID, InventoryPack_.OpenedDT, InventoryPack_.SavedDT, InventoryPack_.OriginalLoginID, InventoryPack_.EditedInventoryPackID, InventoryPack_.Reference1, InventoryPack_.Reference2, InventoryPack_.Reference3, InventoryPack_.Reference4, InventoryPack_.Reference5, InventoryPack_.Reference6, InventoryPack_.Reference7, InventoryPack_.Reference8, InventoryPack_.Reference9, InventoryPack_.Reference10, InventoryPack_.SupplierID, InventoryPack_.SupplierReference, InventoryPack_.UseByDT, InventoryPack_.UseAfterDT, InventoryPack_Custom.Txn_date, InventoryPack_Custom.OracleStatus, InventoryPack_Custom.IntendedWOID, InventoryPack_Custom.FinalWOID, InventoryPack_Custom.OriginalQty, InventoryPack_Custom.Seq_Id, InventoryPack_Custom.From_Subinventory, InventoryPack_Custom.From_Locator, InventoryPack_Custom.To_Subinventory, InventoryPack_Custom.To_Locator, InventoryPack_Custom.ScrappedShiftID, InventoryPack_Custom.LastInventoryLabelID, InventoryPack_Custom.ScrapLocationID, InventoryPack_Custom.MachineLocationID, InventoryPack_Custom.ScrapReasonID, InventoryPack_Custom.ModuleInfoID, InventoryPack_Custom.ResealedDT,  3 as "org_id",  'SPDV' as "org_name"  FROM InventoryPack FULL JOIN InventoryPack_ ON (InventoryPack.InventoryPackID = InventoryPack_.InventoryPackID) FULL JOIN InventoryPack_Custom ON (InventoryPack.InventoryPackID = InventoryPack_Custom.InventoryPackId)   WHERE ( $CONDITIONS )  AND ( InventoryPack.InventoryPackID ${lessThanEqual} ${job_DEVERN_OWNER_InventoryPack_MaxBaseID} ) AND ( ${job_DEVERN_OWNER_InventoryPack_MinBaseID} ${lessThanEqual} InventoryPack.InventoryPackID )</arg>
             <arg>--split-by</arg>
             <arg>InventoryPack.InventoryPackID</arg>
             <arg>--num-mappers</arg>
             <arg>6</arg>
             <arg>--target-dir</arg>
-            <arg>${job_TOULOUSE_OWNER_InventoryPack_DoBaseTarget}</arg>
+            <arg>${job_DEVERN_OWNER_InventoryPack_DoBaseTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -1284,31 +1284,31 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="InventoryPack-Ingest-SPTT-IsDelta"/>
-        <error to="InventoryPack-Ingest-SPTT-IsDelta"/>
+        <ok to="InventoryPack-Ingest-SPDV-IsDelta"/>
+        <error to="InventoryPack-Ingest-SPDV-IsDelta"/>
     </action>
-    <action name="InventoryPack-Ingest-SPTT-DoDelta">
+    <action name="InventoryPack-Ingest-SPDV-DoDelta">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_TOULOUSE_OWNER_InventoryPack_DoDeltaTarget}" />
+            	<delete path="${job_DEVERN_OWNER_InventoryPack_DoDeltaTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
-            <arg>jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
             <arg>--username</arg>
             <arg>usrSqoop</arg>
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT InventoryPack.InventoryPackID, InventoryPack.InventoryPackNo, InventoryPack.WOID, InventoryPack.JobID, InventoryPack.CreatedFromDT, InventoryPack.CreatedToDT, InventoryPack.CreatedOnMachineStageID, InventoryPack.IsEdited, InventoryPack.RevisionNo, InventoryPack.PartID, InventoryPack.Quantity, InventoryPack.UnitID, InventoryPack.Ignored, InventoryPack.InventoryPackIndex, InventoryPack.CustomerUniqueKey, InventoryPack.ReceivedDT, InventoryPack.BirthDT, InventoryPack.LastBuildRecordID, InventoryPack.msrepl_tran_version, InventoryPack.CurrentQuantity, InventoryPack.QuantityAdjustment, InventoryPack.PositionNumber, InventoryPack.LocationID, InventoryPack.InvStateID, InventoryPack.LocationFromDT, InventoryPack_.Comments, InventoryPack_.LoginID, InventoryPack_.OpenedDT, InventoryPack_.SavedDT, InventoryPack_.OriginalLoginID, InventoryPack_.EditedInventoryPackID, InventoryPack_.Reference1, InventoryPack_.Reference2, InventoryPack_.Reference3, InventoryPack_.Reference4, InventoryPack_.Reference5, InventoryPack_.Reference6, InventoryPack_.Reference7, InventoryPack_.Reference8, InventoryPack_.Reference9, InventoryPack_.Reference10, InventoryPack_.SupplierID, InventoryPack_.SupplierReference, InventoryPack_.UseByDT, InventoryPack_.UseAfterDT, InventoryPack_Custom.Txn_date, InventoryPack_Custom.OracleStatus, InventoryPack_Custom.IntendedWOID, InventoryPack_Custom.FinalWOID, InventoryPack_Custom.OriginalQty, InventoryPack_Custom.Seq_Id, InventoryPack_Custom.From_Subinventory, InventoryPack_Custom.From_Locator, InventoryPack_Custom.To_Subinventory, InventoryPack_Custom.To_Locator, InventoryPack_Custom.ScrappedShiftID, InventoryPack_Custom.LastInventoryLabelID, InventoryPack_Custom.ScrapLocationID, InventoryPack_Custom.MachineLocationID, InventoryPack_Custom.ScrapReasonID, InventoryPack_Custom.ModuleInfoID, InventoryPack_Custom.ResealedDT,  4 as "org_id",  'SPTT' as "org_name"  FROM InventoryPack FULL JOIN InventoryPack_ ON (InventoryPack.InventoryPackID = InventoryPack_.InventoryPackID) FULL JOIN InventoryPack_Custom ON (InventoryPack.InventoryPackID = InventoryPack_Custom.InventoryPackId)   WHERE ( $CONDITIONS )  AND ( InventoryPack.InventoryPackID ${greaterThanEqual} ${job_TOULOUSE_OWNER_InventoryPack_MinDeltaID} )</arg>
+            <arg>SELECT InventoryPack.InventoryPackID, InventoryPack.InventoryPackNo, InventoryPack.WOID, InventoryPack.JobID, InventoryPack.CreatedFromDT, InventoryPack.CreatedToDT, InventoryPack.CreatedOnMachineStageID, InventoryPack.IsEdited, InventoryPack.RevisionNo, InventoryPack.PartID, InventoryPack.Quantity, InventoryPack.UnitID, InventoryPack.Ignored, InventoryPack.InventoryPackIndex, InventoryPack.CustomerUniqueKey, InventoryPack.ReceivedDT, InventoryPack.BirthDT, InventoryPack.LastBuildRecordID, InventoryPack.msrepl_tran_version, InventoryPack.CurrentQuantity, InventoryPack.QuantityAdjustment, InventoryPack.PositionNumber, InventoryPack.LocationID, InventoryPack.InvStateID, InventoryPack.LocationFromDT, InventoryPack_.Comments, InventoryPack_.LoginID, InventoryPack_.OpenedDT, InventoryPack_.SavedDT, InventoryPack_.OriginalLoginID, InventoryPack_.EditedInventoryPackID, InventoryPack_.Reference1, InventoryPack_.Reference2, InventoryPack_.Reference3, InventoryPack_.Reference4, InventoryPack_.Reference5, InventoryPack_.Reference6, InventoryPack_.Reference7, InventoryPack_.Reference8, InventoryPack_.Reference9, InventoryPack_.Reference10, InventoryPack_.SupplierID, InventoryPack_.SupplierReference, InventoryPack_.UseByDT, InventoryPack_.UseAfterDT, InventoryPack_Custom.Txn_date, InventoryPack_Custom.OracleStatus, InventoryPack_Custom.IntendedWOID, InventoryPack_Custom.FinalWOID, InventoryPack_Custom.OriginalQty, InventoryPack_Custom.Seq_Id, InventoryPack_Custom.From_Subinventory, InventoryPack_Custom.From_Locator, InventoryPack_Custom.To_Subinventory, InventoryPack_Custom.To_Locator, InventoryPack_Custom.ScrappedShiftID, InventoryPack_Custom.LastInventoryLabelID, InventoryPack_Custom.ScrapLocationID, InventoryPack_Custom.MachineLocationID, InventoryPack_Custom.ScrapReasonID, InventoryPack_Custom.ModuleInfoID, InventoryPack_Custom.ResealedDT,  3 as "org_id",  'SPDV' as "org_name"  FROM InventoryPack FULL JOIN InventoryPack_ ON (InventoryPack.InventoryPackID = InventoryPack_.InventoryPackID) FULL JOIN InventoryPack_Custom ON (InventoryPack.InventoryPackID = InventoryPack_Custom.InventoryPackId)   WHERE ( $CONDITIONS )  AND ( InventoryPack.InventoryPackID ${greaterThanEqual} ${job_DEVERN_OWNER_InventoryPack_MinDeltaID} )</arg>
             <arg>--split-by</arg>
             <arg>InventoryPack.InventoryPackID</arg>
             <arg>--num-mappers</arg>
             <arg>6</arg>
             <arg>--target-dir</arg>
-            <arg>${job_TOULOUSE_OWNER_InventoryPack_DoDeltaTarget}</arg>
+            <arg>${job_DEVERN_OWNER_InventoryPack_DoDeltaTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>
@@ -1317,32 +1317,32 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="InventoryPack-Ingest-SPTT-IsIncrement"/>
-        <error to="InventoryPack-Ingest-SPTT-IsIncrement"/>
+        <ok to="InventoryPack-Ingest-SPDV-IsIncrement"/>
+        <error to="InventoryPack-Ingest-SPDV-IsIncrement"/>
     </action>
 
-    <action name="InventoryPack-Ingest-SPTT-DoIncrement">
+    <action name="InventoryPack-Ingest-SPDV-DoIncrement">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_TOULOUSE_OWNER_InventoryPack_DoIncrementTarget}" />
+            	<delete path="${job_DEVERN_OWNER_InventoryPack_DoIncrementTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
-            <arg>jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
             <arg>--username</arg>
             <arg>usrSqoop</arg>
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT InventoryPack.InventoryPackID, InventoryPack.InventoryPackNo, InventoryPack.WOID, InventoryPack.JobID, InventoryPack.CreatedFromDT, InventoryPack.CreatedToDT, InventoryPack.CreatedOnMachineStageID, InventoryPack.IsEdited, InventoryPack.RevisionNo, InventoryPack.PartID, InventoryPack.Quantity, InventoryPack.UnitID, InventoryPack.Ignored, InventoryPack.InventoryPackIndex, InventoryPack.CustomerUniqueKey, InventoryPack.ReceivedDT, InventoryPack.BirthDT, InventoryPack.LastBuildRecordID, InventoryPack.msrepl_tran_version, InventoryPack.CurrentQuantity, InventoryPack.QuantityAdjustment, InventoryPack.PositionNumber, InventoryPack.LocationID, InventoryPack.InvStateID, InventoryPack.LocationFromDT, InventoryPack_.Comments, InventoryPack_.LoginID, InventoryPack_.OpenedDT, InventoryPack_.SavedDT, InventoryPack_.OriginalLoginID, InventoryPack_.EditedInventoryPackID, InventoryPack_.Reference1, InventoryPack_.Reference2, InventoryPack_.Reference3, InventoryPack_.Reference4, InventoryPack_.Reference5, InventoryPack_.Reference6, InventoryPack_.Reference7, InventoryPack_.Reference8, InventoryPack_.Reference9, InventoryPack_.Reference10, InventoryPack_.SupplierID, InventoryPack_.SupplierReference, InventoryPack_.UseByDT, InventoryPack_.UseAfterDT, InventoryPack_Custom.Txn_date, InventoryPack_Custom.OracleStatus, InventoryPack_Custom.IntendedWOID, InventoryPack_Custom.FinalWOID, InventoryPack_Custom.OriginalQty, InventoryPack_Custom.Seq_Id, InventoryPack_Custom.From_Subinventory, InventoryPack_Custom.From_Locator, InventoryPack_Custom.To_Subinventory, InventoryPack_Custom.To_Locator, InventoryPack_Custom.ScrappedShiftID, InventoryPack_Custom.LastInventoryLabelID, InventoryPack_Custom.ScrapLocationID, InventoryPack_Custom.MachineLocationID, InventoryPack_Custom.ScrapReasonID, InventoryPack_Custom.ModuleInfoID, InventoryPack_Custom.ResealedDT,  4 as "org_id",  'SPTT' as "org_name"  FROM InventoryPack FULL JOIN InventoryPack_ ON (InventoryPack.InventoryPackID = InventoryPack_.InventoryPackID) FULL JOIN InventoryPack_Custom ON (InventoryPack.InventoryPackID = InventoryPack_Custom.InventoryPackId)   WHERE ( $CONDITIONS )  AND (  InventoryPack.InventoryPackID ${greaterThanEqual} ${job_TOULOUSE_OWNER_InventoryPack_MinIncrementID} ) AND ( ${job_TOULOUSE_OWNER_InventoryPack_MaxIncrementID} ${greaterThanEqual} InventoryPack.InventoryPackID )</arg>
+            <arg>SELECT InventoryPack.InventoryPackID, InventoryPack.InventoryPackNo, InventoryPack.WOID, InventoryPack.JobID, InventoryPack.CreatedFromDT, InventoryPack.CreatedToDT, InventoryPack.CreatedOnMachineStageID, InventoryPack.IsEdited, InventoryPack.RevisionNo, InventoryPack.PartID, InventoryPack.Quantity, InventoryPack.UnitID, InventoryPack.Ignored, InventoryPack.InventoryPackIndex, InventoryPack.CustomerUniqueKey, InventoryPack.ReceivedDT, InventoryPack.BirthDT, InventoryPack.LastBuildRecordID, InventoryPack.msrepl_tran_version, InventoryPack.CurrentQuantity, InventoryPack.QuantityAdjustment, InventoryPack.PositionNumber, InventoryPack.LocationID, InventoryPack.InvStateID, InventoryPack.LocationFromDT, InventoryPack_.Comments, InventoryPack_.LoginID, InventoryPack_.OpenedDT, InventoryPack_.SavedDT, InventoryPack_.OriginalLoginID, InventoryPack_.EditedInventoryPackID, InventoryPack_.Reference1, InventoryPack_.Reference2, InventoryPack_.Reference3, InventoryPack_.Reference4, InventoryPack_.Reference5, InventoryPack_.Reference6, InventoryPack_.Reference7, InventoryPack_.Reference8, InventoryPack_.Reference9, InventoryPack_.Reference10, InventoryPack_.SupplierID, InventoryPack_.SupplierReference, InventoryPack_.UseByDT, InventoryPack_.UseAfterDT, InventoryPack_Custom.Txn_date, InventoryPack_Custom.OracleStatus, InventoryPack_Custom.IntendedWOID, InventoryPack_Custom.FinalWOID, InventoryPack_Custom.OriginalQty, InventoryPack_Custom.Seq_Id, InventoryPack_Custom.From_Subinventory, InventoryPack_Custom.From_Locator, InventoryPack_Custom.To_Subinventory, InventoryPack_Custom.To_Locator, InventoryPack_Custom.ScrappedShiftID, InventoryPack_Custom.LastInventoryLabelID, InventoryPack_Custom.ScrapLocationID, InventoryPack_Custom.MachineLocationID, InventoryPack_Custom.ScrapReasonID, InventoryPack_Custom.ModuleInfoID, InventoryPack_Custom.ResealedDT,  3 as "org_id",  'SPDV' as "org_name"  FROM InventoryPack FULL JOIN InventoryPack_ ON (InventoryPack.InventoryPackID = InventoryPack_.InventoryPackID) FULL JOIN InventoryPack_Custom ON (InventoryPack.InventoryPackID = InventoryPack_Custom.InventoryPackId)   WHERE ( $CONDITIONS )  AND (  InventoryPack.InventoryPackID ${greaterThanEqual} ${job_DEVERN_OWNER_InventoryPack_MinIncrementID} ) AND ( ${job_DEVERN_OWNER_InventoryPack_MaxIncrementID} ${greaterThanEqual} InventoryPack.InventoryPackID )</arg>
             <arg>--split-by</arg>
             <arg>InventoryPack.InventoryPackID</arg>
             <arg>--num-mappers</arg>
             <arg>6</arg>
             <arg>--target-dir</arg>
-            <arg>${job_TOULOUSE_OWNER_InventoryPack_DoIncrementTarget}</arg>
+            <arg>${job_DEVERN_OWNER_InventoryPack_DoIncrementTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>

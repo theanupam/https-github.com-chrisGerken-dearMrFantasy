@@ -1449,7 +1449,7 @@
 	<decision name="WORef-Ingest-SPTT-Decision">
     	<switch>
 			<case to="WORef-Ingest-SPTT">${ wf:conf('job_TOULOUSE_OWNER_WORef_DoFull') eq 'true'}</case>
-            <default to="Location-Ingest-SPTM-Decision"/>
+            <default to="MachineStage-Ingest-SPMX-Decision"/>
         </switch>
     </decision>
 
@@ -1481,37 +1481,37 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="Location-Ingest-SPTM-Decision"/>
-        <error to="Location-Ingest-SPTM-Decision"/>
+        <ok to="MachineStage-Ingest-SPMX-Decision"/>
+        <error to="MachineStage-Ingest-SPMX-Decision"/>
     </action>
 
-	<decision name="Location-Ingest-SPTM-Decision">
+	<decision name="MachineStage-Ingest-SPMX-Decision">
     	<switch>
-			<case to="Location-Ingest-SPTM">${ wf:conf('job_CAPETOWN_OWNER_Location_DoFull') eq 'true'}</case>
+			<case to="MachineStage-Ingest-SPMX">${ wf:conf('job_MEXICALI_OWNER_MachineStage_DoFull') eq 'true'}</case>
             <default to="End-Full-5-Ingest-Decision"/>
         </switch>
     </decision>
 
-    <action name="Location-Ingest-SPTM">
+    <action name="MachineStage-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_CAPETOWN_OWNER_Location_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_MachineStage_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
-            <arg>jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER</arg>
             <arg>--username</arg>
             <arg>usrSqoop</arg>
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT Location.LocationID, Location.Location, Location.LocationTypeID, Location.IsRetired, Location.MaxQuantity, Location.LocationCode, Location.Description, LocationType.LocationType, LocationType.LocationTypeCode,  5 as "org_id",  'SPTM' as "org_name"  FROM Location FULL JOIN LocationType ON (Location.LocationID = LocationType.LocationTypeID)   WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT MachineStage.MachineStageID, MachineStage.MachineStageTypeID, MachineStage.Name, MachineStage.IsRetired, MachineStage.DepartmentID, MachineStage.Description, MachineStage.CurrentShiftPatternID, MachineStage.NoHeads, MachineStage.IsOEEBottleNeck, MachineStage.IsProductionOutput, MachineStage.MachineStopID, MachineStage.StoppedScreenThreshold, MachineStage.LineSectionID, MachineStage.IsDiscrete, MachineStage.RfDowntimeCollectionModeID, MachineStage.RfSpoilageCollectionModeID, MachineStage.RfProductionCollectionModeID, MachineStage.LastBuildRecordID, MachineStage.CurrentJobID, MachineStage_Custom.ModuleDatabase, MachineStage_Custom.IntendedWOID, MachineStage_Custom.MachineStageCode,  1 as "org_id",  'SPMX' as "org_name"  FROM MachineStage FULL JOIN MachineStage_Custom ON (MachineStage.MachineStageID = MachineStage_Custom.MachineStageID)   WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_CAPETOWN_OWNER_Location_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_MachineStage_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>

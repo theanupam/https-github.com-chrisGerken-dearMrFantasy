@@ -1410,7 +1410,7 @@
 	<decision name="WO_-Ingest-SPMM-Decision">
     	<switch>
 			<case to="WO_-Ingest-SPMM">${ wf:conf('job_SPMM_C1_OWNER_WO__DoFull') eq 'true'}</case>
-            <default to="Job-Ingest-SPDV-Decision"/>
+            <default to="Job-Ingest-SPTT-Decision"/>
         </switch>
     </decision>
 
@@ -1442,76 +1442,37 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="Job-Ingest-SPDV-Decision"/>
-        <error to="Job-Ingest-SPDV-Decision"/>
+        <ok to="Job-Ingest-SPTT-Decision"/>
+        <error to="Job-Ingest-SPTT-Decision"/>
     </action>
 
-	<decision name="Job-Ingest-SPDV-Decision">
+	<decision name="Job-Ingest-SPTT-Decision">
     	<switch>
-			<case to="Job-Ingest-SPDV">${ wf:conf('job_DEVERN_OWNER_Job_DoFull') eq 'true'}</case>
-            <default to="WO-Ingest-SPTM-Decision"/>
-        </switch>
-    </decision>
-
-    <action name="Job-Ingest-SPDV">
-        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
-			<job-tracker>${jobTracker}</job-tracker>
-            <name-node>${nameNode}</name-node>
-			<prepare>
-            	<delete path="${job_DEVERN_OWNER_Job_DoFullTarget}" />
-            </prepare>         	
-            <arg>import</arg>
-         	<arg>--connect</arg>
-            <arg>jdbc:sqlserver://172.23.236.90:1433;database=DEVERN_OWNER</arg>
-            <arg>--username</arg>
-            <arg>usrSqoop</arg>
-            <arg>--password</arg>
-            <arg>AXm6Sn6#o</arg>
-            <arg>--query</arg>
-            <arg>SELECT Job.JobID, Job.WOID, Job.RfJobStatusID, Job.DeadlineDT, Job.ActualStartDT, Job.ActualEndDT, Job.PlannedStartDT, Job.PlannedEndDT, Job.PlannedDuration, Job.EstimatedStartDT, Job.EstimatedEndDT, Job.EstimatedDuration, Job.ScheduledSequence, Job.LineID, Job.ProductionStartDT, Job.ProductionEndDT, Job.TheoreticalCycleTime, Job.BudgetChangeOver, Job.QuantityOrdered, Job.IsCalculated, Job.LineGroupID, Job_.JobInstructions, Job_.ReleaseDT, Job_.ReleaseLoginID, Job_.StartLoginID, Job_.EndLoginID, Job_.Comments, Job_.ModifiedDt, Job_.ModifiedLoginID, Job_.StoppedReason, Job_.SkippedReason, Job_.SkippedDT,  3 as "org_id",  'SPDV' as "org_name"  FROM Job FULL JOIN Job_ ON (Job.JobID = Job_.JobID) FULL JOIN Job_Custom ON (Job.JobID = Job_Custom.JobID)   WHERE ( $CONDITIONS ) </arg>
-            <arg>--num-mappers</arg>
-            <arg>1</arg>
-            <arg>--target-dir</arg>
-            <arg>${job_DEVERN_OWNER_Job_DoFullTarget}</arg>
-            <arg>--fields-terminated-by</arg>
-            <arg>\t</arg>
-            <arg>--direct</arg>
-            <arg>--</arg>
-            <arg>--schema</arg>
-            <arg>dbo</arg>
-            <arg>-validate</arg>
-        </sqoop>
-        <ok to="WO-Ingest-SPTM-Decision"/>
-        <error to="WO-Ingest-SPTM-Decision"/>
-    </action>
-
-	<decision name="WO-Ingest-SPTM-Decision">
-    	<switch>
-			<case to="WO-Ingest-SPTM">${ wf:conf('job_CAPETOWN_OWNER_WO_DoFull') eq 'true'}</case>
+			<case to="Job-Ingest-SPTT">${ wf:conf('job_TOULOUSE_OWNER_Job_DoFull') eq 'true'}</case>
             <default to="End-Full-23-Ingest-Decision"/>
         </switch>
     </decision>
 
-    <action name="WO-Ingest-SPTM">
+    <action name="Job-Ingest-SPTT">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_CAPETOWN_OWNER_WO_DoFullTarget}" />
+            	<delete path="${job_TOULOUSE_OWNER_Job_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
-            <arg>jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=TOULOUSE_OWNER</arg>
             <arg>--username</arg>
             <arg>usrSqoop</arg>
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT WO.WOID, WO.WONumber, WO.RunNo, WO.PartID, WO.QuantityOrdered, WO.RfJobStatusID, WO.DeadlineDT, WO.ActualStartDT, WO.ActualEndDT, WO.PlannedStartDT, WO.PlannedEndDT, WO.EstimatedStartDT, WO.EstimatedEndDT, WO.CustomerID, WO.IsDiscrete, WO.Reference1, WO.Reference2, WO.Reference3, WO.Reference4, WO.Reference5, WO.WORefID, WO_.CustomerOrderNo, WO_.LabelsPerInventoryPack, WO_.ItemsPerInventoryPack, WO_.ItemsPerLayer, WO_.LayersPerInventoryPack, WO_.PackingCode, WO_.LabelTemplate, WO_.LabelColour, WO_.EANCode, WO_.CusStartNum, WO_.CusEndNum, WO_.CustomerPartNo, WO_.CustomerPartDescription, WO_.LabelText1, WO_.LabelText2, WO_.LabelText3, WO_.PrinterURL, WO_.BOMVariantID, WO_custom.BaseWONumber, WO_custom.Txn_date, WO_custom.Wip_Entity_ID, WO_custom.Alternate_Bom, WO_custom.WO_Status, WO_custom.IsBtoCto,  5 as "org_id",  'SPTM' as "org_name"  FROM WO FULL JOIN WO_ ON (WO.WOID = WO_.WOID) FULL JOIN WO_custom ON (WO.WOID = WO_custom.WOID)   WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT Job.JobID, Job.WOID, Job.RfJobStatusID, Job.DeadlineDT, Job.ActualStartDT, Job.ActualEndDT, Job.PlannedStartDT, Job.PlannedEndDT, Job.PlannedDuration, Job.EstimatedStartDT, Job.EstimatedEndDT, Job.EstimatedDuration, Job.ScheduledSequence, Job.LineID, Job.ProductionStartDT, Job.ProductionEndDT, Job.TheoreticalCycleTime, Job.BudgetChangeOver, Job.QuantityOrdered, Job.IsCalculated, Job.LineGroupID, Job_.JobInstructions, Job_.ReleaseDT, Job_.ReleaseLoginID, Job_.StartLoginID, Job_.EndLoginID, Job_.Comments, Job_.ModifiedDt, Job_.ModifiedLoginID, Job_.StoppedReason, Job_.SkippedReason, Job_.SkippedDT,  4 as "org_id",  'SPTT' as "org_name"  FROM Job FULL JOIN Job_ ON (Job.JobID = Job_.JobID) FULL JOIN Job_Custom ON (Job.JobID = Job_Custom.JobID)   WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_CAPETOWN_OWNER_WO_DoFullTarget}</arg>
+            <arg>${job_TOULOUSE_OWNER_Job_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>

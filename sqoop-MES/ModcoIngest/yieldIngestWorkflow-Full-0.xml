@@ -1449,7 +1449,7 @@
 	<decision name="WO_custom-Ingest-SPTT-Decision">
     	<switch>
 			<case to="WO_custom-Ingest-SPTT">${ wf:conf('job_TOULOUSE_OWNER_WO_custom_DoFull') eq 'true'}</case>
-            <default to="Line-Ingest-SPTM-Decision"/>
+            <default to="Location-Ingest-SPMX-Decision"/>
         </switch>
     </decision>
 
@@ -1481,37 +1481,37 @@
             <arg>dbo</arg>
             <arg>-validate</arg>
         </sqoop>
-        <ok to="Line-Ingest-SPTM-Decision"/>
-        <error to="Line-Ingest-SPTM-Decision"/>
+        <ok to="Location-Ingest-SPMX-Decision"/>
+        <error to="Location-Ingest-SPMX-Decision"/>
     </action>
 
-	<decision name="Line-Ingest-SPTM-Decision">
+	<decision name="Location-Ingest-SPMX-Decision">
     	<switch>
-			<case to="Line-Ingest-SPTM">${ wf:conf('job_CAPETOWN_OWNER_Line_DoFull') eq 'true'}</case>
+			<case to="Location-Ingest-SPMX">${ wf:conf('job_MEXICALI_OWNER_Location_DoFull') eq 'true'}</case>
             <default to="End-Full-0-Ingest-Decision"/>
         </switch>
     </decision>
 
-    <action name="Line-Ingest-SPTM">
+    <action name="Location-Ingest-SPMX">
         <sqoop xmlns="uri:oozie:sqoop-action:0.2">
 			<job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
 			<prepare>
-            	<delete path="${job_CAPETOWN_OWNER_Line_DoFullTarget}" />
+            	<delete path="${job_MEXICALI_OWNER_Location_DoFullTarget}" />
             </prepare>         	
             <arg>import</arg>
          	<arg>--connect</arg>
-            <arg>jdbc:sqlserver://172.23.236.90:1433;database=CAPETOWN_OWNER</arg>
+            <arg>jdbc:sqlserver://172.23.236.90:1433;database=MEXICALI_OWNER</arg>
             <arg>--username</arg>
             <arg>usrSqoop</arg>
             <arg>--password</arg>
             <arg>AXm6Sn6#o</arg>
             <arg>--query</arg>
-            <arg>SELECT Line.LineID, Line.Line, Line.Description, Line.LineTypeID, Line.IsRetired, Line.RfIntervalModeID, Line.IsOEEInventoryIsolation, Line.IsOEEInventoryReintroduction, Line.IsCountOutputInventory, Line.IsCountInputInventory, Line.IsLineInfoSweepEnabled, Line.IsWOOnSingleJob, Line.LineShortName, Line.CurrentLineInfoID, Line.LastLineInfoID, Line.RfInvCreatedDateModeID, Line.RfEndJobInvModeID, Line.CurrentJobID, Line.IsScrapAsQualityLoss, Line.IsScrapInProductionCounts, Line.LineDownCostPerHour, Line.IsContributeLineGroupOutput, Line.IsContributeLineGroupWaste, Line.IsContributeLineGroupDowntime, Line_.OEETarget, Line_.WasteTarget, Line_.Reference1, Line_.Reference2, Line_.Reference3, Line_.Reference4, Line_.Reference5,  5 as "org_id",  'SPTM' as "org_name"  FROM Line FULL JOIN Line_ ON (Line.LineID = Line_.LineID) FULL JOIN Line_Custom ON (Line.LineID = Line_Custom.LineID)   WHERE ( $CONDITIONS ) </arg>
+            <arg>SELECT Location.LocationID, Location.Location, Location.LocationTypeID, Location.IsRetired, Location.MaxQuantity, Location.LocationCode, Location.Description, LocationType.LocationType, LocationType.LocationTypeCode,  1 as "org_id",  'SPMX' as "org_name"  FROM Location FULL JOIN LocationType ON (Location.LocationID = LocationType.LocationTypeID)   WHERE ( $CONDITIONS ) </arg>
             <arg>--num-mappers</arg>
             <arg>1</arg>
             <arg>--target-dir</arg>
-            <arg>${job_CAPETOWN_OWNER_Line_DoFullTarget}</arg>
+            <arg>${job_MEXICALI_OWNER_Location_DoFullTarget}</arg>
             <arg>--fields-terminated-by</arg>
             <arg>\t</arg>
             <arg>--direct</arg>

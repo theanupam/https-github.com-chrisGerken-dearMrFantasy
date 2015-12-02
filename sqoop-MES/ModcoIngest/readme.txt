@@ -257,7 +257,7 @@ The MES ingestion is as follows:
         WorkInstructionStep (1)  
 
         BuildRecord (200) from BuildRecord, BuildRecord_
-        InventoryLabel (30) from InventoryLabel, InventoryLabel_, InventoryLabel_custom
+        InventoryLabel (200) from InventoryLabel, InventoryLabel_, InventoryLabel_custom
         InventoryPack (200) from InventoryPack, InventoryPack_, InventoryPack_Custom
         Job (10) from Job, Job_, Job_Custom
         Line (1) from Line, Line_, Line_Custom
