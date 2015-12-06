@@ -37,7 +37,7 @@ public class IngestionState implements Comparable {
 
 	private FileSystem hdfs = null;
 	private long refreshPeriod = 3L * 24L * 60L * 60000L;
-	private int maxJobs = 200;
+	private int maxJobs = 2000;
 	
 	// End custom declarations 
 
