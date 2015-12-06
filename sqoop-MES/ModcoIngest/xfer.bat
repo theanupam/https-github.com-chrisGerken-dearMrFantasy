@@ -1,14 +1,4 @@
 
-pscp  -pw d4e30f24   yieldIngestWorkflow-Incr-0.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Incr-0.xml
-pscp  -pw d4e30f24   yieldIngestWorkflow-Incr-1.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Incr-1.xml
-pscp  -pw d4e30f24   yieldIngestWorkflow-Incr-2.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Incr-2.xml
-pscp  -pw d4e30f24   yieldIngestWorkflow-Incr-3.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Incr-3.xml
-pscp  -pw d4e30f24   yieldIngestWorkflow-Incr-4.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Incr-4.xml
-pscp  -pw d4e30f24   yieldIngestWorkflow-Incr-5.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Incr-5.xml
-pscp  -pw d4e30f24   yieldIngestWorkflow-Incr-6.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Incr-6.xml
-pscp  -pw d4e30f24   yieldIngestWorkflow-Incr-7.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Incr-7.xml
-pscp  -pw d4e30f24   yieldIngestWorkflow-Incr-8.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Incr-8.xml
-pscp  -pw d4e30f24   yieldIngestWorkflow-Incr-9.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Incr-9.xml
 pscp  -pw d4e30f24   yieldIngestWorkflow-Full-0.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Full-0.xml
 pscp  -pw d4e30f24   yieldIngestWorkflow-Full-1.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Full-1.xml
 pscp  -pw d4e30f24   yieldIngestWorkflow-Full-2.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Full-2.xml
@@ -39,6 +29,16 @@ pscp  -pw d4e30f24   yieldIngestWorkflow-Full-26.xml    appladm@prod-hubnamedaws
 pscp  -pw d4e30f24   yieldIngestWorkflow-Full-27.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Full-27.xml
 pscp  -pw d4e30f24   yieldIngestWorkflow-Full-28.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Full-28.xml
 pscp  -pw d4e30f24   yieldIngestWorkflow-Full-29.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Full-29.xml
+pscp  -pw d4e30f24   yieldIngestWorkflow-Incr-0.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Incr-0.xml
+pscp  -pw d4e30f24   yieldIngestWorkflow-Incr-1.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Incr-1.xml
+pscp  -pw d4e30f24   yieldIngestWorkflow-Incr-2.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Incr-2.xml
+pscp  -pw d4e30f24   yieldIngestWorkflow-Incr-3.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Incr-3.xml
+pscp  -pw d4e30f24   yieldIngestWorkflow-Incr-4.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Incr-4.xml
+pscp  -pw d4e30f24   yieldIngestWorkflow-Incr-5.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Incr-5.xml
+pscp  -pw d4e30f24   yieldIngestWorkflow-Incr-6.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Incr-6.xml
+pscp  -pw d4e30f24   yieldIngestWorkflow-Incr-7.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Incr-7.xml
+pscp  -pw d4e30f24   yieldIngestWorkflow-Incr-8.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Incr-8.xml
+pscp  -pw d4e30f24   yieldIngestWorkflow-Incr-9.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Incr-9.xml
 pscp  -pw d4e30f24   yieldIngestWorkflow-Hive.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Hive.xml
 
 

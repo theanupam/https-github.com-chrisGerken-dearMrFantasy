@@ -2,46 +2,6 @@ hdfs dfs -rm -r -skipTrash /IncrementalYield
 hdfs dfs -mkdir /IncrementalYield
 
 hadoop fs -put yieldIngestWorkflow.xml /IncrementalYield/yieldIngestWorkflow.xml 
-echo "Validating and deploying yieldIngestWorkflow-Incr-0.xml";
-oozie  validate  yieldIngestWorkflow-Incr-0.xml  
-hadoop fs -put yieldIngestWorkflow-Incr-0.xml /IncrementalYield/yieldIngestWorkflow-Incr-0.xml
-echo "";
-echo "Validating and deploying yieldIngestWorkflow-Incr-1.xml";
-oozie  validate  yieldIngestWorkflow-Incr-1.xml  
-hadoop fs -put yieldIngestWorkflow-Incr-1.xml /IncrementalYield/yieldIngestWorkflow-Incr-1.xml
-echo "";
-echo "Validating and deploying yieldIngestWorkflow-Incr-2.xml";
-oozie  validate  yieldIngestWorkflow-Incr-2.xml  
-hadoop fs -put yieldIngestWorkflow-Incr-2.xml /IncrementalYield/yieldIngestWorkflow-Incr-2.xml
-echo "";
-echo "Validating and deploying yieldIngestWorkflow-Incr-3.xml";
-oozie  validate  yieldIngestWorkflow-Incr-3.xml  
-hadoop fs -put yieldIngestWorkflow-Incr-3.xml /IncrementalYield/yieldIngestWorkflow-Incr-3.xml
-echo "";
-echo "Validating and deploying yieldIngestWorkflow-Incr-4.xml";
-oozie  validate  yieldIngestWorkflow-Incr-4.xml  
-hadoop fs -put yieldIngestWorkflow-Incr-4.xml /IncrementalYield/yieldIngestWorkflow-Incr-4.xml
-echo "";
-echo "Validating and deploying yieldIngestWorkflow-Incr-5.xml";
-oozie  validate  yieldIngestWorkflow-Incr-5.xml  
-hadoop fs -put yieldIngestWorkflow-Incr-5.xml /IncrementalYield/yieldIngestWorkflow-Incr-5.xml
-echo "";
-echo "Validating and deploying yieldIngestWorkflow-Incr-6.xml";
-oozie  validate  yieldIngestWorkflow-Incr-6.xml  
-hadoop fs -put yieldIngestWorkflow-Incr-6.xml /IncrementalYield/yieldIngestWorkflow-Incr-6.xml
-echo "";
-echo "Validating and deploying yieldIngestWorkflow-Incr-7.xml";
-oozie  validate  yieldIngestWorkflow-Incr-7.xml  
-hadoop fs -put yieldIngestWorkflow-Incr-7.xml /IncrementalYield/yieldIngestWorkflow-Incr-7.xml
-echo "";
-echo "Validating and deploying yieldIngestWorkflow-Incr-8.xml";
-oozie  validate  yieldIngestWorkflow-Incr-8.xml  
-hadoop fs -put yieldIngestWorkflow-Incr-8.xml /IncrementalYield/yieldIngestWorkflow-Incr-8.xml
-echo "";
-echo "Validating and deploying yieldIngestWorkflow-Incr-9.xml";
-oozie  validate  yieldIngestWorkflow-Incr-9.xml  
-hadoop fs -put yieldIngestWorkflow-Incr-9.xml /IncrementalYield/yieldIngestWorkflow-Incr-9.xml
-echo "";
 echo "Validating and deploying yieldIngestWorkflow-Full-0.xml";
 oozie  validate  yieldIngestWorkflow-Full-0.xml  
 hadoop fs -put yieldIngestWorkflow-Full-0.xml /IncrementalYield/yieldIngestWorkflow-Full-0.xml
@@ -161,6 +121,46 @@ echo "";
 echo "Validating and deploying yieldIngestWorkflow-Full-29.xml";
 oozie  validate  yieldIngestWorkflow-Full-29.xml  
 hadoop fs -put yieldIngestWorkflow-Full-29.xml /IncrementalYield/yieldIngestWorkflow-Full-29.xml
+echo "";
+echo "Validating and deploying yieldIngestWorkflow-Incr-0.xml";
+oozie  validate  yieldIngestWorkflow-Incr-0.xml  
+hadoop fs -put yieldIngestWorkflow-Incr-0.xml /IncrementalYield/yieldIngestWorkflow-Incr-0.xml
+echo "";
+echo "Validating and deploying yieldIngestWorkflow-Incr-1.xml";
+oozie  validate  yieldIngestWorkflow-Incr-1.xml  
+hadoop fs -put yieldIngestWorkflow-Incr-1.xml /IncrementalYield/yieldIngestWorkflow-Incr-1.xml
+echo "";
+echo "Validating and deploying yieldIngestWorkflow-Incr-2.xml";
+oozie  validate  yieldIngestWorkflow-Incr-2.xml  
+hadoop fs -put yieldIngestWorkflow-Incr-2.xml /IncrementalYield/yieldIngestWorkflow-Incr-2.xml
+echo "";
+echo "Validating and deploying yieldIngestWorkflow-Incr-3.xml";
+oozie  validate  yieldIngestWorkflow-Incr-3.xml  
+hadoop fs -put yieldIngestWorkflow-Incr-3.xml /IncrementalYield/yieldIngestWorkflow-Incr-3.xml
+echo "";
+echo "Validating and deploying yieldIngestWorkflow-Incr-4.xml";
+oozie  validate  yieldIngestWorkflow-Incr-4.xml  
+hadoop fs -put yieldIngestWorkflow-Incr-4.xml /IncrementalYield/yieldIngestWorkflow-Incr-4.xml
+echo "";
+echo "Validating and deploying yieldIngestWorkflow-Incr-5.xml";
+oozie  validate  yieldIngestWorkflow-Incr-5.xml  
+hadoop fs -put yieldIngestWorkflow-Incr-5.xml /IncrementalYield/yieldIngestWorkflow-Incr-5.xml
+echo "";
+echo "Validating and deploying yieldIngestWorkflow-Incr-6.xml";
+oozie  validate  yieldIngestWorkflow-Incr-6.xml  
+hadoop fs -put yieldIngestWorkflow-Incr-6.xml /IncrementalYield/yieldIngestWorkflow-Incr-6.xml
+echo "";
+echo "Validating and deploying yieldIngestWorkflow-Incr-7.xml";
+oozie  validate  yieldIngestWorkflow-Incr-7.xml  
+hadoop fs -put yieldIngestWorkflow-Incr-7.xml /IncrementalYield/yieldIngestWorkflow-Incr-7.xml
+echo "";
+echo "Validating and deploying yieldIngestWorkflow-Incr-8.xml";
+oozie  validate  yieldIngestWorkflow-Incr-8.xml  
+hadoop fs -put yieldIngestWorkflow-Incr-8.xml /IncrementalYield/yieldIngestWorkflow-Incr-8.xml
+echo "";
+echo "Validating and deploying yieldIngestWorkflow-Incr-9.xml";
+oozie  validate  yieldIngestWorkflow-Incr-9.xml  
+hadoop fs -put yieldIngestWorkflow-Incr-9.xml /IncrementalYield/yieldIngestWorkflow-Incr-9.xml
 echo "";
 echo "Validating and deploying yieldIngestWorkflow-Hive.xml";
 oozie  validate  yieldIngestWorkflow-Hive.xml  
