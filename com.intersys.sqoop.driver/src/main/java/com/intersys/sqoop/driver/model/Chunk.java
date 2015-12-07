@@ -29,6 +29,7 @@ public class Chunk implements Comparable {
 	private Long _refreshed;
 	private String _hdfsDir;
 	private Integer _retries;
+	private Integer _rows;
 
 
 	public Chunk(JSONObject jobj) throws JSONException {
@@ -76,10 +77,16 @@ public class Chunk implements Comparable {
 			_retries = 0;
 		}
 
+		_rows = null;
+		try { _rows = jobj.getInt("rows"); } catch (Throwable t) { }
+		if (_rows == null) {
+			_rows = 0;
+		}
+
 		JSONArray jarr;
 	}
 
-	public Chunk(Long timestamp, Integer minId, Integer maxId, Long duration, Long refreshed, String hdfsDir, Integer retries) {
+	public Chunk(Long timestamp, Integer minId, Integer maxId, Long duration, Long refreshed, String hdfsDir, Integer retries, Integer rows) {
 		super();
 		this._timestamp = timestamp;
 		this._minId = minId;
@@ -88,6 +95,7 @@ public class Chunk implements Comparable {
 		this._refreshed = refreshed;
 		this._hdfsDir = hdfsDir;
 		this._retries = retries;
+		this._rows = rows;
 
 	}
 	
@@ -107,6 +115,8 @@ public class Chunk implements Comparable {
 		if (_hdfsDir != null) { jobj.put("hdfsDir", _hdfsDir); }
 
 		if (_retries != null) { jobj.put("retries", _retries); }
+
+		if (_rows != null) { jobj.put("rows", _rows); }
 
 		JSONArray jarr;
 		
@@ -169,6 +179,14 @@ public class Chunk implements Comparable {
 		this._retries = retries;
 	}
 
+	public Integer getRows() {
+		return _rows;
+	}
+
+	public void setRows(Integer rows) {
+		this._rows = rows;
+	}
+
 	public ChunkKey key() {
 		return new ChunkKey(_timestamp);
 	}
@@ -198,9 +216,9 @@ public class Chunk implements Comparable {
 	
 	// Begin custom logic
 
-	public static Chunk full(String hdfsDir, int max) {
+	public static Chunk full(String hdfsDir, int max, int rows) {
 		long now = System.currentTimeMillis();
-		return new Chunk(now, 0, max, 0L, 0L, hdfsDir, 0);
+		return new Chunk(now, 0, max, 0L, 0L, hdfsDir, 0, rows);
 	}
 
 	public boolean isOutOfDate(IngestionState is) {
@@ -213,7 +231,7 @@ public class Chunk implements Comparable {
 
 	public JobSpec fullJob(String prefix, String desc) {
 
-		JobSpec js = new JobSpec(getRefreshed(), desc, JobSpec.JOB_FULL);
+		JobSpec js = new JobSpec(getRefreshed(), desc, JobSpec.JOB_FULL, _rows);
 		js.set(prefix+"_DoFull", "true");
 		js.set(prefix+"_DoFullTarget", getHdfsDir());
 		return js;
@@ -222,7 +240,7 @@ public class Chunk implements Comparable {
 
 	public JobSpec baseJob(String prefix, String desc) {
 
-		JobSpec js = new JobSpec(getRefreshed(), desc, JobSpec.JOB_BASE);
+		JobSpec js = new JobSpec(getRefreshed(), desc, JobSpec.JOB_BASE, _rows);
 		js.set(prefix+"_DoBase", "true");
 		js.set(prefix+"_MinBaseID", String.valueOf(getMinId()));
 		js.set(prefix+"_MaxBaseID", String.valueOf(getMaxId()));
@@ -233,7 +251,7 @@ public class Chunk implements Comparable {
 
 	public JobSpec deltaJob(String prefix, String desc) {
 
-		JobSpec js = new JobSpec(getRefreshed(), desc, JobSpec.JOB_DELTA);
+		JobSpec js = new JobSpec(getRefreshed(), desc, JobSpec.JOB_DELTA, _rows);
 		js.set(prefix+"_DoDelta", "true");
 		js.set(prefix+"_MinDeltaID", String.valueOf(getMinId()));
 		js.set(prefix+"_DoDeltaTarget", getHdfsDir());

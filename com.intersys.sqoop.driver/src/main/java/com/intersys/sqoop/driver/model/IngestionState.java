@@ -36,7 +36,7 @@ public class IngestionState implements Comparable {
 	// Begin custom declarations
 
 	private FileSystem hdfs = null;
-	private long refreshPeriod = 3L * 24L * 60L * 60000L;
+	public static long refreshPeriod = 3L * 24L * 60L * 60000L;
 	private int maxJobs = 2000;
 	
 	// End custom declarations 
@@ -303,14 +303,19 @@ public class IngestionState implements Comparable {
 			jobs.addAll(proposals);
 		}
 		
+		int rows = 0;
+		int jobCount = 0;
 		JobSpec job[] = new JobSpec[jobs.size()];
 		jobs.toArray(job);
 		Arrays.sort(job);
 		for (int i = 0; ((i < job.length) && (i < maxJobs)); i++) {
 			System.out.println("Do "+job[i].getDescription());
 			newProps.putAll(job[i].getProperties());
+			rows = rows + job[i].getRows();
+			jobCount++;
 		}
 		
+		System.out.println("proposing "+rows+" rows in "+jobCount+" jobs");
 		return newProps;
 	}
 

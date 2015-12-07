@@ -435,7 +435,7 @@ public class LoadState implements Comparable {
 				String hdfsDir = getHdfsBaseDir() + "/Base/" + i;
 				int minId = min + (i * rowsPerBase);
 				int maxId = min + ((i+1) * rowsPerBase) - 1;
-				base = new Chunk(now+i, minId, maxId, 0L, 0L, hdfsDir, 0);
+				base = new Chunk(now+i, minId, maxId, 0L, 0L, hdfsDir, 0, (maxId-minId+1));
 				addBases(base);
 			}
 			base.setMaxId(max);
@@ -458,7 +458,7 @@ public class LoadState implements Comparable {
 			String hdfsDir = getHdfsBaseDir() + "/Delta";
 			int minId = lastSnapshot.getId() + 1;
 			int maxId = max;
-			delta = new Chunk(System.currentTimeMillis(), minId, maxId, 0L, 0L, hdfsDir, 0);
+			delta = new Chunk(System.currentTimeMillis(), minId, maxId, 0L, 0L, hdfsDir, 0, (maxId-minId+1));
 			addDeltas(delta);
 		}
 		
@@ -469,21 +469,31 @@ public class LoadState implements Comparable {
 	private void updateAsFull(IngestionState is) throws NoSuchDatabaseException, NoDataException, SQLException {
 
 		System.out.println(getTable()+" in "+getDatabase()+" is a full load");
+		int rows = getRows(is);
 
 		if (getFulls().isEmpty()) {
 			
-			int rows = getRows(is);
 			if (rows > 0) {
 				if (rows > sliceSize) {
 					System.out.println(" - Rows: "+rows+"; recommend making load incremental");
 				}
 				int max = getMaxId(is);
-				Chunk full = Chunk.full(getHdfsBaseDir(), max);
+				Chunk full = Chunk.full(getHdfsBaseDir(), max, rows);
 				addFulls(full);	
 			} else {
 				System.out.println(" - No data => No import for now");
 			}
 
+		} else {
+
+			Chunk full = getFulls().get(0);
+			if (rows != full.getRows()) {
+				// table definately has changed
+				full.setRows(rows);
+				full.setRefreshed(0L);
+			} else {
+				// row may or may not have changed
+			}
 		}
 		
 	}
@@ -627,8 +637,10 @@ public class LoadState implements Comparable {
 		
 		if (!getFulls().isEmpty()) {
 			Chunk full = getFulls().get(0);
-			full.setRefreshed(is.bornOnDate(getHdfsBaseDir()));
-			jobs.add(full.fullJob(SqoopDriver.PROPERTY_PREFIX + getDatabase() + "_" + getTable(), "Full load of "+getHdfsBaseDir()));
+			if ((full.getRefreshed() == 0L) || (full.isOutOfDate(is))) {
+				full.setRefreshed(is.bornOnDate(getHdfsBaseDir()));
+				jobs.add(full.fullJob(SqoopDriver.PROPERTY_PREFIX + getDatabase() + "_" + getTable(), "Full load of "+getHdfsBaseDir()));
+			}
 		}
 
 		return jobs;

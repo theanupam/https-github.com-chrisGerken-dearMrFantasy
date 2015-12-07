@@ -8,15 +8,17 @@ public class JobSpec implements Comparable {
 	private long refreshed;
 	private String description;
 	private int type;
+	private int rows;
 	
 	public static final int JOB_BASE = 1;
 	public static final int JOB_DELTA = 2;
 	public static final int JOB_FULL = 3;
 	
-	public JobSpec(long refreshed, String description, int type) {
+	public JobSpec(long refreshed, String description, int type, int rows) {
 		this.refreshed = refreshed;
 		this.description = description;
 		this.type = type;
+		this.rows = rows;
 	}
 	
 	public void set(String key, String value) {
@@ -33,6 +35,10 @@ public class JobSpec implements Comparable {
 	
 	public String getDescription() {
 		return description;
+	}
+	
+	public int getRows() {
+		return rows;
 	}
 
 	@Override
