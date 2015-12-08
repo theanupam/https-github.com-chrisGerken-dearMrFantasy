@@ -309,7 +309,7 @@ public class IngestionState implements Comparable {
 		jobs.toArray(job);
 		Arrays.sort(job);
 		for (int i = 0; ((i < job.length) && (i < maxJobs)); i++) {
-			System.out.println("Do "+job[i].getDescription());
+			System.out.println("Do "+job[i].getDescription()+" ("+job[i].getRows()+")");
 			newProps.putAll(job[i].getProperties());
 			rows = rows + job[i].getRows();
 			jobCount++;
