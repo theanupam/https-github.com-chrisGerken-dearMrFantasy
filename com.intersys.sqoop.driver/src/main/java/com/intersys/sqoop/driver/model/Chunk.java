@@ -259,6 +259,17 @@ public class Chunk implements Comparable {
 	
 	}
 
+	public JobSpec periodJob(String prefix, String desc) {
+
+		JobSpec js = new JobSpec(getRefreshed(), desc, JobSpec.JOB_DELTA, _rows);
+		js.set(prefix+"_DoIncrement", "true");
+		js.set(prefix+"_MinIncrementID", String.valueOf(getMinId()));
+		js.set(prefix+"_MaxIncrementID", String.valueOf(getMaxId()));
+		js.set(prefix+"_DoIncrementTarget", getHdfsDir());
+		return js;
+	
+	}
+
 //	parms.put("_MinIncrementID", String.valueOf(first.getMaxId()+1));
 //	parms.put("_MaxIncrementID", String.valueOf(last.getMaxId()));
 // Increment target def for property _DoIncrementTarget

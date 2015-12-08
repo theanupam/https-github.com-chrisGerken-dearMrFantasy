@@ -28,6 +28,7 @@ public class LoadState implements Comparable {
 	// Begin custom declarations
 	
 	public static int rowsPerBase = 15000000;
+	public static int rowsPerIncr =  1000000;
 	public static int sliceSize   =   100000;
 
 	// End custom declarations 
@@ -428,6 +429,8 @@ public class LoadState implements Comparable {
 		if (getBases().isEmpty()) {
 			
 			long bases = (max-min+1) / rowsPerBase + 1;
+			System.out.println(" - "+bases+" bases");
+			System.out.println(" - "+rows+" rows");
 
 			Chunk base = null;
 			long now = System.currentTimeMillis() - bases;
@@ -450,6 +453,8 @@ public class LoadState implements Comparable {
 			removeSnapshots(snapshot);
 			System.out.println(" - No new data => No import for now");
 			return;
+		} else {
+			System.out.println(" - "+(max-lastSnapshot.getId())+" new rows");
 		}
 		
 		Chunk delta;
@@ -464,12 +469,39 @@ public class LoadState implements Comparable {
 		
 		delta = getDeltas().get(0);
 		
+		// Check to see if we can store an unmutable increment
+		
+		List<Snapshot> snapshots = Snapshot.sort(getSnapshots());
+		Snapshot start = null;
+		Snapshot cut = null;
+		for (Snapshot s: snapshots) {
+			if (start == null) {
+				if (s.getId() == delta.getMinId()-1) {
+					start = s;
+				}
+			} else {
+				long age = System.currentTimeMillis() - s.getTimestamp();
+				int incSize = s.getId() - start.getId() + 1;
+				if ((age > IngestionState.refreshPeriod) && (incSize > rowsPerIncr)) {
+					cut = s;
+				}
+			}
+		}
+
+		if (cut != null) {
+			System.out.println(" - Can make increment from "+start.toString()+" to "+cut.toString());
+			
+			int minId = start.getId() + 1;
+			int maxId = cut.getId();
+			String hdfsDir = getHdfsBaseDir() + "/From_"+minId+"_To_"+maxId;
+			Chunk period = new Chunk(System.currentTimeMillis(), minId, maxId, 0L, 0L, hdfsDir, 0, (maxId-minId+1));
+		}
 	}
 
 	private void updateAsFull(IngestionState is) throws NoSuchDatabaseException, NoDataException, SQLException {
 
-		System.out.println(getTable()+" in "+getDatabase()+" is a full load");
 		int rows = getRows(is);
+		System.out.println(getTable()+" in "+getDatabase()+" is a full load ("+rows+")");
 
 		if (getFulls().isEmpty()) {
 			
@@ -493,6 +525,7 @@ public class LoadState implements Comparable {
 				full.setRefreshed(0L);
 			} else {
 				// row may or may not have changed
+				System.out.println(" - No change in row count");
 			}
 		}
 		
@@ -510,7 +543,7 @@ public class LoadState implements Comparable {
 		return is.getDatabases(new DatabaseSpecKey(getDatabase())).getEnabled() && is.getTables(new TableSpecKey(getTable())).getEnabled();
 	}
 	
-	public int getMinId(IngestionState is) throws SQLException, NoSuchDatabaseException, NoDataException {
+	public int getMinId(IngestionState is) {
 
 		Connection connection = null;
 		Statement stmt = null;
@@ -530,22 +563,22 @@ public class LoadState implements Comparable {
 					throw new NoDataException("No data for table "+getTable()+" in data base "+getDatabase());
 				}
 			
-	    } catch (SQLException e) {
+	    } catch (Exception e) {
 	    	System.out.println("Error performing query: "+query);
 	    	System.out.println("\ttable="+getTable()+"; column="+getColumn(is)+"; database="+getDatabase());
-			throw e;
 		} finally {
 			try { rs.close(); } catch (Throwable t) {  }
 			try { stmt.close(); } catch (Throwable t) {  }
 		}
 
+		return 0;
 	}
 
 	private String getColumn(IngestionState is) {
 		return is.getTables(new TableSpecKey(getTable())).getIdColumn();
 	}
 
-	public int getMaxId(IngestionState is) throws SQLException, NoSuchDatabaseException, NoDataException {
+	public int getMaxId(IngestionState is) {
 
 		Connection connection = null;
 		Statement stmt = null;
@@ -565,18 +598,19 @@ public class LoadState implements Comparable {
 					throw new NoDataException("No data for table "+getTable()+" in data base "+getDatabase());
 				}
 			
-	    } catch (SQLException e) {
+	    } catch (Exception e) {
 	    	System.out.println("Error performing query: "+query);
 	    	System.out.println("\ttable="+getTable()+"; column="+getColumn(is)+"; database="+getDatabase());
-			throw e;
 		} finally {
 			try { rs.close(); } catch (Throwable t) {  }
 			try { stmt.close(); } catch (Throwable t) {  }
 		}
+		
+		return 0;
 
 	}
 
-	public int getRows(IngestionState is) throws SQLException, NoSuchDatabaseException, NoDataException {
+	public int getRows(IngestionState is) {
 
 		Connection connection = null;
 		Statement stmt = null;
@@ -596,14 +630,15 @@ public class LoadState implements Comparable {
 					throw new NoDataException("No data for table "+getTable()+" in data base "+getDatabase());
 				}
 			
-	    } catch (SQLException e) {
+	    } catch (Exception e) {
 	    	System.out.println("Error performing query: "+query);
 	    	System.out.println("\ttable="+getTable()+"; column="+getColumn(is)+"; database="+getDatabase());
-			throw e;
 		} finally {
 			try { rs.close(); } catch (Throwable t) {  }
 			try { stmt.close(); } catch (Throwable t) {  }
 		}
+		
+		return 0;
 
 	}
 
@@ -631,6 +666,15 @@ public class LoadState implements Comparable {
 			Chunk delta = getDeltas().get(0);
 			delta.setRefreshed(is.bornOnDate(getHdfsBaseDir()));
 			jobs.add(delta.deltaJob(SqoopDriver.PROPERTY_PREFIX + getDatabase() + "_" + getTable(), "Delta load of "+getHdfsBaseDir()));
+		}
+		
+		// If there's a new period, update it
+		
+		for (Chunk period: getPeriods()) {
+			if (period.isOutOfDate(is)) {
+				period.setRefreshed(is.bornOnDate(getHdfsBaseDir()));
+				jobs.add(period.periodJob(SqoopDriver.PROPERTY_PREFIX + getDatabase() + "_" + getTable(), "Period load of "+getHdfsBaseDir()));
+			}
 		}
 		
 		// If there's a full, update it
