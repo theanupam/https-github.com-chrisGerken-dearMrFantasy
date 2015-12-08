@@ -49,7 +49,7 @@ pscp  -pw d4e30f24   hs_03.q    appladm@prod-hubnamedaws01.sunpowercorp.com:/hom
 
 pscp  -pw d4e30f24   runSqoop.sh           appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/runSqoop.sh
 pscp  -pw d4e30f24   deploySqoop.sh        appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/deploySqoop.sh
-pscp  -pw d4e30f24   stage2.sh             appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/stage2.sh
+pscp  -pw d4e30f24   rerun.sh              appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/rerun.sh
 pscp  -pw d4e30f24   hiveCreate.sh         appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/hiveCreate.sh
 
 pscp  -pw d4e30f24   ingestionState.jsonx  appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/ingestionState.jsonx

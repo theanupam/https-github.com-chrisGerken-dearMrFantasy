@@ -421,9 +421,6 @@ public class LoadState implements Comparable {
 			lastSnapshot = snapshots.get(snapshots.size()-1);
 		}
 		
-		Snapshot snapshot = new Snapshot(System.currentTimeMillis(), max);
-		addSnapshots(snapshot);
-		
 		// First, see if we have any bases
 		
 		if (getBases().isEmpty()) {
@@ -450,18 +447,22 @@ public class LoadState implements Comparable {
 		
 		if (lastSnapshot.getId() == max) {
 			// if no new data
-			removeSnapshots(snapshot);
 			System.out.println(" - No new data => No import for now");
 			return;
-		} else {
+		} else {			
+			Snapshot snapshot = new Snapshot(System.currentTimeMillis(), max);
+			addSnapshots(snapshot);
+			
 			System.out.println(" - "+(max-lastSnapshot.getId())+" new rows");
 		}
 		
 		Chunk delta;
 
 		if (getDeltas().isEmpty()) {
+			List<Chunk> bases = Chunk.sort(getBases());
+			Chunk lastBase = bases.get(bases.size()-1); 
 			String hdfsDir = getHdfsBaseDir() + "/Delta";
-			int minId = lastSnapshot.getId() + 1;
+			int minId = lastBase.getMaxId() + 1;
 			int maxId = max;
 			delta = new Chunk(System.currentTimeMillis(), minId, maxId, 0L, 0L, hdfsDir, 0, (maxId-minId+1));
 			addDeltas(delta);
