@@ -27,7 +27,7 @@ public class LoadState implements Comparable {
 
 	// Begin custom declarations
 	
-	public static int rowsPerBase = 15000000;
+	public static int rowsPerBase = 10000000;
 	public static int rowsPerIncr =  1000000;
 	public static int sliceSize   =   100000;
 
@@ -651,14 +651,18 @@ public class LoadState implements Comparable {
 		// Find the earliest base that needs refreshing
 		
 		found = false;
+		Chunk candidate = null;
 		for (Chunk base: Chunk.sort(getBases())) {
-			if (!found) {
-				if ((base.getRefreshed() == 0L) || (base.isOutOfDate(is))) {
-					found = !all;
-					base.setRefreshed(is.bornOnDate(base.getHdfsDir()));
-					jobs.add(base.baseJob(SqoopDriver.PROPERTY_PREFIX + getDatabase() + "_" + getTable(), "Base load of "+base.getHdfsDir()));
-				}
+//			if ((base.getRefreshed() == 0L) || (base.isOutOfDate(is))) {
+			if (base.bornOnDate(is) == 0L) {
+				candidate = base;
 			}
+		}
+		if (candidate!=null) {
+			Chunk base = candidate;
+			found = !all;
+			base.setRefreshed(is.bornOnDate(base.getHdfsDir()));
+			jobs.add(base.baseJob(SqoopDriver.PROPERTY_PREFIX + getDatabase() + "_" + getTable(), "Base load of "+base.getHdfsDir()));
 		}
 		
 		// If there's a delta, update it
