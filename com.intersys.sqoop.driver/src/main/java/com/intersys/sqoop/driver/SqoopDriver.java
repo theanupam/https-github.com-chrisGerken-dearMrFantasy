@@ -44,80 +44,77 @@ public class SqoopDriver {
 	}
 	
 	public static void main(String[] args) {
+		try {
+			getDefault().run(args);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void run(String[] args) throws Exception {
 
-		if (args.length < 2) {
-			System.out.println("options:  <ingestion-state-file>  <oozie-properties-file> ");
+		boolean validate = false;
+		boolean submit = false;
+		boolean increment = false;
+		boolean reset = false;
+		
+		String ingestionStateFile = null;
+		String ooziePropsFile = null;
+		
+		if (args.length < 3) {
+			System.out.println("options:  -irsv <ingestion-state-file>  <oozie-properties-file> ");
 			System.out.println("");
-			System.out.println("          -r  <ingestion-state-file> ");
-			System.out.println("");
-			System.out.println("          -v  <ingestion-state-file> ");
+			System.out.println("          -i : increment history ");
+			System.out.println("          -r : reset history ");
+			System.out.println("          -v : validate ");
 			return;
 		}
 
-		String ingestionStateFile = args[0];
-		String ooziePropsFile = args[1];
-		
-		try {
-
-			if (ingestionStateFile.equalsIgnoreCase("-r")) {
-				ingestionStateFile = ooziePropsFile;
-				getDefault().reset(ingestionStateFile);
+		for (String arg: args) {
+			if (arg.startsWith("-")) {
+				increment = arg.contains("i");
+				reset = arg.contains("r");
+				submit = arg.contains("s");
+				validate = arg.contains("v");
+			} else if (ingestionStateFile == null) {
+				ingestionStateFile = arg;
+			} else if (ooziePropsFile == null) {
+				ooziePropsFile = arg;
+			} else {
+				System.out.println("Unknown argument: "+arg);
+				System.out.println("");
+				System.out.println("options:  -irsv <ingestion-state-file>  <oozie-properties-file> ");
+				System.out.println("");
+				System.out.println("          -i : increment history; update properties file ");
+				System.out.println("          -r : reset history ");
+				System.out.println("          -v : validate ");
 				return;
 			}
-
-			if (ingestionStateFile.equalsIgnoreCase("-v")) {
-				ingestionStateFile = ooziePropsFile;
-				getDefault().validate(ingestionStateFile);
-				return;
-			}
-
-			getDefault().increment(ingestionStateFile, ooziePropsFile);
-		
-		} catch (SqoopDriverException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (JSONException e) {
-			e.printStackTrace();
 		}
-		
-	}
 
-	private void validate(String ingestionStateFile) throws SqoopDriverException {
-		try {
-			state = IngestionState.loadFrom(ingestionStateFile);
-			state.validate();
-			cleanup();
-		} catch (IOException e) {
-			throw new SqoopDriverException(e);
-		} catch (URISyntaxException e) {
-			throw new SqoopDriverException(e);
-		}
-	}
-
-	private void reset(String ingestionStateFile) throws IOException, JSONException, IngestionStateLoadException {
 		state = IngestionState.loadFrom(ingestionStateFile);
-		state.reset();
-		state.persistTo(ingestionStateFile);
-	}
+		boolean persist = false;
+		
+		if (reset) {
+			state.reset();
+		}
 
-	private void increment(String ingestionStateFile, String ooziePropsFile) throws SqoopDriverException {
-		try {
-			state = IngestionState.loadFrom(ingestionStateFile);
+		if (validate) {
 			state.validate();
+		}
+
+		if (increment) {
 			Properties newProps = state.configureIncrement();
 			updateProperties(newProps, ooziePropsFile);
-			state.persistTo(ingestionStateFile);
-			cleanup();
-		} catch (IOException e) {
-			throw new SqoopDriverException(e);
-		} catch (URISyntaxException e) {
-			throw new SqoopDriverException(e);
-		} catch (SQLException e) {
-			throw new SqoopDriverException(e);
-		} catch (JSONException e) {
-			throw new SqoopDriverException(e);
+			persist = true;
 		}
+
+		if (persist) {
+			state.persistTo(ingestionStateFile);
+		}
+
+		cleanup();
+
 	}
 
 	private void cleanup() {
