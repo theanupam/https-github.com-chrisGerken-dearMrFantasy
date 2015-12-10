@@ -385,6 +385,11 @@ public class LoadState implements Comparable {
 	public void update(IngestionState is) throws SQLException, NoSuchDatabaseException, NoDataException, JSONException {
 
 		try {
+			
+			if (!isEnabled(is)) {
+				System.out.println(getTable()+" in "+getDatabase()+" not enabled");
+				return;
+			}
 
 			if (getIncremental()) {
 
