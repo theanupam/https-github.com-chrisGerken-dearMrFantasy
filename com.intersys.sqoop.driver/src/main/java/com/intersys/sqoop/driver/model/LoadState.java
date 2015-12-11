@@ -402,7 +402,7 @@ public class LoadState implements Comparable {
 			}
 
 		} catch (Exception e) {
-			System.out.println("\t"+e.getLocalizedMessage());
+			System.out.println("\t"+e.toString());
 		}
 		
 	}
@@ -425,6 +425,9 @@ public class LoadState implements Comparable {
 			List<Snapshot> snapshots = Snapshot.sort(getSnapshots());
 			lastSnapshot = snapshots.get(snapshots.size()-1);
 		}
+		if (lastSnapshot==null) {
+			System.out.println(" - no last snapshot");
+		}
 		
 		// First, see if we have any bases
 		
@@ -445,11 +448,16 @@ public class LoadState implements Comparable {
 			}
 			base.setMaxId(max);
 			
+			Snapshot s = new Snapshot(base.getTimestamp(), base.getMaxId());
+			addSnapshots(s);
+			
 			return;
 		}
 		
 		// If we already have some bases, just update the delta for now
 		
+		System.out.println(" - Bases exist; Prep delta");
+		System.out.println(" - last snapshot: "+lastSnapshot.toString());
 		if (lastSnapshot.getId() == max) {
 			// if no new data
 			System.out.println(" - No new data => No import for now");
