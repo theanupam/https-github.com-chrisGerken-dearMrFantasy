@@ -71,12 +71,12 @@ SELECT T2.*,
                       else to_date(BuildRecord.OpenedDT)
                        end                                       as ShiftStart_DateTime
                  FROM
-                      BuildRecord        as BuildRecord,
-                      InventoryPack      as InventoryPack,
-                      Part               as Part,
-                      WO                 as WO,
-                      U_SPML_ModuleInfo  as U_SPML_ModuleInfo,
-                      MachineStage       as MachineStage
+                      MES.BuildRecord        as BuildRecord,
+                      MES.InventoryPack      as InventoryPack,
+                      MES.Part               as Part,
+                      MES.WO                 as WO,
+                      MES.U_SPML_ModuleInfo  as U_SPML_ModuleInfo,
+                      MES.MachineStage       as MachineStage
                 where
                       BuildRecord.InvPackCreatedID = InventoryPack.InventoryPackID
                   AND InventoryPack.PartID = Part.PartID
