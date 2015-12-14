@@ -29,7 +29,7 @@ create table MES.table01 as
             when ShiftStart_DateTime between  '2014-12-29' and  '2015-03-29' then 1
             when ShiftStart_DateTime between  '2015-03-30' and  '2015-06-28' then 2
             when ShiftStart_DateTime between  '2015-06-29' and  '2015-09-27' then 3
-            when ShiftStart_DateTime between  '2015-09-28' and  '2016-01-03-' then 4
+            when ShiftStart_DateTime between  '2015-09-28' and  '2016-01-03' then 4
         end                                                      as Trans_DateTime_qtr,
        YEAR(ShiftStart_DateTime)                                 as Trans_DateTime_year
   FROM (
