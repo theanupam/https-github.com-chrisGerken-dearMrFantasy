@@ -387,7 +387,7 @@ public class LoadState implements Comparable {
 		try {
 			
 			if (!isEnabled(is)) {
-				System.out.println(getTable()+" in "+getDatabase()+" not enabled");
+//				System.out.println(getTable()+" in "+getDatabase()+" not enabled");
 				return;
 			}
 
