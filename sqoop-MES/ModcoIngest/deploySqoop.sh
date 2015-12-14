@@ -167,9 +167,17 @@ oozie  validate  yieldIngestWorkflow-Hive.xml
 hadoop fs -put yieldIngestWorkflow-Hive.xml /IncrementalYield/yieldIngestWorkflow-Hive.xml
 echo "";
 
-hadoop fs -put hs_01.q /IncrementalYield/hs_01.q 
-hadoop fs -put hs_02.q /IncrementalYield/hs_02.q 
-hadoop fs -put hs_03.q /IncrementalYield/hs_03.q 
+hadoop fs -put create_1_1.q /IncrementalYield/create_1_1.q 
+hadoop fs -put create_1_2.q /IncrementalYield/create_1_2.q 
+hadoop fs -put create_1_3.q /IncrementalYield/create_1_3.q 
+hadoop fs -put create_1_4.q /IncrementalYield/create_1_4.q 
+hadoop fs -put create_2_1.q /IncrementalYield/create_2_1.q 
+hadoop fs -put create_2_2.q /IncrementalYield/create_2_2.q 
+hadoop fs -put create_2_3.q /IncrementalYield/create_2_3.q 
+hadoop fs -put create_2_4.q /IncrementalYield/create_2_4.q 
+hadoop fs -put create_2_5.q /IncrementalYield/create_2_5.q 
+hadoop fs -put create_3_1.q /IncrementalYield/create_3_1.q 
+hadoop fs -put create_3_2.q /IncrementalYield/create_3_2.q 
 
 
 echo "Validating yieldIngestWorkflow.xml";

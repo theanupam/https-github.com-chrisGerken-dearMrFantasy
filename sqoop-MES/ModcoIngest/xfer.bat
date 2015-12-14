@@ -42,9 +42,17 @@ pscp  -pw d4e30f24   yieldIngestWorkflow-Incr-9.xml    appladm@prod-hubnamedaws0
 pscp  -pw d4e30f24   yieldIngestWorkflow-Hive.xml    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow-Hive.xml
 
 
-pscp  -pw d4e30f24   hs_01.q    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/hs_01.q
-pscp  -pw d4e30f24   hs_02.q    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/hs_02.q
-pscp  -pw d4e30f24   hs_03.q    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/hs_03.q
+pscp  -pw d4e30f24   create_1_1.q    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/create_1_1.q
+pscp  -pw d4e30f24   create_1_2.q    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/create_1_2.q
+pscp  -pw d4e30f24   create_1_3.q    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/create_1_3.q
+pscp  -pw d4e30f24   create_1_4.q    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/create_1_4.q
+pscp  -pw d4e30f24   create_2_1.q    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/create_2_1.q
+pscp  -pw d4e30f24   create_2_2.q    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/create_2_2.q
+pscp  -pw d4e30f24   create_2_3.q    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/create_2_3.q
+pscp  -pw d4e30f24   create_2_4.q    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/create_2_4.q
+pscp  -pw d4e30f24   create_2_5.q    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/create_2_5.q
+pscp  -pw d4e30f24   create_3_1.q    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/create_3_1.q
+pscp  -pw d4e30f24   create_3_2.q    appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/create_3_2.q
 
 
 pscp  -pw d4e30f24   runOozie.sh           appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/runOozie.sh
