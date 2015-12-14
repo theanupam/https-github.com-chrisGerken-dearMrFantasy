@@ -535,6 +535,7 @@ public class LoadState implements Comparable {
 			Chunk full = getFulls().get(0);
 			if (rows != full.getRows()) {
 				// table definately has changed
+				System.out.println(" - "+(rows-full.getRows())+" new row(s)");
 				full.setRows(rows);
 				full.setRefreshed(0L);
 			} else {

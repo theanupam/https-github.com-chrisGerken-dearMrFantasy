@@ -50,6 +50,7 @@ pscp  -pw d4e30f24   hs_03.q    appladm@prod-hubnamedaws01.sunpowercorp.com:/hom
 pscp  -pw d4e30f24   runOozie.sh           appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/runOozie.sh
 pscp  -pw d4e30f24   deploySqoop.sh        appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/deploySqoop.sh
 pscp  -pw d4e30f24   runIncrement.sh       appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/runIncrement.sh
+pscp  -pw d4e30f24   runAll.sh		       appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/runAll.sh
 pscp  -pw d4e30f24   hiveCreate.sh         appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/hiveCreate.sh
 
 pscp  -pw d4e30f24   ingestionState.jsonx  appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/ingestionState.jsonx
