@@ -1,29 +1,5 @@
 drop table if exists mes.GoLive_N_SPWR_CELL_LOSS;
 
-
-/***************************************************************************************************
-#
-# Scriptname :
-#
-#
-# Purpose : contains query and transformation logic to load the EL Out fact table N_SPWR_CELL_LOSS
-#           sourced from the query used to load "Cell Loss" Xls Sheet
-#
-#           N_SPWR_CELL_LOSS (11035736 row(s) affected)
-#
-#
-# Called by :
-#
-# Amendment History :
-#
-#    Ver        Date        Author           Description
-#  ---------  ----------  ---------------  ---------------------------------------------------
-#   1.0        10/10/2015   Guna           Initial version - SPMX
-#
-***************************************************************************************************/
-
---
--- Loaded records in GoLive_N_SPWR_CELL_LOSS (1304491 row(s) affected)
 create table MES.GoLive_N_SPWR_CELL_LOSS as
 
 SELECT T2.*,
@@ -113,16 +89,16 @@ SELECT T2.*,
                                 MES.Unit                     as Unit,
                                 (SELECT  InvPack.LocationID, Location.Location 
                                   from MES.InventoryPack as InvPack 
-                                  left join MES.Location as Location 
+                                  left join MES.Location 
                                   on InvPack.LocationID = Location.LocationID) as InvPackScarpLocation,
                                 (SELECT  InvPack.MachineLocationID, Location.Location 
                                   from MES.InventoryPack as InvPack 
-                                  left join MES.Location as Location 
+                                  left join MES.Location  
                                   on InvPack.MachineLocationID = Location.LocationID) as InvPackMachineLocation,
-                                (SELECT  InvPack.ScrapReasonID, ScrapReason.ScrapReason 
-                                  from MES.InventoryPack as InvPack 
+                                (SELECT  InventoryPack.ScrapReasonID, ScrapReason.ScrapReason 
+                                  from MES.InventoryPack  
                                   left join MES.ScrapReason as ScrapReason 
-                                  on InvPack.ScrapReasonID = ScrapReason.ScrapReasonID) as InvPackScrapReason
+                                  on InventoryPack.ScrapReasonID = ScrapReason.ScrapReasonID) as InvPackScrapReason
                           WHERE InvChangeState.IsEdited = 0
                             AND InventoryPack.IsEdited = 0
                             AND Part.PartTypeID in (39, 40, 58)
@@ -138,13 +114,5 @@ SELECT T2.*,
                  WHERE MachineLocation not in ( 'PM', 'COV', 'Engineering')
                 ) T1
         where rank_num = 1
-      ) T2
-      
-      ;
-
-/*
-       case
-       when T1.MachineLocation like '%FAB%' COLLATE Latin1_General_BIN then 'FAB'
-       else T1.MachineLocation
-        end                                                                             as Caused_By,
-*/
+        
+        ;
