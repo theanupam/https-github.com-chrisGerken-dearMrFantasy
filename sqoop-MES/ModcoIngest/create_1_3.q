@@ -114,5 +114,6 @@ SELECT T2.*,
                  WHERE MachineLocation not in ( 'PM', 'COV', 'Engineering')
                 ) T1
         where rank_num = 1
-        
-        ;
+      ) T2
+      
+;

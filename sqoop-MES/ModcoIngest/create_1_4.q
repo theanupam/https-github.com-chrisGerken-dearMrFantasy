@@ -1,26 +1,6 @@
 drop table if exists mes.GoLive_N_SPWR_DEFECTS;
 
 
-/***************************************************************************************************
-#
-# Scriptname :
-#
-#
-# Purpose : contains query and transformation logic to load the defect fact table N_SPWR_DEFECTS
-#           sourced from the query used to load "Defect" Xls Sheet
-#
-#
-# Called by :
-#
-# Amendment History :
-#
-#    Ver        Date        Author           Description
-#  ---------  ----------  ---------------  ---------------------------------------------------
-#   1.0        10/10/2015   Guna           Initial version - SPMX
-#
-***************************************************************************************************/
-
--- Loaded records in GoLive_N_SPWR_DEFECTS (1569 row(s) affected) with records LaminateCreatedDT > '01-01-2014'
 create table MES.GoLive_N_SPWR_DEFECTS as 
 SELECT 'SPMX' as ORG_ID,
        S2.*
