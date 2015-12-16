@@ -139,6 +139,8 @@ SELECT T2.*,
                 ) T1
         where rank_num = 1
       ) T2
+      
+      ;
 
 /*
        case
