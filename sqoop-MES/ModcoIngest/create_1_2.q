@@ -1,28 +1,5 @@
 drop table if exists MES.GoLive_N_SPWR_TEST_OUTS;
 
-
-
-/***************************************************************************************************
-#
-# Scriptname :
-#
-#
-# Purpose : contains query and transformation logic to load the Test Out fact table N_SPWR_TEST_OUTS
-#           sourced from the query used to load "Test Out" Xls Sheet
-#
-#           N_SPWR_TEST_OUTS (2650270 row(s) affected)
-#
-# Called by :
-#
-# Amendment History :
-#
-#    Ver        Date        Author           Description
-#  ---------  ----------  ---------------  ---------------------------------------------------
-#   1.0        10/10/2015   Guna           Initial version - SPMX
-#
-***************************************************************************************************/
-
--- Loaded records in GoLive_N_SPWR_TEST_OUTS (293013 row(s) affected)
 create table MES.GoLive_N_SPWR_TEST_OUTS as
 
 SELECT T2.*,

@@ -1,6 +1,6 @@
-drop table if exists mes.table01;
+drop table if exists mes.GoLive_N_SPWR_EL_OUTS;
 
-create table MES.table01 as 
+create table MES.GoLive_N_SPWR_EL_OUTS as 
 
   SELECT T2.*,
        case
