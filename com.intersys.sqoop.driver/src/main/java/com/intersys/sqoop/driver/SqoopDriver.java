@@ -56,16 +56,20 @@ public class SqoopDriver {
 		boolean validate = false;
 		boolean submit = false;
 		boolean increment = false;
+		boolean update = false;
 		boolean reset = false;
+		boolean query = false;
 		
 		String ingestionStateFile = null;
 		String ooziePropsFile = null;
 		
 		if (args.length < 3) {
-			System.out.println("options:  -irsv <ingestion-state-file>  <oozie-properties-file> ");
+			System.out.println("options:  -iqrsuv <ingestion-state-file>  <oozie-properties-file> ");
 			System.out.println("");
 			System.out.println("          -i : increment history ");
+			System.out.println("          -q : run job queries ");
 			System.out.println("          -r : reset history ");
+			System.out.println("          -u : update properties ");
 			System.out.println("          -v : validate ");
 			return;
 		}
@@ -74,6 +78,7 @@ public class SqoopDriver {
 			if (arg.startsWith("-")) {
 				increment = arg.contains("i");
 				reset = arg.contains("r");
+				query = arg.contains("q");
 				submit = arg.contains("s");
 				validate = arg.contains("v");
 			} else if (ingestionStateFile == null) {
@@ -83,16 +88,19 @@ public class SqoopDriver {
 			} else {
 				System.out.println("Unknown argument: "+arg);
 				System.out.println("");
-				System.out.println("options:  -irsv <ingestion-state-file>  <oozie-properties-file> ");
+				System.out.println("options:  -iqrsuv <ingestion-state-file>  <oozie-properties-file> ");
 				System.out.println("");
-				System.out.println("          -i : increment history; update properties file ");
+				System.out.println("          -i : increment history ");
+				System.out.println("          -q : run job queries ");
 				System.out.println("          -r : reset history ");
+				System.out.println("          -u : update properties ");
 				System.out.println("          -v : validate ");
 				return;
 			}
 		}
 
 		state = IngestionState.loadFrom(ingestionStateFile);
+		Properties newProps = new Properties();
 		boolean persist = false;
 		
 		if (reset) {
@@ -104,9 +112,17 @@ public class SqoopDriver {
 		}
 
 		if (increment) {
-			Properties newProps = state.configureIncrement();
+			newProps = state.configureIncrement();
 			updateProperties(newProps, ooziePropsFile);
 			persist = true;
+		}
+
+		if (update) {
+			updateProperties(newProps, ooziePropsFile);
+		}
+
+		if (query) {
+			state.query();
 		}
 
 		if (persist) {

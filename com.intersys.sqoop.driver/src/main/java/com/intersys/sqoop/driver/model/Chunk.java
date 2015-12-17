@@ -216,9 +216,9 @@ public class Chunk implements Comparable {
 	
 	// Begin custom logic
 
-	public static Chunk full(String hdfsDir, int max, int rows) {
+	public static Chunk full(String hdfsDir, int rows) {
 		long now = System.currentTimeMillis();
-		return new Chunk(now, 0, max, 0L, 0L, hdfsDir, 0, rows);
+		return new Chunk(now, 0, 0, 0L, 0L, hdfsDir, 0, rows);
 	}
 
 	public boolean isOutOfDate(IngestionState is) {
@@ -229,18 +229,18 @@ public class Chunk implements Comparable {
 		return is.bornOnDate(getHdfsDir());
 	}
 
-	public JobSpec fullJob(String prefix, String desc) {
+	public JobSpec fullJob(String prefix, String desc, String database, String table) {
 
-		JobSpec js = new JobSpec(getRefreshed(), desc, JobSpec.JOB_FULL, _rows);
+		JobSpec js = new JobSpec(getRefreshed(), desc, JobSpec.JOB_FULL, _rows, database, table, getMinId(), getMaxId());
 		js.set(prefix+"_DoFull", "true");
 		js.set(prefix+"_DoFullTarget", getHdfsDir());
 		return js;
 
 	}
 
-	public JobSpec baseJob(String prefix, String desc) {
+	public JobSpec baseJob(String prefix, String desc, String database, String table) {
 
-		JobSpec js = new JobSpec(getRefreshed(), desc, JobSpec.JOB_BASE, _rows);
+		JobSpec js = new JobSpec(getRefreshed(), desc, JobSpec.JOB_BASE, _rows, database, table, getMinId(), getMaxId());
 		js.set(prefix+"_DoBase", "true");
 		js.set(prefix+"_MinBaseID", String.valueOf(getMinId()));
 		js.set(prefix+"_MaxBaseID", String.valueOf(getMaxId()));
@@ -249,9 +249,9 @@ public class Chunk implements Comparable {
 
 	}
 
-	public JobSpec deltaJob(String prefix, String desc) {
+	public JobSpec deltaJob(String prefix, String desc, String database, String table) {
 
-		JobSpec js = new JobSpec(getRefreshed(), desc, JobSpec.JOB_DELTA, _rows);
+		JobSpec js = new JobSpec(getRefreshed(), desc, JobSpec.JOB_DELTA, _rows, database, table, getMinId(), -1);
 		js.set(prefix+"_DoDelta", "true");
 		js.set(prefix+"_MinDeltaID", String.valueOf(getMinId()));
 		js.set(prefix+"_DoDeltaTarget", getHdfsDir());
@@ -259,9 +259,9 @@ public class Chunk implements Comparable {
 	
 	}
 
-	public JobSpec periodJob(String prefix, String desc) {
+	public JobSpec periodJob(String prefix, String desc, String database, String table) {
 
-		JobSpec js = new JobSpec(getRefreshed(), desc, JobSpec.JOB_DELTA, _rows);
+		JobSpec js = new JobSpec(getRefreshed(), desc, JobSpec.JOB_DELTA, _rows, database, table, getMinId(), getMaxId());
 		js.set(prefix+"_DoIncrement", "true");
 		js.set(prefix+"_MinIncrementID", String.valueOf(getMinId()));
 		js.set(prefix+"_MaxIncrementID", String.valueOf(getMaxId()));

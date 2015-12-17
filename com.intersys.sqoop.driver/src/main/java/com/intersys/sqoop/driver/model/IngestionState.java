@@ -339,6 +339,18 @@ public class IngestionState implements Comparable {
 
 	}
 
+	public void query() throws IOException, URISyntaxException {
+		ArrayList<JobSpec> jobs = new ArrayList<JobSpec>();
+		for (LoadState ls : LoadState.sort(getLoads())) {
+			List<JobSpec> proposals = ls.proposeJobs(this,false);
+			jobs.addAll(proposals);
+		}
+		
+		for (JobSpec js: jobs) {
+			js.query(this);
+		}
+	}
+
 	public boolean dataOutOfDate(String hdfsDir) {
 		try {
 			if (!getHdfs().exists(new Path(hdfsDir))) {
