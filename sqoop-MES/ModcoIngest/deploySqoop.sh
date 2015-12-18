@@ -183,4 +183,10 @@ hadoop fs -put create_3_2.q /IncrementalYield/create_3_2.q
 echo "Validating yieldIngestWorkflow.xml";
 oozie  validate  yieldIngestWorkflow.xml
 
- 
+hdfs dfs -mkdir /MES-UDF
+
+hadoop fs -put com.intersys.hive.udf.jar /MES-UDF/com.intersys.hive.udf.jar 
+
+hive -e "DROP FUNCTION IF EXISTS MES.waka_sort" 
+
+hive -e "CREATE FUNCTION MES.waka_sort AS com.intersys.hive.udf.Sort USING JAR '/MES-UDF/com.intersys.hive.udf.jar' " 
