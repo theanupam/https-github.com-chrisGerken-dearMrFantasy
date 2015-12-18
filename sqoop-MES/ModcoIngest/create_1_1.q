@@ -1,3 +1,7 @@
+drop table if exists mes.wakawaka;
+
+create table mes.wakawaka as select addressid , mes.waka_sort(addressid) from mes.address;
+
 drop table if exists mes.GoLive_N_SPWR_EL_OUTS;
 
 create table MES.GoLive_N_SPWR_EL_OUTS as 
@@ -21,7 +25,7 @@ create table MES.GoLive_N_SPWR_EL_OUTS as
         and  Trans_Hours not between 7 and 18
        then 'D'
        else null end                                             as Trans_shift_type,
-       case when ShiftStart_DateTime between '2013-09-30' and '2013-29-12' then 4 
+       case when ShiftStart_DateTime between '2013-09-30' and '2013-12-29' then 4 
             when ShiftStart_DateTime between '2013-12-30' and  '2014-03-30' then 1
             when ShiftStart_DateTime between  '2014-03-31' and  '2014-06-29' then 2
             when ShiftStart_DateTime between  '2014-06-30' and  '2014-09-28' then 3
