@@ -167,17 +167,20 @@ oozie  validate  yieldIngestWorkflow-Hive.xml
 hadoop fs -put yieldIngestWorkflow-Hive.xml /IncrementalYield/yieldIngestWorkflow-Hive.xml
 echo "";
 
+hadoop fs -put create_1.q /IncrementalYield/create_1.q 
+hadoop fs -put create_2.q /IncrementalYield/create_2.q 
+hadoop fs -put create_3.q /IncrementalYield/create_3.q 
+hadoop fs -put create_4.q /IncrementalYield/create_4.q 
 hadoop fs -put create_1_1.q /IncrementalYield/create_1_1.q 
 hadoop fs -put create_1_2.q /IncrementalYield/create_1_2.q 
-hadoop fs -put create_1_3.q /IncrementalYield/create_1_3.q 
-hadoop fs -put create_1_4.q /IncrementalYield/create_1_4.q 
 hadoop fs -put create_2_1.q /IncrementalYield/create_2_1.q 
 hadoop fs -put create_2_2.q /IncrementalYield/create_2_2.q 
-hadoop fs -put create_2_3.q /IncrementalYield/create_2_3.q 
-hadoop fs -put create_2_4.q /IncrementalYield/create_2_4.q 
-hadoop fs -put create_2_5.q /IncrementalYield/create_2_5.q 
 hadoop fs -put create_3_1.q /IncrementalYield/create_3_1.q 
 hadoop fs -put create_3_2.q /IncrementalYield/create_3_2.q 
+hadoop fs -put create_4_1.q /IncrementalYield/create_4_1.q 
+hadoop fs -put create_4_2.q /IncrementalYield/create_4_2.q 
+hadoop fs -put create_5_1.q /IncrementalYield/create_5_1.q 
+hadoop fs -put create_5_2.q /IncrementalYield/create_5_2.q 
 
 
 echo "Validating yieldIngestWorkflow.xml";
@@ -187,6 +190,7 @@ hdfs dfs -mkdir /MES-UDF
 
 hadoop fs -put com.intersys.hive.udf.jar /MES-UDF/com.intersys.hive.udf.jar 
 
-hive -e "DROP FUNCTION IF EXISTS MES.waka_sort" 
+hive -e "DROP FUNCTION IF EXISTS MES.get_IsolatedReasonGroup" 
 
-hive -e "CREATE FUNCTION MES.waka_sort AS 'com.intersys.hive.udf.Sort' USING JAR 'hdfs:/MES-UDF/com.intersys.hive.udf.jar' " 
+hive -e "CREATE FUNCTION MES.get_IsolatedReasonGroup AS 'com.intersys.hive.udf.IsolatedReasonGroup' USING JAR 'hdfs:/MES-UDF/com.intersys.hive.udf.jar' " 
+
