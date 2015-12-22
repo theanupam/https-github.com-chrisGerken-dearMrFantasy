@@ -34,3 +34,19 @@ hive -e "DROP FUNCTION IF EXISTS MES.get_ScrapReason"
 
 hive -e "CREATE FUNCTION MES.get_ScrapReason AS 'com.intersys.hive.udf.ScrapReason' USING JAR 'hdfs:/MES-UDF/com.intersys.hive.udf.jar' " 
 
+hadoop fs -rm /MES/IsolatedReasonGroup 
+
+hadoop fs -mkdir /MES/IsolatedReasonGroup
+
+hadoop fs -put IsolatedReasonGroup_data.txt /MES/IsolatedReasonGroup/IsolatedReasonGroup_data.txt
+
+echo " "
+echo "##################################################"
+echo "Hive: Drop and Create table IsolatedReasonGroup"
+echo "##################################################"
+echo " "
+
+hive -e "Drop table MES.IsolatedReasonGroup"
+
+hive -e "Create External table IF NOT EXISTS MES.IsolatedReasonGroup (IsolatedReasonGroupID int, IsolatedReason varchar(256), IsolatedReasonGroup varchar(256)) row format delimited fields terminated by '\t' lines terminated by '\n' stored as textfile location '/MES/IsolatedReasonGroup'"
+ 

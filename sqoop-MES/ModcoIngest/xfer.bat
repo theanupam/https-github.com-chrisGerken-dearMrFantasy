@@ -68,5 +68,7 @@ pscp  -pw d4e30f24   ingestionState.jsonx  appladm@prod-hubnamedaws01.sunpowerco
 pscp  -pw d4e30f24   yieldIngestWorkflow.xml  appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestWorkflow.xml
 pscp  -pw d4e30f24   yieldIngestProperties.propertiesx  appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/yieldIngestProperties.propertiesx 
 
+pscp  -pw d4e30f24   IsolatedReasonGroup_data.txt  appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/IsolatedReasonGroup_data.txt 
+
 pscp  -pw d4e30f24   com.intersys.hive.udf.jar  appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/com.intersys.hive.udf.jar 
 pscp  -pw d4e30f24   com.intersys.sqoop.driver.jar  appladm@prod-hubnamedaws01.sunpowercorp.com:/home/appladm/com.intersys.sqoop.driver.jar 
