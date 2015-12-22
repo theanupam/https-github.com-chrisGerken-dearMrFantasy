@@ -188,6 +188,8 @@ oozie  validate  yieldIngestWorkflow.xml
 
 hdfs dfs -mkdir /MES-UDF
 
+hadoop fs -rm  /MES-UDF/com.intersys.hive.udf.jar 
+
 hadoop fs -put com.intersys.hive.udf.jar /MES-UDF/com.intersys.hive.udf.jar 
 
 hive -e "DROP FUNCTION IF EXISTS MES.get_IsolatedReasonGroup" 
