@@ -194,3 +194,11 @@ hive -e "DROP FUNCTION IF EXISTS MES.get_IsolatedReasonGroup"
 
 hive -e "CREATE FUNCTION MES.get_IsolatedReasonGroup AS 'com.intersys.hive.udf.IsolatedReasonGroup' USING JAR 'hdfs:/MES-UDF/com.intersys.hive.udf.jar' " 
 
+hive -e "DROP FUNCTION IF EXISTS MES.get_LocationName" 
+
+hive -e "CREATE FUNCTION MES.get_LocationName AS 'com.intersys.hive.udf.LocationName' USING JAR 'hdfs:/MES-UDF/com.intersys.hive.udf.jar' " 
+
+hive -e "DROP FUNCTION IF EXISTS MES.get_ScrapReason" 
+
+hive -e "CREATE FUNCTION MES.get_ScrapReason AS 'com.intersys.hive.udf.ScrapReason' USING JAR 'hdfs:/MES-UDF/com.intersys.hive.udf.jar' " 
+
