@@ -58,7 +58,7 @@ SELECT 'SPMX' as ORG_ID,
                                       U_SPML_ModuleInfo.LaminateOrderNo                        as WO_Number,
                                       'ClassB'                                                 as InvState_Class,
                                       InvIsolatedReason.IsolatedReason                         as IsolatedReason,
-                                      nvl(get_IsolatedReasonGroup(IsolatedReasonGroup.IsolatedReason), InvIsolatedReason.IsolatedReason)            as IsolatedReasonGrp,
+                                      nvl(MES.get_IsolatedReasonGroup(InvIsolatedReason.IsolatedReason), InvIsolatedReason.IsolatedReason)            as IsolatedReasonGrp,
                                       InvChangeState.Comments                                  as Comments,
                                       case when SUBSTR(ltrim(InvChangeState.Comments),1,4)
                                                 in ('MANU','MACH','MEDI','MATE','METH')

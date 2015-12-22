@@ -8,12 +8,12 @@ public class ScrapReason extends Lookup {
 
 	@Override
 	protected int getValueIndex() {
-		return 2;
+		return 1;
 	}
 
 	@Override
 	protected int getKeyIndex() {
-		return 1;
+		return 0;
 	}
 
 	@Override
