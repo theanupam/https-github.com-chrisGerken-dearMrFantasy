@@ -1,6 +1,5 @@
 drop table if exists mes.GoLive_N_SPWR_DEFECTS;
 
-
 create table MES.GoLive_N_SPWR_DEFECTS as 
 SELECT 'SPMX' as ORG_ID,
        S2.*
@@ -58,7 +57,7 @@ SELECT 'SPMX' as ORG_ID,
                                       U_SPML_ModuleInfo.LaminateOrderNo                        as WO_Number,
                                       'ClassB'                                                 as InvState_Class,
                                       InvIsolatedReason.IsolatedReason                         as IsolatedReason,
-                                      nvl(MES.get_IsolatedReasonGroup(InvIsolatedReason.IsolatedReason), InvIsolatedReason.IsolatedReason)            as IsolatedReasonGrp,
+                                      IsolatedReasonGroup.IsolatedReasonGroup                  as IsolatedReasonGrp,
                                       InvChangeState.Comments                                  as Comments,
                                       case when SUBSTR(ltrim(InvChangeState.Comments),1,4)
                                                 in ('MANU','MACH','MEDI','MATE','METH')
@@ -81,6 +80,7 @@ SELECT 'SPMX' as ORG_ID,
                                       MES.InventoryPack        as InventoryPack,
                                       MES.InvChangeState       as InvChangeState,
                                       MES.InvIsolatedReason    as InvIsolatedReason,
+                                      MES.IsolatedReasonGroup  as IsolatedReasonGroup,
                                       MES.InvState             as InvState,
                                       MES.U_SPML_ModuleInfo    as U_SPML_ModuleInfo,
                                       MES.Part                 as Part
@@ -92,8 +92,9 @@ SELECT 'SPMX' as ORG_ID,
                                   AND InventoryPack.InventoryPackNo = U_SPML_ModuleInfo.SerialNo
                                   AND InventoryPack.PartID = Part.PartID
                                   AND InvState.InvState in ('LPB', 'Packed NPB', 'NPB', 'ClassB')
+                                  AND IsolatedReasonGroup.IsolatedReason = InvIsolatedReason.IsolatedReason
                                   --AND part.Cell_Count <> '128'
-                                  AND (lower(IsolatedReason) not like '%none%' and lower(IsolatedReason) not like '%already retest%' )
+                                  AND (lower(InvIsolatedReason.IsolatedReason) not like '%none%' and lower(InvIsolatedReason.IsolatedReason) not like '%already retest%' )
                                ) T1
                      ) T2
                UNION
@@ -155,9 +156,9 @@ SELECT 'SPMX' as ORG_ID,
                                       U_SPML_ModuleInfo.LaminationBuildMachine                      as Lamination_BM,
                                       U_SPML_ModuleInfo.LaminateCreatedDT                           as Trans_DateTime,
                                       A.FromDT                                                     as InvChangeStateFromDT,
-                                      DatePart(HOUR,U_SPML_ModuleInfo.LaminateCreatedDT)            as Trans_Hours,
+                                      HOUR(U_SPML_ModuleInfo.LaminateCreatedDT)        			as Trans_Hours,
                                       case
-                                      when DatePart(HOUR,U_SPML_ModuleInfo.LaminateCreatedDT) < 7
+                                      when HOUR(U_SPML_ModuleInfo.LaminateCreatedDT) < 7
                                       then date_sub(to_date(U_SPML_ModuleInfo.LaminateCreatedDT), 1)
                                       else to_date(U_SPML_ModuleInfo.LaminateCreatedDT)
                                       end                                                                   as ShiftStart_DateTime
@@ -182,19 +183,17 @@ SELECT 'SPMX' as ORG_ID,
                                                    MES.InventoryPack        as InventoryPack,
                                                    MES.InvChangeState       as InvChangeState,
                                                    MES.InvIsolatedReason    as InvIsolatedReason,
+                                                   MES.IsolatedReasonGroup  as IsolatedReasonGroup,
                                                    MES.InvState             as InvState,
                                                    MES.Part                 as Part
-                                                   (SELECT  InvIsolatedReason.IsolatedReason as IsolatedReason, IsolatedReasonGroup.IsolatedReasonGroup as IsolatedReasonGroup
-                                                    from MES.InvIsolatedReason as InvIsolatedReason 
-                                                    left join MES.IsolatedReasonGroup IsolatedReasonGroup 
-                                                    on InvIsolatedReason.IsolatedReason = IsolatedReasonGroup.IsolatedReason) as IsolatedReasonGroup
                                             WHERE
                                                    InventoryPack.InventoryPackID = InvChangeState.InventoryPackID
                                                AND InvChangeState.InvIsolatedReasonID = InvIsolatedReason.InvIsolatedReasonID
                                                AND InvChangeState.InvStateID = InvState.InvStateID
                                                AND InventoryPack.PartID = Part.PartID
-                                               AND (lower(IsolatedReason) not like '%none%' and lower(IsolatedReason) not like '%already retest%' )
+                                               AND (lower(InvIsolatedReason.IsolatedReason) not like '%none%' and lower(InvIsolatedReason.IsolatedReason) not like '%already retest%' )
                                                AND InvState.InvState in ('MDC - Scrap', 'Packed NPS', 'NPS', 'ClassS', 'MDC - Scrap BBS', 'MDC - Scrap LP','Scrapped/Shuttered Laminate','Scrap')
+                                               AND IsolatedReasonGroup.IsolatedReason = InvIsolatedReason.IsolatedReason
                                                AND InvChangeState.IsEdited = 0
                                            ) A LEFT OUTER JOIN MES.U_SPML_ModuleInfo as U_SPML_ModuleInfo
                                                 ON A.InventoryPackNo = U_SPML_ModuleInfo.SerialNo

@@ -1,6 +1,3 @@
-drop table if exists mes.wakawaka;
-
-create table mes.wakawaka as select addressid , mes.waka_sort(addressid) from mes.address;
 
 drop table if exists mes.GoLive_N_SPWR_EL_OUTS;
 
