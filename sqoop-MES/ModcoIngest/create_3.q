@@ -76,15 +76,18 @@ SELECT T2.*,
                                 InvState.InvState                                                       as Scrap_MRB,
                                 InvIsolatedReason.IsolatedReason                                        as Isolated_Reason,
                                 Supplier.Supplier                                                       as Supplier,
-                                MES.get_LocationName(InventoryPack.ScrapLocationID)                   	as ScarpLocation,
-                                MES.get_LocationName(InventoryPack.MachineLocationID)                 	as MachineLocation,
-                                MES.get_ScrapReason(InventoryPack.ScrapReasonID) 		                as ScrapReason,
+                                Loc1.Location       	                                                as ScarpLocation,
+                                Loc2.Location                                                           as MachineLocation,
+                                ScrapReason.ScrapReason 		                                        as ScrapReason,
                                 GREATEST(InvChangeState.FromDT, InventoryPack.BirthDT)  	            as Trans_DateTime
                          FROM   MES.InvChangeState           as InvChangeState,
                                 MES.InvIsolatedReason        as InvIsolatedReason,
                                 MES.InvState                 as InvState,
                                 MES.InventoryPack            as InventoryPack,
+                                MES.Location                 as Loc1,
+                                MES.Location                 as Loc2,
                                 MES.Part                     as Part,
+                                MES.ScrapReason              as ScrapReason,
                                 MES.Supplier                 as Supplier,
                                 MES.Unit                     as Unit
                           WHERE InvChangeState.IsEdited = 0
@@ -98,6 +101,9 @@ SELECT T2.*,
                             AND InventoryPack.SupplierID = Supplier.SupplierID
                             AND Unit.UnitID = InventoryPack.UnitID
                             AND InvChangeState.ToDT =  cast('2050-12-31 00:00:00.00' as timestamp)
+                            AND ScrapReason.ScrapReasonID = InventoryPack.ScrapReasonID
+                            AND Loc1.LocationID = InventoryPack.ScrapLocationID
+                            AND Loc2.LocationID = InventoryPack.MachineLocationID
                   ) S1
                  WHERE MachineLocation not in ( 'PM', 'COV', 'Engineering')
                 ) T1
