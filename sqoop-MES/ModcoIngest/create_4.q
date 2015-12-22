@@ -58,20 +58,20 @@ SELECT 'SPMX' as ORG_ID,
                                       U_SPML_ModuleInfo.LaminateOrderNo                        as WO_Number,
                                       'ClassB'                                                 as InvState_Class,
                                       InvIsolatedReason.IsolatedReason                         as IsolatedReason,
-                                      nvl(IsolatedReasonGroup.IsolatedReasonGroup, InvIsolatedReason.IsolatedReason)            as IsolatedReasonGrp,
+                                      nvl(get_IsolatedReasonGroup(IsolatedReasonGroup.IsolatedReason), InvIsolatedReason.IsolatedReason)            as IsolatedReasonGrp,
                                       InvChangeState.Comments                                  as Comments,
                                       case when SUBSTR(ltrim(InvChangeState.Comments),1,4)
                                                 in ('MANU','MACH','MEDI','MATE','METH')
                                            then SUBSTR(ltrim(InvChangeState.Comments),1,4)
                                            else 'OTHERS'
-                                       end                                                     as Five_M,
+                                       end                                                     	as Five_M,
                                       U_SPML_ModuleInfo.BINNo                                   as Bin_No,
                                       U_SPML_ModuleInfo.CktFormBuildMachine                     as Circuit_BM,
                                       U_SPML_ModuleInfo.Komax1                                  as Komax_BM,
                                       U_SPML_ModuleInfo.LaminationBuildMachine                  as Lamination_BM,
                                       U_SPML_ModuleInfo.LaminateCreatedDT                       as Trans_DateTime,
-                                      InvChangeState.FromDT                                    as InvChangeStateFromDT,
-                                      HOUR(U_SPML_ModuleInfo.LaminateCreatedDT)        as Trans_Hours,
+                                      InvChangeState.FromDT                                    	as InvChangeStateFromDT,
+                                      HOUR(U_SPML_ModuleInfo.LaminateCreatedDT)        			as Trans_Hours,
                                       case
                                       when HOUR(U_SPML_ModuleInfo.LaminateCreatedDT) < 7
                                       then date_sub(to_date(U_SPML_ModuleInfo.LaminateCreatedDT), 1)
@@ -84,10 +84,6 @@ SELECT 'SPMX' as ORG_ID,
                                       MES.InvState             as InvState,
                                       MES.U_SPML_ModuleInfo    as U_SPML_ModuleInfo,
                                       MES.Part                 as Part
-                                      (SELECT  InvIsolatedReason.IsolatedReason as IsolatedReason, IsolatedReasonGroup.IsolatedReasonGroup as IsolatedReasonGroup
-                                    from MES.InvIsolatedReason as InvIsolatedReason 
-                                    left join MES.IsolatedReasonGroup IsolatedReasonGroup 
-                                    on InvIsolatedReason.IsolatedReason = IsolatedReasonGroup.IsolatedReason) as IsolatedReasonGroup
                                 WHERE
                                       InventoryPack.InventoryPackID = InvChangeState.InventoryPackID
                                   AND InvChangeState.InvIsolatedReasonID = InvIsolatedReason.InvIsolatedReasonID

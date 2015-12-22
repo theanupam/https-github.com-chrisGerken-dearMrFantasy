@@ -76,29 +76,17 @@ SELECT T2.*,
                                 InvState.InvState                                                       as Scrap_MRB,
                                 InvIsolatedReason.IsolatedReason                                        as Isolated_Reason,
                                 Supplier.Supplier                                                       as Supplier,
-                                InvPackScarpLocation.Location                   as ScarpLocation,
-                                InvPackMachineLocation.Location                 as MachineLocation,
-                                InvPackScrapReason.ScrapReason                      as ScrapReason,
-                                GREATEST(InvChangeState.FromDT, InventoryPack.BirthDT)              as Trans_DateTime
+                                get_LocationName(InventoryPack.LocationID)                   			as ScarpLocation,
+                                get_LocationName(InventoryPack.MachineLocationID)                 		as MachineLocation,
+                                get_ScrapReason(InventoryPack.ScrapReasonID) 		                    as ScrapReason,
+                                GREATEST(InvChangeState.FromDT, InventoryPack.BirthDT)  	            as Trans_DateTime
                          FROM   MES.InvChangeState           as InvChangeState,
                                 MES.InvIsolatedReason        as InvIsolatedReason,
                                 MES.InvState                 as InvState,
                                 MES.InventoryPack            as InventoryPack,
                                 MES.Part                     as Part,
                                 MES.Supplier                 as Supplier,
-                                MES.Unit                     as Unit,
-                                (SELECT  InvPack.LocationID, Location.Location 
-                                  from MES.InventoryPack as InvPack 
-                                  left join MES.Location 
-                                  on InvPack.LocationID = Location.LocationID) as InvPackScarpLocation,
-                                (SELECT  InvPack.MachineLocationID, Location.Location 
-                                  from MES.InventoryPack as InvPack 
-                                  left join MES.Location  
-                                  on InvPack.MachineLocationID = Location.LocationID) as InvPackMachineLocation,
-                                (SELECT  InventoryPack.ScrapReasonID, ScrapReason.ScrapReason 
-                                  from MES.InventoryPack  
-                                  left join MES.ScrapReason as ScrapReason 
-                                  on InventoryPack.ScrapReasonID = ScrapReason.ScrapReasonID) as InvPackScrapReason
+                                MES.Unit                     as Unit
                           WHERE InvChangeState.IsEdited = 0
                             AND InventoryPack.IsEdited = 0
                             AND Part.PartTypeID in (39, 40, 58)
