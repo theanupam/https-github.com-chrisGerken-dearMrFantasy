@@ -3,30 +3,31 @@
 
 -- Datatype mismatch on Circuit_BM and Category
 
-alter table GoLive_N_SPWR_AGGR_FACT_CL_DAILY alter column Circuit_BM [nvarchar](254) NULL
-alter table GoLive_N_SPWR_AGGR_FACT_CL_DAILY alter column Category [nvarchar](254) NULL
-alter table GoLive_N_SPWR_AGGR_FACT_CL_DAILY alter column InvState_Category [nvarchar](254) NULL
-alter table GoLive_N_SPWR_AGGR_FACT_CL_DAILY alter column Down_Grade_Isolated [nvarchar](254) NULL
+alter table GoLive_N_SPWR_AGGR_FACT_CL_DAILY alter column Circuit_BM [nvarchar](254) NULL;
+alter table GoLive_N_SPWR_AGGR_FACT_CL_DAILY alter column Category [nvarchar](254) NULL;
+alter table GoLive_N_SPWR_AGGR_FACT_CL_DAILY alter column InvState_Category [nvarchar](254) NULL;
+alter table GoLive_N_SPWR_AGGR_FACT_CL_DAILY alter column Down_Grade_Isolated [nvarchar](254) NULL;
 
-alter table GoLive_N_SPWR_AGGR_FACT_EL_DAILY alter column Circuit_BM [nvarchar](254) NULL
-alter table GoLive_N_SPWR_AGGR_FACT_EL_DAILY alter column Category [nvarchar](254) NULL
-alter table GoLive_N_SPWR_AGGR_FACT_EL_DAILY alter column InvState_Category [nvarchar](254) NULL
-alter table GoLive_N_SPWR_AGGR_FACT_EL_DAILY alter column Down_Grade_Isolated [nvarchar](254) NULL
+alter table GoLive_N_SPWR_AGGR_FACT_EL_DAILY alter column Circuit_BM [nvarchar](254) NULL;
+alter table GoLive_N_SPWR_AGGR_FACT_EL_DAILY alter column Category [nvarchar](254) NULL;
+alter table GoLive_N_SPWR_AGGR_FACT_EL_DAILY alter column InvState_Category [nvarchar](254) NULL;
+alter table GoLive_N_SPWR_AGGR_FACT_EL_DAILY alter column Down_Grade_Isolated [nvarchar](254) NULL;
 
-alter table GoLive_N_SPWR_AGGR_FACT_DF_DAILY alter column Circuit_BM [nvarchar](254) NULL
-alter table GoLive_N_SPWR_AGGR_FACT_DF_DAILY alter column Category [nvarchar](254) NULL
-alter table GoLive_N_SPWR_AGGR_FACT_DF_DAILY alter column InvState_Category [nvarchar](254) NULL
-alter table GoLive_N_SPWR_AGGR_FACT_DF_DAILY alter column Down_Grade_Isolated [nvarchar](254) NULL
+alter table GoLive_N_SPWR_AGGR_FACT_DF_DAILY alter column Circuit_BM [nvarchar](254) NULL;
+alter table GoLive_N_SPWR_AGGR_FACT_DF_DAILY alter column Category [nvarchar](254) NULL;
+alter table GoLive_N_SPWR_AGGR_FACT_DF_DAILY alter column InvState_Category [nvarchar](254) NULL;
+alter table GoLive_N_SPWR_AGGR_FACT_DF_DAILY alter column Down_Grade_Isolated [nvarchar](254) NULL;
 
-alter table GoLive_N_SPWR_AGGR_FACT_TT_DAILY alter column Circuit_BM [nvarchar](254) NULL
-alter table GoLive_N_SPWR_AGGR_FACT_TT_DAILY alter column Category [nvarchar](254) NULL
-alter table GoLive_N_SPWR_AGGR_FACT_TT_DAILY alter column InvState_Category [nvarchar](254) NULL
-alter table GoLive_N_SPWR_AGGR_FACT_TT_DAILY alter column Down_Grade_Isolated [nvarchar](254) NULL
+alter table GoLive_N_SPWR_AGGR_FACT_TT_DAILY alter column Circuit_BM [nvarchar](254) NULL;
+alter table GoLive_N_SPWR_AGGR_FACT_TT_DAILY alter column Category [nvarchar](254) NULL;
+alter table GoLive_N_SPWR_AGGR_FACT_TT_DAILY alter column InvState_Category [nvarchar](254) NULL;
+alter table GoLive_N_SPWR_AGGR_FACT_TT_DAILY alter column Down_Grade_Isolated [nvarchar](254) NULL;
 
 -- load all aggregate data into GoLive_N_SPWR_AGGR_FACT_FINAL_DAILY
 -- (16065 row(s) affected)
 
---DROP TABLE GoLive_N_SPWR_AGGR_FACT_FINAL_DAILY
+DROP TABLE IF EXISTS MES.GoLive_N_SPWR_AGGR_FACT_FINAL_DAILY;
+
 create table MES.GoLive_N_SPWR_AGGR_FACT_FINAL_DAILY as
 SELECT T1.*
   FROM

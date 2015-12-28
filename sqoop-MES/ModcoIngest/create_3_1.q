@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS GoLive_N_SPWR_AGGR_FACT_CL;
+DROP TABLE IF EXISTS MES.GoLive_N_SPWR_AGGR_FACT_CL;
 
 create table MES.GoLive_N_SPWR_AGGR_FACT_CL as
 SELECT T2.*
@@ -30,7 +30,7 @@ SELECT T2.*
                      ,Demand_Category
                      ,Billable_Watt
                      ,Comments
-                     ,concat(ltrim(rtrim(cast(Trans_DateTime_year as str))), ' - Q', ltrim(rtrim(cast(Trans_DateTime_qtr as str)))) as YY_QTR_WK_DT
+                     ,concat(ltrim(rtrim(cast(Trans_DateTime_year as string))), ' - Q', ltrim(rtrim(cast(Trans_DateTime_qtr as string)))) as YY_QTR_WK_DT
                      ,Quantity
                  FROM MES.GoLive_N_SPWR_CELL_LOSS
                 WHERE MachineLocation != 'NA' and ScarpLocation != 'NA'
@@ -75,12 +75,12 @@ SELECT T2.*
                      ,Demand_Category
                      ,Billable_Watt
                      ,Comments
-                     ,concat('W', ltrim(rtrim(cast(ShiftStart_Week as str)))) as YY_QTR_WK_DT
+                     ,concat('W', ltrim(rtrim(cast(ShiftStart_Week as string)))) as YY_QTR_WK_DT
                      ,Quantity
                  FROM MES.GoLive_N_SPWR_CELL_LOSS
                 WHERE MachineLocation != 'NA' and ScarpLocation != 'NA'
                   and Trans_DateTime_year = YEAR(current_date)
-                  and Trans_DateTime_qtr = QUARTER(current_date) -- 1 /* TO BE REMOVED TO REFLECT CRRNT QTR */
+                  and Trans_DateTime_qtr = floor((month(current_date)-1)/3)+1 -- 1 /* TO BE REMOVED TO REFLECT CRRNT QTR */
                 ) T1
          GROUP BY
                 ORG_ID
@@ -127,7 +127,7 @@ SELECT T2.*
                  FROM MES.GoLive_N_SPWR_CELL_LOSS
                 WHERE MachineLocation != 'NA' and ScarpLocation != 'NA'
                   and Trans_DateTime_year = YEAR(current_date)
-                  and Trans_DateTime_qtr = QUARTER(current_date) -- 1 /* TO BE REMOVED TO REFLECT CRRNT QTR */
+                  and Trans_DateTime_qtr = floor((month(current_date)-1)/3)+1 -- 1 /* TO BE REMOVED TO REFLECT CRRNT QTR */
                   and ShiftStart_Week = WEEKOFYEAR(current_date)   -- 3 /* TO BE REMOVED TO REFLECT CRRNT WEEK */
                 ) T1
          GROUP BY

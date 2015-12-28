@@ -26,7 +26,7 @@ alter table GoLive_N_SPWR_AGGR_FACT_TT alter column Down_Grade_Isolated [nvarcha
 -- load all aggregate data into GoLive_N_SPWR_AGGR_FACT_FINAL
 -- (16065 row(s) affected)
 
-DROP TABLE  IF EXISTS GoLive_N_SPWR_AGGR_FACT_FINAL;
+DROP TABLE IF EXISTS MES.GoLive_N_SPWR_AGGR_FACT_FINAL;
 
 create table MES.GoLive_N_SPWR_AGGR_FACT_FINAL as
 SELECT T1.*
