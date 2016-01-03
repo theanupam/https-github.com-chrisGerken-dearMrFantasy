@@ -3,25 +3,25 @@
 
 -- Datatype mismatch on Circuit_BM and Category
 
-alter table GoLive_N_SPWR_AGGR_FACT_CL alter column Circuit_BM [nvarchar](254) NULL;
-alter table GoLive_N_SPWR_AGGR_FACT_CL alter column Category [nvarchar](254) NULL;
-alter table GoLive_N_SPWR_AGGR_FACT_CL alter column InvState_Category [nvarchar](254) NULL;
-alter table GoLive_N_SPWR_AGGR_FACT_CL alter column Down_Grade_Isolated [nvarchar](254) NULL;
+-- alter table GoLive_N_SPWR_AGGR_FACT_CL alter column Circuit_BM [nvarchar](254) NULL;
+-- alter table GoLive_N_SPWR_AGGR_FACT_CL alter column Category [nvarchar](254) NULL;
+-- alter table GoLive_N_SPWR_AGGR_FACT_CL alter column InvState_Category [nvarchar](254) NULL;
+-- alter table GoLive_N_SPWR_AGGR_FACT_CL alter column Down_Grade_Isolated [nvarchar](254) NULL;
 
-alter table GoLive_N_SPWR_AGGR_FACT_EL alter column Circuit_BM [nvarchar](254) NULL;
-alter table GoLive_N_SPWR_AGGR_FACT_EL alter column Category [nvarchar](254) NULL;
-alter table GoLive_N_SPWR_AGGR_FACT_EL alter column InvState_Category [nvarchar](254) NULL;
-alter table GoLive_N_SPWR_AGGR_FACT_EL alter column Down_Grade_Isolated [nvarchar](254) NULL;
+-- alter table GoLive_N_SPWR_AGGR_FACT_EL alter column Circuit_BM [nvarchar](254) NULL;
+-- alter table GoLive_N_SPWR_AGGR_FACT_EL alter column Category [nvarchar](254) NULL;
+-- alter table GoLive_N_SPWR_AGGR_FACT_EL alter column InvState_Category [nvarchar](254) NULL;
+-- alter table GoLive_N_SPWR_AGGR_FACT_EL alter column Down_Grade_Isolated [nvarchar](254) NULL;
 
-alter table GoLive_N_SPWR_AGGR_FACT_DF alter column Circuit_BM [nvarchar](254) NULL;
-alter table GoLive_N_SPWR_AGGR_FACT_DF alter column Category [nvarchar](254) NULL;
-alter table GoLive_N_SPWR_AGGR_FACT_DF alter column InvState_Category [nvarchar](254) NULL;
-alter table GoLive_N_SPWR_AGGR_FACT_DF alter column Down_Grade_Isolated [nvarchar](254) NULL;
+-- alter table GoLive_N_SPWR_AGGR_FACT_DF alter column Circuit_BM [nvarchar](254) NULL;
+-- alter table GoLive_N_SPWR_AGGR_FACT_DF alter column Category [nvarchar](254) NULL;
+-- alter table GoLive_N_SPWR_AGGR_FACT_DF alter column InvState_Category [nvarchar](254) NULL;
+-- alter table GoLive_N_SPWR_AGGR_FACT_DF alter column Down_Grade_Isolated [nvarchar](254) NULL;
 
-alter table GoLive_N_SPWR_AGGR_FACT_TT alter column Circuit_BM [nvarchar](254) NULL;
-alter table GoLive_N_SPWR_AGGR_FACT_TT alter column Category [nvarchar](254) NULL;
-alter table GoLive_N_SPWR_AGGR_FACT_TT alter column InvState_Category [nvarchar](254) NULL;
-alter table GoLive_N_SPWR_AGGR_FACT_TT alter column Down_Grade_Isolated [nvarchar](254) NULL;
+-- alter table GoLive_N_SPWR_AGGR_FACT_TT alter column Circuit_BM [nvarchar](254) NULL;
+-- alter table GoLive_N_SPWR_AGGR_FACT_TT alter column Category [nvarchar](254) NULL;
+-- alter table GoLive_N_SPWR_AGGR_FACT_TT alter column InvState_Category [nvarchar](254) NULL;
+-- alter table GoLive_N_SPWR_AGGR_FACT_TT alter column Down_Grade_Isolated [nvarchar](254) NULL;
 
 -- load all aggregate data into GoLive_N_SPWR_AGGR_FACT_FINAL
 -- (16065 row(s) affected)
