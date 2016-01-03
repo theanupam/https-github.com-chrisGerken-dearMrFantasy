@@ -12,9 +12,9 @@ SELECT T2.*
                      ,Circuit_BM           
                      ,Cells_Module_Type    
                      ,Trans_shift_type     
-                     ,Five_M               
-                     ,InvState_Class       
-                     ,IsolatedReason       
+                     ,Five_M               as Category
+                     ,InvState_Class       as InvState_Category
+                     ,IsolatedReason       as Down_Grade_Isolated
                      ,Part_Number          
                      ,Series               
                      ,Demand_Category      
@@ -111,22 +111,22 @@ SELECT T2.*
                ,Billable_Watt
                ,Comments
                ,YY_QTR_WK_DT
-       ) T2
+       ) T2;
 
 
 
 
 
-ALTER TABLE MES.GoLive_N_SPWR_AGGR_FACT_DF CHANGE _col0  ORG_ID VARCHAR(255);
-ALTER TABLE MES.GoLive_N_SPWR_AGGR_FACT_DF CHANGE _col1  Circuit_BM VARCHAR(255);
-ALTER TABLE MES.GoLive_N_SPWR_AGGR_FACT_DF CHANGE _col2  Cells_Module_Type VARCHAR(255);
-ALTER TABLE MES.GoLive_N_SPWR_AGGR_FACT_DF CHANGE _col3  Trans_shift_type VARCHAR(255);
-ALTER TABLE MES.GoLive_N_SPWR_AGGR_FACT_DF CHANGE _col4  Category VARCHAR(255);
-ALTER TABLE MES.GoLive_N_SPWR_AGGR_FACT_DF CHANGE _col5  InvState_Category VARCHAR(255);
-ALTER TABLE MES.GoLive_N_SPWR_AGGR_FACT_DF CHANGE _col6  Down_Grade_Isolated VARCHAR(255);
-ALTER TABLE MES.GoLive_N_SPWR_AGGR_FACT_DF CHANGE _col7  Part_Number VARCHAR(255);
-ALTER TABLE MES.GoLive_N_SPWR_AGGR_FACT_DF CHANGE _col8  Series VARCHAR(255);
-ALTER TABLE MES.GoLive_N_SPWR_AGGR_FACT_DF CHANGE _col9  Demand_Category VARCHAR(255);
-ALTER TABLE MES.GoLive_N_SPWR_AGGR_FACT_DF CHANGE _col10  Billable_Watt VARCHAR(255);
-ALTER TABLE MES.GoLive_N_SPWR_AGGR_FACT_DF CHANGE _col11 Comments VARCHAR(255);
-ALTER TABLE MES.GoLive_N_SPWR_AGGR_FACT_DF CHANGE _col12 YY_QTR_WK_DT VARCHAR(255);
+ALTER TABLE MES.GoLive_N_SPWR_AGGR_FACT_DF CHANGE `_col0`  ORG_ID VARCHAR(255);
+ALTER TABLE MES.GoLive_N_SPWR_AGGR_FACT_DF CHANGE `_col1`  Circuit_BM VARCHAR(255);
+ALTER TABLE MES.GoLive_N_SPWR_AGGR_FACT_DF CHANGE `_col2`  Cells_Module_Type VARCHAR(255);
+ALTER TABLE MES.GoLive_N_SPWR_AGGR_FACT_DF CHANGE `_col3`  Trans_shift_type VARCHAR(255);
+ALTER TABLE MES.GoLive_N_SPWR_AGGR_FACT_DF CHANGE `_col4`  Category VARCHAR(255);
+ALTER TABLE MES.GoLive_N_SPWR_AGGR_FACT_DF CHANGE `_col5`  InvState_Category VARCHAR(255);
+ALTER TABLE MES.GoLive_N_SPWR_AGGR_FACT_DF CHANGE `_col6`  Down_Grade_Isolated VARCHAR(255);
+ALTER TABLE MES.GoLive_N_SPWR_AGGR_FACT_DF CHANGE `_col7`  Part_Number VARCHAR(255);
+ALTER TABLE MES.GoLive_N_SPWR_AGGR_FACT_DF CHANGE `_col8`  Series VARCHAR(255);
+ALTER TABLE MES.GoLive_N_SPWR_AGGR_FACT_DF CHANGE `_col9`  Demand_Category VARCHAR(255);
+ALTER TABLE MES.GoLive_N_SPWR_AGGR_FACT_DF CHANGE `_col10`  Billable_Watt VARCHAR(255);
+ALTER TABLE MES.GoLive_N_SPWR_AGGR_FACT_DF CHANGE `_col11` Comments VARCHAR(255);
+ALTER TABLE MES.GoLive_N_SPWR_AGGR_FACT_DF CHANGE `_col12` YY_QTR_WK_DT VARCHAR(255);
